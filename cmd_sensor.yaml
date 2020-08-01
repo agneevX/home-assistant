@@ -1,0 +1,50 @@
+- platform: command_line
+  name: int_mergerfs_status
+  command: "/bin/systemctl -q is-active merged.mount && echo on || echo off"
+  scan_interval: 30
+- platform: command_line
+  name: Always On CPU Temp
+  command: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -T cat /sys/class/thermal/thermal_zone0/temp"
+  scan_interval: 60
+  command_timeout: 20
+  unit_of_measurement: "°C"
+  value_template: "{{ value | multiply(0.001) | round }}"
+- platform: command_line
+  name: Always-On Throttled State
+  command: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -T vcgencmd get_throttled | cut -f 2 -d ="
+  scan_interval: 30
+  command_timeout: 20
+- platform: command_line
+  name: Drive Used
+  unit_of_measurement: "used"
+  command: "rclone size /drive --json --config=/home/agneev/.config/rclone/rclone.conf"
+  json_attributes:
+    - count
+  scan_interval: 120
+  value_template: "{{(value_json.bytes|float/1099511627776)|round(2)}}TB"
+- platform: command_line
+  name: Speedtest.net Download
+  command: "/usr/bin/speedtest -s 26195 -f json"
+  command_timeout: 90
+  scan_interval: 00:30:00
+  unit_of_measurement: "Mb/s"
+  value_template: "{{ (value_json.download.bandwidth|float/125000)|round(1) }}"
+  json_attributes:
+    - upload
+    - ping
+- platform: command_line
+  name: vnstat
+  command: "bash /home/homeassistant/vnstat.sh"
+  scan_interval: 120
+  value_template: "{{ (value_json.id)}}"
+  json_attributes:
+    - rx
+    - tx
+- platform: command_line
+  name: Throttled State
+  command: "vcgencmd get_throttled | cut -f 2 -d ="
+- platform: command_line
+  name: CPU Temp
+  command: "cat /sys/class/thermal/thermal_zone0/temp"
+  unit_of_measurement: "°C"
+  value_template: "{{ value | multiply(0.001) | round }}"

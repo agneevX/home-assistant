@@ -2,7 +2,8 @@
 
 This layout was designed mobile-first.
 
-## Main view layout
+
+### Main view layout
 
 <details><summary><b>Show code</b></summary>
 
@@ -500,7 +501,7 @@ This layout was designed mobile-first.
 ```
 </details>
 
-## Info view
+### Info view
 
 <details><summary><b>Show code</b></summary>
 
@@ -934,4 +935,143 @@ This layout was designed mobile-first.
 ```
 </details>
 
-## Info 2 view 
+### Info 2 view 
+
+<details><summary><b>Show code</b></summary>
+```yaml
+```
+</details>
+
+### Camera view 
+
+<details><summary><b>Show code</b></summary>
+```yaml
+```
+</details>
+
+### Remote control view 
+
+<details><summary><b>Show code</b></summary>
+```yaml
+```
+</details>
+
+### Plex view 
+
+<details><summary><b>Show code</b></summary>
+```yaml
+```
+</details>
+
+### Television view 
+
+<details><summary><b>Show code</b></summary>
+```yaml
+      - cards:
+          - content: |
+              # Bedroom
+            style:
+              .: |
+                ha-card {
+                  --ha-card-background: none !important;
+                  box-shadow: none !important;
+                }
+              ha-markdown:
+                $: |
+                  h1 {
+                    font-size: 20px;
+                    font-weight: bold;
+                    font-family: Helvetica;
+                    letter-spacing: '-0.01em';
+                  }
+            type: markdown
+          - entity: media_player.bedroom_tv
+            hide:
+              power: true
+              progress: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            info: scroll
+            sound_mode: icon
+            type: 'custom:mini-media-player'
+          - content: |
+              # Level 1
+            style:
+              .: |
+                ha-card {
+                  --ha-card-background: none !important;
+                  box-shadow: none !important;
+                }
+              ha-markdown:
+                $: |
+                  h1 {
+                    font-size: 20px;
+                    font-weight: bold;
+                    font-family: Helvetica;
+                    letter-spacing: '-0.01em';
+                  }
+            type: markdown
+          - entity: media_player.old_room_tv
+            hide:
+              power: true
+              progress: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            info: scroll
+            sound_mode: icon
+            type: 'custom:mini-media-player'
+          - entity: media_player.new_room_tv
+            hide:
+              power: true
+              progress: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            info: scroll
+            sound_mode: icon
+            type: 'custom:mini-media-player'
+          - content: |
+              # Level 2
+            style:
+              .: |
+                ha-card {
+                  --ha-card-background: none !important;
+                  box-shadow: none !important;
+                }
+              ha-markdown:
+                $: |
+                  h1 {
+                    font-size: 20px;
+                    font-weight: bold;
+                    font-family: Helvetica;
+                    letter-spacing: '-0.01em';
+                  }
+            type: markdown
+          - entity: media_player.sony_bravia_tv
+            hide:
+              power: true
+              progress: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            info: scroll
+            sound_mode: icon
+            type: 'custom:mini-media-player'
+        type: vertical-stack
+```
+</details>
+
+### Custom components used
+
++ [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
++ [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
++ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by [kalkih](https://github.com/kalkih)
++ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by [thomasloven](https://github.com/thomasloven)
++ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven)
++ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
++ [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
++ [`button-card`](https://github.com/custom-cards/button-card)
+
+

@@ -1,0 +1,10 @@
+- platform: ping
+  name: Operator
+  host: 172.16.248.1
+  count: 1
+  scan_interval: 3
+- platform: ping
+  name: Google DNS Ping
+  host: 8.8.8.8
+  count: 1
+  scan_interval: 3
