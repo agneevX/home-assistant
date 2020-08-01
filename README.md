@@ -45,6 +45,9 @@ This is the only view that contain badges.
 
 ### Entities card 
 
+* Desk Lamp Switch
+* 
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -1408,11 +1411,7 @@ type: vertical-stack
 
 This view contains one vertical stack only.
 
-<details><summary>Expand</summary>
-
 ### Media player card for Spotify 
-##### with buttons for playing 
-##### for playing five playlists
 
 <details><summary>Show code</summary>
 
@@ -1599,8 +1598,6 @@ type: conditional
 ```
 </details>
 
-</details>
-
 ***
 
 ## Plex view 
@@ -1661,6 +1658,7 @@ type: conditional
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+</details>
 
 ### Graph row 2
 
@@ -1730,7 +1728,13 @@ type: horizontal-stack
     type: entities
 ```
 </details>
-### Plex Player cards
+
+### Plex media player cards
+
+* Conditional header cards
+* Conditional media player cards
+
+<details><summary>Show code</summary>
 
 ```yaml
   - card:
@@ -1919,101 +1923,104 @@ type: vertical-stack
 
 ![tv_view](assets/tv_view.jpg "TV view")
 
+* Header card for rooms/floors
+* Media player cards
+
 <details><summary>Show code</summary>
 
 ```yaml
 - cards:
   - content: |
-	  # Bedroom
-	style:
-	  .: |
-		ha-card {
-		  --ha-card-background: none !important;
-		  box-shadow: none !important;
-		}
-	  ha-markdown:
-		$: |
-		  h1 {
-			font-size: 20px;
-			font-weight: bold;
-			font-family: Helvetica;
-			letter-spacing: '-0.01em';
-		  }
-	type: markdown
+      # Bedroom
+    style:
+      .: |
+        ha-card {
+          --ha-card-background: none !important;
+          box-shadow: none !important;
+        }
+      ha-markdown:
+        $: |
+          h1 {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Helvetica;
+            letter-spacing: '-0.01em';
+          }
+    type: markdown
   - entity: media_player.bedroom_tv
-	hide:
-	  power: true
-	  progress: true
-	idle_view:
-	  when_idle: true
-	  when_standby: true
-	info: scroll
-	sound_mode: icon
-	type: 'custom:mini-media-player'
+    hide:
+      power: true
+      progress: true
+    idle_view:
+      when_idle: true
+      when_standby: true
+    info: scroll
+    sound_mode: icon
+    type: 'custom:mini-media-player'
   - content: |
-	  # Level 1
-	style:
-	  .: |
-		ha-card {
-		  --ha-card-background: none !important;
-		  box-shadow: none !important;
-		}
-	  ha-markdown:
-		$: |
-		  h1 {
-			font-size: 20px;
-			font-weight: bold;
-			font-family: Helvetica;
-			letter-spacing: '-0.01em';
-		  }
-	type: markdown
+      # Level 1
+    style:
+      .: |
+        ha-card {
+          --ha-card-background: none !important;
+          box-shadow: none !important;
+        }
+      ha-markdown:
+        $: |
+          h1 {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Helvetica;
+            letter-spacing: '-0.01em';
+          }
+    type: markdown
   - entity: media_player.old_room_tv
-	hide:
-	  power: true
-	  progress: true
-	idle_view:
-	  when_idle: true
-	  when_standby: true
-	info: scroll
-	sound_mode: icon
-	type: 'custom:mini-media-player'
+    hide:
+      power: true
+      progress: true
+    idle_view:
+      when_idle: true
+      when_standby: true
+    info: scroll
+    sound_mode: icon
+    type: 'custom:mini-media-player'
   - entity: media_player.new_room_tv
-	hide:
-	  power: true
-	  progress: true
-	idle_view:
-	  when_idle: true
-	  when_standby: true
-	info: scroll
-	sound_mode: icon
-	type: 'custom:mini-media-player'
+    hide:
+      power: true
+      progress: true
+    idle_view:
+      when_idle: true
+      when_standby: true
+    info: scroll
+    sound_mode: icon
+    type: 'custom:mini-media-player'
   - content: |
-	  # Level 2
-	style:
-	  .: |
-		ha-card {
-		  --ha-card-background: none !important;
-		  box-shadow: none !important;
-		}
-	  ha-markdown:
-		$: |
-		  h1 {
-			font-size: 20px;
-			font-weight: bold;
-			font-family: Helvetica;
-			letter-spacing: '-0.01em';
-		  }
-	type: markdown
+      # Level 2
+    style:
+      .: |
+        ha-card {
+          --ha-card-background: none !important;
+          box-shadow: none !important;
+        }
+      ha-markdown:
+        $: |
+          h1 {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Helvetica;
+            letter-spacing: '-0.01em';
+          }
+    type: markdown
   - entity: media_player.sony_bravia_tv
-	hide:
-	  power: true
-	  progress: true
-	idle_view:
-	  when_idle: true
-	  when_standby: true
-	info: scroll
-	sound_mode: icon
-	type: 'custom:mini-media-player'
+    hide:
+      power: true
+      progress: true
+    idle_view:
+      when_idle: true
+      when_standby: true
+    info: scroll
+    sound_mode: icon
+    type: 'custom:mini-media-player'
 type: vertical-stack
 ```
 </details>
@@ -2037,6 +2044,7 @@ type: vertical-stack
 + [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven).
 + [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven).
 + [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich).
++ [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar).
 + [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by [maykar](https://github.com/maykar).
 + [`button-card`](https://github.com/custom-cards/button-card).
 
