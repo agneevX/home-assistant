@@ -22,12 +22,18 @@ Contains:
 
 ## Badges
 
-This is the only view that contain badges.
+* System Load
+* Network In
+* Network Out
+* PyLoad download speed
+
+*This is the only view that contain badges.*
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- badges:
+badges:
   - entity: sensor.load_1m
     name: ' '
     style: |
@@ -47,6 +53,8 @@ This is the only view that contain badges.
 ```
 </details>
 
+### :Vertical stack 1:
+
 ## Entities row 
 
 * Desk Lamp
@@ -54,8 +62,9 @@ This is the only view that contain badges.
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- entities:
+entities:
   - attribute: color_temp
     entity: light.desk_light
     haptic: success
@@ -83,8 +92,9 @@ type: entities
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - color: auto
     color_type: card
     double_tap_action:
@@ -186,8 +196,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - color: auto
     color_type: card
     double_tap_action:
@@ -289,6 +300,8 @@ type: horizontal-stack
 ```
 </details>
 
+### :Vertical stack 2:
+
 ## Graph row 1
 
 * CPU usage
@@ -296,8 +309,9 @@ type: horizontal-stack
     
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - align_state: center
     animate: true
     color_thresholds:
@@ -346,6 +360,7 @@ type: horizontal-stack
         state_adaptive_color: true
     font_size: 105
     hours_to_show: 1
+    upper_bound: 100.1
     line_width: 4
     name: Internet
     points_per_hour: 8
@@ -363,20 +378,20 @@ type: horizontal-stack
         padding: 0 16px 0px 16px !important
       }
     type: 'custom:mini-graph-card'
-    upper_bound: 100.1
 type: horizontal-stack
 ```
 </details>
 
 ## Graph row 2 (depending upon state)
 
-* Conditional qBittorrent download card
-* Conditional qBittorrent upload card
+* Conditional qBittorrent download card else mergerFS free entity card
+* Conditional qBittorrent upload card else Google Drive used space entity card
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- default: idle
+default: idle
 entity: sensor.qbt_status
 states:
   downloading:
@@ -581,10 +596,13 @@ type: 'custom:state-switch'
 
 ## Now Playing card
 
+* Automatically shows all (but one) active media players
+
 <details><summary>Show code</summary>
 
+
 ```yaml
-- card:
+card:
   type: entities
 filter:
   exclude:
@@ -610,7 +628,7 @@ type: 'custom:auto-entities'
 
 Two vertical stacks in this view.
 
-### Vertical stack 1:
+### :Vertical stack 1:
 
 ## Graph row 1
 
@@ -620,8 +638,9 @@ Two vertical stacks in this view.
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - align_state: left
     animate: false
     color_thresholds:
@@ -729,8 +748,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - animate: false
     color_thresholds:
       - color: '#ff0000'
@@ -833,8 +853,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - card:
       animate: true
       color_thresholds:
@@ -911,10 +932,13 @@ type: horizontal-stack
 
 ## Network throughput graph
 
+* Graphs network usage in the last hour
+
 <details><summary>Show code</summary>
 
+
 ```yaml
-- entities:
+entities:
   - entity: sensor.eth0_in
   - entity: sensor.eth0_out
 hours_to_show: 1
@@ -923,8 +947,7 @@ type: history-graph
 ```
 </details>
 
-### Vertical stack 2:
-
+### :Vertical stack 2:
 
 ## Graph row 1
 
@@ -933,8 +956,9 @@ type: history-graph
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - align_icon: state
     align_state: center
     animate: false
@@ -1018,8 +1042,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - align_icon: state
     align_state: center
     animate: false
@@ -1093,8 +1118,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- entities:
+entities:
   - entity: binary_sensor.operator
   - entity: binary_sensor.google_dns_ping
     name: Internet
@@ -1108,8 +1134,9 @@ type: history-graph
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entity: sensor.eth0_in_total
     type: entity
   - entity: sensor.eth0_out_total
@@ -1124,18 +1151,19 @@ type: horizontal-stack
 
 ![info2_view](assets/info2_view.jpg "Info 2 view")
 
-Three vertical stacks in this view
+### :Vertical stack 1:
 
 ## Radarr/Sonarr cards
 
 <details><summary>Expand</summary>
 
-## Radarr/Sonarr ongoing commands
+### Radarr/Sonarr ongoing commands
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - animate: true
     entities:
       - color: '#F5BB41'
@@ -1192,8 +1220,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entities:
       - color: '#F5BB41'
         entity: sensor.radarr_upcoming
@@ -1238,8 +1267,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entities:
       - color: '#23CDFD'
         entity: sensor.sonarr_queue
@@ -1284,8 +1314,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entities:
       - color: '#F5BB41'
         entity: sensor.radarr_movies
@@ -1333,8 +1364,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- card:
+card:
   type: entities
 filter:
   include:
@@ -1356,13 +1388,18 @@ type: 'custom:auto-entities'
 ```
 </details>
 
+### :Vertical stack 2:
 
 ## Router devices
 
+Using the Netgear integration, this card shows all devices that are/were connected to my router.
+Shows the last updated device on top.
+
 <details><summary>Show code</summary>
 
+
 ```yaml
-- card:
+card:
   type: entities
 filter:
   exclude:
@@ -1388,8 +1425,9 @@ This view contains one vertical stack only.
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entity: device_tracker.front_gate_camera
     icon: 'mdi:gate'
     name: Front Gate
@@ -1421,35 +1459,61 @@ This view contains one vertical stack only.
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-    - artwork: cover
-    entity: media_player.spotify
-    hide:
-      power: true
-    idle_view:
-      when_idle: true
-      when_standby: true
-    shortcuts:
-      buttons:
-        - icon: 'mdi:sunglasses'
-          id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
-          type: playlist
-        - icon: 'mdi:city'
-          id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
-          type: playlist
-        - icon: 'mdi:trending-up'
-          id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
-          type: playlist
-        - icon: 'mdi:numeric-1'
-    # Change xxxxx to your Daily Mix 1 playlist ID
-          id: 'spotify:playlist:xxxxx'
-          type: playlist
-        - icon: 'mdi:numeric-2'
-    # Change xxxxx to your Daily Mix 2 playlist ID
-          id: 'spotify:playlist:xxxxx'
-          type: playlist
-      columns: 6
-    type: 'custom:mini-media-player'
+artwork: cover
+entity: media_player.spotify
+hide:
+  power: true
+idle_view:
+  when_idle: true
+  when_standby: true
+shortcuts:
+  buttons:
+    - icon: 'mdi:sunglasses'
+      id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
+      type: playlist
+    - icon: 'mdi:city'
+      id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
+      type: playlist
+    - icon: 'mdi:trending-up'
+      id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
+      type: playlist
+    - icon: 'mdi:numeric-1'
+# Change xxxxx to your Daily Mix 1 playlist ID
+      id: 'spotify:playlist:xxxxx'
+      type: playlist
+    - icon: 'mdi:numeric-2'
+# Change xxxxx to your Daily Mix 2 playlist ID
+      id: 'spotify:playlist:xxxxx'
+      type: playlist
+  columns: 6
+type: 'custom:mini-media-player'
+```
+</details>
+
+### Header
+<details><summary>Show code</summary>
+
+
+```yaml
+content: |
+  # Level 1
+style:
+  .: |
+    ha-card {
+      --ha-card-background: none !important;
+      box-shadow: none !important;
+    }
+  ha-markdown:
+    $: |
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: Helvetica;
+        letter-spacing: '-0.01em';
+      }
+type: markdown
 ```
 </details>
 
@@ -1457,8 +1521,9 @@ This view contains one vertical stack only.
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- card:
+card:
   cards:
     - artwork: cover
       entity: media_player.bedroom_echo
@@ -1529,7 +1594,10 @@ conditions:
   - entity: media_player.bedroom_echo
     state_not: unavailable
 type: conditional
-- card:
+```
+
+```yaml
+card:
   cards:
     - artwork: cover
       entity: media_player.new_room_echo
@@ -1610,6 +1678,8 @@ type: conditional
 
 ![plex_view](assets/plex_view.jpg "Plex view")
 
+This view contains one vertical stack only.
+
 ## Graph row 1
 
 * Plex Watching sensor
@@ -1617,8 +1687,9 @@ type: conditional
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - decimals: 0
     entities:
       - entity: sensor.plex
@@ -1673,8 +1744,9 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - entities:
       - entity: sensor.eth0_in
         state_adaptive_color: false
@@ -1727,11 +1799,12 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-  - entities:
-      - entity: switch.refresh_plex
-    show_header_toggle: false
-    type: entities
+entities:
+  - entity: switch.refresh_plex
+show_header_toggle: false
+type: entities
 ```
 </details>
 
@@ -1742,184 +1815,198 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-  - card:
-      cards:
-        - content: |
-            # Bedroom
-          style:
-            .: |
-              ha-card {
-                --ha-card-background: none !important;
-                box-shadow: none !important;
-              }
-            ha-markdown:
-              $: |
-                h1 {
-                  font-size: 20px;
-                  font-weight: bold;
-                  font-family: Helvetica;
-                  letter-spacing: '-0.01em';
-                }
-          type: markdown
-        - artwork: cover
-          entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
-          hide:
-            power: true
-          idle_view:
-            when_idle: true
-            when_standby: true
-          name: Plex Media Player
-          type: 'custom:mini-media-player'
-      type: vertical-stack
-    conditions:
-      - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
-        state: unavailable
-      - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
-        state: idle
-    type: conditional
-  - card:
-      cards:
-        - content: |
-            # Bedroom
-          style:
-            .: |
-              ha-card {
-                --ha-card-background: none !important;
-                box-shadow: none !important;
-              }
-            ha-markdown:
-              $: |
-                h1 {
-                  font-size: 20px;
-                  font-weight: bold;
-                  font-family: Helvetica;
-                  letter-spacing: '-0.01em';
-                }
-          type: markdown
-        - artwork: cover
-          entity: media_player.plex_xplay_lg_49uf690t_tc
-          hide:
-            power: true
-          idle_view:
-            when_idle: true
-            when_standby: true
-          name: XPlay
-          type: 'custom:mini-media-player'
-      type: vertical-stack
-    conditions:
-      - entity: media_player.plex_xplay_lg_49uf690t_tc
-        state_not: unavailable
-      - entity: media_player.plex_xplay_lg_49uf690t_tc
-        state_not: idle
-    type: conditional
-  - card:
-      cards:
-        - content: |
-            # Level 1
-          style:
-            .: |
-              ha-card {
-                --ha-card-background: none !important;
-                box-shadow: none !important;
-              }
-            ha-markdown:
-              $: |
-                h1 {
-                  font-size: 20px;
-                  font-weight: bold;
-                  font-family: Helvetica;
-                  letter-spacing: '-0.01em';
-                }
-          type: markdown
-        - artwork: cover
-          entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-          hide:
-            power: true
-          idle_view:
-            when_idle: true
-            when_standby: true
-          name: 'Plex: Old Room TV'
-          type: 'custom:mini-media-player'
-      type: vertical-stack
-    conditions:
-      - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-        state_not: unavailable
-      - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-        state_not: idle
-    type: conditional
-  - card:
-      cards:
-        - content: |
-            # Level 2
-          style:
-            .: |
-              ha-card {
-                --ha-card-background: none !important;
-                box-shadow: none !important;
-              }
-            ha-markdown:
-              $: |
-                h1 {
-                  font-size: 20px;
-                  font-weight: bold;
-                  font-family: Helvetica;
-                  letter-spacing: '-0.01em';
-                }
-          type: markdown
-        - artwork: cover
-          entity: media_player.plex_plex_for_android_tv_sony_bravia
-          hide:
-            power: true
-          idle_view:
-            when_idle: true
-            when_standby: true
-          name: Plex Media Player
-          type: 'custom:mini-media-player'
-      type: vertical-stack
-    conditions:
-      - entity: media_player.plex_plex_for_android_tv_sony_bravia
-        state_not: unavailable
-      - entity: media_player.plex_plex_for_android_tv_sony_bravia
-        state_not: idle
-    type: conditional
-  - card:
-      cards:
-        - content: |
-            # Level 2
-          style:
-            .: |
-              ha-card {
-                --ha-card-background: none !important;
-                box-shadow: none !important;
-              }
-            ha-markdown:
-              $: |
-                h1 {
-                  font-size: 20px;
-                  font-weight: bold;
-                  font-family: Helvetica;
-                  letter-spacing: '-0.01em';
-                }
-          type: markdown
-        - artwork: cover
-          entity: media_player.plex_mrmc_localhost
-          hide:
-            power: true
-            progress: true
-          idle_view:
-            when_idle: true
-            when_standby: true
-          name: MrMC
-          type: 'custom:mini-media-player'
-      type: vertical-stack
-    conditions:
-      - entity: media_player.plex_mrmc_localhost
-        state_not: unavailable
-      - entity: media_player.plex_mrmc_localhost
-        state_not: idle
-    type: conditional
-type: vertical-stack
+card:
+  cards:
+    - content: |
+        # Bedroom
+      style:
+        .: |
+          ha-card {
+            --ha-card-background: none !important;
+            box-shadow: none !important;
+          }
+        ha-markdown:
+          $: |
+            h1 {
+              font-size: 20px;
+              font-weight: bold;
+              font-family: Helvetica;
+              letter-spacing: '-0.01em';
+            }
+      type: markdown
+    - artwork: cover
+      entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
+      hide:
+        power: true
+      idle_view:
+        when_idle: true
+        when_standby: true
+      name: Plex Media Player
+      type: 'custom:mini-media-player'
+  type: vertical-stack
+conditions:
+  - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
+    state: unavailable
+  - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
+    state: idle
+type: conditional
+```
+
+```yaml
+card:
+  cards:
+    - content: |
+        # Bedroom
+      style:
+        .: |
+          ha-card {
+            --ha-card-background: none !important;
+            box-shadow: none !important;
+          }
+        ha-markdown:
+          $: |
+            h1 {
+              font-size: 20px;
+              font-weight: bold;
+              font-family: Helvetica;
+              letter-spacing: '-0.01em';
+            }
+      type: markdown
+    - artwork: cover
+      entity: media_player.plex_xplay_lg_49uf690t_tc
+      hide:
+        power: true
+      idle_view:
+        when_idle: true
+        when_standby: true
+      name: XPlay
+      type: 'custom:mini-media-player'
+  type: vertical-stack
+conditions:
+  - entity: media_player.plex_xplay_lg_49uf690t_tc
+    state_not: unavailable
+  - entity: media_player.plex_xplay_lg_49uf690t_tc
+    state_not: idle
+type: conditional
+```
+
+```yaml
+card:
+  cards:
+    - content: |
+        # Level 1
+      style:
+        .: |
+          ha-card {
+            --ha-card-background: none !important;
+            box-shadow: none !important;
+          }
+        ha-markdown:
+          $: |
+            h1 {
+              font-size: 20px;
+              font-weight: bold;
+              font-family: Helvetica;
+              letter-spacing: '-0.01em';
+            }
+      type: markdown
+    - artwork: cover
+      entity: media_player.plex_plex_for_lg_lg_oled55c9pta
+      hide:
+        power: true
+      idle_view:
+        when_idle: true
+        when_standby: true
+      name: 'Plex: Old Room TV'
+      type: 'custom:mini-media-player'
+  type: vertical-stack
+conditions:
+  - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
+    state_not: unavailable
+  - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
+    state_not: idle
+type: conditional
+```
+
+```yaml
+card:
+  cards:
+    - content: |
+        # Level 2
+      style:
+        .: |
+          ha-card {
+            --ha-card-background: none !important;
+            box-shadow: none !important;
+          }
+        ha-markdown:
+          $: |
+            h1 {
+              font-size: 20px;
+              font-weight: bold;
+              font-family: Helvetica;
+              letter-spacing: '-0.01em';
+            }
+      type: markdown
+    - artwork: cover
+      entity: media_player.plex_plex_for_android_tv_sony_bravia
+      hide:
+        power: true
+      idle_view:
+        when_idle: true
+        when_standby: true
+      name: Plex Media Player
+      type: 'custom:mini-media-player'
+  type: vertical-stack
+conditions:
+  - entity: media_player.plex_plex_for_android_tv_sony_bravia
+    state_not: unavailable
+  - entity: media_player.plex_plex_for_android_tv_sony_bravia
+    state_not: idle
+type: conditional
+```
+
+```yaml
+card:
+  cards:
+    - content: |
+        # Level 2
+      style:
+        .: |
+          ha-card {
+            --ha-card-background: none !important;
+            box-shadow: none !important;
+          }
+        ha-markdown:
+          $: |
+            h1 {
+              font-size: 20px;
+              font-weight: bold;
+              font-family: Helvetica;
+              letter-spacing: '-0.01em';
+            }
+      type: markdown
+    - artwork: cover
+      entity: media_player.plex_mrmc_localhost
+      hide:
+        power: true
+        progress: true
+      idle_view:
+        when_idle: true
+        when_standby: true
+      name: MrMC
+      type: 'custom:mini-media-player'
+  type: vertical-stack
+conditions:
+  - entity: media_player.plex_mrmc_localhost
+    state_not: unavailable
+  - entity: media_player.plex_mrmc_localhost
+    state_not: idle
+type: conditional
+
+
 ```
 </details>
 
@@ -1934,8 +2021,9 @@ type: vertical-stack
 
 <details><summary>Show code</summary>
 
+
 ```yaml
-- cards:
+cards:
   - content: |
       # Bedroom
     style:
