@@ -2,8 +2,11 @@
 
 This layout was designed mobile-first.
 
+![header](assets/header.png)
 
-### Main view layout
+### Dashboard (home)
+
+![main_view](assets/main_view.png "Home view")
 
 <details><summary><b>Show code</b></summary>
 
@@ -503,6 +506,8 @@ This layout was designed mobile-first.
 
 ### Info view
 
+![info_view](assets/info_view.png "Info view")
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -937,7 +942,10 @@ This layout was designed mobile-first.
 
 ### Info 2 view 
 
+![info2_view](assets/info_view.png "Info 2 view")
+
 <details><summary>Show code</summary>
+
 ```yaml
       - cards:
           - cards:
@@ -1147,6 +1155,7 @@ This layout was designed mobile-first.
 ### Camera view 
 
 <details><summary>Show code</summary>
+
 ```yaml
       - cards:
           - entity: device_tracker.front_gate_camera
@@ -1171,6 +1180,7 @@ This layout was designed mobile-first.
 ### Remote control view 
 
 <details><summary>Show code</summary>
+
 ```yaml
       - cards:
           - artwork: cover
@@ -1366,7 +1376,10 @@ This layout was designed mobile-first.
 
 ### Plex view 
 
+![plex_view](assets/plex_view.png "Plex view")
+
 <details><summary>Show code</summary>
+
 ```yaml
       - cards:
           - cards:
@@ -1644,7 +1657,10 @@ This layout was designed mobile-first.
 
 ### Television view 
 
+![tv_view](assets/tv_view.png "TV view")
+
 <details><summary><b>Show code</b></summary>
+
 ```yaml
       - cards:
           - content: |
