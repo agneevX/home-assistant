@@ -2,11 +2,11 @@
 
 This layout was designed mobile-first.
 
-![header](assets/header.png)
+![header](assets/header.jpg)
 
 ## Dashboard (home view)
 
-![home_view](assets/home_view.png "Home view")
+![home_view](assets/home_view.jpg "Home view")
 
 All cards in this view are in a vertical stack...
 
@@ -21,6 +21,7 @@ Contains:
 This is the only view that contain badges.
 
 <details><summary>Show code</summary>
+
 ```yaml
 - badges:
   - entity: sensor.load_1m
@@ -42,7 +43,7 @@ This is the only view that contain badges.
 ```
 </details>
 
-#### Entities card 
+### Entities card 
 
 <details><summary>Show code</summary>
 
@@ -65,7 +66,7 @@ type: entities
 ```
 </details>
 
-#### Switch row 1
+### Switch row 1
 
 * Night Light switch
 * Lo-Fi Beats switch (using command line integration and omxplayer)
@@ -168,7 +169,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Switch row 2
+### Switch row 2
 
 * Shut Down Always-On Server
 * Reboot Always-On Server
@@ -177,6 +178,7 @@ type: horizontal-stack
 * Restart X200M
 
 <details><summary>Show code</summary>
+
 ```yaml
 - cards:
   - color: auto
@@ -280,7 +282,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Graph card
+### Graph card 1
 
 * CPU usage
 * Network Health (using ping integration)
@@ -359,7 +361,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Graph card (depending upon state)
+### Graph card 2 (depending upon state)
 
 <details><summary>Show code</summary>
 
@@ -567,9 +569,9 @@ type: 'custom:state-switch'
 ```
 </details>
 
-### Vertical stack 3:
+#### Vertical stack 3:
 
-#### Now Playing card
+### Now Playing card
 
 <details><summary>Show code</summary>
 
@@ -596,11 +598,19 @@ type: 'custom:auto-entities'
 
 ## Info view
 
-![info_view](assets/info_view.png "Info view")
+![info_view](assets/info_view.jpg "Info view")
 
 Two vertical stacks in this view.
 
 #### Vertical stack 1:
+
+### Graph row 1
+
+* System Load - 1 minute
+* System Load - 5 minutes
+* System Load - 15 minutes
+
+*This stack is temporary*
 
 <details><summary>Show code</summary>
 
@@ -705,7 +715,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Graph row 2
+### Graph row 2
 
 * AdGuard Home Processing Speed
 * AdGuard Home % of blocked ads
@@ -810,7 +820,10 @@ type: horizontal-stack
 ```
 </details>
 
-#### Graph row 3
+### Graph row 3
+
+* CPU Temperature (host)
+* CPU Temperature (Always-On server)
 
 <details><summary>Show code</summary>
 
@@ -890,7 +903,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Network throughput graph
+### Network throughput graph
 
 <details><summary>Show code</summary>
 
@@ -904,11 +917,14 @@ type: history-graph
 ```
 </details>
 
-### Vertical stack 2:
+#### Vertical stack 2:
 
 <details><summary>Expand</summary>
 
-#### Speedtest row 1
+### Graph row 1
+
+* Download Speed
+* Upload Speed
 
 <details><summary>Show code</summary>
 
@@ -990,7 +1006,10 @@ type: horizontal-stack
 ```
 </details>
 
-#### Speedtest row 2 - Ping and Jitter
+### Graph row 2
+
+* Ping 
+* Jitter
 
 <details><summary>Show code</summary>
 
@@ -1065,7 +1084,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Binary Sensor Graph
+### Binary Sensor Graph
 
 <details><summary>Show code</summary>
 
@@ -1080,7 +1099,7 @@ type: history-graph
 ```
 </details>
 
-#### Daily total network transfer - `vnstat`
+### Daily total network transfer - `vnstat`
 
 <details><summary>Show code</summary>
 
@@ -1100,15 +1119,15 @@ type: horizontal-stack
 
 ## Info 2 view 
 
-![info2_view](assets/info_view.png "Info 2 view")
+![info2_view](assets/info_view.jpg "Info 2 view")
 
 Three vertical stacks in this view
 
-#### Radarr/Sonarr cards
+### Radarr/Sonarr cards
 
 <details><summary>Expand</summary>
 
-#### Radarr/Sonarr ongoing commands
+### Radarr/Sonarr ongoing commands
 
 <details><summary>Show code</summary>
 
@@ -1166,7 +1185,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Radarr/Sonarr upcoming
+### Radarr/Sonarr upcoming
 
 <details><summary>Show code</summary>
 
@@ -1212,7 +1231,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Sonarr Queue/Wanted
+### Sonarr Queue/Wanted
 
 <details><summary>Show code</summary>
 
@@ -1258,7 +1277,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Radarr Movies/Sonarr Shows
+### Radarr Movies/Sonarr Shows
 
 <details><summary>Show code</summary>
 
@@ -1307,9 +1326,9 @@ type: horizontal-stack
 </details>
 
 
-### Vertical stack 2:
+#### Vertical stack 2:
 
-#### Entities card to track specific TVs.
+### Entities card to track specific TVs.
 
 <details><summary>Show code</summary>
 
@@ -1336,9 +1355,9 @@ type: 'custom:auto-entities'
 ```
 </details>
 
-### Vertical stack 3:
+#### Vertical stack 3:
 
-#### Router devices
+### Router devices
 
 <details><summary>Show code</summary>
 
@@ -1394,15 +1413,15 @@ This view contains one vertical stack only.
 
 ## Remote control view 
 
-![rc_view](assets/rc_view.png "Remote control view")
+![rc_view](assets/rc_view.jpg "Remote control view")
 
 This view contains one vertical stack only.
 
 <details><summary>Expand</summary>
 
-#### Media player card for Spotify 
-###### with buttons for playing 
-###### for playing five playlists
+### Media player card for Spotify 
+##### with buttons for playing 
+##### for playing five playlists
 
 <details><summary>Show code</summary>
 
@@ -1438,7 +1457,7 @@ This view contains one vertical stack only.
 ```
 </details>
 
-#### Media player cards for Alexa devices
+### Media player cards for Alexa devices
 
 <details><summary>Show code</summary>
 
@@ -1595,7 +1614,7 @@ This view contains one vertical stack only.
 
 ## Plex view 
 
-![plex_view](assets/plex_view.png "Plex view")
+![plex_view](assets/plex_view.jpg "Plex view")
 
 <details><summary>Show code</summary>
 
@@ -1878,7 +1897,7 @@ This view contains one vertical stack only.
 
 ## Television view 
 
-![tv_view](assets/tv_view.png "TV view")
+![tv_view](assets/tv_view.jpg "TV view")
 
 <details><summary>Show code</summary>
 
