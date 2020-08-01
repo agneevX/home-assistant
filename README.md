@@ -4,7 +4,11 @@ This layout was designed mobile-first.
 
 ![header](assets/header.jpg)
 
-## Dashboard (home view)
+# Background
+
+Home Assistant is running inside a python virtual environment on a Raspberry Pi 4 (4GB model).
+
+# Dashboard (home view)
 
 ![home_view](assets/home_view.jpg "Home view")
 
@@ -16,7 +20,7 @@ Contains:
 * Graph cards
 * Now Playing card
 
-### Badges
+## Badges
 
 This is the only view that contain badges.
 
@@ -43,10 +47,10 @@ This is the only view that contain badges.
 ```
 </details>
 
-### Entities card 
+## Entities row 
 
-* Desk Lamp Switch
-* 
+* Desk Lamp
+* TV Lamp
 
 <details><summary>Show code</summary>
 
@@ -69,13 +73,13 @@ type: entities
 ```
 </details>
 
-### Switch row 1
+## Switch row 1
 
-* Night Light switch
+* Night Lamp switch
 * Lo-Fi Beats switch (using command line integration and omxplayer)
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
-* [Circadian Lighting]() switch
+* [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 
 <details><summary>Show code</summary>
 
@@ -172,7 +176,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Switch row 2
+## Switch row 2
 
 * Shut Down Always-On Server
 * Reboot Always-On Server
@@ -285,7 +289,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph card 1
+## Graph row 1
 
 * CPU usage
 * Network Health (using ping integration)
@@ -364,7 +368,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph card 2 (depending upon state)
+## Graph row 2 (depending upon state)
 
 <details><summary>Show code</summary>
 
@@ -572,7 +576,7 @@ type: 'custom:state-switch'
 ```
 </details>
 
-### Now Playing card
+## Now Playing card
 
 <details><summary>Show code</summary>
 
@@ -597,15 +601,15 @@ type: 'custom:auto-entities'
 
 ***
 
-## Info view
+# Info view
 
 ![info_view](assets/info_view.jpg "Info view")
 
 Two vertical stacks in this view.
 
-#### Vertical stack 1:
+### Vertical stack 1:
 
-### Graph row 1
+## Graph row 1
 
 * System Load - 1 minute
 * System Load - 5 minutes
@@ -714,7 +718,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph row 2
+## Graph row 2
 
 * AdGuard Home Processing Speed
 * AdGuard Home % of blocked ads
@@ -819,7 +823,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph row 3
+## Graph row 3
 
 * CPU Temperature (host)
 * CPU Temperature (Always-On server)
@@ -902,7 +906,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Network throughput graph
+## Network throughput graph
 
 <details><summary>Show code</summary>
 
@@ -916,10 +920,10 @@ type: history-graph
 ```
 </details>
 
-#### Vertical stack 2:
+### Vertical stack 2:
 
 
-### Graph row 1
+## Graph row 1
 
 * Download Speed
 * Upload Speed
@@ -1004,7 +1008,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph row 2
+## Graph row 2
 
 * Ping 
 * Jitter
@@ -1082,7 +1086,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Binary Sensor Graph
+## Binary Sensor Graph
 
 <details><summary>Show code</summary>
 
@@ -1096,7 +1100,7 @@ refresh_interval: 30
 type: history-graph
 ```
 
-### Daily total network transfer - `vnstat`
+## Daily total network transfer - `vnstat`
 
 <details><summary>Show code</summary>
 
@@ -1110,21 +1114,19 @@ type: horizontal-stack
 ```
 </details>
 
-</details>
-
 ***
 
-## Info 2 view 
+# Info 2 view 
 
 ![info2_view](assets/info2_view.jpg "Info 2 view")
 
 Three vertical stacks in this view
 
-### Radarr/Sonarr cards
+## Radarr/Sonarr cards
 
 <details><summary>Expand</summary>
 
-#### Radarr/Sonarr ongoing commands
+## Radarr/Sonarr ongoing commands
 
 <details><summary>Show code</summary>
 
@@ -1182,7 +1184,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Radarr/Sonarr upcoming
+### Radarr/Sonarr upcoming
 
 <details><summary>Show code</summary>
 
@@ -1228,7 +1230,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Sonarr Queue/Wanted
+### Sonarr Queue/Wanted
 
 <details><summary>Show code</summary>
 
@@ -1274,7 +1276,7 @@ type: horizontal-stack
 ```
 </details>
 
-#### Radarr Movies/Sonarr Shows
+### Radarr Movies/Sonarr Shows
 
 <details><summary>Show code</summary>
 
@@ -1323,7 +1325,7 @@ type: horizontal-stack
 </details>
 
 
-### Entities card to track specific TVs.
+## Entities card to track specific TVs.
 
 <details><summary>Show code</summary>
 
@@ -1351,7 +1353,7 @@ type: 'custom:auto-entities'
 </details>
 
 
-### Router devices
+## Router devices
 
 <details><summary>Show code</summary>
 
@@ -1376,7 +1378,7 @@ type: 'custom:auto-entities'
 
 ***
 
-## Camera view 
+# Camera view 
 
 This view contains one vertical stack only.
 
@@ -1405,13 +1407,13 @@ type: vertical-stack
 
 ***
 
-## Remote control view 
+# Remote control view 
 
 ![rc_view](assets/rc_view.jpg "Remote control view")
 
 This view contains one vertical stack only.
 
-### Media player card for Spotify 
+## Media player card for Spotify 
 
 <details><summary>Show code</summary>
 
@@ -1447,7 +1449,7 @@ This view contains one vertical stack only.
 ```
 </details>
 
-### Media player cards for Alexa devices
+## Media player cards for Alexa devices
 
 <details><summary>Show code</summary>
 
@@ -1600,11 +1602,11 @@ type: conditional
 
 ***
 
-## Plex view 
+# Plex view 
 
 ![plex_view](assets/plex_view.jpg "Plex view")
 
-### Graph row 1
+## Graph row 1
 
 * Plex Watching sensor
 * Tautulli Bandwidth
@@ -1660,7 +1662,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Graph row 2
+## Graph row 2
 
 * Network In sensor
 * Network Out sensor
@@ -1715,7 +1717,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Entities card
+## Entities card
 
 * Refresh Plex switch
 
@@ -1729,7 +1731,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Plex media player cards
+## Plex media player cards
 
 * Conditional header cards
 * Conditional media player cards
@@ -1919,7 +1921,7 @@ type: vertical-stack
 
 ***
 
-## Television view 
+# Television view 
 
 ![tv_view](assets/tv_view.jpg "TV view")
 
@@ -2027,15 +2029,15 @@ type: vertical-stack
 
 ***
 
-## Custom plugins used:
+# Custom plugins used:
 
-### Custom Components
+## Custom Components
 
 + [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus).
 + [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player).
 + [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn).
 
-### Lovelace 
+## Lovelace 
 
 + [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven).
 + [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih).
@@ -2050,13 +2052,13 @@ type: vertical-stack
 
 ***
 
-## Notes
+# Notes
 
 The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
-## Special thanks
+# Special thanks
 
 + to all the authors above,
 + JuanMTech for his awesome themes,
