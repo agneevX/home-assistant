@@ -1195,13 +1195,13 @@ views:
                   id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
                   type: playlist
                 - icon: 'mdi:trending-up'
-                  id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
+                  id: 'spotify:playlist:xxxxx'
                   type: playlist
                 - icon: 'mdi:numeric-1'
-                  id: 'spotify:playlist:37i9dQZF1E35ZWZr2uMar9'
+                  id: 'spotify:playlist:xxxxx'
                   type: playlist
                 - icon: 'mdi:numeric-2'
-                  id: 'spotify:playlist:37i9dQZF1E39TnqVNn3uBi'
+                  id: 'spotify:playlist:xxxxx'
                   type: playlist
               columns: 6
             type: 'custom:mini-media-player'

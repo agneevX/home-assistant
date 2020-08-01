@@ -14,12 +14,6 @@ Home Assistant is running inside a python virtual environment on a Raspberry Pi 
 
 All cards in this view are in a vertical stack...
 
-Contains:
-* Entities card
-* Switch rows
-* Graph cards
-* Now Playing card
-
 ## Badges
 
 * System Load
@@ -30,7 +24,6 @@ Contains:
 *This is the only view that contain badges.*
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 badges:
@@ -62,7 +55,6 @@ badges:
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 entities:
   - attribute: color_temp
@@ -91,7 +83,6 @@ type: entities
 * [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -195,7 +186,6 @@ type: horizontal-stack
 * Restart X200M
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -309,7 +299,6 @@ type: horizontal-stack
     
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - align_state: center
@@ -388,7 +377,6 @@ type: horizontal-stack
 * Conditional qBittorrent upload card else Google Drive used space entity card
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 default: idle
@@ -600,7 +588,6 @@ type: 'custom:state-switch'
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 card:
   type: entities
@@ -637,7 +624,6 @@ Two vertical stacks in this view.
 * System Load - 15 minutes
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -748,7 +734,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - animate: false
@@ -853,7 +838,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - card:
@@ -936,7 +920,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 entities:
   - entity: sensor.eth0_in
@@ -955,7 +938,6 @@ type: history-graph
 * Upload Speed
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -1042,7 +1024,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - align_icon: state
@@ -1116,8 +1097,9 @@ type: horizontal-stack
 
 ## Binary Sensor Graph
 
-<details><summary>Show code</summary>
+Pings my local ISP node and Google DNS.
 
+<details><summary>Show code</summary>
 
 ```yaml
 entities:
@@ -1133,7 +1115,6 @@ type: history-graph
 ## Daily total network transfer - `vnstat`
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -1160,7 +1141,6 @@ type: horizontal-stack
 ### Radarr/Sonarr ongoing commands
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -1220,7 +1200,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - entities:
@@ -1267,7 +1246,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - entities:
@@ -1313,7 +1291,6 @@ type: horizontal-stack
 ### Radarr Movies/Sonarr Shows
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 cards:
@@ -1364,7 +1341,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 card:
   type: entities
@@ -1397,7 +1373,6 @@ Shows the last updated device on top.
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 card:
   type: entities
@@ -1425,7 +1400,6 @@ This view contains one vertical stack only.
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - entity: device_tracker.front_gate_camera
@@ -1436,7 +1410,7 @@ cards:
       aspect_ratio: 75%
       entities: []
       entity: camera.front_gate_camera
-      image: 'http://admin:admina@10.0.0.20/image/jpeg.cgi'
+      image: 'http://username:password@10.0.0.20/image/jpeg.cgi'
       title: Front Gate
       type: picture-glance
     conditions:
@@ -1458,7 +1432,6 @@ This view contains one vertical stack only.
 ## Media player card for Spotify 
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 artwork: cover
@@ -1495,7 +1468,6 @@ type: 'custom:mini-media-player'
 ### Header
 <details><summary>Show code</summary>
 
-
 ```yaml
 content: |
   # Level 1
@@ -1520,7 +1492,6 @@ type: markdown
 ## Media player cards for Alexa devices
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 card:
@@ -1687,7 +1658,6 @@ This view contains one vertical stack only.
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - decimals: 0
@@ -1744,7 +1714,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - entities:
@@ -1799,7 +1768,6 @@ type: horizontal-stack
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 entities:
   - entity: switch.refresh_plex
@@ -1808,13 +1776,12 @@ type: entities
 ```
 </details>
 
-## Plex media player cards
+## Media player cards
 
 * Conditional header cards
-* Conditional media player cards
+* Conditional Plex media player cards
 
 <details><summary>Show code</summary>
-
 
 ```yaml
 card:
@@ -2021,7 +1988,6 @@ type: conditional
 
 <details><summary>Show code</summary>
 
-
 ```yaml
 cards:
   - content: |
@@ -2121,39 +2087,39 @@ type: vertical-stack
 
 ***
 
-# Custom plugins used:
+# Custom plugins
 
 ## Custom Components
 
-+ [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus).
-+ [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player).
-+ [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn).
++ [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
++ [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
++ [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
 ## Lovelace 
 
-+ [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven).
-+ [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih).
-+ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by [kalkih](https://github.com/kalkih).
-+ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by [thomasloven](https://github.com/thomasloven).
-+ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven).
-+ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven).
-+ [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich).
-+ [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar).
-+ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by [maykar](https://github.com/maykar).
-+ [`button-card`](https://github.com/custom-cards/button-card).
++ [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
++ [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
++ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by [kalkih](https://github.com/kalkih)
++ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by [thomasloven](https://github.com/thomasloven)
++ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven)
++ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
++ [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
++ [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
++ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by [maykar](https://github.com/maykar)
++ [`button-card`](https://github.com/custom-cards/button-card)
 
 ***
 
 # Notes
 
-The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
+The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui)
 
 ***
 
 # Special thanks
 
 + to all the authors above,
-+ JuanMTech for his awesome themes,
-+ and the helpful folks over at the HA Discord.
++ [JuanMTech](https://github.com/JuanMTech) for his awesome themes,
++ and all the very helpful folks over at the HA Discord.
 
 
