@@ -370,6 +370,9 @@ type: horizontal-stack
 
 ## Graph row 2 (depending upon state)
 
+* Conditional qBittorrent download card
+* Conditional qBittorrent upload card
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -1099,6 +1102,7 @@ hours_to_show: 1
 refresh_interval: 30
 type: history-graph
 ```
+</details>
 
 ## Daily total network transfer - `vnstat`
 
