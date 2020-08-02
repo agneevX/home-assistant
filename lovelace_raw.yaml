@@ -529,10 +529,10 @@ views:
                   - entity: sensor.load_1m
                     state_adaptive_color: false
                 font_size: 85
-                hours_to_show: 1
+                hours_to_show: 2
                 line_width: 5
                 name: 1-min
-                points_per_hour: 12
+                points_per_hour: 6
                 show:
                   fill: true
                   icon_adaptive_color: true
@@ -559,10 +559,10 @@ views:
                   - entity: sensor.load_5m
                     state_adaptive_color: false
                 font_size: 85
-                hours_to_show: 1
+                hours_to_show: 2
                 line_width: 5
                 name: 5-min
-                points_per_hour: 12
+                points_per_hour: 6
                 show:
                   fill: true
                   icon_adaptive_color: true
@@ -589,10 +589,10 @@ views:
                   - entity: sensor.load_15m
                     state_adaptive_color: false
                 font_size: 85
-                hours_to_show: 12
+                hours_to_show: 2
                 line_width: 5
                 name: 15-min
-                points_per_hour: 1
+                points_per_hour: 6
                 show:
                   fill: true
                   icon_adaptive_color: true
@@ -1741,4 +1741,3 @@ views:
     icon: 'mdi:television'
     path: tv
     title: TV
-

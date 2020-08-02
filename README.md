@@ -93,7 +93,7 @@ cards:
     double_tap_action:
       action: toggle
       haptic: success
-      entity: switch.tv_lamp_nightlamp
+    entity: switch.tv_lamp_nightlamp
     hold_action:
       action: more-info
     show_name: false
