@@ -932,7 +932,9 @@ type: history-graph
 ```
 </details>
 
-### :Vertical stack 2:
+<p align="center">
+  <b>### Vertical stack 2</b>
+</p>
 
 ## Graph row 1
 
@@ -1141,7 +1143,9 @@ type: horizontal-stack
 
 ![info2_view](assets/info2_view.jpg "Info 2 view")
 
-### :Vertical stack 1:
+<p align="center">
+  <b>### Vertical stack 1</b>
+</p>
 
 ## Radarr/Sonarr cards
 
