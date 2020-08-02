@@ -373,8 +373,10 @@ type: horizontal-stack
 
 ## Graph row 2
 
-* Conditional qBittorrent download card else mergerFS free card
-* Conditional qBittorrent upload card else Google Drive used space card
+* Conditional qBittorrent download card 
+  else mergerFS free card
+* Conditional qBittorrent upload card 
+  else SSD used space card
 
 <details><summary>Show code</summary>
 
@@ -450,9 +452,8 @@ states:
       - entity: sensor.mergerfs
         type: entity
         unit: free
-      - entity: sensor.drive_used
-        icon: 'mdi:google-drive'
-        name: Google Drive
+      - entity: sensor.disk_use_percent_home_agneev
+        name: SSD Used
         type: entity
     type: horizontal-stack
   seeding:
@@ -729,7 +730,7 @@ type: horizontal-stack
 
 * AdGuard Home Processing Speed
 * AdGuard Home % of blocked ads
-* SSD Used Space
+* Google Drive Used Space
 
 <details><summary>Show code</summary>
 
@@ -803,15 +804,17 @@ cards:
         value: 40
       - color: '#04e700'
         value: 25
-    decimals: 0
+    decimals: 1
     entities:
-      - entity: sensor.disk_use_percent_home_agneev
+      - entity: sensor.drive_used
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 6
+    hours_to_show: 168
     line_width: 5
-    name: SSD
-    points_per_hour: 3
+    name: Drive
+    unit: TB
+    icon: 'mdi:google-drive'
+    points_per_hour: 1
     show:
       fill: true
       icon_adaptive_color: true

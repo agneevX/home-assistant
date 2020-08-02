@@ -16,6 +16,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 binary_sensor: !include binary_sensor.yaml
 camera: !include camera.yaml
+cloud: !include cloud.yaml
 webostv: !include webos.yaml
 yeelight: !include yeelight.yaml
 sensor command_line: !include cmd_sensor.yaml
@@ -124,15 +125,13 @@ switch:
     lights_ct:
       - light.desk_light
     lights_rgb:
-      - light.bedside_lamp
+      - light.tv_lamp
 #emulated_hue:
 #  listen_port: 80
 #  expose_by_default: false
 #  entities:
-#    switch.lofi_beats:
-#      name: Lo-Fi Beats
-#    switch.lofi_beats2:
-#      name: Lo-Fi Beats 2
+#    switch.lofi_beats
+#    switch.lofi_beats_2
 device_tracker:
   - platform: netgear
     host: 10.0.0.1
@@ -156,26 +155,3 @@ spotify:
 #  - name: telegram_hassio
 #    platform: telegram
 #    chat_id: !secret telegram_chat_id
-cloud:
-  alexa:
-    filter:
-      include_entities:
-        - switch.lofi_beats
-        - switch.lofi_beats2
-        - switch.jazz_radio
-        - media_player.bedroom_tv
-homekit:
-  name: HA Bridge
-  filter:
-    include_entities:
-      - switch.adguard_protection
-      - switch.lofi_beats
-      - switch.lofi_beats2
-      - switch.jazz_radio
-      - sensor.internet_health
-      - light.bedside_lamp_nightlight
-  entity_config:
-    switch.adguard_protection:
-      name: AdGuard
-    light.bedside_lamp_nightlight:
-      name: Night Lamp
