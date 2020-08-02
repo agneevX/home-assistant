@@ -50,7 +50,7 @@ badges:
   <b>Vertical stack 1</b>
 </p>
 
-## Entities row 
+## Switch card
 
 * Desk Lamp
 * TV Lamp
@@ -939,7 +939,7 @@ type: history-graph
 </details>
 
 <p align="center">
-  <b>Vertical stack 1</b>
+  <b>Vertical stack 2</b>
 </p>
 
 ## Graph row 1
@@ -1517,6 +1517,10 @@ type: markdown
 
 <details><summary>Show code</summary>
 
++ Do Not Disturb button
++ Shuffle button
++ Repeat button
+
 ```yaml
 card:
   cards:
@@ -1590,6 +1594,10 @@ conditions:
     state_not: unavailable
 type: conditional
 ```
+
++ Do Not Disturb button
++ Shuffle button
++ Repeat button
 
 ```yaml
 card:
