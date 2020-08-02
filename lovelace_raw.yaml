@@ -44,10 +44,9 @@ views:
                 double_tap_action:
                   action: toggle
                   haptic: success
-                entity: light.tv_lamp_nightlight
+                entity: switch.tv_lamp_nightlamp
                 hold_action:
                   action: more-info
-                icon: 'mdi:power-sleep'
                 show_name: false
                 size: 35%
                 styles:
@@ -517,8 +516,7 @@ views:
     cards:
       - cards:
           - cards:
-              - align_state: left
-                animate: false
+              - animate: false
                 color_thresholds:
                   - color: '#ff0000'
                     value: 4
@@ -548,9 +546,7 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
-              - align_icon: right
-                align_state: left
-                animate: false
+              - animate: false
                 color_thresholds:
                   - color: '#ff0000'
                     value: 4
@@ -580,14 +576,12 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
-              - align_icon: right
-                align_state: left
-                animate: false
+              - animate: false
                 color_thresholds:
                   - color: '#ff0000'
-                    value: 4
-                  - color: '#e1e700'
                     value: 3
+                  - color: '#e1e700'
+                    value: 2
                   - color: '#04e700'
                     value: 1
                 decimals: 1
@@ -595,10 +589,10 @@ views:
                   - entity: sensor.load_15m
                     state_adaptive_color: false
                 font_size: 85
-                hours_to_show: 6
+                hours_to_show: 12
                 line_width: 5
                 name: 15-min
-                points_per_hour: 2
+                points_per_hour: 1
                 show:
                   fill: true
                   icon_adaptive_color: true
@@ -688,10 +682,9 @@ views:
                     state_adaptive_color: false
                 font_size: 85
                 hours_to_show: 168
+                icon: 'mdi:google-drive'
                 line_width: 5
                 name: Drive
-                unit: TB
-                icon: 'mdi:google-drive'
                 points_per_hour: 1
                 show:
                   fill: true
@@ -707,6 +700,7 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
+                unit: TB
             type: horizontal-stack
           - cards:
               - card:
@@ -1376,12 +1370,13 @@ views:
               - decimals: 0
                 entities:
                   - entity: sensor.plex
-                    state_adaptive_color: false
+                    state_adaptive_color: true
+                    color: '#e5a00d'
                 font_size: 85
-                hours_to_show: 12
+                hours_to_show: 6
                 line_width: 4
                 name: Home Server
-                points_per_hour: 2
+                points_per_hour: 1
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -1397,13 +1392,14 @@ views:
               - decimals: 1
                 entities:
                   - entity: sensor.tautulli_total_bw
-                    state_adaptive_color: false
+                    state_adaptive_color: true
+                    color: '#e5a00d'
                 font_size: 85
-                hours_to_show: 12
+                hours_to_show: 6
                 icon: 'mdi:arrow-up'
                 line_width: 4
                 name: Bandwidth
-                points_per_hour: 5
+                points_per_hour: 2
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -1420,7 +1416,8 @@ views:
           - cards:
               - entities:
                   - entity: sensor.eth0_in
-                    state_adaptive_color: false
+                    state_adaptive_color: true
+                    color: '#e5a00d'
                 font_size: 85
                 hours_to_show: 1
                 icon: 'mdi:arrow-down'
@@ -1441,7 +1438,8 @@ views:
                 type: 'custom:mini-graph-card'
               - entities:
                   - entity: sensor.eth0_out
-                    state_adaptive_color: false
+                    state_adaptive_color: true
+                    color: '#e5a00d'
                 font_size: 85
                 hours_to_show: 1
                 icon: 'mdi:arrow-up'
@@ -1743,3 +1741,4 @@ views:
     icon: 'mdi:television'
     path: tv
     title: TV
+

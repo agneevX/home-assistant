@@ -93,10 +93,9 @@ cards:
     double_tap_action:
       action: toggle
       haptic: success
-    entity: light.bedside_lamp_nightlight
+      entity: switch.tv_lamp_nightlamp
     hold_action:
       action: more-info
-    icon: 'mdi:power-sleep'
     show_name: false
     size: 35%
     styles:
@@ -633,8 +632,7 @@ Two vertical stacks in this view.
 
 ```yaml
 cards:
-  - align_state: left
-    animate: false
+  - animate: false
     color_thresholds:
       - color: '#ff0000'
         value: 4
@@ -647,10 +645,10 @@ cards:
       - entity: sensor.load_1m
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 1
+    hours_to_show: 2
     line_width: 5
     name: 1-min
-    points_per_hour: 12
+    points_per_hour: 6
     show:
       fill: true
       icon_adaptive_color: true
@@ -664,9 +662,7 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-  - align_icon: right
-    align_state: left
-    animate: false
+  - animate: false
     color_thresholds:
       - color: '#ff0000'
         value: 4
@@ -679,10 +675,10 @@ cards:
       - entity: sensor.load_5m
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 1
+    hours_to_show: 2
     line_width: 5
     name: 5-min
-    points_per_hour: 12
+    points_per_hour: 6
     show:
       fill: true
       icon_adaptive_color: true
@@ -696,14 +692,12 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-  - align_icon: right
-    align_state: left
-    animate: false
+  - animate: false
     color_thresholds:
       - color: '#ff0000'
-        value: 4
-      - color: '#e1e700'
         value: 3
+      - color: '#e1e700'
+        value: 2
       - color: '#04e700'
         value: 1
     decimals: 1
@@ -711,10 +705,10 @@ cards:
       - entity: sensor.load_15m
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 6
+    hours_to_show: 2
     line_width: 5
     name: 15-min
-    points_per_hour: 2
+    points_per_hour: 6
     show:
       fill: true
       icon_adaptive_color: true
@@ -1697,12 +1691,13 @@ cards:
   - decimals: 0
     entities:
       - entity: sensor.plex
-        state_adaptive_color: false
+        state_adaptive_color: true
+        color: '#e5a00d'
     font_size: 85
-    hours_to_show: 12
+    hours_to_show: 6
     line_width: 4
     name: Home Server
-    points_per_hour: 2
+    points_per_hour: 1
     show:
       icon_adaptive_color: true
       labels: false
@@ -1718,13 +1713,14 @@ cards:
   - decimals: 1
     entities:
       - entity: sensor.tautulli_total_bw
-        state_adaptive_color: false
+        state_adaptive_color: true
+        color: '#e5a00d'
     font_size: 85
-    hours_to_show: 12
+    hours_to_show: 6
     icon: 'mdi:arrow-up'
     line_width: 4
     name: Bandwidth
-    points_per_hour: 5
+    points_per_hour: 3
     show:
       icon_adaptive_color: true
       labels: false
@@ -1752,7 +1748,8 @@ type: horizontal-stack
 cards:
   - entities:
       - entity: sensor.eth0_in
-        state_adaptive_color: false
+        state_adaptive_color: true
+        color: '#e5a00d'
     font_size: 85
     hours_to_show: 1
     icon: 'mdi:arrow-down'
@@ -1773,7 +1770,8 @@ cards:
     type: 'custom:mini-graph-card'
   - entities:
       - entity: sensor.eth0_out
-        state_adaptive_color: false
+        state_adaptive_color: true
+        color: '#e5a00d'
     font_size: 85
     hours_to_show: 1
     icon: 'mdi:arrow-up'
