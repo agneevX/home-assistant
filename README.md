@@ -19,7 +19,7 @@ All cards in this view are in a vertical stack...
 * System Load
 * Network In
 * Network Out
-* PyLoad download speed
+* [PyLoad](https://pyload.net) download speed
 
 *This is the only view that contain badges.*
 
@@ -179,10 +179,10 @@ type: horizontal-stack
 
 ## Switch row 2
 
-* Shut Down Always-On Server
-* Reboot Always-On Server
-* AdGuard Home switch
-* Shut Down X200M (secondary laptop occasionally used)
+* Shut Down `Always-On Server`
+* Reboot `Always-On Server`
+* AdGuard Home master switch
+* Shut Down X200M (secondary laptop used occasionally)
 * Restart X200M
 
 <details><summary>Show code</summary>
@@ -295,7 +295,7 @@ type: horizontal-stack
 ## Graph row 1
 
 * CPU usage
-* Network Health (using ping integration)
+* Network Health (using `ping` and `history_stats`)
     
 <details><summary>Show code</summary>
 
@@ -371,10 +371,10 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 2 (depending upon state)
+## Graph row 2
 
-* Conditional qBittorrent download card else mergerFS free entity card
-* Conditional qBittorrent upload card else Google Drive used space entity card
+* Conditional qBittorrent download card else mergerFS free card
+* Conditional qBittorrent upload card else Google Drive used space card
 
 <details><summary>Show code</summary>
 
@@ -730,7 +730,7 @@ type: horizontal-stack
 
 * AdGuard Home Processing Speed
 * AdGuard Home % of blocked ads
-* SSD Usage
+* SSD Used Space
 
 <details><summary>Show code</summary>
 
@@ -834,7 +834,7 @@ type: horizontal-stack
 ## Graph row 3
 
 * CPU Temperature (host)
-* CPU Temperature (Always-On server)
+* CPU Temperature (Always-On Server)
 
 <details><summary>Show code</summary>
 
@@ -936,6 +936,10 @@ type: history-graph
 
 * Download Speed
 * Upload Speed
+
+This is a custom sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
+
+More info in [`cmd_sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/cmd_sensor.yaml) and [`template-sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/template-sensor.yaml).
 
 <details><summary>Show code</summary>
 
@@ -1098,6 +1102,7 @@ type: horizontal-stack
 ## Binary Sensor Graph
 
 Pings my local ISP node and Google DNS.
+Helps isolate network issues.
 
 <details><summary>Show code</summary>
 
@@ -1112,7 +1117,9 @@ type: history-graph
 ```
 </details>
 
-## Daily total network transfer - `vnstat`
+## Daily total network transfer
+
+This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
 <details><summary>Show code</summary>
 
@@ -1196,7 +1203,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Radarr/Sonarr upcoming
+### Radarr/Sonarr Upcoming
 
 <details><summary>Show code</summary>
 
@@ -1410,6 +1417,7 @@ cards:
       aspect_ratio: 75%
       entities: []
       entity: camera.front_gate_camera
+# Snapshots maybe broken on Chrome
       image: 'http://username:password@10.0.0.20/image/jpeg.cgi'
       title: Front Gate
       type: picture-glance
@@ -1490,6 +1498,8 @@ type: markdown
 </details>
 
 ## Media player cards for Alexa devices
+
+* Conditional cards
 
 <details><summary>Show code</summary>
 
@@ -1574,7 +1584,7 @@ card:
       entity: media_player.new_room_echo
       hide:
         power: true
-        sources: true
+        source: true
       icon: 'mdi:amazon-alexa'
       idle_view:
         after: 15
@@ -1651,10 +1661,12 @@ type: conditional
 
 This view contains one vertical stack only.
 
+* These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
+
 ## Graph row 1
 
 * Plex Watching sensor
-* Tautulli Bandwidth
+* Tautulli current bandwidth
 
 <details><summary>Show code</summary>
 
@@ -1778,8 +1790,7 @@ type: entities
 
 ## Media player cards
 
-* Conditional header cards
-* Conditional Plex media player cards
+* Conditional header cards with Plex media player cards
 
 <details><summary>Show code</summary>
 
@@ -1989,99 +2000,103 @@ type: conditional
 <details><summary>Show code</summary>
 
 ```yaml
-cards:
-  - content: |
-      # Bedroom
-    style:
-      .: |
-        ha-card {
-          --ha-card-background: none !important;
-          box-shadow: none !important;
-        }
-      ha-markdown:
-        $: |
-          h1 {
-            font-size: 20px;
-            font-weight: bold;
-            font-family: Helvetica;
-            letter-spacing: '-0.01em';
-          }
-    type: markdown
-  - entity: media_player.bedroom_tv
-    hide:
-      power: true
-      progress: true
-    idle_view:
-      when_idle: true
-      when_standby: true
-    info: scroll
-    sound_mode: icon
-    type: 'custom:mini-media-player'
-  - content: |
-      # Level 1
-    style:
-      .: |
-        ha-card {
-          --ha-card-background: none !important;
-          box-shadow: none !important;
-        }
-      ha-markdown:
-        $: |
-          h1 {
-            font-size: 20px;
-            font-weight: bold;
-            font-family: Helvetica;
-            letter-spacing: '-0.01em';
-          }
-    type: markdown
-  - entity: media_player.old_room_tv
-    hide:
-      power: true
-      progress: true
-    idle_view:
-      when_idle: true
-      when_standby: true
-    info: scroll
-    sound_mode: icon
-    type: 'custom:mini-media-player'
-  - entity: media_player.new_room_tv
-    hide:
-      power: true
-      progress: true
-    idle_view:
-      when_idle: true
-      when_standby: true
-    info: scroll
-    sound_mode: icon
-    type: 'custom:mini-media-player'
-  - content: |
-      # Level 2
-    style:
-      .: |
-        ha-card {
-          --ha-card-background: none !important;
-          box-shadow: none !important;
-        }
-      ha-markdown:
-        $: |
-          h1 {
-            font-size: 20px;
-            font-weight: bold;
-            font-family: Helvetica;
-            letter-spacing: '-0.01em';
-          }
-    type: markdown
-  - entity: media_player.sony_bravia_tv
-    hide:
-      power: true
-      progress: true
-    idle_view:
-      when_idle: true
-      when_standby: true
-    info: scroll
-    sound_mode: icon
-    type: 'custom:mini-media-player'
-type: vertical-stack
+content: |
+  # Bedroom
+style:
+  .: |
+    ha-card {
+      --ha-card-background: none !important;
+      box-shadow: none !important;
+    }
+  ha-markdown:
+    $: |
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: Helvetica;
+        letter-spacing: '-0.01em';
+      }
+type: markdown
+- entity: media_player.bedroom_tv
+hide:
+  power: true
+  progress: true
+idle_view:
+  when_idle: true
+  when_standby: true
+info: scroll
+sound_mode: icon
+type: 'custom:mini-media-player'
+```
+
+```yaml
+content: |
+  # Level 1
+style:
+  .: |
+    ha-card {
+      --ha-card-background: none !important;
+      box-shadow: none !important;
+    }
+  ha-markdown:
+    $: |
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: Helvetica;
+        letter-spacing: '-0.01em';
+      }
+type: markdown
+- entity: media_player.old_room_tv
+hide:
+  power: true
+  progress: true
+idle_view:
+  when_idle: true
+  when_standby: true
+info: scroll
+sound_mode: icon
+type: 'custom:mini-media-player'
+- entity: media_player.new_room_tv
+hide:
+  power: true
+  progress: true
+idle_view:
+  when_idle: true
+  when_standby: true
+info: scroll
+sound_mode: icon
+type: 'custom:mini-media-player'
+```
+
+```yaml
+content: |
+  # Level 2
+style:
+  .: |
+    ha-card {
+      --ha-card-background: none !important;
+      box-shadow: none !important;
+    }
+  ha-markdown:
+    $: |
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: Helvetica;
+        letter-spacing: '-0.01em';
+      }
+type: markdown
+- entity: media_player.sony_bravia_tv
+hide:
+  power: true
+  progress: true
+idle_view:
+  when_idle: true
+  when_standby: true
+info: scroll
+sound_mode: icon
+type: 'custom:mini-media-player'
 ```
 </details>
 
