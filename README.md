@@ -46,7 +46,9 @@ badges:
 ```
 </details>
 
-### :Vertical stack 1:
+<p align="center">
+  <b>Vertical stack 1</b>
+</p>
 
 ## Entities row 
 
@@ -290,7 +292,9 @@ type: horizontal-stack
 ```
 </details>
 
-### :Vertical stack 2:
+<p align="center">
+  <b>Vertical stack 2</b>
+</p>
 
 ## Graph row 1
 
@@ -615,7 +619,9 @@ type: 'custom:auto-entities'
 
 Two vertical stacks in this view.
 
-### :Vertical stack 1:
+<p align="center">
+  <b>Vertical stack 1</b>
+</p>
 
 ## Graph row 1
 
@@ -933,7 +939,7 @@ type: history-graph
 </details>
 
 <p align="center">
-  <b>### Vertical stack 2</b>
+  <b>Vertical stack 1</b>
 </p>
 
 ## Graph row 1
@@ -1144,7 +1150,7 @@ type: horizontal-stack
 ![info2_view](assets/info2_view.jpg "Info 2 view")
 
 <p align="center">
-  <b>### Vertical stack 1</b>
+  <b>Vertical stack 1</b>
 </p>
 
 ## Radarr/Sonarr cards
@@ -1377,7 +1383,9 @@ type: 'custom:auto-entities'
 ```
 </details>
 
-### :Vertical stack 2:
+<p align="center">
+  <b>Vertical stack 2</b>
+</p>
 
 ## Router devices
 
