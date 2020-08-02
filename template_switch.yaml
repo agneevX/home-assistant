@@ -1,122 +1,122 @@
-- platform: template
-  switches:
-    x200m_restart:
-      friendly_name: Restart X200M
-      value_template: "{{ is_state('device_tracker.x200m','home')}}"
-      turn_on:
-       - service: switch.turn_on
-         entity_id: switch.int_x200m_restart
-      turn_off:
-       - service: switch.turn_off
-         entity_id: switch.int_x200m_restart
-    x200m_shutdown:
-      friendly_name: Shut Down X200M
-      value_template: "{{ is_state('device_tracker.x200m','home')}}"
-      turn_on:
-       - service: switch.turn_on
-         entity_id: switch.int_x200m_shutdown
-      turn_off:
-       - service: switch.turn_off
-         entity_id: switch.int_x200m_shutdown
-    always_on_shutdown:
-      friendly_name: Shut Down Always-On
-      value_template: "{{ is_state('device_tracker.always_on_server','home')}}"
-      turn_on:
-       - service: switch.turn_on
-         entity_id: switch.int_always_on_shutdown
-      turn_off:
-       - service: switch.turn_off
-         entity_id: switch.int_always_on_shutdown
-    always_on_restart:
-      friendly_name: Restart Always-On
-      value_template: "{{ is_state('device_tracker.always_on_server','home')}}"
-      turn_on:
-       - service: switch.turn_on
-         entity_id: switch.int_always_on_restart
-      turn_off:
-       - service: switch.turn_off
-         entity_id: switch.int_always_on_restart
-    theme_amoled_night:
-      friendly_name: AMOLED Night Theme
-      value_template: "{{ states('input_boolean.amoled_bool') }}"
-      icon_template: >-
-        {% if is_state('input_boolean.amoled_bool','on') %}
-          mdi:weather-night
-        {% elif is_state('input_boolean.amoled_bool','off') %}
-          mdi:white-balance-sunny
-        {% endif %}
-      turn_on:
-       - service: input_boolean.turn_on
-         entity_id: input_boolean.amoled_bool
-       - service: frontend.set_theme
-         data:
-           name: Me_AMOLED
-      turn_off:
-       - service: input_boolean.turn_off
-         entity_id: input_boolean.amoled_bool
-       - service: frontend.set_theme
-         data:
-           name: Me_Light_Theme
-    theme_dark:
-      friendly_name: Dark Theme
-      value_template: "{{ states('input_boolean.dark_theme_bool') }}"        
-      icon_template: >-
-        {% if is_state('input_boolean.dark_theme_bool','on') %}
-          mdi:weather-night
-        {% elif is_state('input_boolean.dark_theme_bool','off') %}
-          mdi:weather-sunny
-        {% endif %}
-      turn_on:
-       - service: input_boolean.turn_on
-         entity_id: input_boolean.dark_theme_bool
-       - service: frontend.set_theme
-         data:
-           name: Google Dark Theme
-      turn_off:
-       - service: input_boolean.turn_off
-         entity_id: input_boolean.dark_theme_bool
-       - service: frontend.set_theme
-         data:
-           name: Me_Light_Theme
-    lofi_beats:
-      friendly_name: "Lo-Fi Beats"
-      icon_template: mdi:music-circle
-      value_template: "{{ states('input_boolean.lofi_bool') }}"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.lofi_bool
-        - service: switch.turn_on
-          entity_id: switch.int_lofi_beats
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.lofi_bool
-        - service: switch.turn_off
-          entity_id: switch.kill_omxplayer
-    lofi_beats2:
-      friendly_name: "Lo-Fi Beats 2"
-      icon_template: mdi:power-sleep
-      value_template: "{{ states('input_boolean.lofi_2_bool') }}"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.lofi_2_bool
-        - service: switch.turn_on
-          entity_id: switch.int_lofi_beats2
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.lofi_2_bool
-        - service: switch.turn_off
-          entity_id: switch.kill_omxplayer
-    jazz_radio:
-      friendly_name: "Jazz Radio"
-      icon_template: mdi:saxophone
-      value_template: "{{ states('input_boolean.jazz_radio_bool') }}"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.jazz_radio_bool
-        - service: switch.turn_on
-          entity_id: switch.int_jazz_radio
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.jazz_radio_bool
-        - service: switch.turn_off
-          entity_id: switch.kill_omxplayer
+platform: template
+switches:
+  x200m_restart:
+    friendly_name: Restart X200M
+    value_template: "{{ is_state('device_tracker.x200m','home')}}"
+    turn_on:
+     - service: switch.turn_on
+       entity_id: switch.int_x200m_restart
+    turn_off:
+     - service: switch.turn_off
+       entity_id: switch.int_x200m_restart
+  x200m_shutdown:
+    friendly_name: Shut Down X200M
+    value_template: "{{ is_state('device_tracker.x200m','home')}}"
+    turn_on:
+     - service: switch.turn_on
+       entity_id: switch.int_x200m_shutdown
+    turn_off:
+     - service: switch.turn_off
+       entity_id: switch.int_x200m_shutdown
+  always_on_shutdown:
+    friendly_name: Shut Down Always-On
+    value_template: "{{ is_state('device_tracker.always_on_server','home')}}"
+    turn_on:
+     - service: switch.turn_on
+       entity_id: switch.int_always_on_shutdown
+    turn_off:
+     - service: switch.turn_off
+       entity_id: switch.int_always_on_shutdown
+  always_on_restart:
+    friendly_name: Restart Always-On
+    value_template: "{{ is_state('device_tracker.always_on_server','home')}}"
+    turn_on:
+     - service: switch.turn_on
+       entity_id: switch.int_always_on_restart
+    turn_off:
+     - service: switch.turn_off
+       entity_id: switch.int_always_on_restart
+  theme_amoled_night:
+    friendly_name: AMOLED Night Theme
+    value_template: "{{ states('input_boolean.amoled_bool') }}"
+    icon_template: >-
+      {% if is_state('input_boolean.amoled_bool','on') %}
+        mdi:weather-night
+      {% elif is_state('input_boolean.amoled_bool','off') %}
+        mdi:white-balance-sunny
+      {% endif %}
+    turn_on:
+     - service: input_boolean.turn_on
+       entity_id: input_boolean.amoled_bool
+     - service: frontend.set_theme
+       data:
+         name: Me_AMOLED
+    turn_off:
+     - service: input_boolean.turn_off
+       entity_id: input_boolean.amoled_bool
+     - service: frontend.set_theme
+       data:
+         name: Me_Light_Theme
+  theme_dark:
+    friendly_name: Dark Theme
+    value_template: "{{ states('input_boolean.dark_theme_bool') }}"        
+    icon_template: >-
+      {% if is_state('input_boolean.dark_theme_bool','on') %}
+        mdi:weather-night
+      {% elif is_state('input_boolean.dark_theme_bool','off') %}
+        mdi:weather-sunny
+      {% endif %}
+    turn_on:
+     - service: input_boolean.turn_on
+       entity_id: input_boolean.dark_theme_bool
+     - service: frontend.set_theme
+       data:
+         name: Me_Dark_Theme
+    turn_off:
+     - service: input_boolean.turn_off
+       entity_id: input_boolean.dark_theme_bool
+     - service: frontend.set_theme
+       data:
+         name: Me_Light_Theme
+  lofi_beats:
+    friendly_name: "Lo-Fi Beats"
+    icon_template: mdi:music-circle
+    value_template: "{{ states('input_boolean.lofi_bool') }}"
+    turn_on:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.lofi_bool
+      - service: switch.turn_on
+        entity_id: switch.int_lofi_beats
+    turn_off:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.lofi_bool
+      - service: switch.turn_off
+        entity_id: switch.kill_omxplayer
+  lofi_beats2:
+    friendly_name: "Lo-Fi Beats 2"
+    icon_template: mdi:power-sleep
+    value_template: "{{ states('input_boolean.lofi_2_bool') }}"
+    turn_on:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.lofi_2_bool
+      - service: switch.turn_on
+        entity_id: switch.int_lofi_beats2
+    turn_off:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.lofi_2_bool
+      - service: switch.turn_off
+        entity_id: switch.kill_omxplayer
+  jazz_radio:
+    friendly_name: "Jazz Radio"
+    icon_template: mdi:saxophone
+    value_template: "{{ states('input_boolean.jazz_radio_bool') }}"
+    turn_on:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.jazz_radio_bool
+      - service: switch.turn_on
+        entity_id: switch.int_jazz_radio
+    turn_off:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.jazz_radio_bool
+      - service: switch.turn_off
+        entity_id: switch.kill_omxplayer

@@ -6,7 +6,7 @@ This layout was designed mobile-first.
 
 # Background
 
-Home Assistant is running inside a python virtual environment on a Raspberry Pi 4 (4GB model).
+Home Assistant is running inside a Python virtual environment on a Raspberry Pi 4 (4GB model).
 
 # Dashboard (home view)
 
@@ -454,7 +454,6 @@ states:
         icon: 'mdi:google-drive'
         name: Google Drive
         type: entity
-        unit: used
     type: horizontal-stack
   seeding:
     cards:
@@ -937,9 +936,9 @@ type: history-graph
 * Download Speed
 * Upload Speed
 
-This is a custom sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
+This is a custom sensor that uses the official Speedtest CLI as opposed to the `speedtest-cli` integration, which is very inaccurate.
 
-More info in [`cmd_sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/cmd_sensor.yaml) and [`template-sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/template-sensor.yaml).
+More info in [`cmd_sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/cmd_sensor.yaml) and [`template-sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/template_sensor.yaml).
 
 <details><summary>Show code</summary>
 
@@ -2127,7 +2126,9 @@ type: 'custom:mini-media-player'
 
 # Notes
 
-The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui)
++ Entities beginning with `int` are "internal" entities that are used inside templates.
++ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
++ The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 

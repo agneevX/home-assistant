@@ -1,0 +1,14 @@
+name: HA Bridge
+filter:
+  include_entities:
+    - switch.adguard_protection
+    - switch.lofi_beats
+    - switch.lofi_beats2
+    - switch.jazz_radio
+    - sensor.internet_health
+    - light.bedside_lamp_nightlight
+entity_config:
+  switch.adguard_protection:
+    name: AdGuard
+  light.bedside_lamp_nightlight:
+    name: Night Lamp

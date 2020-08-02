@@ -31,10 +31,9 @@ views:
                 step: 15
                 toggle: true
                 type: 'custom:slider-entity-row'
-              - entity: light.bedside_lamp
+              - entity: light.tv_lamp
                 haptic: success
                 hide_when_off: true
-                name: TV Lamp
                 toggle: true
                 type: 'custom:slider-entity-row'
             show_header_toggle: false
@@ -45,7 +44,7 @@ views:
                 double_tap_action:
                   action: toggle
                   haptic: success
-                entity: light.bedside_lamp_nightlight
+                entity: light.tv_lamp_nightlight
                 hold_action:
                   action: more-info
                 icon: 'mdi:power-sleep'
@@ -368,11 +367,9 @@ views:
                   - entity: sensor.mergerfs
                     type: entity
                     unit: free
-                  - entity: sensor.drive_used
-                    icon: 'mdi:google-drive'
-                    name: Google Drive
+                  - entity: sensor.disk_use_percent_home_agneev
+                    name: SSD Used
                     type: entity
-                    unit: used
                 type: horizontal-stack
               seeding:
                 cards:
@@ -685,15 +682,17 @@ views:
                     value: 40
                   - color: '#04e700'
                     value: 25
-                decimals: 0
+                decimals: 1
                 entities:
-                  - entity: sensor.disk_use_percent_home_agneev
+                  - entity: sensor.drive_used
                     state_adaptive_color: false
                 font_size: 85
-                hours_to_show: 6
+                hours_to_show: 168
                 line_width: 5
-                name: SSD
-                points_per_hour: 3
+                name: Drive
+                unit: TB
+                icon: 'mdi:google-drive'
+                points_per_hour: 1
                 show:
                   fill: true
                   icon_adaptive_color: true
@@ -1195,7 +1194,7 @@ views:
                   id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
                   type: playlist
                 - icon: 'mdi:trending-up'
-                  id: 'spotify:playlist:xxxxx'
+                  id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
                   type: playlist
                 - icon: 'mdi:numeric-1'
                   id: 'spotify:playlist:xxxxx'
@@ -1300,7 +1299,7 @@ views:
                   entity: media_player.new_room_echo
                   hide:
                     power: true
-                    sources: true
+                    source: true
                   icon: 'mdi:amazon-alexa'
                   idle_view:
                     after: 15

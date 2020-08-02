@@ -1,0 +1,7 @@
+alexa:
+  filter:
+    include_entities:
+      - switch.lofi_beats
+      - switch.lofi_beats2
+      - switch.jazz_radio
+      - media_player.bedroom_tv
