@@ -749,10 +749,10 @@ cards:
       - entity: sensor.adguard_average_processing_speed
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 3
+    hours_to_show: 72
     line_width: 5
     name: DNS
-    points_per_hour: 4
+    points_per_hour: 1
     show:
       fill: true
       icon_adaptive_color: true
@@ -779,10 +779,10 @@ cards:
       - entity: sensor.adguard_dns_queries_blocked_ratio
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 3
+    hours_to_show: 72
     line_width: 5
     name: Ads Blocked
-    points_per_hour: 6
+    points_per_hour: 1
     show:
       fill: true
       icon_adaptive_color: true
@@ -809,7 +809,7 @@ cards:
       - entity: sensor.drive_used
         state_adaptive_color: false
     font_size: 85
-    hours_to_show: 168
+    hours_to_show: 72
     line_width: 5
     name: Drive
     unit: TB
@@ -966,17 +966,13 @@ cards:
     hours_to_show: 6
     icon: 'mdi:arrow-down'
     line_width: 4
-    name: ' '
     points_per_hour: 2
     show:
       fill: false
-      icon: true
       icon_adaptive_color: true
       labels: false
-      legend: false
       name: false
       points: false
-      state: true
     style: |
       ha-card > div:nth-child(-n+2) {
         padding: 0 14px 0 14px !important
@@ -1002,17 +998,13 @@ cards:
     hours_to_show: 6
     icon: 'mdi:arrow-up'
     line_width: 4
-    name: ' '
     points_per_hour: 2
     show:
       fill: false
-      icon: true
       icon_adaptive_color: true
       labels: false
-      legend: false
       name: false
       points: false
-      state: true
     style: |
       ha-card > div:nth-child(-n+2) {
         padding: 0 14px 0 14px !important
@@ -1056,8 +1048,6 @@ cards:
       fill: false
       icon_adaptive_color: true
       labels: false
-      legend: false
-      name: true
       points: false
     style: |
       ha-card > div:nth-child(-n+2) {
@@ -1088,8 +1078,6 @@ cards:
       fill: false
       icon_adaptive_color: true
       labels: false
-      legend: false
-      name: true
       points: false
     style: |
       ha-card > div:nth-child(-n+2) {
