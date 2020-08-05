@@ -6,7 +6,7 @@ This layout was designed mobile-first.
 
 ## Background
 
-Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD.
+Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD (Crucial MX500).
 
 ## Lovelace layout
 
@@ -1129,44 +1129,17 @@ type: horizontal-stack
 
 #### `vnstat` script
 
-<details><summary>Expand</summary>
-
 ```shell
 #!/bin/bash
 
 vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
 ```
 
-```yaml
-sensor:
-  - platform: command_line
-    name: vnstat
-    command: "bash /home/homeassistant/vnstat.sh"
-    scan_interval: 120
-    value_template: "{{ (value_json.id)}}"
-    json_attributes:
-      - rx
-      - tx
-
-  - platform: template
-      eth0_in_total:
-        friendly_name: eth0 In (total)
-        value_template: "{{ (state_attr('sensor.vnstat','rx')|float/1024)|round }}"
-        icon_template: mdi:arrow-down-circle
-        unit_of_measurement: 'MB'
-      eth0_out_total:
-        friendly_name: eth0 Out (total)
-        value_template: "{{ (state_attr('sensor.vnstat','tx')|float/1024)|round }}"
-        icon_template: mdi:arrow-up-circle
-        unit_of_measurement: 'MB'
-```
-</details>
-
 ***
 
-## Info 2 view 
+## Tile view 
 
-![info2_view](assets/info2_view.jpg "Info 2 view")
+![tile_view](assets/info2_view.jpg "Tile view")
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -1470,7 +1443,7 @@ type: vertical-stack
 
 This view contains one vertical stack only.
 
-### Media player card for Spotify 
+### Spotify media player card
 
 <details><summary>Show code</summary>
 
@@ -1613,10 +1586,6 @@ conditions:
     state_not: unavailable
 type: conditional
 ```
-
-+ Do Not Disturb button
-+ Shuffle button
-+ Repeat button
 
 ```yaml
 card:
@@ -2148,6 +2117,8 @@ type: 'custom:mini-media-player'
 ***
 
 
+***
+
 ### Custom plugins
 
 #### Custom Components
@@ -2174,8 +2145,10 @@ type: 'custom:mini-media-player'
 ## Notes
 
 + Entities beginning with `int` are "internal" entities that are used inside templates.
-+ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-+ The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
++ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. 
+
+  The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
++ The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
@@ -2186,3 +2159,5 @@ type: 'custom:mini-media-player'
 + and all the very helpful folks over at the HA Discord.
 
 
+
+*Screenshots may not be up to date*
