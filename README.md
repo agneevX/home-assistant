@@ -1,16 +1,14 @@
-# My Home Assistant Lovelace setup
+# My Home Assistant setup
 
 This layout was designed mobile-first.
 
 ![header](assets/header.jpg)
 
-# Background
+## Background
 
-Home Assistant is running inside a Python virtual environment on a Raspberry Pi 4 (4GB model).
+Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD.
 
-# Lovelace layout
-
-<details><summary>Expand</summary>
+## Lovelace layout
 
 ## Dashboard (home view)
 
@@ -1095,7 +1093,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Binary Sensor Graph
+### Sensor Graph
 
 Pings my local ISP node and Google DNS.
 Helps isolate network issues.
@@ -1113,7 +1111,7 @@ type: history-graph
 ```
 </details>
 
-### Daily total network transfer
+### Entity card
 
 This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
@@ -1126,6 +1124,41 @@ cards:
   - entity: sensor.eth0_out_total
     type: entity
 type: horizontal-stack
+```
+</details>
+
+#### `vnstat` script
+
+<details><summary>Expand</summary>
+
+```shell
+#!/bin/bash
+
+vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
+```
+
+```yaml
+sensor:
+  - platform: command_line
+    name: vnstat
+    command: "bash /home/homeassistant/vnstat.sh"
+    scan_interval: 120
+    value_template: "{{ (value_json.id)}}"
+    json_attributes:
+      - rx
+      - tx
+
+  - platform: template
+      eth0_in_total:
+        friendly_name: eth0 In (total)
+        value_template: "{{ (state_attr('sensor.vnstat','rx')|float/1024)|round }}"
+        icon_template: mdi:arrow-down-circle
+        unit_of_measurement: 'MB'
+      eth0_out_total:
+        friendly_name: eth0 Out (total)
+        value_template: "{{ (state_attr('sensor.vnstat','tx')|float/1024)|round }}"
+        icon_template: mdi:arrow-up-circle
+        unit_of_measurement: 'MB'
 ```
 </details>
 
@@ -2115,23 +2148,15 @@ type: 'custom:mini-media-player'
 ***
 
 
-</details>
+### Custom plugins
 
-# Devices used
-
-<details><summary>Expand</summary>
-
-</details>
-
-# Custom plugins
-
-## Custom Components
+#### Custom Components
 
 + [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
 + [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 + [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-## Lovelace 
+#### Lovelace 
 
 + [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 + [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
@@ -2146,7 +2171,7 @@ type: 'custom:mini-media-player'
 
 ***
 
-# Notes
+## Notes
 
 + Entities beginning with `int` are "internal" entities that are used inside templates.
 + Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
@@ -2154,7 +2179,7 @@ type: 'custom:mini-media-player'
 
 ***
 
-# Special thanks
+## Special thanks
 
 + to all the authors above,
 + [JuanMTech](https://github.com/JuanMTech) for his awesome themes,
