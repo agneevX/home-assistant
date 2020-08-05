@@ -1,20 +1,22 @@
-# My Home Assistant Lovelace setup
+# My Home Assistant setup
 
 This layout was designed mobile-first.
 
 ![header](assets/header.jpg)
 
-# Background
+## Background
 
-Home Assistant is running inside a Python virtual environment on a Raspberry Pi 4 (4GB model).
+Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD (Crucial MX500).
 
-# Dashboard (home view)
+## Lovelace layout
+
+## Dashboard (home view)
 
 ![home_view](assets/home_view.jpg "Home view")
 
 All cards in this view are in a vertical stack...
 
-## Badges
+### Badges
 
 * System Load
 * Network In
@@ -50,7 +52,7 @@ badges:
   <b>Vertical stack 1</b>
 </p>
 
-## Switch card
+### Switch card
 
 * Desk Lamp
 * TV Lamp
@@ -76,7 +78,7 @@ type: entities
 ```
 </details>
 
-## Switch row 1
+### Switch row 1
 
 * Night Lamp switch
 * Lo-Fi Beats switch (using command line integration and omxplayer)
@@ -178,7 +180,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Switch row 2
+### Switch row 2
 
 * Shut Down `Always-On Server`
 * Reboot `Always-On Server`
@@ -295,7 +297,7 @@ type: horizontal-stack
   <b>Vertical stack 2</b>
 </p>
 
-## Graph row 1
+### Graph row 1
 
 * CPU usage
 * Network Health (using `ping` and `history_stats`)
@@ -374,7 +376,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 2
+### Graph row 2
 
 * Conditional qBittorrent download card 
   else mergerFS free card
@@ -585,7 +587,7 @@ type: 'custom:state-switch'
 ```
 </details>
 
-## Now Playing card
+### Now Playing card
 
 * Automatically shows all (but one) active media players
 
@@ -612,7 +614,7 @@ type: 'custom:auto-entities'
 
 ***
 
-# Info view
+## Info view
 
 ![info_view](assets/info_view.jpg "Info view")
 
@@ -622,7 +624,7 @@ Two vertical stacks in this view.
   <b>Vertical stack 1</b>
 </p>
 
-## Graph row 1
+### Graph row 1
 
 * System Load - 1 minute
 * System Load - 5 minutes
@@ -726,7 +728,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 2
+### Graph row 2
 
 * AdGuard Home Processing Speed
 * AdGuard Home % of blocked ads
@@ -833,7 +835,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 3
+### Graph row 3
 
 * CPU Temperature (host)
 * CPU Temperature (Always-On Server)
@@ -916,7 +918,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Network throughput graph
+### Network throughput graph
 
 * Graphs network usage in the last hour
 
@@ -936,7 +938,7 @@ type: history-graph
   <b>Vertical stack 2</b>
 </p>
 
-## Graph row 1
+### Graph row 1
 
 * Download Speed
 * Upload Speed
@@ -1017,7 +1019,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 2
+### Graph row 2
 
 * Ping 
 * Jitter
@@ -1091,7 +1093,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Binary Sensor Graph
+### Sensor Graph
 
 Pings my local ISP node and Google DNS.
 Helps isolate network issues.
@@ -1109,7 +1111,7 @@ type: history-graph
 ```
 </details>
 
-## Daily total network transfer
+### Entity card
 
 This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
@@ -1125,21 +1127,29 @@ type: horizontal-stack
 ```
 </details>
 
+#### `vnstat` script
+
+```shell
+#!/bin/bash
+
+vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
+```
+
 ***
 
-# Info 2 view 
+## Tile view 
 
-![info2_view](assets/info2_view.jpg "Info 2 view")
+![tile_view](assets/info2_view.jpg "Tile view")
 
 <p align="center">
   <b>Vertical stack 1</b>
 </p>
 
-## Radarr/Sonarr cards
+### Radarr/Sonarr cards
 
 <details><summary>Expand</summary>
 
-### Radarr/Sonarr ongoing commands
+#### Radarr/Sonarr ongoing commands
 
 <details><summary>Show code</summary>
 
@@ -1197,7 +1207,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Radarr/Sonarr Upcoming
+#### Radarr/Sonarr Upcoming
 
 <details><summary>Show code</summary>
 
@@ -1243,7 +1253,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Sonarr Queue/Wanted
+#### Sonarr Queue/Wanted
 
 <details><summary>Show code</summary>
 
@@ -1289,7 +1299,7 @@ type: horizontal-stack
 ```
 </details>
 
-### Radarr Movies/Sonarr Shows
+#### Radarr Movies/Sonarr Shows
 
 <details><summary>Show code</summary>
 
@@ -1338,7 +1348,7 @@ type: horizontal-stack
 </details>
 
 
-## Entities card to track specific TVs.
+### Entities card to track specific TVs.
 
 <details><summary>Show code</summary>
 
@@ -1369,7 +1379,7 @@ type: 'custom:auto-entities'
   <b>Vertical stack 2</b>
 </p>
 
-## Router devices
+### Router devices
 
 Using the Netgear integration, this card shows all devices that are/were connected to my router.
 Shows the last updated device on top.
@@ -1397,7 +1407,7 @@ type: 'custom:auto-entities'
 
 ***
 
-# Camera view 
+## Camera view 
 
 This view contains one vertical stack only.
 
@@ -1427,13 +1437,13 @@ type: vertical-stack
 
 ***
 
-# Remote control view 
+### Remote control view 
 
 ![rc_view](assets/rc_view.jpg "Remote control view")
 
 This view contains one vertical stack only.
 
-## Media player card for Spotify 
+### Spotify media player card
 
 <details><summary>Show code</summary>
 
@@ -1469,7 +1479,7 @@ type: 'custom:mini-media-player'
 ```
 </details>
 
-### Header
+#### Header
 <details><summary>Show code</summary>
 
 ```yaml
@@ -1493,7 +1503,7 @@ type: markdown
 ```
 </details>
 
-## Media player cards for Alexa devices
+### Media player cards for Alexa devices
 
 * Conditional cards
 
@@ -1577,10 +1587,6 @@ conditions:
 type: conditional
 ```
 
-+ Do Not Disturb button
-+ Shuffle button
-+ Repeat button
-
 ```yaml
 card:
   cards:
@@ -1659,7 +1665,7 @@ type: conditional
 
 ***
 
-# Plex view 
+## Plex view 
 
 ![plex_view](assets/plex_view.jpg "Plex view")
 
@@ -1667,7 +1673,7 @@ This view contains one vertical stack only.
 
 * These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
-## Graph row 1
+### Graph row 1
 
 * Plex Watching sensor
 * Tautulli current bandwidth
@@ -1725,7 +1731,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Graph row 2
+### Graph row 2
 
 * Network In sensor
 * Network Out sensor
@@ -1782,7 +1788,7 @@ type: horizontal-stack
 ```
 </details>
 
-## Entities card
+### Entities card
 
 * Refresh Plex switch
 
@@ -1796,7 +1802,7 @@ type: entities
 ```
 </details>
 
-## Media player cards
+### Media player cards
 
 * Conditional header cards with Plex media player cards
 
@@ -1998,7 +2004,7 @@ type: conditional
 
 ***
 
-# Television view 
+## Television view 
 
 ![tv_view](assets/tv_view.jpg "TV view")
 
@@ -2110,15 +2116,18 @@ type: 'custom:mini-media-player'
 
 ***
 
-# Custom plugins
 
-## Custom Components
+***
+
+### Custom plugins
+
+#### Custom Components
 
 + [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
 + [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 + [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-## Lovelace 
+#### Lovelace 
 
 + [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 + [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
@@ -2133,18 +2142,22 @@ type: 'custom:mini-media-player'
 
 ***
 
-# Notes
+## Notes
 
 + Entities beginning with `int` are "internal" entities that are used inside templates.
-+ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-+ The Header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
++ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. 
+
+  The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
++ The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
-# Special thanks
+## Special thanks
 
 + to all the authors above,
 + [JuanMTech](https://github.com/JuanMTech) for his awesome themes,
 + and all the very helpful folks over at the HA Discord.
 
 
+
+*Screenshots may not be up to date*
