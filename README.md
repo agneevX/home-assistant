@@ -1507,7 +1507,7 @@ type: markdown
 
 ### Media player cards for Alexa devices
 
-* Conditional cards
+Conditional cards for each device
 
 <details><summary>Show code</summary>
 
@@ -1673,7 +1673,7 @@ type: conditional
 
 This view contains one vertical stack only.
 
-* These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
+These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
 ### Graph row 1
 
@@ -2010,8 +2010,10 @@ type: conditional
 
 ![tv_view](assets/tv_view.jpg "TV view")
 
+### Media player cards
+
 * Header card for rooms/floors
-* Media player cards
+* TV media player cards
 
 <details><summary>Show code</summary>
 
@@ -2121,9 +2123,6 @@ type: 'custom:mini-media-player'
 
 ***
 
-
-***
-
 ### Custom plugins
 
 #### Custom Components
@@ -2151,7 +2150,6 @@ type: 'custom:mini-media-player'
 
 + Entities beginning with `int` are "internal" entities that are used inside templates.
 + Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. 
-
   The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
 + The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
