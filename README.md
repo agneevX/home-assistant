@@ -10,6 +10,8 @@ Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an 
 
 ## Lovelace layout
 
+***
+
 ## Dashboard (home view)
 
 ![home_view](assets/home_view.jpg "Home view")
@@ -63,6 +65,7 @@ badges:
 entities:
   - attribute: color_temp
     entity: light.desk_light
+    hide_when_off: true
     haptic: success
     step: 15
     toggle: true
@@ -70,6 +73,7 @@ entities:
   - entity: light.bedside_lamp
     haptic: success
     hide_when_off: true
+    step: 10
     name: TV Lamp
     toggle: true
     type: 'custom:slider-entity-row'
@@ -95,7 +99,7 @@ cards:
     double_tap_action:
       action: toggle
       haptic: success
-    entity: switch.tv_lamp_nightlamp
+    entity: switch.nightlamp
     hold_action:
       action: more-info
     show_name: false
@@ -1113,7 +1117,7 @@ type: history-graph
 
 ### Entity card
 
-This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
+This is also a custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
 <details><summary>Show code</summary>
 
@@ -1127,13 +1131,14 @@ type: horizontal-stack
 ```
 </details>
 
-#### `vnstat` script
+<details><summary>Expand `vnstat` script</summary>
 
 ```shell
 #!/bin/bash
 
 vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
 ```
+</details>
 
 ***
 
@@ -1348,7 +1353,7 @@ type: horizontal-stack
 </details>
 
 
-### Entities card to track specific TVs.
+### Entities card to track specific devices.
 
 <details><summary>Show code</summary>
 
@@ -1357,20 +1362,18 @@ card:
   type: entities
 filter:
   include:
+    - entity_id: binary_sensor.orbi_satellite
     - entity_id: device_tracker.new_room_tv
       options:
         icon: 'mdi:television'
     - entity_id: device_tracker.old_room_tv
       options:
         icon: 'mdi:television'
-    - entity_id: device_tracker.dining_hall_tv
-      options:
-        icon: 'mdi:television'
     - entity_id: device_tracker.sony_bravia
       options:
         icon: 'mdi:television'
 sort:
-  method: last_changed
+  method: last_updated
 type: 'custom:auto-entities'
 ```
 </details>
@@ -1393,14 +1396,12 @@ filter:
   exclude:
     - entity_id: device_tracker.new_room_tv
     - entity_id: device_tracker.old_room_tv
-    - entity_id: device_tracker.dining_hall_tv
     - entity_id: device_tracker.sony_bravia
     - entity_id: device_tracker.new_room
   include:
     - domain: device_tracker
 sort:
-  ignore_case: true
-  method: last_changed
+  method: last_updated
 type: 'custom:auto-entities'
 ```
 </details>
@@ -1450,32 +1451,33 @@ This view contains one vertical stack only.
 ```yaml
 artwork: cover
 entity: media_player.spotify
+volume_step: 5
 hide:
   power: true
 idle_view:
   when_idle: true
   when_standby: true
 shortcuts:
+  columns: 6
   buttons:
     - icon: 'mdi:sunglasses'
       id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
       type: playlist
     - icon: 'mdi:city'
-      id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
+      id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
       type: playlist
     - icon: 'mdi:trending-up'
-      id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
+# xxxxx is Spotify playlist ID 
+      id: 'spotify:playlist:xxxxx'
       type: playlist
     - icon: 'mdi:numeric-1'
-# Change xxxxx to your Daily Mix 1 playlist ID
       id: 'spotify:playlist:xxxxx'
       type: playlist
     - icon: 'mdi:numeric-2'
-# Change xxxxx to your Daily Mix 2 playlist ID
       id: 'spotify:playlist:xxxxx'
       type: playlist
-  columns: 6
 type: 'custom:mini-media-player'
+
 ```
 </details>
 
@@ -1685,13 +1687,13 @@ cards:
   - decimals: 0
     entities:
       - entity: sensor.plex
+        color: '#F0A400'
         state_adaptive_color: true
-        color: '#e5a00d'
     font_size: 85
     hours_to_show: 6
     line_width: 4
     name: Home Server
-    points_per_hour: 1
+    points_per_hour: 4
     show:
       icon_adaptive_color: true
       labels: false
@@ -1708,13 +1710,13 @@ cards:
     entities:
       - entity: sensor.tautulli_total_bw
         state_adaptive_color: true
-        color: '#e5a00d'
+        color: '#F0A400'
     font_size: 85
     hours_to_show: 6
-    icon: 'mdi:arrow-up'
+    icon: 'mdi:waveform'
     line_width: 4
     name: Bandwidth
-    points_per_hour: 3
+    points_per_hour: 10
     show:
       icon_adaptive_color: true
       labels: false
@@ -1743,12 +1745,12 @@ cards:
   - entities:
       - entity: sensor.eth0_in
         state_adaptive_color: true
-        color: '#e5a00d'
+        color: '#F0A400'
     font_size: 85
     hours_to_show: 1
     icon: 'mdi:arrow-down'
     line_width: 4
-    points_per_hour: 20
+    points_per_hour: 30
     show:
       extrema: true
       icon_adaptive_color: true
@@ -1765,12 +1767,12 @@ cards:
   - entities:
       - entity: sensor.eth0_out
         state_adaptive_color: true
-        color: '#e5a00d'
+        color: '#F0A400'
     font_size: 85
     hours_to_show: 1
     icon: 'mdi:arrow-up'
     line_width: 4
-    points_per_hour: 20
+    points_per_hour: 30
     show:
       extrema: true
       icon_adaptive_color: true
@@ -2033,6 +2035,7 @@ style:
 type: markdown
 - entity: media_player.bedroom_tv
 hide:
+  play_stop: false
   power: true
   progress: true
 idle_view:
@@ -2063,6 +2066,7 @@ style:
 type: markdown
 - entity: media_player.old_room_tv
 hide:
+  play_stop: false
   power: true
   progress: true
 idle_view:
@@ -2073,6 +2077,7 @@ sound_mode: icon
 type: 'custom:mini-media-player'
 - entity: media_player.new_room_tv
 hide:
+  play_stop: false
   power: true
   progress: true
 idle_view:
@@ -2160,4 +2165,4 @@ type: 'custom:mini-media-player'
 
 
 
-*Screenshots may not be up to date*
+*Screenshots or snippet code may not be up-to-date*

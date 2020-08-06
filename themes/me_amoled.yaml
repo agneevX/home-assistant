@@ -24,7 +24,7 @@ Me_AMOLED:
   sidebar-selected-icon-color: "#5F9BEA"
   sidebar-selected-text-color: var(--sidebar-selected-icon-color))
   # States and Badges
-  state-icon-color: "#5F6267"
+  state-icon-color: "#7B808A"
   state-icon-active-color: "#5F9BEA"
   state-icon-unavailable-color: var(--disabled-text-color)
   # Sliders

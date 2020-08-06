@@ -28,12 +28,14 @@ views:
               - attribute: color_temp
                 entity: light.desk_light
                 haptic: success
+                hide_when_off: true
                 step: 15
                 toggle: true
                 type: 'custom:slider-entity-row'
               - entity: light.tv_lamp
                 haptic: success
                 hide_when_off: true
+                step: 10
                 toggle: true
                 type: 'custom:slider-entity-row'
             show_header_toggle: false
@@ -44,7 +46,7 @@ views:
                 double_tap_action:
                   action: toggle
                   haptic: success
-                entity: switch.tv_lamp_nightlamp
+                entity: switch.nightlamp
                 hold_action:
                   action: more-info
                 show_name: false
@@ -792,17 +794,13 @@ views:
                 hours_to_show: 6
                 icon: 'mdi:arrow-down'
                 line_width: 4
-                name: ' '
                 points_per_hour: 2
                 show:
                   fill: false
-                  icon: true
                   icon_adaptive_color: true
                   labels: false
-                  legend: false
                   name: false
                   points: false
-                  state: true
                 style: |
                   ha-card > div:nth-child(-n+2) {
                     padding: 0 14px 0 14px !important
@@ -828,17 +826,13 @@ views:
                 hours_to_show: 6
                 icon: 'mdi:arrow-up'
                 line_width: 4
-                name: ' '
                 points_per_hour: 2
                 show:
                   fill: false
-                  icon: true
                   icon_adaptive_color: true
                   labels: false
-                  legend: false
                   name: false
                   points: false
-                  state: true
                 style: |
                   ha-card > div:nth-child(-n+2) {
                     padding: 0 14px 0 14px !important
@@ -871,8 +865,6 @@ views:
                   fill: false
                   icon_adaptive_color: true
                   labels: false
-                  legend: false
-                  name: true
                   points: false
                 style: |
                   ha-card > div:nth-child(-n+2) {
@@ -903,8 +895,6 @@ views:
                   fill: false
                   icon_adaptive_color: true
                   labels: false
-                  legend: false
-                  name: true
                   points: false
                 style: |
                   ha-card > div:nth-child(-n+2) {
@@ -1103,42 +1093,39 @@ views:
               type: entities
             filter:
               include:
+                - entity_id: binary_sensor.orbi_satellite
                 - entity_id: device_tracker.new_room_tv
                   options:
                     icon: 'mdi:television'
                 - entity_id: device_tracker.old_room_tv
                   options:
                     icon: 'mdi:television'
-                - entity_id: device_tracker.dining_hall_tv
-                  options:
-                    icon: 'mdi:television'
                 - entity_id: device_tracker.sony_bravia
                   options:
                     icon: 'mdi:television'
             sort:
-              method: last_changed
+              method: last_updated
             type: 'custom:auto-entities'
         type: vertical-stack
       - cards:
           - card:
               type: entities
             filter:
+              include:
+                - attributes:
+                    scanner: NetgearDeviceScanner
               exclude:
-                - entity_id: device_tracker.new_room_tv
                 - entity_id: device_tracker.old_room_tv
-                - entity_id: device_tracker.dining_hall_tv
+                - entity_id: device_tracker.new_room_tv
                 - entity_id: device_tracker.sony_bravia
                 - entity_id: device_tracker.new_room
-              include:
-                - domain: device_tracker
             sort:
-              ignore_case: true
-              method: last_changed
+              method: last_updated
             type: 'custom:auto-entities'
         type: vertical-stack
     icon: 'mdi:chart-tree'
-    path: info2
-    title: Info 2
+    path: tile
+    title: Tile
   - badges: []
     cards:
       - cards:
@@ -1177,7 +1164,7 @@ views:
                   id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
                   type: playlist
                 - icon: 'mdi:city'
-                  id: 'spotify:playlist:32hJXySZtt9YvnwcYINGZ0'
+                  id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
                   type: playlist
                 - icon: 'mdi:trending-up'
                   id: 'spotify:playlist:xxxxx'
@@ -1361,14 +1348,14 @@ views:
           - cards:
               - decimals: 0
                 entities:
-                  - color: '#e5a00d'
+                  - color: '#F0A400'
                     entity: sensor.plex
                     state_adaptive_color: true
                 font_size: 85
                 hours_to_show: 6
                 line_width: 4
                 name: Home Server
-                points_per_hour: 1
+                points_per_hour: 4
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -1383,15 +1370,15 @@ views:
                 type: 'custom:mini-graph-card'
               - decimals: 1
                 entities:
-                  - color: '#e5a00d'
+                  - color: '#F0A400'
                     entity: sensor.tautulli_total_bw
                     state_adaptive_color: true
                 font_size: 85
                 hours_to_show: 6
-                icon: 'mdi:arrow-up'
+                icon: 'mdi:waveform'
                 line_width: 4
                 name: Bandwidth
-                points_per_hour: 2
+                points_per_hour: 10
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -1407,14 +1394,14 @@ views:
             type: horizontal-stack
           - cards:
               - entities:
-                  - color: '#e5a00d'
+                  - color: '#F0A400'
                     entity: sensor.eth0_in
                     state_adaptive_color: true
                 font_size: 85
                 hours_to_show: 1
                 icon: 'mdi:arrow-down'
                 line_width: 4
-                points_per_hour: 20
+                points_per_hour: 30
                 show:
                   extrema: true
                   icon_adaptive_color: true
@@ -1429,14 +1416,14 @@ views:
                   }
                 type: 'custom:mini-graph-card'
               - entities:
-                  - color: '#e5a00d'
+                  - color: '#F0A400'
                     entity: sensor.eth0_out
                     state_adaptive_color: true
                 font_size: 85
                 hours_to_show: 1
                 icon: 'mdi:arrow-up'
                 line_width: 4
-                points_per_hour: 20
+                points_per_hour: 30
                 show:
                   extrema: true
                   icon_adaptive_color: true
@@ -1657,6 +1644,7 @@ views:
             type: markdown
           - entity: media_player.bedroom_tv
             hide:
+              play_stop: false
               power: true
               progress: true
             idle_view:
@@ -1684,6 +1672,7 @@ views:
             type: markdown
           - entity: media_player.old_room_tv
             hide:
+              play_stop: false
               power: true
               progress: true
             idle_view:
@@ -1697,6 +1686,7 @@ views:
               power: true
               progress: true
             idle_view:
+              play_stop: false
               when_idle: true
               when_standby: true
             info: scroll

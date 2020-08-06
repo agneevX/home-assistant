@@ -4,26 +4,21 @@ media_player.new_room_tv:
   device_class: tv
 camera.front_gate:
   icon: mdi:cctv
-light.bedside_lamp:
+light.tv_lamp:
   icon: mdi:alarm-light
 light.desk_light:
   icon: mdi:desk-lamp
-sensor.disk_free_mnt_merged:
-  icon: mdi:database-plus
-sensor.disk_use_mnt_merged:
-  icon: mdi:database-minus
 sensor.network_throughput_in_eth0:
   friendly_name: internal_Network throughput in eth0
 sensor.network_throughput_out_eth0:
   friendly_name: internal_Network throughput out eth0
-sensor.put_io_used:
-  icon: mdi:cloud
 switch.refresh_plex:
   icon: mdi:plex
   assumed_state: false
 sensor.internet_health:
   device_class: humidity
-switch.files_sh:
-  assumed_state: false
 sensor.speedtest_net_download:
   icon: mdi:speedometer
+binary_sensor.orbi_satellite:
+  device_class: presence
+  icon: mdi:router-network
