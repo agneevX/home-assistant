@@ -1,39 +1,5 @@
 platform: template
 switches:
-  nightlamp:
-    friendly_name: Night Lamp
-    icon_template: mdi:power-sleep
-    value_template: "{{ states('input_boolean.night_lamp_bool') }}"
-    turn_on:
-     - service: light.turn_on
-       entity_id: light.tv_lamp
-       data:
-         effect: Night Lamp
-     - service: light.turn_on
-       entity_id: light.tv_lamp
-       data:
-         brightness: 5
-     - service: input_boolean.turn_on
-       entity_id: input_boolean.night_lamp_bool
-    turn_off:
-     - service: light.turn_on
-       entity_id: light.tv_lamp
-       data:
-          effect: Stop
-     - delay: 0.1
-     - service: input_boolean.turn_off
-       entity_id: input_boolean.night_lamp_bool
-     - service: light.turn_off
-       entity_id: light.tv_lamp
-  x200m_restart:
-    friendly_name: Restart X200M
-    value_template: "{{ is_state('device_tracker.x200m','home')}}"
-    turn_on:
-     - service: switch.turn_on
-       entity_id: switch.int_x200m_restart
-    turn_off:
-     - service: switch.turn_off
-       entity_id: switch.int_x200m_restart
   x200m_shutdown:
     friendly_name: Shut Down X200M
     value_template: "{{ is_state('device_tracker.x200m','home')}}"
@@ -43,6 +9,15 @@ switches:
     turn_off:
      - service: switch.turn_off
        entity_id: switch.int_x200m_shutdown
+  x200m_restart:
+    friendly_name: Restart X200M
+    value_template: "{{ is_state('device_tracker.x200m','home')}}"
+    turn_on:
+     - service: switch.turn_on
+       entity_id: switch.int_x200m_restart
+    turn_off:
+     - service: switch.turn_off
+       entity_id: switch.int_x200m_restart
   always_on_shutdown:
     friendly_name: Shut Down Always-On
     value_template: "{{ is_state('device_tracker.always_on_server','home')}}"

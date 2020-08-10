@@ -1,9 +1,7 @@
   - platform: command_line
     switches:
-      int_always_on_shutdown:
-        command_off: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.4 -t sudo shutdown -P now"
       int_always_on_restart:
-        command_on: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.4 -t sudo reboot"
+        command_on: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -t sudo reboot"
       int_x200m_shutdown:
         command_off: "curl -X POST https://maker.ifttt.com/trigger/X200M_shutdown/with/key/xxxxx"
       int_x200m_restart:

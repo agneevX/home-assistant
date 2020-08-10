@@ -2,7 +2,7 @@
     sensors:
       internet_health:
         friendly_name: Internet Health
-        value_template: "{{ (states('sensor.int_internet_health'))|round }}"
+        value_template: "{{ states('sensor.int_internet_health')|round }}"
         icon_template: mdi:ethernet-cable
         unit_of_measurement: '%'
       eth0_in_total:
@@ -17,11 +17,11 @@
         unit_of_measurement: 'MB'
       speedtest_net_upload:
         friendly_name: Speedtest.net Upload
-        value_template: "{{ ((state_attr('sensor.speedtest_net_download','upload')['bandwidth'])|float/125000)|round(1) }}"
+        value_template: "{{ (state_attr('sensor.speedtest_net_download','upload')['bandwidth']|float/125000)|round(1) }}"
         icon_template: mdi:speedometer
         unit_of_measurement: 'Mb/s'
-      speedtest_net_ping:
-        friendly_name: Speedtest.net Ping
+      speedtest_net_latency:
+        friendly_name: Speedtest.net Latency
         value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['latency'])|round(0,floor) }}"
         icon_template: mdi:ray-start-arrow
         unit_of_measurement: 'ms'
@@ -51,11 +51,11 @@
           {% endif %}
       eth0_in:
         friendly_name: eth0 In
-        value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round (1)}}"
+        value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
         unit_of_measurement: 'Mb/s'
       eth0_out:
         friendly_name: eth0 Out
-        value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round (1)}}"
+        value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
         unit_of_measurement: 'Mb/s'
 #      orbi_daily_down:
 #        friendly_name: Orbi - Daily - Down

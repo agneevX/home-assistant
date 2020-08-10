@@ -1,7 +1,10 @@
-# My Home Assistant setup
+<p align="center">
+  <b># My Home Assistant setup</b>
+</p>
 
-This layout was designed mobile-first.
-
+<p align="center">
+  <b>#### Layout designed mobile-first</b>
+</p>
 ![header](assets/header.jpg)
 
 ## Background
@@ -2158,7 +2161,6 @@ type: 'custom:mini-media-player'
 ## Special thanks
 
 + to all the authors above,
-+ [JuanMTech](https://github.com/JuanMTech) for his awesome themes,
 + and all the very helpful folks over at the HA Discord.
 
 
