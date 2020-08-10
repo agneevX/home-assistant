@@ -1,10 +1,7 @@
-<p align="center">
-  <b># My Home Assistant setup</b>
-</p>
+# My Home Assistant setup
 
-<p align="center">
-  <b>#### Layout designed mobile-first</b>
-</p>
+This layout was designed mobile-first.
+
 ![header](assets/header.jpg)
 
 ## Background
@@ -46,10 +43,6 @@ badges:
     name: ' '
     style: |
       :host {--label-badge-red: #07b265;}
-  - entity: sensor.pyload_speed
-    name: ' '
-    style: |
-      :host {--label-badge-red: #3974A4;}
 ```
 </details>
 
@@ -88,10 +81,10 @@ type: entities
 ### Switch row 1
 
 * Night Lamp switch
+* Color Flow switch
 * Lo-Fi Beats switch (using command line integration and omxplayer)
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
-* [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 
 <details><summary>Show code</summary>
 
@@ -189,9 +182,9 @@ type: horizontal-stack
 
 ### Switch row 2
 
-* Shut Down `Always-On Server`
+* AdGuard Home switch
 * Reboot `Always-On Server`
-* AdGuard Home master switch
+* [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 * Shut Down X200M (secondary laptop used occasionally)
 * Restart X200M
 
@@ -307,8 +300,8 @@ type: horizontal-stack
 ### Graph row 1
 
 * CPU usage
-* Network Health (using `ping` and `history_stats`)
-    
+* Network Health
+
 <details><summary>Show code</summary>
 
 ```yaml
