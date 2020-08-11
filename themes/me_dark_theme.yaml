@@ -1,7 +1,5 @@
-# Modified version of JuanMTech's Google Dark Theme
-# By @agneevX
-#
 Me_Dark_Theme:
+  accent-color: var(--primary-color)
   # Header:
   app-header-background-color: "#171717"
   app-header-text-color: "#BDC1C6"

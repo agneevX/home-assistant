@@ -1,12 +1,11 @@
-# Modified version of JuanMTech's Google Light Theme
-# By @agneevX
-#
 Me_Light_Theme:
+  accent-color: var(--primary-color)
   # Header:
   app-header-background-color: "#F8F8F8"
   app-header-text-color: "#424242"
   # Main Interface Colors
   primary-color: "#5F9BEA"
+#  primary-color: "#E25F67"
   light-primary-color: var(--primary-color)
   primary-background-color: "#F8F8F8"
   secondary-background-color: var(--primary-background-color)
@@ -21,14 +20,14 @@ Me_Light_Theme:
   sidebar-text-color: '#424242'
   sidebar-background-color: "#FFFFFF"
   sidebar-selected-background-color: var(--primary-background-color)
-  sidebar-selected-icon-color: "#5F9BEA"
+  sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color))
   # States and Badges
   state-icon-color: "#5F6267"
-  state-icon-active-color: "#5F9BEA"
+  state-icon-active-color: var(--primary-color)
   state-icon-unavailable-color: var(--disabled-text-color)
   # Sliders
-  paper-slider-knob-color: "#5F9BEA"
+  paper-slider-knob-color: var(--primary-color)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
@@ -49,7 +48,7 @@ Me_Light_Theme:
   paper-card-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   # Switches
-  switch-checked-button-color: "#5F9BEA"
+  switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: "#75a2f0"
   switch-unchecked-button-color: "#5F6267"
   switch-unchecked-track-color: "#888b91"
