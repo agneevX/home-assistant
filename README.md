@@ -378,10 +378,9 @@ type: horizontal-stack
 
 ### Graph row 2
 
-* Conditional qBittorrent download card 
-  else mergerFS free card
-* Conditional qBittorrent upload card 
-  else SSD used space card
+* Conditional qBittorrent download card - mergerFS free card
+* Conditional qBittorrent upload card - SSD used space card
+  
 
 <details><summary>Show code</summary>
 
