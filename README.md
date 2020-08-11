@@ -44,6 +44,7 @@ badges:
     style: |
       :host {--label-badge-red: #07b265;}
 ```
+
 </details>
 
 <p align="center">
@@ -76,6 +77,7 @@ entities:
 show_header_toggle: false
 type: entities
 ```
+
 </details>
 
 ### Switch row 1
@@ -178,6 +180,7 @@ cards:
     type: 'custom:button-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Switch row 2
@@ -291,6 +294,7 @@ cards:
     type: 'custom:button-card'
 type: horizontal-stack
 ```
+
 </details>
 
 <p align="center">
@@ -374,13 +378,13 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Graph row 2
 
 * Conditional qBittorrent download card - mergerFS free card
 * Conditional qBittorrent upload card - SSD used space card
-  
 
 <details><summary>Show code</summary>
 
@@ -584,6 +588,7 @@ states:
     type: horizontal-stack
 type: 'custom:state-switch'
 ```
+
 </details>
 
 ### Now Playing card
@@ -609,6 +614,7 @@ sort:
   method: last_changed
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 ***
@@ -725,12 +731,13 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Graph row 2
 
 * AdGuard Home Processing Speed
-* AdGuard Home % of blocked ads
+* AdGuard Home - % of blocked ads
 * Google Drive Used Space
 
 <details><summary>Show code</summary>
@@ -832,6 +839,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Graph row 3
@@ -915,6 +923,7 @@ cards:
     type: 'custom:config-template-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Network throughput graph
@@ -931,6 +940,7 @@ hours_to_show: 1
 refresh_interval: 30
 type: history-graph
 ```
+
 </details>
 
 <p align="center">
@@ -1016,11 +1026,12 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Graph row 2
 
-* Ping 
+* Ping
 * Jitter
 
 <details><summary>Show code</summary>
@@ -1090,6 +1101,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Sensor Graph
@@ -1108,6 +1120,7 @@ hours_to_show: 1
 refresh_interval: 30
 type: history-graph
 ```
+
 </details>
 
 ### Entity card
@@ -1124,6 +1137,7 @@ cards:
     type: entity
 type: horizontal-stack
 ```
+
 </details>
 
 <details><summary>Expand `vnstat` script</summary>
@@ -1133,11 +1147,12 @@ type: horizontal-stack
 
 vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
 ```
+
 </details>
 
 ***
 
-## Tile view 
+## Tile view
 
 ![tile_view](assets/info2_view.jpg "Tile view")
 
@@ -1205,6 +1220,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Radarr/Sonarr Upcoming
@@ -1251,6 +1267,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Sonarr Queue/Wanted
@@ -1297,6 +1314,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Radarr Movies/Sonarr Shows
@@ -1343,12 +1361,12 @@ cards:
     unit: Shows
 type: horizontal-stack
 ```
-</details>
 
 </details>
 
+</details>
 
-### Entities card to track specific devices.
+### Entities card to track specific devices
 
 <details><summary>Show code</summary>
 
@@ -1371,6 +1389,7 @@ sort:
   method: last_updated
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 <p align="center">
@@ -1399,11 +1418,12 @@ sort:
   method: last_updated
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 ***
 
-## Camera view 
+## Camera view
 
 This view contains one vertical stack only.
 
@@ -1429,11 +1449,12 @@ cards:
     type: conditional
 type: vertical-stack
 ```
+
 </details>
 
 ***
 
-### Remote control view 
+### Remote control view
 
 ![rc_view](assets/rc_view.jpg "Remote control view")
 
@@ -1462,7 +1483,7 @@ shortcuts:
       id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
       type: playlist
     - icon: 'mdi:trending-up'
-# xxxxx is Spotify playlist ID 
+# xxxxx is Spotify playlist ID
       id: 'spotify:playlist:xxxxx'
       type: playlist
     - icon: 'mdi:numeric-1'
@@ -1472,11 +1493,12 @@ shortcuts:
       id: 'spotify:playlist:xxxxx'
       type: playlist
 type: 'custom:mini-media-player'
-
 ```
+
 </details>
 
 #### Header
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -1498,6 +1520,7 @@ style:
       }
 type: markdown
 ```
+
 </details>
 
 ### Media player cards for Alexa devices
@@ -1506,9 +1529,9 @@ Conditional cards for each device
 
 <details><summary>Show code</summary>
 
-+ Do Not Disturb button
-+ Shuffle button
-+ Repeat button
+* Do Not Disturb button
+* Shuffle button
+* Repeat button
 
 ```yaml
 card:
@@ -1658,11 +1681,12 @@ conditions:
     state_not: unavailable
 type: conditional
 ```
+
 </details>
 
 ***
 
-## Plex view 
+## Plex view
 
 ![plex_view](assets/plex_view.jpg "Plex view")
 
@@ -1726,6 +1750,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Graph row 2
@@ -1783,6 +1808,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Entities card
@@ -1797,6 +1823,7 @@ entities:
 show_header_toggle: false
 type: entities
 ```
+
 </details>
 
 ### Media player cards
@@ -1994,14 +2021,13 @@ conditions:
   - entity: media_player.plex_mrmc_localhost
     state_not: idle
 type: conditional
-
-
 ```
+
 </details>
 
 ***
 
-## Television view 
+## Television view
 
 ![tv_view](assets/tv_view.jpg "TV view")
 
@@ -2114,6 +2140,7 @@ info: scroll
 sound_mode: icon
 type: 'custom:mini-media-player'
 ```
+
 </details>
 
 ***
@@ -2122,41 +2149,38 @@ type: 'custom:mini-media-player'
 
 #### Custom Components
 
-+ [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
-+ [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
-+ [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
+* [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
+* [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
+* [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-#### Lovelace 
+#### Lovelace
 
-+ [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
-+ [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
-+ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
-+ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
-+ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by thomasloven
-+ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
-+ [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
-+ [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
-+ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
-+ [`button-card`](https://github.com/custom-cards/button-card)
-+ [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
-
+* [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
+* [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
+* [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
+* [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+* [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by thomasloven
+* [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
+* [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
+* [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
+* [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
+* [`button-card`](https://github.com/custom-cards/button-card)
+* [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
 
 ***
 
 ## Notes
 
-+ Entities beginning with `int` are "internal" entities that are used inside templates.
-+ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. 
+* Entities beginning with `int` are "internal" entities that are used inside templates.
+* Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop.
   The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-+ The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
+* The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
 ## Special thanks
 
-+ to all the authors above,
-+ and all the very helpful folks over at the HA Discord.
-
-
+* to all the authors above,
+* and all the very helpful folks over at the HA Discord.
 
 *Screenshots or snippet code may not be up-to-date*
