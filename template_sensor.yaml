@@ -57,22 +57,22 @@
         friendly_name: eth0 Out
         value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
         unit_of_measurement: 'Mb/s'
-#      orbi_daily_down:
-#        friendly_name: Orbi - Daily - Down
-#        unit_of_measurement: 'MB'
-#        value_template: "{{ ((states('sensor.orbi_b_received')|int)/1000000) | round }}"
-#      orbi_daily_up:
-#        friendly_name: Orbi - Daily - Up
-#        unit_of_measurement: 'MB'
-#        value_template: "{{ ((states('sensor.orbi_b_sent')|int)/1000000) | round }}"
+      orbi_daily_down:
+        friendly_name: Orbi - Daily - Down
+        unit_of_measurement: 'MB'
+        value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
+      orbi_daily_up:
+        friendly_name: Orbi - Daily - Up
+        unit_of_measurement: 'MB'
+        value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
 #      orbi_current_down:
 #        friendly_name: Orbi - Current - Down
-#        unit_of_measurement: 'Mbit/s'
-#        value_template: "{{ ((states('sensor.orbi_kib_s_received')|int)/1000) | round (1) }}"
+#        unit_of_measurement: "Mb/s"
+#        value_template: "{{ ((states('sensor.orbi_gateway_kib_s_received')|int)/1000)|round (1) }}"
 #      orbi_current_up:
 #        friendly_name: Orbi - Current - Up
-#        unit_of_measurement: 'Mb/s'
-#        value_template: "{{ ((states('sensor.orbi_kib_s_sent')|int)/1000)|round(1) }}"
+#        unit_of_measurement: "Mb/s"
+#        value_template: "{{ ((states('sensor.orbi_gateway_kib_s_sent')|int)/1000)|round(1) }}"
 #      operator_response_time:
 #        friendly_name: Operator response time
 #        unit_of_measurement: 'ms'

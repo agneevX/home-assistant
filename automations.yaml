@@ -10,19 +10,17 @@
       ''playing'') }}'
   condition:
   - condition: state
-    entity_id: light.desk_lamp
+    entity_id: light.desk_light
     state: 'on'
   action:
   - data: {}
-    entity_id: light.desk_lamp
+    entity_id: light.desk_light
     service: light.turn_off
-  - entity_id:
-    - switch.lofi_beats
-    - switch.lofi_beats2
-    - switch.jazz_piano_radio
+  - entity_id: switch.lofi_beats,switch.lofi_beats2,switch.jazz_radio
     service: switch.turn_off
-  - entity_id: input_boolean.plex_boolean
+  - entity_id: input_boolean.desklamp_bool
     service: input_boolean.turn_on
+  mode: single
 - id: '1587105718577'
   alias: Light on - Plex
   description: Desk Lamp turns on when Plex stops playing
@@ -32,15 +30,16 @@
       }}'
   condition:
   - condition: state
-    entity_id: input_boolean.plex_boolean
+    entity_id: input_boolean.desklamp_bool
     state: 'on'
   action:
   - data: {}
-    entity_id: light.desk_lamp
+    entity_id: light.desk_light
     service: light.turn_on
   - data: {}
-    entity_id: input_boolean.plex_boolean
+    entity_id: input_boolean.desklamp_bool
     service: input_boolean.turn_off
+  mode: single
 - id: '1587992031900'
   alias: Alert if servers throttle
   description: ''
@@ -121,3 +120,17 @@
   - data: {}
     entity_id: switch.theme_dark
     service: switch.turn_on
+- id: '1596369747425'
+  alias: Notify when an update is available
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.updater
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      message: An update is available!
+      title: '*Home Assistant*'
+    service: notify.telegram_hassio
+  mode: single

@@ -2131,14 +2131,16 @@ type: 'custom:mini-media-player'
 
 + [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 + [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
-+ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by [kalkih](https://github.com/kalkih)
-+ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by [thomasloven](https://github.com/thomasloven)
-+ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven)
-+ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
++ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
++ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
++ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by thomasloven
++ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
 + [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
 + [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
-+ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by [maykar](https://github.com/maykar)
++ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
 + [`button-card`](https://github.com/custom-cards/button-card)
++ [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
+
 
 ***
 

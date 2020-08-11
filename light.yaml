@@ -1,0 +1,79 @@
+- platform: template
+  lights:
+    color_flow:
+      friendly_name: Color Flow
+      icon_template: >-
+        {% if is_state('light.color_flow','on') %}
+          mdi:lightbulb-on
+        {% else %}
+          mdi:lightbulb
+        {% endif %}
+      value_template: "{{ is_state_attr('light.tv_lamp','effect','Slowdown') }}"
+      turn_on:
+       - service: light.turn_on
+         entity_id: light.tv_lamp
+         data:
+           effect: Slowdown
+      turn_off:
+       - service: light.turn_on
+         entity_id: light.tv_lamp
+         data:
+           effect: Stop
+    nightlamp:
+      friendly_name: Night Lamp
+      icon_template: mdi:power-sleep
+      value_template: "{{ states('input_boolean.night_lamp_bool') }}"
+      turn_on:
+       - service: light.turn_on
+         entity_id: light.tv_lamp
+         data:
+           effect: Night Lamp
+       - service: light.turn_on
+         entity_id: light.tv_lamp
+         data:
+           brightness: 5
+       - service: input_boolean.turn_on
+         entity_id: input_boolean.night_lamp_bool
+      turn_off:
+       - service: light.turn_on
+         entity_id: light.tv_lamp
+         data:
+            effect: Stop
+       - delay: 0.1
+       - service: input_boolean.turn_off
+         entity_id: input_boolean.night_lamp_bool
+       - service: light.turn_off
+         entity_id: light.tv_lamp
+    spotify_volume:
+      friendly_name: "Spotify Volume"
+      value_template: >-
+        {% if is_state('media_player.spotify', 'playing') %}
+          {% if state_attr('media_player.spotify', 'is_volume_muted') %}
+            off
+          {% else %}
+            on
+          {% endif %}
+        {% else %}
+          off
+        {% endif %}
+      turn_on:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.spotify
+          is_volume_muted: false
+      turn_off:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.spotify
+          is_volume_muted: true
+      set_level:
+        service: media_player.volume_set
+        data_template:
+          entity_id: media_player.spotify
+          volume_level: "{{ (brightness / 255 * 100)|int / 100 }}"
+      level_template: >-
+        {% if is_state('media_player.spotify', 'playing') %}
+          {{ (state_attr('media_player.spotify', 'volume_level')|float * 255)|int }}
+        {% else %}
+          0
+        {% endif %}

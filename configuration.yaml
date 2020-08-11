@@ -120,9 +120,6 @@ device_tracker:
     password: !secret netgear_pass
     new_device_defaults:
       track_new_devices: true
-#  - platform: ping
-#    hosts:
-#      satellite: 10.0.0.2
 #weather:
 #  - platform: darksky
 #    api_key: !secret dark_sky
@@ -138,11 +135,81 @@ notify:
   - name: telegram_hassio
     platform: telegram
     chat_id: !secret telegram_chat_id
+media_player:
+  - platform: androidtv
+    name: Sony Bravia
+    host: 10.0.0.63
+yeelight:
+  devices:
+    10.0.0.40:
+      name: Desk Light
+      transition: 500
+      model: lamp4
+    10.0.0.41:
+      name: TV Lamp
+      transition: 500
+      model: bslamp2
+  custom_effects:
+    - name: Fire Flicker
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1900, 1000, 80]
+          - TemperatureTransition: [1900, 2000, 60]
+          - SleepTransition:       [1000]
+    - name: Night Lamp
+      flow_params:
+        count: 0
+        transitions:
+         - RGBTransition: [255, 167, 89]
+cloud:
+  alexa:
+    filter:
+      include_entities:
+        - switch.lofi_beats
+        - switch.lofi_beats2
+        - switch.jazz_radio
+        - media_player.bedroom_tv
+  google_actions:
+    filter:
+      include_entities:
+        - switch.lofi_beats
+        - switch.lofi_beats2
+        - switch.jazz_radio
+        - media_player.bedroom_tv
+webostv:
+  - name: Bedroom TV
+    host: 10.0.0.60
+    customize:
+      sources:
+        - com.webos.app.hdmi1
+        - com.webos.app.hdmi2
+        - com.webos.app.externalinput.av1
+        - youtube.leanback.v4
+        - netflix
+        - cdp-30
+        - com.itkey.plexclient
+        - amazon.global
+  - name: Old Room TV
+    host: 10.0.0.61
+    customize:
+      sources:
+        - youtube.leanback.v4
+        - netflix
+        - cdp-30
+        - com.itkey.plexclient
+        - amazon
+  - name: New Room TV
+    host: 10.0.0.62
+    customize:
+      sources:
+        - youtube.leanback.v4
+        - netflix
+        - cdp-30
+        - com.itkey.plexclient
+        - amazon.global
 binary_sensor: !include binary_sensor.yaml
 camera: !include camera.yaml
-cloud: !include cloud.yaml
-webostv: !include webos.yaml
-yeelight: !include yeelight.yaml
 homekit: !include homekit.yaml
 sensor command_line: !include cmd_sensor.yaml
 sensor template: !include template_sensor.yaml

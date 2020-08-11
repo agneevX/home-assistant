@@ -1,3 +1,11 @@
+custom_header:
+  chevrons: false
+  exceptions: []
+  hide_help: true
+  tab_indicator_color: var(--primary-text-color)
+swipe_nav:
+  animate: fade
+  swipe_amount: 20
 tab_icons:
   tile: >-
     {{ 'mdi:refresh' if states('sensor.sonarr_commands')|float > 0 else
@@ -132,15 +140,12 @@ views:
                 entity: switch.always_on_restart
                 hold_action:
                   action: more-info
-                icon: 'mdi:restart'
-                name: 'ON'
-                show_name: true
+                icon: 'mdi:server-security'
+                show_name: false
                 size: 35%
                 styles:
                   card:
                     - height: 56px
-                    - font-size: 12px
-                    - font-weight: bold
                 tap_action:
                   action: more-info
                 type: 'custom:button-card'
@@ -154,8 +159,6 @@ views:
                 styles:
                   card:
                     - height: 56px
-                    - font-size: 12px
-                    - font-weight: bold
                 tap_action:
                   action: toggle
                   haptic: success
@@ -168,15 +171,12 @@ views:
                 entity: switch.x200m_shutdown
                 hold_action:
                   action: more-info
-                icon: 'mdi:power'
-                name: X200M
-                show_name: true
+                icon: 'mdi:laptop-off'
+                show_name: false
                 size: 35%
                 styles:
                   card:
                     - height: 56px
-                    - font-size: 12px
-                    - font-weight: bold
                 tap_action:
                   action: none
                 type: 'custom:button-card'
@@ -189,14 +189,11 @@ views:
                 hold_action:
                   action: more-info
                 icon: 'mdi:restart'
-                name: X200M
-                show_name: true
+                show_name: false
                 size: 35%
                 styles:
                   card:
                     - height: 56px
-                    - font-size: 12px
-                    - font-weight: bold
                 tap_action:
                   action: none
                 type: 'custom:button-card'
@@ -886,6 +883,16 @@ views:
             refresh_interval: 30
             type: history-graph
           - cards:
+              - entity: sensor.orbi_daily_up
+                icon: 'mdi:arrow-up'
+                name: Router Up
+                type: entity
+              - entity: sensor.orbi_daily_down
+                icon: 'mdi:arrow-down'
+                name: Router Down
+                type: entity
+            type: horizontal-stack
+          - cards:
               - entity: sensor.eth0_in_total
                 type: entity
               - entity: sensor.eth0_out_total
@@ -1101,7 +1108,7 @@ views:
   - badges: []
     cards:
       - cards:
-          - entity: device_tracker.front_gate_camera
+          - entity: binary_sensor.front_gate_camera_state
             icon: 'mdi:gate'
             name: Front Gate
             type: entity
@@ -1109,7 +1116,7 @@ views:
               aspect_ratio: 75%
               entities: []
               entity: camera.front_gate_camera
-              image: 'http://admin:admina@10.0.0.20/image/jpeg.cgi'
+              image: 'http://admin:password@10.0.0.20/image/jpeg.cgi'
               title: Front Gate
               type: picture-glance
             conditions:
@@ -1141,7 +1148,7 @@ views:
                   id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
                   type: playlist
                 - icon: 'mdi:trending-up'
-                  id: 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M'
+                  id: 'spotify:playlist:xxxxx'
                   type: playlist
                 - icon: 'mdi:numeric-1'
                   id: 'spotify:playlist:xxxxx'
@@ -1163,8 +1170,8 @@ views:
                 - icon: 'mdi:silverware-fork-knife'
                   id: Dining Hall
                   type: source
-                - id: Sony Bravia
-                  icon: 'mdi:youtube-tv'
+                - icon: 'mdi:youtube-tv'
+                  id: Sony Bravia
                   type: source
               columns: 5
             type: 'custom:mini-media-player'
@@ -1186,149 +1193,139 @@ views:
                     letter-spacing: '-0.01em';
                   }
             type: markdown
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.bedroom_echo
-                  hide:
-                    power: true
-                    source: true
-                  icon: 'mdi:amazon-alexa'
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-                  volume_step: 5
-                - cards:
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.bedroom_echo_do_not_disturb_switch
-                      name: DND
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.bedroom_echo_shuffle_switch
-                      name: SHUFFLE
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.bedroom_echo_repeat_switch
-                      name: REPEAT
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                  type: horizontal-stack
-              type: vertical-stack
-            conditions:
-              - entity: media_player.bedroom_echo
-                state_not: unavailable
-            type: conditional
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.new_room_echo
-                  hide:
-                    power: true
-                    source: true
-                  icon: 'mdi:amazon-alexa'
-                  idle_view:
-                    after: 15
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-                  volume_step: 5
-                - cards:
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.new_room_echo_do_not_disturb_switch
-                      name: DND
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.new_room_echo_shuffle_switch
-                      name: SHUFFLE
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                    - color: auto
-                      color_type: card
-                      double_tap_action:
-                        action: more-info
-                      entity: switch.new_room_echo_repeat_switch
-                      name: REPEAT
-                      show_name: true
-                      size: 20%
-                      styles:
-                        card:
-                          - height: 60px
-                          - font-size: 12px
-                          - font-weight: bold
-                      tap_action:
-                        action: toggle
-                        haptic: success
-                      type: 'custom:button-card'
-                  type: horizontal-stack
-              type: vertical-stack
-            conditions:
-              - entity: media_player.new_room_echo
-                state_not: unavailable
-            type: conditional
+          - cards:
+              - artwork: material
+                entity: media_player.bedroom_echo
+                hide:
+                  power: true
+                  source: true
+                icon: 'mdi:amazon-alexa'
+                idle_view:
+                  when_idle: true
+                  when_standby: true
+                type: 'custom:mini-media-player'
+                volume_step: 5
+              - cards:
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.bedroom_echo_do_not_disturb_switch
+                    name: DND
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.bedroom_echo_shuffle_switch
+                    name: SHUFFLE
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.bedroom_echo_repeat_switch
+                    name: REPEAT
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                type: horizontal-stack
+            type: vertical-stack
+          - cards:
+              - artwork: material
+                entity: media_player.new_room_echo
+                hide:
+                  power: true
+                  source: true
+                icon: 'mdi:amazon-alexa'
+                idle_view:
+                  after: 15
+                  when_idle: true
+                  when_standby: true
+                type: 'custom:mini-media-player'
+                volume_step: 5
+              - cards:
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.new_room_echo_do_not_disturb_switch
+                    name: DND
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.new_room_echo_shuffle_switch
+                    name: SHUFFLE
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                  - color: auto
+                    color_type: card
+                    double_tap_action:
+                      action: more-info
+                    entity: switch.new_room_echo_repeat_switch
+                    name: REPEAT
+                    show_name: true
+                    size: 20%
+                    styles:
+                      card:
+                        - height: 60px
+                        - font-size: 12px
+                        - font-weight: bold
+                    tap_action:
+                      action: toggle
+                      haptic: success
+                    type: 'custom:button-card'
+                type: horizontal-stack
+            type: vertical-stack
         type: vertical-stack
     icon: 'mdi:remote'
     path: remotes
@@ -1462,20 +1459,20 @@ views:
                     when_standby: true
                   name: Plex Media Player
                   shortcuts:
-                    columns: 6
                     buttons:
-                      - type: script
-                        id: skip
-                        icon: 'mdi:rewind-10'
-                        data:
+                      - data:
                           entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
                           interval: -10
-                      - type: script
+                        icon: 'mdi:rewind-10'
                         id: skip
-                        icon: 'mdi:fast-forward-30'
-                        data:
+                        type: script
+                      - data:
                           entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
                           interval: 30
+                        icon: 'mdi:fast-forward-30'
+                        id: skip
+                        type: script
+                    columns: 6
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
@@ -1512,20 +1509,20 @@ views:
                     when_standby: true
                   name: XPlay
                   shortcuts:
-                    columns: 6
                     buttons:
-                      - type: script
-                        id: skip
-                        icon: 'mdi:rewind-10'
-                        data:
+                      - data:
                           entity: media_player.plex_xplay_lg_49uf690t_tc
                           interval: -10
-                      - type: script
+                        icon: 'mdi:rewind-10'
                         id: skip
-                        icon: 'mdi:fast-forward-30'
-                        data:
+                        type: script
+                      - data:
                           entity: media_player.plex_xplay_lg_49uf690t_tc
                           interval: 30
+                        icon: 'mdi:fast-forward-30'
+                        id: skip
+                        type: script
+                    columns: 6
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
@@ -1562,20 +1559,20 @@ views:
                     when_standby: true
                   name: 'Plex: Old Room TV'
                   shortcuts:
-                    columns: 6
                     buttons:
-                      - type: script
-                        id: skip
-                        icon: 'mdi:rewind-10'
-                        data:
+                      - data:
                           entity: media_player.plex_plex_for_lg_lg_oled55c9pta
                           interval: -10
-                      - type: script
+                        icon: 'mdi:rewind-10'
                         id: skip
-                        icon: 'mdi:fast-forward-30'
-                        data:
+                        type: script
+                      - data:
                           entity: media_player.plex_plex_for_lg_lg_oled55c9pta
                           interval: 30
+                        icon: 'mdi:fast-forward-30'
+                        id: skip
+                        type: script
+                    columns: 6
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
@@ -1612,20 +1609,20 @@ views:
                     when_standby: true
                   name: Plex Media Player
                   shortcuts:
-                    columns: 6
                     buttons:
-                      - type: script
-                        id: skip
-                        icon: 'mdi:rewind-10'
-                        data:
+                      - data:
                           entity: media_player.plex_plex_for_android_tv_sony_bravia
                           interval: -10
-                      - type: script
+                        icon: 'mdi:rewind-10'
                         id: skip
-                        icon: 'mdi:fast-forward-30'
-                        data:
+                        type: script
+                      - data:
                           entity: media_player.plex_plex_for_android_tv_sony_bravia
                           interval: 30
+                        icon: 'mdi:fast-forward-30'
+                        id: skip
+                        type: script
+                    columns: 6
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
@@ -1663,20 +1660,20 @@ views:
                     when_standby: true
                   name: MrMC
                   shortcuts:
-                    columns: 6
                     buttons:
-                      - type: script
-                        id: skip
-                        icon: 'mdi:rewind-10'
-                        data:
+                      - data:
                           entity: media_player.plex_mrmc_localhost
                           interval: -10
-                      - type: script
+                        icon: 'mdi:rewind-10'
                         id: skip
-                        icon: 'mdi:fast-forward-30'
-                        data:
+                        type: script
+                      - data:
                           entity: media_player.plex_mrmc_localhost
                           interval: 30
+                        icon: 'mdi:fast-forward-30'
+                        id: skip
+                        type: script
+                    columns: 6
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
@@ -1719,7 +1716,6 @@ views:
               when_standby: true
             shortcuts:
               attribute: source
-              columns: 5
               buttons:
                 - icon: 'mdi:video-input-hdmi'
                   id: HDMI1
@@ -1732,18 +1728,18 @@ views:
                 - icon: 'mdi:set-top-box'
                   id: Cable
                   type: source
-                - type: script
-                  id: skip
-                  icon: 'mdi:rewind-10'
-                  data:
+                - data:
                     entity: media_player.bedroom_tv
                     interval: -10
-                - type: script
+                  icon: 'mdi:rewind-10'
                   id: skip
-                  icon: 'mdi:fast-forward-30'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.bedroom_tv
                     interval: 30
+                  icon: 'mdi:fast-forward-30'
+                  id: skip
+                  type: script
                 - icon: 'mdi:plex'
                   id: Plex
                   type: source
@@ -1759,6 +1755,7 @@ views:
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
                   type: source
+              columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
           - content: |
@@ -1804,24 +1801,24 @@ views:
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
                   type: source
-                - type: script
-                  id: skip
-                  icon: 'mdi:rewind-10'
-                  data:
+                - data:
                     entity: media_player.old_room_tv
                     interval: -10
-                - type: script
+                  icon: 'mdi:rewind-10'
                   id: skip
-                  icon: 'mdi:fast-forward-10'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.old_room_tv
                     interval: 10
-                - type: script
+                  icon: 'mdi:fast-forward-10'
                   id: skip
-                  icon: 'mdi:fast-forward-30'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.old_room_tv
                     interval: 30
+                  icon: 'mdi:fast-forward-30'
+                  id: skip
+                  type: script
               columns: 5
               hide_when_off: true
             source: full
@@ -1852,24 +1849,24 @@ views:
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
                   type: source
-                - type: script
-                  id: skip
-                  icon: 'mdi:rewind-10'
-                  data:
+                - data:
                     entity: media_player.new_room_tv
                     interval: -10
-                - type: script
+                  icon: 'mdi:rewind-10'
                   id: skip
-                  icon: 'mdi:fast-forward-10'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.new_room_tv
                     interval: 10
-                - type: script
+                  icon: 'mdi:fast-forward-10'
                   id: skip
-                  icon: 'mdi:fast-forward-30'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.new_room_tv
                     interval: 30
+                  icon: 'mdi:fast-forward-30'
+                  id: skip
+                  type: script
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
@@ -1900,8 +1897,6 @@ views:
               when_standby: true
             shortcuts:
               attribute: source
-              columns: 4
-              hide_when_off: true
               buttons:
                 - icon: 'mdi:plex'
                   id: Plex
@@ -1909,50 +1904,29 @@ views:
                 - icon: 'mdi:alpha-m-box'
                   id: Mr MC Lite
                   type: source
-                - icon: 'mdi:vlc'
-                  id: VLC
-                  type: source
-                - icon: 'mdi:twitch'
-                  id: Twitch
-                  type: source
                 - icon: 'mdi:netflix'
                   id: Netflix
-                  type: source
-                - icon: 'mdi:amazon'
-                  id: Amazon Prime Video
                   type: source
                 - icon: 'mdi:youtube'
                   id: YouTube
                   type: source
-                - icon: 'mdi:spotify'
-                  id: Spotify
-                  type: source
-                - type: script
-                  id: skip
-                  icon: 'mdi:rewind-10'
-                  data:
+                - data:
                     entity: media_player.sony_bravia_tv
                     interval: -10
-                - type: script
+                  icon: 'mdi:rewind-10'
                   id: skip
-                  icon: 'mdi:fast-forward-10'
-                  data:
-                    entity: media_player.sony_bravia_tv
-                    interval: 10
-                - type: script
-                  id: skip
-                  icon: 'mdi:fast-forward-30'
-                  data:
+                  type: script
+                - data:
                     entity: media_player.sony_bravia_tv
                     interval: 30
+                  icon: 'mdi:fast-forward-30'
+                  id: skip
+                  type: script
+              columns: 4
+              hide_when_off: true
             type: 'custom:mini-media-player'
         type: vertical-stack
     icon: 'mdi:television'
     path: tv
     title: TV
-custom_header:
-  chevrons: false
-  exceptions: []
-  hide_help: true
-  tab_indicator_color: var(--primary-text-color)
 
