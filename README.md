@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD024 MD036 -->
 # My Home Assistant setup
 
 This layout was designed mobile-first.
@@ -301,7 +302,7 @@ type: horizontal-stack
   <b>Vertical stack 2</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
 * CPU usage
 * Network Health
@@ -381,7 +382,7 @@ type: horizontal-stack
 
 </details>
 
-### Graph row 2
+### Graph row II
 
 * Conditional qBittorrent download card - mergerFS free card
 * Conditional qBittorrent upload card - SSD used space card
@@ -629,7 +630,7 @@ Two vertical stacks in this view.
   <b>Vertical stack 1</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
 * System Load - 1 minute
 * System Load - 5 minutes
@@ -734,7 +735,7 @@ type: horizontal-stack
 
 </details>
 
-### Graph row 2
+### Graph row II
 
 * AdGuard Home Processing Speed
 * AdGuard Home - % of blocked ads
@@ -842,7 +843,7 @@ type: horizontal-stack
 
 </details>
 
-### Graph row 3
+### Graph row III
 
 * CPU Temperature (host)
 * CPU Temperature (Always-On Server)
@@ -947,7 +948,7 @@ type: history-graph
   <b>Vertical stack 2</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
 * Download Speed
 * Upload Speed
@@ -1029,7 +1030,7 @@ type: horizontal-stack
 
 </details>
 
-### Graph row 2
+### Graph row II
 
 * Ping
 * Jitter
@@ -1694,7 +1695,7 @@ This view contains one vertical stack only.
 
 These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
-### Graph row 1
+### Graph row I
 
 * Plex Watching sensor
 * Tautulli current bandwidth
@@ -1753,7 +1754,7 @@ type: horizontal-stack
 
 </details>
 
-### Graph row 2
+### Graph row II
 
 * Network In sensor
 * Network Out sensor
@@ -2183,4 +2184,4 @@ type: 'custom:mini-media-player'
 * to all the authors above,
 * and all the very helpful folks over at the HA Discord.
 
-*Screenshots or snippet code may not be up-to-date*
+### Screenshots or snippet code may not be up-to-date
