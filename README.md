@@ -1096,7 +1096,7 @@ type: horizontal-stack
 
 </details>
 
-### Sensor Graph
+### Sensor graph
 
 Pings my local ISP node and Cloudflare DNS.
 Helps isolate network issues.
@@ -1359,7 +1359,7 @@ type: horizontal-stack
 
 </details>
 
-### Entities card to track specific devices
+### Specific devices tracking card
 
 <details><summary>Show code</summary>
 
@@ -1453,7 +1453,7 @@ type: vertical-stack
 
 This view contains one vertical stack only.
 
-### Spotify media player card
+### Spotify card
 
 <details><summary>Show code</summary>
 
