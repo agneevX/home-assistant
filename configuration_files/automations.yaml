@@ -1,0 +1,153 @@
+- id: '1587105668090'
+  alias: Light off - Plex
+  description: Desk Lamp turns off when Plex plays media on MBP
+  trigger:
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_web_safari_osx'', ''playing'')
+      }}'
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_media_player_agneevs_macbook_pro'',
+      ''playing'') }}'
+  condition:
+  - condition: state
+    entity_id: light.desk_light
+    state: 'on'
+  action:
+  - data: {}
+    entity_id: light.desk_light
+    service: light.turn_off
+  - entity_id: switch.lofi_beats,switch.lofi_beats2,switch.jazz_radio
+    service: switch.turn_off
+  - entity_id: input_boolean.desklamp_bool
+    service: input_boolean.turn_on
+  mode: single
+- id: '1587105718577'
+  alias: Light on - Plex
+  description: Desk Lamp turns on when Plex stops playing
+  trigger:
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_web_safari_osx'', ''playing'')
+      }}'
+  condition:
+  - condition: state
+    entity_id: input_boolean.desklamp_bool
+    state: 'on'
+  action:
+  - data: {}
+    entity_id: light.desk_light
+    service: light.turn_on
+  - data: {}
+    entity_id: input_boolean.desklamp_bool
+    service: input_boolean.turn_off
+  mode: single
+- id: '1587992031900'
+  alias: Alert if servers throttle
+  description: ''
+  trigger:
+  - entity_id: sensor.throttled_state
+    from: '0x0'
+    platform: state
+  - entity_id: sensor.server_2_throttled_state
+    from: '0x0'
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      message: '`{{ trigger.entity_id }}` has throttled to `{{ trigger.to_state }}`'
+      title: '*Home Assistant*'
+    service: notify.telegram_hassio
+- id: '1588240541307'
+  alias: Turn off certain switches
+  description: ''
+  trigger:
+  - entity_id:
+    - switch.refresh_plex
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - delay: 00:00:05
+  - data_template:
+      entity_id: '{{ trigger.entity_id }}'
+    service: switch.turn_off
+  mode: single
+- id: 1e959b5f825c4f71bc72792f183123fa
+  alias: Light theme after reboot in day
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  action:
+  - data: {}
+    entity_id: switch.theme_dark
+    service: switch.turn_off
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_off
+  mode: single
+- id: 8e6525ab98764dfd8d945ee58533462e
+  alias: Dark theme after reboot in night
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - data: {}
+    entity_id: switch.theme_dark
+    service: switch.turn_on
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_on
+  mode: single
+- id: '1593856750074'
+  alias: Light theme
+  description: ''
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition:
+  - before: sunset
+    condition: sun
+  action:
+  - data: {}
+    entity_id: switch.theme_dark
+    service: switch.turn_off
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_off
+  mode: single
+- id: '1593856822416'
+  alias: Dark theme at sunset
+  description: ''
+  trigger:
+  - event: sunset
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.theme_dark
+    service: switch.turn_on
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_on
+  mode: single
+- id: '1596369747425'
+  alias: Notify when an update is available
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.updater
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      message: An update is available!
+      title: '*Home Assistant*'
+    service: notify.telegram_hassio
+  mode: single

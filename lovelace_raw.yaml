@@ -1,15 +1,10 @@
 custom_header:
   chevrons: false
   exceptions: []
-  hide_help: true
   tab_indicator_color: var(--primary-text-color)
 swipe_nav:
   animate: fade
   swipe_amount: 20
-tab_icons:
-  tile: >-
-    {{ 'mdi:refresh' if states('sensor.sonarr_commands')|float > 0 else
-    'mdi:view-dashboard' }}
 title: Agneev's Home
 views:
   - badges:
@@ -25,6 +20,10 @@ views:
         name: ' '
         style: |
           :host {--label-badge-red: #07b265;}
+      - entity: sensor.disk_use_percent_home_agneev
+        name: ' '
+        style: |
+          :host {--label-badge-red: #0091c8;}
     cards:
       - cards:
           - entities:
@@ -39,7 +38,7 @@ views:
                 haptic: success
                 hide_when_off: true
                 name: Orb Lamp
-                step: 10
+                step: 1
                 toggle: true
                 type: 'custom:slider-entity-row'
             show_header_toggle: false
@@ -171,7 +170,7 @@ views:
                 entity: switch.x200m_shutdown
                 hold_action:
                   action: more-info
-                icon: 'mdi:laptop-off'
+                icon: 'mdi:power'
                 show_name: false
                 size: 35%
                 styles:
@@ -334,8 +333,9 @@ views:
                   - entity: sensor.mergerfs
                     type: entity
                     unit: free
-                  - entity: sensor.disk_use_percent_home_agneev
-                    name: SSD Used
+                  - entity: camera.front_gate_camera
+                    icon: 'mdi:gate'
+                    name: Front Gate
                     type: entity
                 type: horizontal-stack
               seeding:
@@ -494,11 +494,11 @@ views:
                     state_adaptive_color: false
                 font_size: 85
                 hours_to_show: 2
+                icon: 'mdi:numeric-1-box-outline'
                 line_width: 5
                 name: 1-min
                 points_per_hour: 6
                 show:
-                  fill: true
                   icon_adaptive_color: true
                   labels: false
                   points: false
@@ -524,11 +524,11 @@ views:
                     state_adaptive_color: false
                 font_size: 85
                 hours_to_show: 2
+                icon: 'mdi:numeric-5-box-outline'
                 line_width: 5
                 name: 5-min
                 points_per_hour: 6
                 show:
-                  fill: true
                   icon_adaptive_color: true
                   labels: false
                   points: false
@@ -558,7 +558,6 @@ views:
                 name: 15-min
                 points_per_hour: 6
                 show:
-                  fill: true
                   icon_adaptive_color: true
                   labels: false
                   points: false
@@ -684,12 +683,10 @@ views:
                   hours_to_show: 3
                   line_width: 3
                   name: '${ states[''sensor.throttled_state''].state }'
-                  points_per_hour: 6
+                  points_per_hour: 7
                   show:
-                    fill: true
                     icon_adaptive_color: true
                     labels: false
-                    name_adaptive_color: false
                     points: false
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -719,12 +716,10 @@ views:
                   hours_to_show: 3
                   line_width: 3
                   name: '${ states[''sensor.always_on_throttled_state''].state }'
-                  points_per_hour: 6
+                  points_per_hour: 7
                   show:
-                    fill: true
                     icon_adaptive_color: true
                     labels: false
-                    name_adaptive_color: false
                     points: false
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -874,28 +869,20 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
+                upper_bound: 10
             type: horizontal-stack
           - entities:
-              - entity: binary_sensor.node
-              - entity: binary_sensor.google_dns_ping
+              - entity: binary_sensor.node_ping
+                name: Node
+              - entity: binary_sensor.cloudflare_dns_ping
                 name: Internet
             hours_to_show: 1
             refresh_interval: 30
             type: history-graph
           - cards:
-              - entity: sensor.orbi_daily_up
-                icon: 'mdi:arrow-up'
-                name: Router Up
-                type: entity
-              - entity: sensor.orbi_daily_down
-                icon: 'mdi:arrow-down'
-                name: Router Down
-                type: entity
-            type: horizontal-stack
-          - cards:
-              - entity: sensor.eth0_in_total
-                type: entity
               - entity: sensor.eth0_out_total
+                type: entity
+              - entity: sensor.eth0_in_total
                 type: entity
             type: horizontal-stack
         type: vertical-stack
@@ -1108,10 +1095,6 @@ views:
   - badges: []
     cards:
       - cards:
-          - entity: binary_sensor.front_gate_camera_state
-            icon: 'mdi:gate'
-            name: Front Gate
-            type: entity
           - card:
               aspect_ratio: 75%
               entities: []
@@ -1156,9 +1139,6 @@ views:
                 - icon: 'mdi:numeric-2'
                   id: 'spotify:playlist:xxxxx'
                   type: playlist
-                - icon: 'mdi:surround-sound'
-                  id: Soundbar
-                  type: source
                 - icon: 'mdi:amazon-alexa'
                   id: Bedroom Echo
                   name: 1
@@ -1167,11 +1147,11 @@ views:
                   id: New Room Echo
                   name: 2
                   type: source
-                - icon: 'mdi:silverware-fork-knife'
-                  id: Dining Hall
+                - icon: 'mdi:surround-sound'
+                  id: Soundbar
                   type: source
-                - icon: 'mdi:youtube-tv'
-                  id: Sony Bravia
+                - icon: 'mdi:silverware-fork-knife'
+                  ids: Dining Hall
                   type: source
               columns: 5
             type: 'custom:mini-media-player'
@@ -1690,7 +1670,7 @@ views:
     cards:
       - cards:
           - content: |
-              # Bedroom
+              # Level 1
             style:
               .: |
                 ha-card {
@@ -1708,6 +1688,7 @@ views:
             type: markdown
           - entity: media_player.bedroom_tv
             hide:
+              play_stop: false
               power: true
               progress: true
               source: true
@@ -1717,29 +1698,6 @@ views:
             shortcuts:
               attribute: source
               buttons:
-                - icon: 'mdi:video-input-hdmi'
-                  id: HDMI1
-                  name: 1
-                  type: source
-                - icon: 'mdi:video-input-hdmi'
-                  id: HDMI2
-                  name: 2
-                  type: source
-                - icon: 'mdi:set-top-box'
-                  id: Cable
-                  type: source
-                - data:
-                    entity: media_player.bedroom_tv
-                    interval: -10
-                  icon: 'mdi:rewind-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.bedroom_tv
-                    interval: 30
-                  icon: 'mdi:fast-forward-30'
-                  id: skip
-                  type: script
                 - icon: 'mdi:plex'
                   id: Plex
                   type: source
@@ -1754,29 +1712,25 @@ views:
                   type: source
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
+                  type: source
+                - icon: 'mdi:video-input-hdmi'
+                  id: HDMI1
+                  name: HDMI 1
+                  type: source
+                - icon: 'mdi:video-input-hdmi'
+                  id: HDMI2
+                  name: HDMI 2
+                  type: source
+                - icon: 'mdi:set-top-box'
+                  id: Cable
+                  name: Cable
                   type: source
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-          - content: |
-              # Level 1
-            style:
-              .: |
-                ha-card {
-                  --ha-card-background: none !important;
-                  box-shadow: none !important;
-                }
-              ha-markdown:
-                $: |
-                  h1 {
-                    font-size: 20px;
-                    font-weight: bold;
-                    font-family: Helvetica;
-                    letter-spacing: '-0.01em';
-                  }
-            type: markdown
           - entity: media_player.old_room_tv
             hide:
+              play_stop: false
               power: true
               progress: true
               source: true
@@ -1801,30 +1755,13 @@ views:
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
                   type: source
-                - data:
-                    entity: media_player.old_room_tv
-                    interval: -10
-                  icon: 'mdi:rewind-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.old_room_tv
-                    interval: 10
-                  icon: 'mdi:fast-forward-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.old_room_tv
-                    interval: 30
-                  icon: 'mdi:fast-forward-30'
-                  id: skip
-                  type: script
               columns: 5
               hide_when_off: true
             source: full
             type: 'custom:mini-media-player'
           - entity: media_player.new_room_tv
             hide:
+              play_stop: false
               power: true
               progress: true
               source: true
@@ -1849,24 +1786,32 @@ views:
                 - icon: 'mdi:alpha-x-box'
                   id: XPlay
                   type: source
-                - data:
-                    entity: media_player.new_room_tv
-                    interval: -10
-                  icon: 'mdi:rewind-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.new_room_tv
-                    interval: 10
-                  icon: 'mdi:fast-forward-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.new_room_tv
-                    interval: 30
-                  icon: 'mdi:fast-forward-30'
-                  id: skip
-                  type: script
+              columns: 5
+              hide_when_off: true
+            type: 'custom:mini-media-player'
+          - entity: media_player.dining_hall_tv
+            hide:
+              power: true
+              progress: true
+              source: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            shortcuts:
+              attribute: source
+              buttons:
+                - icon: 'mdi:plex'
+                  id: Plex
+                  type: source
+                - icon: 'mdi:netflix'
+                  id: Netflix
+                  type: source
+                - icon: 'mdi:amazon'
+                  id: Amazon Prime Video
+                  type: source
+                - icon: 'mdi:youtube'
+                  id: YouTube
+                  type: source
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
@@ -1910,18 +1855,6 @@ views:
                 - icon: 'mdi:youtube'
                   id: YouTube
                   type: source
-                - data:
-                    entity: media_player.sony_bravia_tv
-                    interval: -10
-                  icon: 'mdi:rewind-10'
-                  id: skip
-                  type: script
-                - data:
-                    entity: media_player.sony_bravia_tv
-                    interval: 30
-                  icon: 'mdi:fast-forward-30'
-                  id: skip
-                  type: script
               columns: 4
               hide_when_off: true
             type: 'custom:mini-media-player'

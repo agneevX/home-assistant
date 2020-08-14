@@ -57,14 +57,14 @@
         friendly_name: eth0 Out
         value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
         unit_of_measurement: 'Mb/s'
-      orbi_daily_down:
-        friendly_name: Orbi - Daily - Down
-        unit_of_measurement: 'MB'
-        value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
-      orbi_daily_up:
-        friendly_name: Orbi - Daily - Up
-        unit_of_measurement: 'MB'
-        value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
+#      orbi_daily_down:
+#        friendly_name: Orbi - Daily - Down
+#        unit_of_measurement: 'MB'
+#        value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
+#      orbi_daily_up:
+#        friendly_name: Orbi - Daily - Up
+#        unit_of_measurement: 'MB'
+#        value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
 #      orbi_current_down:
 #        friendly_name: Orbi - Current - Down
 #        unit_of_measurement: "Mb/s"

@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD024 MD036 -->
+<!-- markdownlint-disable MD024 -->
 # My Home Assistant setup
 
 This layout was designed mobile-first.
@@ -10,8 +10,6 @@ This layout was designed mobile-first.
 Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD (Crucial MX500).
 
 ## Lovelace layout
-
-***
 
 ## Dashboard (home view)
 

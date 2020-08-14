@@ -1,0 +1,9 @@
+skip:
+  alias: skip
+  mode: single
+  sequence:
+  - data_template:
+      entity_id: '{{ entity }}'
+      seek_position: '{{ state_attr(entity, ''media_position'') | float + interval
+        }}'
+    service: media_player.media_seek

@@ -1,0 +1,24 @@
+media_player.old_room_tv:
+  device_class: tv
+media_player.new_room_tv:
+  device_class: tv
+camera.front_gate:
+  icon: mdi:cctv
+light.tv_lamp:
+  icon: mdi:alarm-light
+light.desk_light:
+  icon: mdi:desk-lamp
+sensor.network_throughput_in_eth0:
+  friendly_name: internal_Network throughput in eth0
+sensor.network_throughput_out_eth0:
+  friendly_name: internal_Network throughput out eth0
+switch.refresh_plex:
+  icon: mdi:database-sync
+  assumed_state: false
+sensor.internet_health:
+  device_class: humidity
+sensor.speedtest_net_download:
+  icon: mdi:speedometer
+binary_sensor.orbi_satellite:
+  device_class: presence
+  icon: mdi:access-point-network
