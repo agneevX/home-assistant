@@ -44,7 +44,7 @@ sensor:
 #  - platform: qbittorrent
 #    name: qBt 2
 #    url: 'http://:8080'
-#    username: 
+#    username:
 #    password:
   - platform: systemmonitor
     resources:
@@ -127,7 +127,13 @@ camera: !include camera.yaml
 media_player: !include media_player.yaml
 homekit: !include homekit.yaml
 sensor command_line: !include cmd_sensor.yaml
-sensor template: !include template_sensor.yaml
-switch template: !include template_switch.yaml
-switch command_line: !include cmd_switch.yaml
 light: !include light.yaml
+sensor template:
+  platform: template
+  sensors: !include template_sensor.yaml
+switch template:
+  platform: template
+  switches: !include template_switch.yaml
+switch command_line:
+  platform: command_line
+  switches: !include cmd_switch.yaml

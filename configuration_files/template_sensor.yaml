@@ -1,83 +1,81 @@
-  - platform: template
-    sensors:
-      internet_health:
-        friendly_name: Internet Health
-        value_template: "{{ states('sensor.int_internet_health')|round }}"
-        icon_template: mdi:ethernet-cable
-        unit_of_measurement: '%'
-      eth0_in_total:
-        friendly_name: eth0 In (total)
-        value_template: "{{ (state_attr('sensor.vnstat','rx')|float/1024)|round }}"
-        icon_template: mdi:arrow-down-circle
-        unit_of_measurement: 'MB'
-      eth0_out_total:
-        friendly_name: eth0 Out (total)
-        value_template: "{{ (state_attr('sensor.vnstat','tx')|float/1024)|round }}"
-        icon_template: mdi:arrow-up-circle
-        unit_of_measurement: 'MB'
-      speedtest_net_upload:
-        friendly_name: Speedtest.net Upload
-        value_template: "{{ (state_attr('sensor.speedtest_net_download','upload')['bandwidth']|float/125000)|round(1) }}"
-        icon_template: mdi:speedometer
-        unit_of_measurement: 'Mb/s'
-      speedtest_net_latency:
-        friendly_name: Speedtest.net Latency
-        value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['latency'])|round(0,floor) }}"
-        icon_template: mdi:ray-start-arrow
-        unit_of_measurement: 'ms'
-      speedtest_net_jitter:
-        friendly_name: Speedtest.net Jitter
-        value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['jitter'])|round(0,floor) }}"
-        icon_template: mdi:triangle-wave
-        unit_of_measurement: 'ms'
-      tautulli_total_bw:
-        friendly_name: Tautulli Total Bandwidth
-        value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
-        icon_template: mdi:arrow-up
-        unit_of_measurement: 'Mb/s'
-      mergerfs:
-        friendly_name: mergerFS
-        value_template: >-
-          {% if is_state('sensor.int_mergerfs_status','on') %}
-            {{ 100 - states('sensor.disk_use_percent_merged')|int }}%
-          {% else %}
-            Offline
-          {% endif %}
-        icon_template: >-
-          {% if is_state('sensor.int_mergerfs_status','on') %}
-            mdi:database-check
-          {% elif is_state('sensor.int_mergerfs_status','off') %}
-            mdi:database-remove
-          {% endif %}
-      eth0_in:
-        friendly_name: eth0 In
-        value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
-        unit_of_measurement: 'Mb/s'
-      eth0_out:
-        friendly_name: eth0 Out
-        value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
-        unit_of_measurement: 'Mb/s'
-#      orbi_daily_down:
-#        friendly_name: Orbi - Daily - Down
-#        unit_of_measurement: 'MB'
-#        value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
-#      orbi_daily_up:
-#        friendly_name: Orbi - Daily - Up
-#        unit_of_measurement: 'MB'
-#        value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
-#      orbi_current_down:
-#        friendly_name: Orbi - Current - Down
-#        unit_of_measurement: "Mb/s"
-#        value_template: "{{ ((states('sensor.orbi_gateway_kib_s_received')|int)/1000)|round (1) }}"
-#      orbi_current_up:
-#        friendly_name: Orbi - Current - Up
-#        unit_of_measurement: "Mb/s"
-#        value_template: "{{ ((states('sensor.orbi_gateway_kib_s_sent')|int)/1000)|round(1) }}"
-#      operator_response_time:
-#        friendly_name: Operator response time
-#        unit_of_measurement: 'ms'
-#        value_template: "{{ state_attr('binary_sensor.operator','round_trip_time_avg')|round }}"
-#      dns_response_time:
-#        friendly_name: DNS response time
-#        unit_of_measurement: 'ms'
-#        value_template: "{{ state_attr('binary_sensor.dns','round_trip_time_avg')|round }}"
+internet_health:
+  friendly_name: Internet Health
+  value_template: "{{ states('sensor.int_internet_health')|round }}"
+  icon_template: mdi:ethernet-cable
+  unit_of_measurement: '%'
+eth0_in_total:
+  friendly_name: eth0 In (total)
+  value_template: "{{ (state_attr('sensor.vnstat','rx')|float/1024)|round }}"
+  icon_template: mdi:arrow-down-circle
+  unit_of_measurement: 'MB'
+eth0_out_total:
+  friendly_name: eth0 Out (total)
+  value_template: "{{ (state_attr('sensor.vnstat','tx')|float/1024)|round }}"
+  icon_template: mdi:arrow-up-circle
+  unit_of_measurement: 'MB'
+speedtest_net_upload:
+  friendly_name: Speedtest.net Upload
+  value_template: "{{ (state_attr('sensor.speedtest_net_download','upload')['bandwidth']|float/125000)|round(1) }}"
+  icon_template: mdi:speedometer
+  unit_of_measurement: 'Mb/s'
+speedtest_net_latency:
+  friendly_name: Speedtest.net Latency
+  value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['latency'])|round(0,floor) }}"
+  icon_template: mdi:ray-start-arrow
+  unit_of_measurement: 'ms'
+speedtest_net_jitter:
+  friendly_name: Speedtest.net Jitter
+  value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['jitter'])|round(0,floor) }}"
+  icon_template: mdi:triangle-wave
+  unit_of_measurement: 'ms'
+tautulli_total_bw:
+  friendly_name: Tautulli Total Bandwidth
+  value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
+  icon_template: mdi:arrow-up
+  unit_of_measurement: 'Mb/s'
+mergerfs:
+  friendly_name: mergerFS
+  value_template: >-
+    {% if is_state('sensor.int_mergerfs_status','on') %}
+      {{ 100 - states('sensor.disk_use_percent_merged')|int }}%
+    {% else %}
+      Offline
+    {% endif %}
+  icon_template: >-
+    {% if is_state('sensor.int_mergerfs_status','on') %}
+      mdi:database-check
+    {% elif is_state('sensor.int_mergerfs_status','off') %}
+      mdi:database-remove
+    {% endif %}
+eth0_in:
+  friendly_name: eth0 In
+  value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
+  unit_of_measurement: 'Mb/s'
+eth0_out:
+  friendly_name: eth0 Out
+  value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
+  unit_of_measurement: 'Mb/s'
+#  orbi_daily_down:
+#    friendly_name: Orbi - Daily - Down
+#    unit_of_measurement: 'MB'
+#    value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
+#  orbi_daily_up:
+#    friendly_name: Orbi - Daily - Up
+#    unit_of_measurement: 'MB'
+#    value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
+#  orbi_current_down:
+#    friendly_name: Orbi - Current - Down
+#    unit_of_measurement: "Mb/s"
+#    value_template: "{{ ((states('sensor.orbi_gateway_kib_s_received')|int)/1000)|round (1) }}"
+#  orbi_current_up:
+#    friendly_name: Orbi - Current - Up
+#    unit_of_measurement: "Mb/s"
+#    value_template: "{{ ((states('sensor.orbi_gateway_kib_s_sent')|int)/1000)|round(1) }}"
+#  operator_response_time:
+#    friendly_name: Operator response time
+#    unit_of_measurement: 'ms'
+#    value_template: "{{ state_attr('binary_sensor.operator','round_trip_time_avg')|round }}"
+#  dns_response_time:
+#    friendly_name: DNS response time
+#    unit_of_measurement: 'ms'
+#    value_template: "{{ state_attr('binary_sensor.dns','round_trip_time_avg')|round }}"
