@@ -1,9 +1,4 @@
-name: Yaml Lint
-on: [push]
-jobs:
-  lintAllTheThings:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: yaml-lint
-      uses: ibiqlik/action-yamllint@v1
+- name: Shell Linter
+  uses: azohra/shell-linter@v0.4.0
+- name: Yaml-Checker
+  uses: leon-th/yaml-checker@v1.0.0
