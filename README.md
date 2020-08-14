@@ -3,7 +3,7 @@
 
 This layout was designed mobile-first.
 
-![header](assets/header.jpg)
+![header](web_assets/header.jpg)
 
 ## Background
 
@@ -13,7 +13,7 @@ Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an 
 
 ## Dashboard (home view)
 
-![home_view](assets/home_view.jpg "Home view")
+![home_view](web_assets/home_view.jpg "Home view")
 
 All cards in this view are in a vertical stack...
 
@@ -588,7 +588,7 @@ type: 'custom:auto-entities'
 
 ## Info view
 
-![info_view](assets/info_view.jpg "Info view")
+![info_view](web_assets/info_view.jpg "Info view")
 
 Two vertical stacks in this view.
 
@@ -1147,7 +1147,7 @@ vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffi
 
 ## Tile view
 
-![tile_view](assets/info2_view.jpg "Tile view")
+![tile_view](web_assets/info2_view.jpg "Tile view")
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -1449,7 +1449,7 @@ type: vertical-stack
 
 ### Remote control view
 
-![rc_view](assets/rc_view.jpg "Remote control view")
+![rc_view](web_assets/rc_view.jpg "Remote control view")
 
 This view contains one vertical stack only.
 
@@ -1697,7 +1697,7 @@ type: conditional
 
 ## Plex view
 
-![plex_view](assets/plex_view.jpg "Plex view")
+![plex_view](web_assets/plex_view.jpg "Plex view")
 
 This view contains one vertical stack only.
 
@@ -2038,7 +2038,7 @@ type: conditional
 
 ## Television view
 
-![tv_view](assets/tv_view.jpg "TV view")
+![tv_view](web_assets/tv_view.jpg "TV view")
 
 ### Media player cards
 
