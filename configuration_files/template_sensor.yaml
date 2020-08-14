@@ -33,13 +33,19 @@ tautulli_total_bw:
   value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
   icon_template: mdi:arrow-up
   unit_of_measurement: 'Mb/s'
-mergerfs:
-  friendly_name: mergerFS
+mergerfs_free_percent:
+  friendly_name: mergerFS free %
   value_template: >-
     {% if is_state('sensor.int_mergerfs_status','on') %}
-      {{ 100 - states('sensor.disk_use_percent_merged')|int }}%
+      {{ 100 - states('sensor.disk_use_percent_merged')|int }}
     {% else %}
-      Offline
+      0
+    {% endif %}
+  availability_template: >-
+    {% if is_state('sensor.int_mergerfs_status','on') %}
+      true
+    {% else %}
+      false
     {% endif %}
   icon_template: >-
     {% if is_state('sensor.int_mergerfs_status','on') %}

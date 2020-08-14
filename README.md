@@ -22,7 +22,7 @@ All cards in this view are in a vertical stack...
 * System Load
 * Network In
 * Network Out
-* [PyLoad](https://pyload.net) download speed
+* SSD used %
 
 *This is the only view that contain badges.*
 
@@ -31,17 +31,19 @@ All cards in this view are in a vertical stack...
 ```yaml
 badges:
   - entity: sensor.load_1m
-    name: ' '
+    name: Load (1m)
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_in
-    name: ' '
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_out
-    name: ' '
     style: |
       :host {--label-badge-red: #07b265;}
+  - entity: sensor.disk_use_percent_home_agneev
+    name: SSD Used
+    style: |
+      :host {--label-badge-red: #0091c8;}
 ```
 
 </details>
@@ -61,16 +63,16 @@ badges:
 entities:
   - attribute: color_temp
     entity: light.desk_light
-    hide_when_off: true
     haptic: success
+    hide_when_off: true
     step: 15
     toggle: true
     type: 'custom:slider-entity-row'
   - entity: light.bedside_lamp
     haptic: success
     hide_when_off: true
-    step: 10
-    name: TV Lamp
+    name: Orb Lamp
+    step: 1
     toggle: true
     type: 'custom:slider-entity-row'
 show_header_toggle: false
@@ -83,7 +85,7 @@ type: entities
 
 * Night Lamp switch
 * Color Flow switch
-* Lo-Fi Beats switch (using command line integration and omxplayer)
+* Lo-Fi Beats switch
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
 
@@ -196,23 +198,17 @@ type: horizontal-stack
 cards:
   - color: auto
     color_type: card
-    double_tap_action:
-      action: toggle
-      haptic: success
-    entity: switch.always_on_shutdown
+    entity: switch.adguard_filtering
     hold_action:
       action: more-info
-    icon: 'mdi:power'
-    name: ALWAYS
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
-      action: none
+      action: toggle
+      haptic: success
     type: 'custom:button-card'
   - color: auto
     color_type: card
@@ -222,24 +218,18 @@ cards:
     entity: switch.always_on_restart
     hold_action:
       action: more-info
-    icon: 'mdi:restart'
-    name: 'ON'
-    show_name: true
+    icon: 'mdi:server-security'
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
-      action: none
+      action: more-info
     type: 'custom:button-card'
   - color: auto
     color_type: card
-    double_tap_action:
-      action: toggle
-      haptic: success
-    entity: switch.adguard_protection
+    entity: switch.circadian_lighting_circadian_lighting
     hold_action:
       action: more-info
     show_name: false
@@ -260,14 +250,11 @@ cards:
     hold_action:
       action: more-info
     icon: 'mdi:power'
-    name: X200M
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
       action: none
     type: 'custom:button-card'
@@ -280,14 +267,11 @@ cards:
     hold_action:
       action: more-info
     icon: 'mdi:restart'
-    name: X200M
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
       action: none
     type: 'custom:button-card'
@@ -302,7 +286,7 @@ type: horizontal-stack
 
 ### Graph row I
 
-* CPU usage
+* CPU use
 * Network Health
 
 <details><summary>Show code</summary>
@@ -323,11 +307,11 @@ cards:
       - entity: sensor.processor_use
         state_adaptive_color: true
     font_size: 105
-    hours_to_show: 1
+    hours_to_show: 2
     icon: 'mdi:cpu-64-bit'
     line_width: 4
     name: CPU
-    points_per_hour: 8
+    points_per_hour: 4
     show:
       fill: false
       icon_adaptive_color: true
@@ -382,8 +366,8 @@ type: horizontal-stack
 
 ### Graph row II
 
-* Conditional qBittorrent download card - mergerFS free card
-* Conditional qBittorrent upload card - SSD used space card
+* Hidden/conditional qBittorrent download card
+* Hidden/conditional qBittorrent upload card
 
 <details><summary>Show code</summary>
 
@@ -409,11 +393,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -439,11 +421,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -453,15 +433,6 @@ states:
           }
         type: 'custom:mini-graph-card'
         unit: KB/s
-    type: horizontal-stack
-  idle:
-    cards:
-      - entity: sensor.mergerfs
-        type: entity
-        unit: free
-      - entity: sensor.disk_use_percent_home_agneev
-        name: SSD Used
-        type: entity
     type: horizontal-stack
   seeding:
     cards:
@@ -481,11 +452,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -511,7 +480,6 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
@@ -571,7 +539,6 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
@@ -586,6 +553,7 @@ states:
         unit: KB/s
     type: horizontal-stack
 type: 'custom:state-switch'
+
 ```
 
 </details>
@@ -735,9 +703,9 @@ type: horizontal-stack
 
 ### Graph row II
 
-* AdGuard Home Processing Speed
+* AdGuard Home processing speed
 * AdGuard Home - % of blocked ads
-* Google Drive Used Space
+* Google Drive used space
 
 <details><summary>Show code</summary>
 
@@ -843,8 +811,9 @@ type: horizontal-stack
 
 ### Graph row III
 
-* CPU Temperature (host)
-* CPU Temperature (Always-On Server)
+* CPU Temperature/Throttled state (host)
+* CPU Temperature/Throttled state (Always-On server)
+* mergerFS free %
 
 <details><summary>Show code</summary>
 
@@ -867,12 +836,10 @@ cards:
       hours_to_show: 3
       line_width: 3
       name: '${ states[''sensor.throttled_state''].state }'
-      points_per_hour: 6
+      points_per_hour: 7
       show:
-        fill: true
         icon_adaptive_color: true
         labels: false
-        name_adaptive_color: false
         points: false
       style: |
         ha-card > div:nth-child(-n+2) {
@@ -902,12 +869,10 @@ cards:
       hours_to_show: 3
       line_width: 3
       name: '${ states[''sensor.always_on_throttled_state''].state }'
-      points_per_hour: 6
+      points_per_hour: 7
       show:
-        fill: true
         icon_adaptive_color: true
         labels: false
-        name_adaptive_color: false
         points: false
       style: |
         ha-card > div:nth-child(-n+2) {
@@ -920,7 +885,37 @@ cards:
     entities:
       - sensor.always_on_throttled_state
     type: 'custom:config-template-card'
+  - animate: true
+    decimals: 0
+    color_thresholds:
+      - color: '#04e700'
+        value: 60
+      - color: '#e1e700'
+        value: 40
+      - color: '#ff0000'
+        value: 25
+    entities:
+      - entity: sensor.mergerfs_free_percent
+        state_adaptive_color: false
+    font_size: 85
+    hours_to_show: 72
+    line_width: 5
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
 type: horizontal-stack
+
 ```
 
 </details>
@@ -948,12 +943,10 @@ type: history-graph
 
 ### Graph row I
 
-* Download Speed
-* Upload Speed
+* Download speed
+* Upload speed
 
 This is a custom sensor that uses the official Speedtest CLI as opposed to the `speedtest-cli` integration, which is very inaccurate.
-
-More info in [`cmd_sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/cmd_sensor.yaml) and [`template-sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/template_sensor.yaml).
 
 <details><summary>Show code</summary>
 
@@ -1030,8 +1023,8 @@ type: horizontal-stack
 
 ### Graph row II
 
-* Ping
-* Jitter
+* Latency - Speedtest.net
+* Jitter - Speedtest.net
 
 <details><summary>Show code</summary>
 
@@ -1049,11 +1042,11 @@ cards:
         value: 5
     decimals: 0
     entities:
-      - entity: sensor.speedtest_net_ping
+      - entity: sensor.speedtest_net_latency
         state_adaptive_color: true
     hours_to_show: 6
     line_width: 4
-    name: Ping
+    name: Latency
     points_per_hour: 2
     show:
       fill: false
@@ -1105,15 +1098,16 @@ type: horizontal-stack
 
 ### Sensor Graph
 
-Pings my local ISP node and Google DNS.
+Pings my local ISP node and Cloudflare DNS.
 Helps isolate network issues.
 
 <details><summary>Show code</summary>
 
 ```yaml
 entities:
-  - entity: binary_sensor.operator
-  - entity: binary_sensor.google_dns_ping
+  - entity: binary_sensor.node_ping
+    name: Node
+  - entity: binary_sensor.cloudflare_dns_ping
     name: Internet
 hours_to_show: 1
 refresh_interval: 30
@@ -1124,7 +1118,7 @@ type: history-graph
 
 ### Entity card
 
-This is also a custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
+This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
 <details><summary>Show code</summary>
 
@@ -1139,7 +1133,7 @@ type: horizontal-stack
 
 </details>
 
-<details><summary>Expand `vnstat` script</summary>
+<details><summary>Expand vnstat script</summary>
 
 ```shell
 #!/bin/bash
@@ -1473,25 +1467,40 @@ idle_view:
   when_idle: true
   when_standby: true
 shortcuts:
-  columns: 6
-  buttons:
-    - icon: 'mdi:sunglasses'
-      id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
-      type: playlist
-    - icon: 'mdi:city'
-      id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
-      type: playlist
-    - icon: 'mdi:trending-up'
-# xxxxx is Spotify playlist ID
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
-    - icon: 'mdi:numeric-1'
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
-    - icon: 'mdi:numeric-2'
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
+attribute: source
+buttons:
+  - icon: 'mdi:sunglasses'
+    id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
+    type: playlist
+  - icon: 'mdi:city'
+    id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
+    type: playlist
+  - icon: 'mdi:trending-up'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:numeric-1'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:numeric-2'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:amazon-alexa'
+    id: Bedroom Echo
+    name: 1
+    type: source
+  - icon: 'mdi:amazon-alexa'
+    id: New Room Echo
+    name: 2
+    type: source
+  - icon: 'mdi:surround-sound'
+    id: Soundbar
+    type: source
+  - icon: 'mdi:silverware-fork-knife'
+    ids: Dining Hall
+    type: source
+columns: 5
 type: 'custom:mini-media-player'
+volume_step: 5
 ```
 
 </details>
@@ -1604,6 +1613,7 @@ conditions:
   - entity: media_player.bedroom_echo
     state_not: unavailable
 type: conditional
+
 ```
 
 ```yaml
@@ -2032,112 +2042,219 @@ type: conditional
 
 ### Media player cards
 
-* Header card for rooms/floors
+* Header card for floors
 * TV media player cards
 
 <details><summary>Show code</summary>
 
 ```yaml
-content: |
-  # Bedroom
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
+- content: |
+    # Level 1
+  style:
+    .: |
+      ha-card {
+        --ha-card-background: none !important;
+        box-shadow: none !important;
       }
-type: markdown
+    ha-markdown:
+      $: |
+        h1 {
+          font-size: 20px;
+          font-weight: bold;
+          font-family: Helvetica;
+          letter-spacing: '-0.01em';
+        }
+  type: markdown
+```
+
+```yaml
 - entity: media_player.bedroom_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+      - icon: 'mdi:video-input-hdmi'
+        id: HDMI1
+        name: HDMI 1
+        type: source
+      - icon: 'mdi:video-input-hdmi'
+        id: HDMI2
+        name: HDMI 2
+        type: source
+      - icon: 'mdi:set-top-box'
+        id: Cable
+        name: Cable
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
 ```
 
 ```yaml
-content: |
-  # Level 1
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
-      }
-type: markdown
 - entity: media_player.old_room_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
-- entity: media_player.new_room_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+    columns: 5
+    hide_when_off: true
+  source: full
+  type: 'custom:mini-media-player'
 ```
 
 ```yaml
-content: |
-  # Level 2
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
+- entity: media_player.new_room_tv
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
+```
+
+```yaml
+- entity: media_player.dining_hall_tv
+  hide:
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
+```
+
+```yaml
+- content: |
+    # Level 2
+  style:
+    .: |
+      ha-card {
+        --ha-card-background: none !important;
+        box-shadow: none !important;
       }
-type: markdown
+    ha-markdown:
+      $: |
+        h1 {
+          font-size: 20px;
+          font-weight: bold;
+          font-family: Helvetica;
+          letter-spacing: '-0.01em';
+        }
+  type: markdown
+```
+
+```yaml
 - entity: media_player.sony_bravia_tv
-hide:
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+  hide:
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:alpha-m-box'
+        id: Mr MC Lite
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+    columns: 4
+    hide_when_off: true
+  type: 'custom:mini-media-player'
 ```
 
 </details>
@@ -2173,7 +2290,7 @@ type: 'custom:mini-media-player'
 * Entities beginning with `int` are "internal" entities that are used inside templates.
 * Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop.
   The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-* The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
+* The header that is used for separating cards is from the theme, [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 

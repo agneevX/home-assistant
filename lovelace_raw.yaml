@@ -9,19 +9,17 @@ title: Agneev's Home
 views:
   - badges:
       - entity: sensor.load_1m
-        name: ' '
+        name: Load (1m)
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.eth0_in
-        name: ' '
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.eth0_out
-        name: ' '
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.disk_use_percent_home_agneev
-        name: ' '
+        name: SSD Used
         style: |
           :host {--label-badge-red: #0091c8;}
     cards:
@@ -327,16 +325,6 @@ views:
                       }
                     type: 'custom:mini-graph-card'
                     unit: KB/s
-                type: horizontal-stack
-              idle:
-                cards:
-                  - entity: sensor.mergerfs
-                    type: entity
-                    unit: free
-                  - entity: camera.front_gate_camera
-                    icon: 'mdi:gate'
-                    name: Front Gate
-                    type: entity
                 type: horizontal-stack
               seeding:
                 cards:
@@ -732,6 +720,35 @@ views:
                 entities:
                   - sensor.always_on_throttled_state
                 type: 'custom:config-template-card'
+              - animate: true
+                decimals: 0
+                color_thresholds:
+                  - color: '#04e700'
+                    value: 60
+                  - color: '#e1e700'
+                    value: 40
+                  - color: '#ff0000'
+                    value: 25
+                entities:
+                  - entity: sensor.mergerfs_free_percent
+                    state_adaptive_color: false
+                font_size: 85
+                hours_to_show: 72
+                line_width: 5
+                points_per_hour: 1
+                show:
+                  fill: true
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                style: |
+                  ha-card > div:nth-child(-n+2) {
+                    padding: 0 14px 0 14px !important
+                  }
+                  ha-card > .info {
+                    padding: 0 14px 0px 14px !important
+                  }
+                type: 'custom:mini-graph-card'
             type: horizontal-stack
           - entities:
               - entity: sensor.eth0_in
@@ -1071,7 +1088,7 @@ views:
                   options:
                     icon: 'mdi:television'
             sort:
-              method: last_changed
+              method: last_updated
             type: 'custom:auto-entities'
         type: vertical-stack
       - cards:
@@ -1151,7 +1168,7 @@ views:
                   id: Soundbar
                   type: source
                 - icon: 'mdi:silverware-fork-knife'
-                  ids: Dining Hall
+                  id: Dining Hall
                   type: source
               columns: 5
             type: 'custom:mini-media-player'
