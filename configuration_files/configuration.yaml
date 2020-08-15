@@ -14,26 +14,6 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-binary_sensor: !include binary_sensor.yaml
-camera: !include camera.yaml
-cloud: !include cloud.yaml
-webostv: !include webos.yaml
-yeelight: !include yeelight.yaml
-sensor command_line: !include cmd_sensor.yaml
-sensor template: !include template_sensor.yaml
-switch template: !include template_switch.yaml
-switch command_line: !include cmd_switch.yaml
-recorder:
-  purge_keep_days: 30
-  exclude:
-    entities:
-     - sensor.network_throughput_in_eth0
-     - sensor.network_throughput_out_eth0
-     - sensor.int_internet_health
-     - sensor.radarr_movies
-     - sensor.sonarr_shows
-     - sensor.pyload_speed
-     - sensor.vnstat
 sensor:
 #  - platform: history_stats
 #    name: Power Downtime
@@ -45,29 +25,17 @@ sensor:
 #      days: 30
   - platform: history_stats
     name: int_internet_health
-    entity_id: binary_sensor.google_dns_ping
+    entity_id: binary_sensor.cloudflare_dns_ping
     state: 'on'
     type: ratio
     end: '{{ now()}}'
     duration: 00:05:00
-#   - platform: rtorrent
-#    url: 'http://127.0.0.1:8008/RPC2'
-#    monitored_variables:
-#      - 'current_status'
-#      - 'download_speed'
-#      - 'upload_speed'
-#      - 'all_torrents'
-#      - 'stopped_torrents'
-#      - 'complete_torrents'
-#      - 'uploading_torrents'
-#      - 'downloading_torrents'
-#      - 'active_torrents'
-  - platform: pyload
-    host: 127.0.0.1
-    port: 7700
-    name: PyLoad
-    username: !secret pyload_user
-    password: !secret pyload_pass
+#  - platform: pyload
+#    host: 127.0.0.1
+#    port: 7700
+#    name: PyLoad
+#    username: !secret pyload_user
+#    password: !secret pyload_pass
   - platform: qbittorrent
     name: qBt
     url: 'http://127.0.0.1:8080'
@@ -75,8 +43,8 @@ sensor:
     password: !secret qbt_pass
 #  - platform: qbittorrent
 #    name: qBt 2
-#    url: ''
-#    username: 
+#    url: 'http://:8080'
+#    username:
 #    password:
   - platform: systemmonitor
     resources:
@@ -105,20 +73,6 @@ sensor:
       - movies
       - upcoming
       - commands
-#  - platform: netdata
-#    host: 127.0.0.1
-#    resources:
-#      cpu_iowait:
-#         data_group: system.cpu
-#         element: iowait
-#         icon: mdi:cpu-64-bit
-#  - platform: netdata
-#    host: 
-#    resources:
-#      remote_disk_space_left:
-#        data_group: disk_space._
-#        element: avail
-#        icon: mdi:harddisk
 switch:
   - platform: circadian_lighting
     disable_brightness_adjust: true
@@ -131,7 +85,7 @@ switch:
 #  expose_by_default: false
 #  entities:
 #    switch.lofi_beats
-#    switch.lofi_beats_2
+#    switch.lofi_beats2
 device_tracker:
   - platform: netgear
     host: 10.0.0.1
@@ -146,12 +100,40 @@ device_tracker:
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
-#telegram_bot:
-#  - platform: polling
-#    api_key: !secret telegram
-#    allowed_chat_ids:
-#      - !secret telegram_chat_id
-#notify:
-#  - name: telegram_hassio
-#    platform: telegram
-#    chat_id: !secret telegram_chat_id
+#android_ip_webcam:
+#  - host: 10.0.0.70
+#    scan_interval: 15
+#    sensors:
+#      - battery_level
+#      - light
+#      - motion
+#    switches:
+#      - motion_detect
+#      - night_vision
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram
+    allowed_chat_ids:
+      - !secret telegram_chat_id
+notify:
+  - name: telegram_hassio
+    platform: telegram
+    chat_id: !secret telegram_chat_id
+webostv: !include webostv.yaml
+yeelight: !include yeelight.yaml
+cloud: !include cloud.yaml
+binary_sensor: !include binary_sensor.yaml
+camera: !include camera.yaml
+media_player: !include media_player.yaml
+homekit: !include homekit.yaml
+sensor command_line: !include cmd_sensor.yaml
+light: !include light.yaml
+sensor template:
+  platform: template
+  sensors: !include template_sensor.yaml
+switch template:
+  platform: template
+  switches: !include template_switch.yaml
+switch command_line:
+  platform: command_line
+  switches: !include cmd_switch.yaml

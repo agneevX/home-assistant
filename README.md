@@ -1,8 +1,9 @@
+<!-- markdownlint-disable MD024 -->
 # My Home Assistant setup
 
 This layout was designed mobile-first.
 
-![header](assets/header.jpg)
+![header](web_assets/header.jpg)
 
 ## Background
 
@@ -10,11 +11,9 @@ Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an 
 
 ## Lovelace layout
 
-***
-
 ## Dashboard (home view)
 
-![home_view](assets/home_view.jpg "Home view")
+![home_view](web_assets/home_view.jpg "Home view")
 
 All cards in this view are in a vertical stack...
 
@@ -23,7 +22,8 @@ All cards in this view are in a vertical stack...
 * System Load
 * Network In
 * Network Out
-* [PyLoad](https://pyload.net) download speed
+* SSD used %
+* mergerFS free %
 
 *This is the only view that contain badges.*
 
@@ -32,22 +32,27 @@ All cards in this view are in a vertical stack...
 ```yaml
 badges:
   - entity: sensor.load_1m
-    name: ' '
+    name: Load (1m)
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_in
-    name: ' '
+    name: eth0 in
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_out
-    name: ' '
+    name: eth0 out
     style: |
       :host {--label-badge-red: #07b265;}
-  - entity: sensor.pyload_speed
-    name: ' '
+  - entity: sensor.disk_use_percent_home_agneev
+    name: SSD used
     style: |
-      :host {--label-badge-red: #3974A4;}
+      :host {--label-badge-red: #0091c8;}
+  - entity: sensor.mergerfs_free_percent
+    name: mFS free
+    style: |
+      :host {--label-badge-red: #07b265;}
 ```
+
 </details>
 
 <p align="center">
@@ -65,30 +70,31 @@ badges:
 entities:
   - attribute: color_temp
     entity: light.desk_light
-    hide_when_off: true
     haptic: success
+    hide_when_off: true
     step: 15
     toggle: true
     type: 'custom:slider-entity-row'
   - entity: light.bedside_lamp
     haptic: success
     hide_when_off: true
-    step: 10
-    name: TV Lamp
+    name: Orb Lamp
+    step: 1
     toggle: true
     type: 'custom:slider-entity-row'
 show_header_toggle: false
 type: entities
 ```
+
 </details>
 
 ### Switch row 1
 
 * Night Lamp switch
-* Lo-Fi Beats switch (using command line integration and omxplayer)
+* Color Flow switch
+* Lo-Fi Beats switch
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
-* [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 
 <details><summary>Show code</summary>
 
@@ -182,13 +188,14 @@ cards:
     type: 'custom:button-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Switch row 2
 
-* Shut Down `Always-On Server`
+* AdGuard Home switch
 * Reboot `Always-On Server`
-* AdGuard Home master switch
+* [Circadian Lighting](https://github.com/claytonjn/hass-circadian_lighting) switch
 * Shut Down X200M (secondary laptop used occasionally)
 * Restart X200M
 
@@ -198,23 +205,17 @@ type: horizontal-stack
 cards:
   - color: auto
     color_type: card
-    double_tap_action:
-      action: toggle
-      haptic: success
-    entity: switch.always_on_shutdown
+    entity: switch.adguard_filtering
     hold_action:
       action: more-info
-    icon: 'mdi:power'
-    name: ALWAYS
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
-      action: none
+      action: toggle
+      haptic: success
     type: 'custom:button-card'
   - color: auto
     color_type: card
@@ -224,24 +225,18 @@ cards:
     entity: switch.always_on_restart
     hold_action:
       action: more-info
-    icon: 'mdi:restart'
-    name: 'ON'
-    show_name: true
+    icon: 'mdi:server-security'
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
-      action: none
+      action: more-info
     type: 'custom:button-card'
   - color: auto
     color_type: card
-    double_tap_action:
-      action: toggle
-      haptic: success
-    entity: switch.adguard_protection
+    entity: switch.circadian_lighting_circadian_lighting
     hold_action:
       action: more-info
     show_name: false
@@ -262,14 +257,11 @@ cards:
     hold_action:
       action: more-info
     icon: 'mdi:power'
-    name: X200M
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
       action: none
     type: 'custom:button-card'
@@ -282,30 +274,28 @@ cards:
     hold_action:
       action: more-info
     icon: 'mdi:restart'
-    name: X200M
-    show_name: true
+    show_name: false
     size: 35%
     styles:
       card:
         - height: 56px
-        - font-size: 12px
-        - font-weight: bold
     tap_action:
       action: none
     type: 'custom:button-card'
 type: horizontal-stack
 ```
+
 </details>
 
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
-* CPU usage
-* Network Health (using `ping` and `history_stats`)
-    
+* CPU use
+* Network Health
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -324,11 +314,11 @@ cards:
       - entity: sensor.processor_use
         state_adaptive_color: true
     font_size: 105
-    hours_to_show: 1
+    hours_to_show: 2
     icon: 'mdi:cpu-64-bit'
     line_width: 4
     name: CPU
-    points_per_hour: 8
+    points_per_hour: 4
     show:
       fill: false
       icon_adaptive_color: true
@@ -378,14 +368,13 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
-### Graph row 2
+### Graph row II
 
-* Conditional qBittorrent download card 
-  else mergerFS free card
-* Conditional qBittorrent upload card 
-  else SSD used space card
+* Hidden/conditional qBittorrent download card
+* Hidden/conditional qBittorrent upload card
 
 <details><summary>Show code</summary>
 
@@ -411,11 +400,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -441,11 +428,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -455,15 +440,6 @@ states:
           }
         type: 'custom:mini-graph-card'
         unit: KB/s
-    type: horizontal-stack
-  idle:
-    cards:
-      - entity: sensor.mergerfs
-        type: entity
-        unit: free
-      - entity: sensor.disk_use_percent_home_agneev
-        name: SSD Used
-        type: entity
     type: horizontal-stack
   seeding:
     cards:
@@ -483,11 +459,9 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
-          state: true
         style: |
           ha-card > div:nth-child(-n+2) {
             padding: 0 14px 0 14px !important
@@ -513,7 +487,6 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
@@ -573,7 +546,6 @@ states:
           fill: false
           icon_adaptive_color: true
           labels: false
-          legend: false
           name: false
           name_adaptive_color: true
           points: false
@@ -588,12 +560,14 @@ states:
         unit: KB/s
     type: horizontal-stack
 type: 'custom:state-switch'
+
 ```
+
 </details>
 
 ### Now Playing card
 
-* Automatically shows all (but one) active media players
+* Automatically shows all active media players
 
 <details><summary>Show code</summary>
 
@@ -606,7 +580,6 @@ filter:
     - state: unavailable
     - state: standby
     - state: idle
-    - entity_id: media_player.new_room_echo
   include:
     - domain: media_player
 show_empty: false
@@ -614,13 +587,14 @@ sort:
   method: last_changed
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 ***
 
 ## Info view
 
-![info_view](assets/info_view.jpg "Info view")
+![info_view](web_assets/info_view.jpg "Info view")
 
 Two vertical stacks in this view.
 
@@ -628,48 +602,17 @@ Two vertical stacks in this view.
   <b>Vertical stack 1</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
-* System Load - 1 minute
 * System Load - 5 minutes
 * System Load - 15 minutes
+* Google Drive used space
 
 <details><summary>Show code</summary>
 
 ```yaml
 cards:
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 4
-      - color: '#e1e700'
-        value: 2
-      - color: '#04e700'
-        value: 1
-    decimals: 1
-    entities:
-      - entity: sensor.load_1m
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 2
-    line_width: 5
-    name: 1-min
-    points_per_hour: 6
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 4
       - color: '#e1e700'
@@ -682,11 +625,11 @@ cards:
         state_adaptive_color: false
     font_size: 85
     hours_to_show: 2
+    icon: 'mdi:numeric-5-box-outline'
     line_width: 5
     name: 5-min
     points_per_hour: 6
     show:
-      fill: true
       icon_adaptive_color: true
       labels: false
       points: false
@@ -698,8 +641,7 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 3
       - color: '#e1e700'
@@ -716,7 +658,6 @@ cards:
     name: 15-min
     points_per_hour: 6
     show:
-      fill: true
       icon_adaptive_color: true
       labels: false
       points: false
@@ -728,82 +669,7 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-type: horizontal-stack
-```
-</details>
-
-### Graph row 2
-
-* AdGuard Home Processing Speed
-* AdGuard Home % of blocked ads
-* Google Drive Used Space
-
-<details><summary>Show code</summary>
-
-```yaml
-cards:
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 250
-      - color: '#e1e700'
-        value: 150
-      - color: '#04e700'
-        value: 100
-    decimals: 0
-    entities:
-      - entity: sensor.adguard_average_processing_speed
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 72
-    line_width: 5
-    name: DNS
-    points_per_hour: 1
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 10
-      - color: '#e1e700'
-        value: 15
-      - color: '#04e700'
-        value: 20
-    decimals: 1
-    entities:
-      - entity: sensor.adguard_dns_queries_blocked_ratio
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 72
-    line_width: 5
-    name: Ads Blocked
-    points_per_hour: 1
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 75
       - color: '#e1e700'
@@ -816,10 +682,9 @@ cards:
         state_adaptive_color: false
     font_size: 85
     hours_to_show: 72
+    icon: 'mdi:google-drive'
     line_width: 5
     name: Drive
-    unit: TB
-    icon: 'mdi:google-drive'
     points_per_hour: 1
     show:
       fill: true
@@ -835,14 +700,17 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
+    unit: TB
 type: horizontal-stack
 ```
+
 </details>
 
-### Graph row 3
+### Graph row II
 
-* CPU Temperature (host)
-* CPU Temperature (Always-On Server)
+* CPU Temperature/Throttled state (host)
+* CPU Temperature/Throttled state (Always-On server)
+* AdGuard Home processing speed
 
 <details><summary>Show code</summary>
 
@@ -863,14 +731,12 @@ cards:
           state_adaptive_color: false
       font_size: 85
       hours_to_show: 3
-      line_width: 3
+      line_width: 5
       name: '${ states[''sensor.throttled_state''].state }'
-      points_per_hour: 6
+      points_per_hour: 7
       show:
-        fill: true
         icon_adaptive_color: true
         labels: false
-        name_adaptive_color: false
         points: false
       style: |
         ha-card > div:nth-child(-n+2) {
@@ -898,14 +764,12 @@ cards:
           state_adaptive_color: false
       font_size: 85
       hours_to_show: 3
-      line_width: 3
+      line_width: 5
       name: '${ states[''sensor.always_on_throttled_state''].state }'
-      points_per_hour: 6
+      points_per_hour: 7
       show:
-        fill: true
         icon_adaptive_color: true
         labels: false
-        name_adaptive_color: false
         points: false
       style: |
         ha-card > div:nth-child(-n+2) {
@@ -918,8 +782,113 @@ cards:
     entities:
       - sensor.always_on_throttled_state
     type: 'custom:config-template-card'
+  - color_thresholds:
+      - color: '#ff0000'
+        value: 250
+      - color: '#e1e700'
+        value: 150
+      - color: '#04e700'
+        value: 100
+    decimals: 0
+    entities:
+      - entity: sensor.adguard_average_processing_speed
+        state_adaptive_color: false
+    font_size: 85
+    hours_to_show: 24
+    icon: 'mdi:progress-clock'
+    line_width: 5
+    name: DNS
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
+</details>
+
+### Graph row III
+
+* AdGuard Home - % of blocked ads
+* mergerFS free space (in GB)
+
+<details><summary>Show code</summary>
+
+```yaml
+cards:
+  - color_thresholds:
+      - color: '#ff0000'
+        value: 10
+      - color: '#e1e700'
+        value: 15
+      - color: '#04e700'
+        value: 20
+    decimals: 1
+    entities:
+      - entity: sensor.adguard_dns_queries_blocked_ratio
+        state_adaptive_color: false
+    font_size: 85
+    hours_to_show: 72
+    line_width: 3
+    name: Ads blocked
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
+  - color_thresholds:
+      - color: '#04e700'
+        value: 60
+      - color: '#e1e700'
+        value: 40
+      - color: '#ff0000'
+        value: 25
+    decimals: 0
+    entities:
+      - entity: sensor.disk_free_merged
+        name: mergerFS free
+        state_adaptive_color: false
+        unit: GB
+    font_size: 85
+    hours_to_show: 72
+    line_width: 3
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
+type: horizontal-stack
+
+```
+
 </details>
 
 ### Network throughput graph
@@ -936,20 +905,19 @@ hours_to_show: 1
 refresh_interval: 30
 type: history-graph
 ```
+
 </details>
 
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
 
-### Graph row 1
+### Graph row I
 
-* Download Speed
-* Upload Speed
+* Download speed
+* Upload speed
 
 This is a custom sensor that uses the official Speedtest CLI as opposed to the `speedtest-cli` integration, which is very inaccurate.
-
-More info in [`cmd_sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/cmd_sensor.yaml) and [`template-sensor.yaml`](https://github.com/agneevX/my-ha-setup/blob/master/template_sensor.yaml).
 
 <details><summary>Show code</summary>
 
@@ -1021,12 +989,13 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
-### Graph row 2
+### Graph row II
 
-* Ping 
-* Jitter
+* Latency - Speedtest.net
+* Jitter - Speedtest.net
 
 <details><summary>Show code</summary>
 
@@ -1044,11 +1013,11 @@ cards:
         value: 5
     decimals: 0
     entities:
-      - entity: sensor.speedtest_net_ping
+      - entity: sensor.speedtest_net_latency
         state_adaptive_color: true
     hours_to_show: 6
     line_width: 4
-    name: Ping
+    name: Latency
     points_per_hour: 2
     show:
       fill: false
@@ -1095,29 +1064,32 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
-### Sensor Graph
+### Sensor graph
 
-Pings my local ISP node and Google DNS.
+Pings my local ISP node and Cloudflare DNS.
 Helps isolate network issues.
 
 <details><summary>Show code</summary>
 
 ```yaml
 entities:
-  - entity: binary_sensor.operator
-  - entity: binary_sensor.google_dns_ping
+  - entity: binary_sensor.node_ping
+    name: Node
+  - entity: binary_sensor.cloudflare_dns_ping
     name: Internet
 hours_to_show: 1
 refresh_interval: 30
 type: history-graph
 ```
+
 </details>
 
 ### Entity card
 
-This is also a custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
+This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
 <details><summary>Show code</summary>
 
@@ -1129,22 +1101,24 @@ cards:
     type: entity
 type: horizontal-stack
 ```
+
 </details>
 
-<details><summary>Expand `vnstat` script</summary>
+<details><summary>Expand vnstat script</summary>
 
 ```shell
 #!/bin/bash
 
 vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
 ```
+
 </details>
 
 ***
 
-## Tile view 
+## Tile view
 
-![tile_view](assets/info2_view.jpg "Tile view")
+![tile_view](web_assets/info2_view.jpg "Tile view")
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -1210,6 +1184,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Radarr/Sonarr Upcoming
@@ -1256,6 +1231,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Sonarr Queue/Wanted
@@ -1302,6 +1278,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 #### Radarr Movies/Sonarr Shows
@@ -1348,12 +1325,12 @@ cards:
     unit: Shows
 type: horizontal-stack
 ```
-</details>
 
 </details>
 
+</details>
 
-### Entities card to track specific devices.
+### Specific devices tracking card
 
 <details><summary>Show code</summary>
 
@@ -1376,6 +1353,7 @@ sort:
   method: last_updated
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 <p align="center">
@@ -1404,11 +1382,12 @@ sort:
   method: last_updated
 type: 'custom:auto-entities'
 ```
+
 </details>
 
 ***
 
-## Camera view 
+## Camera view
 
 This view contains one vertical stack only.
 
@@ -1434,17 +1413,18 @@ cards:
     type: conditional
 type: vertical-stack
 ```
+
 </details>
 
 ***
 
-### Remote control view 
+### Remote control view
 
-![rc_view](assets/rc_view.jpg "Remote control view")
+![rc_view](web_assets/rc_view.jpg "Remote control view")
 
 This view contains one vertical stack only.
 
-### Spotify media player card
+### Spotify card
 
 <details><summary>Show code</summary>
 
@@ -1458,30 +1438,46 @@ idle_view:
   when_idle: true
   when_standby: true
 shortcuts:
-  columns: 6
-  buttons:
-    - icon: 'mdi:sunglasses'
-      id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
-      type: playlist
-    - icon: 'mdi:city'
-      id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
-      type: playlist
-    - icon: 'mdi:trending-up'
-# xxxxx is Spotify playlist ID 
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
-    - icon: 'mdi:numeric-1'
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
-    - icon: 'mdi:numeric-2'
-      id: 'spotify:playlist:xxxxx'
-      type: playlist
+attribute: source
+buttons:
+  - icon: 'mdi:sunglasses'
+    id: 'spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD'
+    type: playlist
+  - icon: 'mdi:city'
+    id: 'spotify:playlist:5FmmxErJczcrEwIFGIviYo'
+    type: playlist
+  - icon: 'mdi:trending-up'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:numeric-1'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:numeric-2'
+    id: 'spotify:playlist:xxxxx'
+    type: playlist
+  - icon: 'mdi:amazon-alexa'
+    id: Bedroom Echo
+    name: 1
+    type: source
+  - icon: 'mdi:amazon-alexa'
+    id: New Room Echo
+    name: 2
+    type: source
+  - icon: 'mdi:surround-sound'
+    id: Soundbar
+    type: source
+  - icon: 'mdi:silverware-fork-knife'
+    ids: Dining Hall
+    type: source
+columns: 5
 type: 'custom:mini-media-player'
-
+volume_step: 5
 ```
+
 </details>
 
 #### Header
+
 <details><summary>Show code</summary>
 
 ```yaml
@@ -1503,6 +1499,7 @@ style:
       }
 type: markdown
 ```
+
 </details>
 
 ### Media player cards for Alexa devices
@@ -1511,9 +1508,9 @@ Conditional cards for each device
 
 <details><summary>Show code</summary>
 
-+ Do Not Disturb button
-+ Shuffle button
-+ Repeat button
+* Do Not Disturb button
+* Shuffle button
+* Repeat button
 
 ```yaml
 card:
@@ -1587,6 +1584,7 @@ conditions:
   - entity: media_player.bedroom_echo
     state_not: unavailable
 type: conditional
+
 ```
 
 ```yaml
@@ -1663,19 +1661,20 @@ conditions:
     state_not: unavailable
 type: conditional
 ```
+
 </details>
 
 ***
 
-## Plex view 
+## Plex view
 
-![plex_view](assets/plex_view.jpg "Plex view")
+![plex_view](web_assets/plex_view.jpg "Plex view")
 
 This view contains one vertical stack only.
 
 These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
-### Graph row 1
+### Graph row I
 
 * Plex Watching sensor
 * Tautulli current bandwidth
@@ -1731,9 +1730,10 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
-### Graph row 2
+### Graph row II
 
 * Network In sensor
 * Network Out sensor
@@ -1788,6 +1788,7 @@ cards:
     type: 'custom:mini-graph-card'
 type: horizontal-stack
 ```
+
 </details>
 
 ### Entities card
@@ -1802,6 +1803,7 @@ entities:
 show_header_toggle: false
 type: entities
 ```
+
 </details>
 
 ### Media player cards
@@ -1999,126 +2001,233 @@ conditions:
   - entity: media_player.plex_mrmc_localhost
     state_not: idle
 type: conditional
-
-
 ```
+
 </details>
 
 ***
 
-## Television view 
+## Television view
 
-![tv_view](assets/tv_view.jpg "TV view")
+![tv_view](web_assets/tv_view.jpg "TV view")
 
 ### Media player cards
 
-* Header card for rooms/floors
+* Header card for floors
 * TV media player cards
 
 <details><summary>Show code</summary>
 
 ```yaml
-content: |
-  # Bedroom
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
+- content: |
+    # Level 1
+  style:
+    .: |
+      ha-card {
+        --ha-card-background: none !important;
+        box-shadow: none !important;
       }
-type: markdown
+    ha-markdown:
+      $: |
+        h1 {
+          font-size: 20px;
+          font-weight: bold;
+          font-family: Helvetica;
+          letter-spacing: '-0.01em';
+        }
+  type: markdown
+```
+
+```yaml
 - entity: media_player.bedroom_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+      - icon: 'mdi:video-input-hdmi'
+        id: HDMI1
+        name: HDMI 1
+        type: source
+      - icon: 'mdi:video-input-hdmi'
+        id: HDMI2
+        name: HDMI 2
+        type: source
+      - icon: 'mdi:set-top-box'
+        id: Cable
+        name: Cable
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
 ```
 
 ```yaml
-content: |
-  # Level 1
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
-      }
-type: markdown
 - entity: media_player.old_room_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
-- entity: media_player.new_room_tv
-hide:
-  play_stop: false
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+    columns: 5
+    hide_when_off: true
+  source: full
+  type: 'custom:mini-media-player'
 ```
 
 ```yaml
-content: |
-  # Level 2
-style:
-  .: |
-    ha-card {
-      --ha-card-background: none !important;
-      box-shadow: none !important;
-    }
-  ha-markdown:
-    $: |
-      h1 {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Helvetica;
-        letter-spacing: '-0.01em';
-      }
-type: markdown
-- entity: media_player.sony_bravia_tv
-hide:
-  power: true
-  progress: true
-idle_view:
-  when_idle: true
-  when_standby: true
-info: scroll
-sound_mode: icon
-type: 'custom:mini-media-player'
+- entity: media_player.new_room_tv
+  hide:
+    play_stop: false
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+      - icon: 'mdi:alpha-x-box'
+        id: XPlay
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
 ```
+
+```yaml
+- entity: media_player.dining_hall_tv
+  hide:
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:amazon'
+        id: Amazon Prime Video
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+    columns: 5
+    hide_when_off: true
+  type: 'custom:mini-media-player'
+```
+
+```yaml
+- content: |
+    # Level 2
+  style:
+    .: |
+      ha-card {
+        --ha-card-background: none !important;
+        box-shadow: none !important;
+      }
+    ha-markdown:
+      $: |
+        h1 {
+          font-size: 20px;
+          font-weight: bold;
+          font-family: Helvetica;
+          letter-spacing: '-0.01em';
+        }
+  type: markdown
+```
+
+```yaml
+- entity: media_player.sony_bravia_tv
+  hide:
+    power: true
+    progress: true
+    source: true
+  idle_view:
+    when_idle: true
+    when_standby: true
+  shortcuts:
+    attribute: source
+    buttons:
+      - icon: 'mdi:plex'
+        id: Plex
+        type: source
+      - icon: 'mdi:alpha-m-box'
+        id: Mr MC Lite
+        type: source
+      - icon: 'mdi:netflix'
+        id: Netflix
+        type: source
+      - icon: 'mdi:youtube'
+        id: YouTube
+        type: source
+    columns: 4
+    hide_when_off: true
+  type: 'custom:mini-media-player'
+```
+
 </details>
 
 ***
@@ -2127,40 +2236,38 @@ type: 'custom:mini-media-player'
 
 #### Custom Components
 
-+ [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
-+ [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
-+ [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
+* [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
+* [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
+* [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-#### Lovelace 
+#### Lovelace
 
-+ [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
-+ [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
-+ [`mini-media-player`](https://github.com/kalkih/mini-media-player) by [kalkih](https://github.com/kalkih)
-+ [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by [thomasloven](https://github.com/thomasloven)
-+ [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by [thomasloven](https://github.com/thomasloven)
-+ [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
-+ [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
-+ [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
-+ [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by [maykar](https://github.com/maykar)
-+ [`button-card`](https://github.com/custom-cards/button-card)
+* [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
+* [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
+* [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
+* [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+* [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by thomasloven
+* [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
+* [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
+* [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
+* [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
+* [`button-card`](https://github.com/custom-cards/button-card)
+* [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
 
 ***
 
 ## Notes
 
-+ Entities beginning with `int` are "internal" entities that are used inside templates.
-+ Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop. 
+* Entities beginning with `int` are "internal" entities that are used inside templates.
+* Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop.
   The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-+ The header that is used for separating cards is from the theme [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
+* Screenshots or snippet code may not be up-to-date
+* The header that is used for separating cards is from the theme, [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
 ## Special thanks
 
-+ to all the authors above,
-+ [JuanMTech](https://github.com/JuanMTech) for his awesome themes,
-+ and all the very helpful folks over at the HA Discord.
+* to all the authors above,
+* and all the very helpful folks over at the HA Discord.
 
-
-
-*Screenshots or snippet code may not be up-to-date*

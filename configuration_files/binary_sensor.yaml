@@ -1,0 +1,22 @@
+- platform: ping
+  name: Node Ping
+  host: 172.16.248.1
+  count: 1
+  scan_interval: 3
+- platform: ping
+  name: Cloudflare DNS Ping
+  host: 1.1.1.1
+  count: 1
+  scan_interval: 3
+- platform: ping
+  name: Orbi Satellite
+  host: 10.0.0.2
+  count: 1
+  scan_interval: 10
+- platform: template
+  sensors:
+    front_gate_camera_state:
+      friendly_name: Front Gate Camera State
+      value_template: "{{ is_state('device_tracker.front_gate_camera','home') }}"
+      icon_template: mdi:power
+      device_class: connectivity

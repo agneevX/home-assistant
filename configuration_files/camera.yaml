@@ -1,7 +1,7 @@
 - platform: mjpeg
   name: Front Gate Camera
   mjpeg_url: http://10.0.0.20/video.cgi
-  still_image_url: http://10.0.0.20/image.jpg
+  still_image_url: http://10.0.0.20/image/jpeg.cgi
   username: !secret front_gate_camera_user
   password: !secret front_gate_camera_pass
   verify_ssl: false

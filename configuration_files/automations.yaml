@@ -70,6 +70,7 @@
   - data_template:
       entity_id: '{{ trigger.entity_id }}'
     service: switch.turn_off
+  mode: single
 - id: 1e959b5f825c4f71bc72792f183123fa
   alias: Light theme after reboot in day
   trigger:
@@ -83,6 +84,10 @@
   - data: {}
     entity_id: switch.theme_dark
     service: switch.turn_off
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_off
+  mode: single
 - id: 8e6525ab98764dfd8d945ee58533462e
   alias: Dark theme after reboot in night
   trigger:
@@ -96,6 +101,10 @@
   - data: {}
     entity_id: switch.theme_dark
     service: switch.turn_on
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_on
+  mode: single
 - id: '1593856750074'
   alias: Light theme
   description: ''
@@ -109,6 +118,10 @@
   - data: {}
     entity_id: switch.theme_dark
     service: switch.turn_off
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_off
+  mode: single
 - id: '1593856822416'
   alias: Dark theme at sunset
   description: ''
@@ -120,6 +133,10 @@
   - data: {}
     entity_id: switch.theme_dark
     service: switch.turn_on
+  - data: {}
+    entity_id: input_boolean.frontgatecamera_bool
+    service: input_boolean.turn_on
+  mode: single
 - id: '1596369747425'
   alias: Notify when an update is available
   description: ''

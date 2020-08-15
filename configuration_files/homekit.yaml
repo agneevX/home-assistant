@@ -3,12 +3,11 @@ filter:
   include_domains:
     - light
   include_entities:
-    - switch.adguard_protection
+    - switch.adguard_filtering
     - switch.lofi_beats
     - switch.lofi_beats2
     - switch.jazz_radio
     - sensor.internet_health
-    - switch.nightlamp
 entity_config:
-  switch.adguard_protection:
+  switch.adguard_filtering:
     name: AdGuard

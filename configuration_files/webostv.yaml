@@ -1,0 +1,18 @@
+- name: Bedroom TV
+  host: 10.0.0.60
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret bedroom_tv_mac
+- name: Old Room TV
+  host: 10.0.0.61
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret old_room_tv_mac
+- name: New Room TV
+  host: 10.0.0.62
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret new_room_tv_mac
