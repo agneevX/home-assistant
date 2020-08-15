@@ -23,6 +23,7 @@ All cards in this view are in a vertical stack...
 * Network In
 * Network Out
 * SSD used %
+* mergerFS free %
 
 *This is the only view that contain badges.*
 
@@ -35,15 +36,21 @@ badges:
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_in
+    name: eth0 in
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.eth0_out
+    name: eth0 out
     style: |
       :host {--label-badge-red: #07b265;}
   - entity: sensor.disk_use_percent_home_agneev
-    name: SSD Used
+    name: SSD used
     style: |
       :host {--label-badge-red: #0091c8;}
+  - entity: sensor.mergerfs_free_percent
+    name: mFS free
+    style: |
+      :host {--label-badge-red: #07b265;}
 ```
 
 </details>
@@ -560,7 +567,7 @@ type: 'custom:state-switch'
 
 ### Now Playing card
 
-* Automatically shows all (but one) active media players
+* Automatically shows all active media players
 
 <details><summary>Show code</summary>
 
@@ -573,7 +580,6 @@ filter:
     - state: unavailable
     - state: standby
     - state: idle
-    - entity_id: media_player.new_room_echo
   include:
     - domain: media_player
 show_empty: false
@@ -598,46 +604,15 @@ Two vertical stacks in this view.
 
 ### Graph row I
 
-* System Load - 1 minute
 * System Load - 5 minutes
 * System Load - 15 minutes
+* Google Drive used space
 
 <details><summary>Show code</summary>
 
 ```yaml
 cards:
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 4
-      - color: '#e1e700'
-        value: 2
-      - color: '#04e700'
-        value: 1
-    decimals: 1
-    entities:
-      - entity: sensor.load_1m
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 2
-    line_width: 5
-    name: 1-min
-    points_per_hour: 6
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 4
       - color: '#e1e700'
@@ -650,11 +625,11 @@ cards:
         state_adaptive_color: false
     font_size: 85
     hours_to_show: 2
+    icon: 'mdi:numeric-5-box-outline'
     line_width: 5
     name: 5-min
     points_per_hour: 6
     show:
-      fill: true
       icon_adaptive_color: true
       labels: false
       points: false
@@ -666,8 +641,7 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 3
       - color: '#e1e700'
@@ -684,7 +658,6 @@ cards:
     name: 15-min
     points_per_hour: 6
     show:
-      fill: true
       icon_adaptive_color: true
       labels: false
       points: false
@@ -696,83 +669,7 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
-type: horizontal-stack
-```
-
-</details>
-
-### Graph row II
-
-* AdGuard Home processing speed
-* AdGuard Home - % of blocked ads
-* Google Drive used space
-
-<details><summary>Show code</summary>
-
-```yaml
-cards:
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 250
-      - color: '#e1e700'
-        value: 150
-      - color: '#04e700'
-        value: 100
-    decimals: 0
-    entities:
-      - entity: sensor.adguard_average_processing_speed
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 72
-    line_width: 5
-    name: DNS
-    points_per_hour: 1
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
-      - color: '#ff0000'
-        value: 10
-      - color: '#e1e700'
-        value: 15
-      - color: '#04e700'
-        value: 20
-    decimals: 1
-    entities:
-      - entity: sensor.adguard_dns_queries_blocked_ratio
-        state_adaptive_color: false
-    font_size: 85
-    hours_to_show: 72
-    line_width: 5
-    name: Ads Blocked
-    points_per_hour: 1
-    show:
-      fill: true
-      icon_adaptive_color: true
-      labels: false
-      points: false
-    style: |
-      ha-card > div:nth-child(-n+2) {
-        padding: 0 14px 0 14px !important
-      }
-      ha-card > .info {
-        padding: 0 14px 0px 14px !important
-      }
-    type: 'custom:mini-graph-card'
-  - animate: false
-    color_thresholds:
+  - color_thresholds:
       - color: '#ff0000'
         value: 75
       - color: '#e1e700'
@@ -785,10 +682,9 @@ cards:
         state_adaptive_color: false
     font_size: 85
     hours_to_show: 72
+    icon: 'mdi:google-drive'
     line_width: 5
     name: Drive
-    unit: TB
-    icon: 'mdi:google-drive'
     points_per_hour: 1
     show:
       fill: true
@@ -804,16 +700,17 @@ cards:
         padding: 0 14px 0px 14px !important
       }
     type: 'custom:mini-graph-card'
+    unit: TB
 type: horizontal-stack
 ```
 
 </details>
 
-### Graph row III
+### Graph row II
 
 * CPU Temperature/Throttled state (host)
 * CPU Temperature/Throttled state (Always-On server)
-* mergerFS free %
+* AdGuard Home processing speed
 
 <details><summary>Show code</summary>
 
@@ -834,7 +731,7 @@ cards:
           state_adaptive_color: false
       font_size: 85
       hours_to_show: 3
-      line_width: 3
+      line_width: 5
       name: '${ states[''sensor.throttled_state''].state }'
       points_per_hour: 7
       show:
@@ -867,7 +764,7 @@ cards:
           state_adaptive_color: false
       font_size: 85
       hours_to_show: 3
-      line_width: 3
+      line_width: 5
       name: '${ states[''sensor.always_on_throttled_state''].state }'
       points_per_hour: 7
       show:
@@ -885,21 +782,95 @@ cards:
     entities:
       - sensor.always_on_throttled_state
     type: 'custom:config-template-card'
-  - animate: true
+  - color_thresholds:
+      - color: '#ff0000'
+        value: 250
+      - color: '#e1e700'
+        value: 150
+      - color: '#04e700'
+        value: 100
     decimals: 0
-    color_thresholds:
+    entities:
+      - entity: sensor.adguard_average_processing_speed
+        state_adaptive_color: false
+    font_size: 85
+    hours_to_show: 24
+    icon: 'mdi:progress-clock'
+    line_width: 5
+    name: DNS
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
+type: horizontal-stack
+```
+
+</details>
+
+### Graph row III
+
+* AdGuard Home - % of blocked ads
+* mergerFS free space (in GB)
+
+<details><summary>Show code</summary>
+
+```yaml
+cards:
+  - color_thresholds:
+      - color: '#ff0000'
+        value: 10
+      - color: '#e1e700'
+        value: 15
+      - color: '#04e700'
+        value: 20
+    decimals: 1
+    entities:
+      - entity: sensor.adguard_dns_queries_blocked_ratio
+        state_adaptive_color: false
+    font_size: 85
+    hours_to_show: 72
+    line_width: 3
+    name: Ads blocked
+    points_per_hour: 1
+    show:
+      fill: true
+      icon_adaptive_color: true
+      labels: false
+      points: false
+    style: |
+      ha-card > div:nth-child(-n+2) {
+        padding: 0 14px 0 14px !important
+      }
+      ha-card > .info {
+        padding: 0 14px 0px 14px !important
+      }
+    type: 'custom:mini-graph-card'
+  - color_thresholds:
       - color: '#04e700'
         value: 60
       - color: '#e1e700'
         value: 40
       - color: '#ff0000'
         value: 25
+    decimals: 0
     entities:
-      - entity: sensor.mergerfs_free_percent
+      - entity: sensor.disk_free_merged
+        name: mergerFS free
         state_adaptive_color: false
+        unit: GB
     font_size: 85
     hours_to_show: 72
-    line_width: 5
+    line_width: 3
     points_per_hour: 1
     show:
       fill: true
@@ -2290,6 +2261,7 @@ type: conditional
 * Entities beginning with `int` are "internal" entities that are used inside templates.
 * Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop.
   The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
+* Screenshots or snippet code may not be up-to-date
 * The header that is used for separating cards is from the theme, [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
@@ -2299,4 +2271,3 @@ type: conditional
 * to all the authors above,
 * and all the very helpful folks over at the HA Discord.
 
-### Screenshots or snippet code may not be up-to-date

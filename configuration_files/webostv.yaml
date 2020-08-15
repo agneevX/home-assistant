@@ -1,30 +1,18 @@
 - name: Bedroom TV
   host: 10.0.0.60
-  customize:
-    sources:
-      - com.webos.app.hdmi1
-      - com.webos.app.hdmi2
-      - com.webos.app.externalinput.av1
-      - youtube.leanback.v4
-      - netflix
-      - cdp-30
-      - com.itkey.plexclient
-      - amazon.global
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret bedroom_tv_mac
 - name: Old Room TV
   host: 10.0.0.61
-  customize:
-    sources:
-      - youtube.leanback.v4
-      - netflix
-      - cdp-30
-      - com.itkey.plexclient
-      - amazon
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret old_room_tv_mac
 - name: New Room TV
   host: 10.0.0.62
-  customize:
-    sources:
-      - youtube.leanback.v4
-      - netflix
-      - cdp-30
-      - com.itkey.plexclient
-      - amazon.global
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret new_room_tv_mac

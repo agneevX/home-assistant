@@ -13,15 +13,21 @@ views:
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.eth0_in
+        name: eth0 in
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.eth0_out
+        name: eth0 out
         style: |
           :host {--label-badge-red: #07b265;}
       - entity: sensor.disk_use_percent_home_agneev
-        name: SSD Used
+        name: SSD used
         style: |
           :host {--label-badge-red: #0091c8;}
+      - entity: sensor.mergerfs_free_percent
+        name: mFS free
+        style: |
+          :host {--label-badge-red: #07b265;}
     cards:
       - cards:
           - entities:
@@ -453,7 +459,6 @@ views:
                 - state: unavailable
                 - state: standby
                 - state: idle
-                - entity_id: media_player.new_room_echo
               include:
                 - domain: media_player
             show_empty: false
@@ -468,38 +473,7 @@ views:
     cards:
       - cards:
           - cards:
-              - animate: false
-                color_thresholds:
-                  - color: '#ff0000'
-                    value: 4
-                  - color: '#e1e700'
-                    value: 2
-                  - color: '#04e700'
-                    value: 1
-                decimals: 1
-                entities:
-                  - entity: sensor.load_1m
-                    state_adaptive_color: false
-                font_size: 85
-                hours_to_show: 2
-                icon: 'mdi:numeric-1-box-outline'
-                line_width: 5
-                name: 1-min
-                points_per_hour: 6
-                show:
-                  icon_adaptive_color: true
-                  labels: false
-                  points: false
-                style: |
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-              - animate: false
-                color_thresholds:
+              - color_thresholds:
                   - color: '#ff0000'
                     value: 4
                   - color: '#e1e700'
@@ -528,8 +502,7 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
-              - animate: false
-                color_thresholds:
+              - color_thresholds:
                   - color: '#ff0000'
                     value: 3
                   - color: '#e1e700'
@@ -557,70 +530,7 @@ views:
                     padding: 0 14px 0px 14px !important
                   }
                 type: 'custom:mini-graph-card'
-            type: horizontal-stack
-          - cards:
-              - animate: false
-                color_thresholds:
-                  - color: '#ff0000'
-                    value: 250
-                  - color: '#e1e700'
-                    value: 150
-                  - color: '#04e700'
-                    value: 100
-                decimals: 0
-                entities:
-                  - entity: sensor.adguard_average_processing_speed
-                    state_adaptive_color: false
-                font_size: 85
-                hours_to_show: 72
-                line_width: 5
-                name: DNS
-                points_per_hour: 1
-                show:
-                  fill: true
-                  icon_adaptive_color: true
-                  labels: false
-                  points: false
-                style: |
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-              - animate: false
-                color_thresholds:
-                  - color: '#ff0000'
-                    value: 10
-                  - color: '#e1e700'
-                    value: 15
-                  - color: '#04e700'
-                    value: 20
-                decimals: 1
-                entities:
-                  - entity: sensor.adguard_dns_queries_blocked_ratio
-                    state_adaptive_color: false
-                font_size: 85
-                hours_to_show: 72
-                line_width: 5
-                name: Ads Blocked
-                points_per_hour: 1
-                show:
-                  fill: true
-                  icon_adaptive_color: true
-                  labels: false
-                  points: false
-                style: |
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-              - animate: false
-                color_thresholds:
+              - color_thresholds:
                   - color: '#ff0000'
                     value: 75
                   - color: '#e1e700'
@@ -669,7 +579,7 @@ views:
                       state_adaptive_color: false
                   font_size: 85
                   hours_to_show: 3
-                  line_width: 3
+                  line_width: 5
                   name: '${ states[''sensor.throttled_state''].state }'
                   points_per_hour: 7
                   show:
@@ -702,7 +612,7 @@ views:
                       state_adaptive_color: false
                   font_size: 85
                   hours_to_show: 3
-                  line_width: 3
+                  line_width: 5
                   name: '${ states[''sensor.always_on_throttled_state''].state }'
                   points_per_hour: 7
                   show:
@@ -720,21 +630,83 @@ views:
                 entities:
                   - sensor.always_on_throttled_state
                 type: 'custom:config-template-card'
-              - animate: true
+              - color_thresholds:
+                  - color: '#ff0000'
+                    value: 250
+                  - color: '#e1e700'
+                    value: 150
+                  - color: '#04e700'
+                    value: 100
                 decimals: 0
-                color_thresholds:
+                entities:
+                  - entity: sensor.adguard_average_processing_speed
+                    state_adaptive_color: false
+                font_size: 85
+                hours_to_show: 24
+                icon: 'mdi:progress-clock'
+                line_width: 5
+                name: DNS
+                points_per_hour: 1
+                show:
+                  fill: true
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                style: |
+                  ha-card > div:nth-child(-n+2) {
+                    padding: 0 14px 0 14px !important
+                  }
+                  ha-card > .info {
+                    padding: 0 14px 0px 14px !important
+                  }
+                type: 'custom:mini-graph-card'
+            type: horizontal-stack
+          - cards:
+              - color_thresholds:
+                  - color: '#ff0000'
+                    value: 10
+                  - color: '#e1e700'
+                    value: 15
+                  - color: '#04e700'
+                    value: 20
+                decimals: 1
+                entities:
+                  - entity: sensor.adguard_dns_queries_blocked_ratio
+                    state_adaptive_color: false
+                font_size: 85
+                hours_to_show: 72
+                line_width: 3
+                name: Ads blocked
+                points_per_hour: 1
+                show:
+                  fill: true
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                style: |
+                  ha-card > div:nth-child(-n+2) {
+                    padding: 0 14px 0 14px !important
+                  }
+                  ha-card > .info {
+                    padding: 0 14px 0px 14px !important
+                  }
+                type: 'custom:mini-graph-card'
+              - color_thresholds:
                   - color: '#04e700'
                     value: 60
                   - color: '#e1e700'
                     value: 40
                   - color: '#ff0000'
                     value: 25
+                decimals: 0
                 entities:
-                  - entity: sensor.mergerfs_free_percent
+                  - entity: sensor.disk_free_merged
+                    name: mergerFS free
                     state_adaptive_color: false
+                    unit: GB
                 font_size: 85
                 hours_to_show: 72
-                line_width: 5
+                line_width: 3
                 points_per_hour: 1
                 show:
                   fill: true
