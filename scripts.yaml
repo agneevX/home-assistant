@@ -1,9 +1,0 @@
-skip:
-  alias: skip
-  mode: single
-  sequence:
-  - data_template:
-      entity_id: '{{ entity }}'
-      seek_position: '{{ ( as_timestamp(now()) - as_timestamp(state_attr(entity, ''media_position_updated_at''))
-        + state_attr(entity, ''media_position'') ) | float + interval }}'
-    service: media_player.media_seek
