@@ -194,7 +194,7 @@ These two graph rows provide an overview of network activity and helps track if 
 * Network In sensor
 * Network Out sensor
 
-### Media player cards
+### Plex player cards
 
 * [Conditional header cards with Plex media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1396)
 
@@ -206,7 +206,7 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ### [TV media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1651)
 
-* Header card for floors
+* Header cards for floors
 * TV media player cards
 
 ***
@@ -230,7 +230,7 @@ These two graph rows provide an overview of network activity and helps track if 
 * [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
 * [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 * [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
-* [`button-card`](https://github.com/custom-cards/button-card)
+* [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 * [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
 
 ***
