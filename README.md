@@ -17,7 +17,7 @@ Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an 
 
 All cards in this view are in a vertical stack...
 
-### Badges
+### [Badges](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L10)
 
 * System Load
 * Network In
@@ -27,34 +27,6 @@ All cards in this view are in a vertical stack...
 
 *This is the only view that contain badges.*
 
-<details><summary>Show code</summary>
-
-```yaml
-badges:
-  - entity: sensor.load_1m
-    name: Load (1m)
-    style: |
-      :host {--label-badge-red: #07b265;}
-  - entity: sensor.eth0_in
-    name: eth0 in
-    style: |
-      :host {--label-badge-red: #07b265;}
-  - entity: sensor.eth0_out
-    name: eth0 out
-    style: |
-      :host {--label-badge-red: #07b265;}
-  - entity: sensor.disk_use_percent_home_agneev
-    name: SSD used
-    style: |
-      :host {--label-badge-red: #0091c8;}
-  - entity: sensor.mergerfs_free_percent
-    name: mFS free
-    style: |
-      :host {--label-badge-red: #07b265;}
-```
-
-</details>
-
 <p align="center">
   <b>Vertical stack 1</b>
 </p>
@@ -63,30 +35,6 @@ badges:
 
 * Desk Lamp
 * TV Lamp
-
-<details><summary>Show code</summary>
-
-```yaml
-entities:
-  - attribute: color_temp
-    entity: light.desk_light
-    haptic: success
-    hide_when_off: true
-    step: 15
-    toggle: true
-    type: 'custom:slider-entity-row'
-  - entity: light.bedside_lamp
-    haptic: success
-    hide_when_off: true
-    name: Orb Lamp
-    step: 1
-    toggle: true
-    type: 'custom:slider-entity-row'
-show_header_toggle: false
-type: entities
-```
-
-</details>
 
 ### Switch row 1
 
