@@ -115,7 +115,10 @@ This is a custom sensor that uses the official Speedtest CLI as opposed to the `
 
 * Graphs network usage in the last hour
 
-### [Entity card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L833)
+### [Network traffic card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L833)
+
+* Total data in
+* Total data out
 
 This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
@@ -138,11 +141,8 @@ Pings my local ISP node and Cloudflare DNS. Very helpful in isolating network is
 ### Radarr/Sonarr cards
 
 * [Radarr/Sonarr ongoing commands](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L970)
-
 * [Radarr/Sonarr Upcoming](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1022)
-
 * [Sonarr Queue/Wanted](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1060)
-
 * [Radarr Movies/Sonarr Shows](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1098)
 
 <p align="center">
@@ -172,9 +172,7 @@ This view contains one vertical stack only.
 
 #### [Header card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1211)
 
-### Media player cards for Alexa devices
-
-* [Cards for each device](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1228)
+### [Media player cards for Alexa devices](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1228)
 
 ***
 
@@ -182,7 +180,7 @@ This view contains one vertical stack only.
 
 ![plex_view](.github/repo_assets/plex_view.jpg "Plex view")
 
-This view contains one vertical stack only.
+All cards in this view are in a single vertical stack.
 
 These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
@@ -206,7 +204,7 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ![tv_view](.github/repo_assets/tv_view.jpg "TV view")
 
-### [Media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1651)
+### [TV media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1651)
 
 * Header card for floors
 * TV media player cards
@@ -239,16 +237,16 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ## Notes
 
+* Screenshots may not be up-to-date.
 * Entities beginning with `int` are "internal" entities that are used inside templates.
-* Shutting down/Rebooting X200M involves Assistant Computer Control that runs on the laptop.
-  The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions.
-* Screenshots or snippet code may not be up-to-date
+* Shutting down/Rebooting X200M involves a program called `Assistant Computer Control` that runs on the laptop.
+  The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
 * The header that is used for separating cards is from the theme, [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
 
 ## Special thanks
 
-* to all the authors above,
+* to all authors above,
 * and all the very helpful folks over at the HA Discord.
 
