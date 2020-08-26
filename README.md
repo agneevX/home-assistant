@@ -36,7 +36,7 @@ All cards in this view are in a vertical stack...
 * Desk Lamp
 * TV Lamp
 
-### [Switch row 1](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L51)
+### [Switch row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L51)
 
 * Night Lamp switch
 * Color Flow switch
@@ -44,7 +44,7 @@ All cards in this view are in a vertical stack...
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
 
-### [Switch row 2](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L124)
+### [Switch row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L124)
 
 * AdGuard Home switch
 * Reboot `Always-On Server`
@@ -88,13 +88,13 @@ Two vertical stacks in this view.
 * SSD used %
 * Google Drive used space
 
-### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L)
+### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L565)
 
 * AdGuard Home - % of blocked ads
 * AdGuard Home processing speed
 * Latency - Speedtest.net
 
-### [Graph row III]
+### [Graph row III](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L657)
 
 * CPU Temperature/Throttled state (host)
 * CPU Temperature/Throttled state (Always-On server)
@@ -135,13 +135,15 @@ Pings my local ISP node and Cloudflare DNS. Very helpful in isolating network is
 
 ### [Specific devices tracking card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L882)
 
-### [Radarr/Sonarr ongoing commands](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L970)
+### Radarr/Sonarr cards
 
-### [Radarr/Sonarr Upcoming](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1022)
+* [Radarr/Sonarr ongoing commands](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L970)
 
-### [Sonarr Queue/Wanted](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1060)
+* [Radarr/Sonarr Upcoming](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1022)
 
-### [Radarr Movies/Sonarr Shows](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1098)
+* [Sonarr Queue/Wanted](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1060)
+
+* [Radarr Movies/Sonarr Shows](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1098)
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -184,15 +186,15 @@ This view contains one vertical stack only.
 
 These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
-### Graph row I
+### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1287)
 
-* [Plex Watching sensor](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1289)
-* [Tautulli current bandwidth](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1315)
+* Plex Watching sensor
+* Tautulli current bandwidth
 
-### Graph row II
+### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1342)
 
-* [Network In sensor](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1343)
-* [Network Out sensor](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1369)
+* Network In sensor
+* Network Out sensor
 
 ### Media player cards
 
