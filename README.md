@@ -17,7 +17,7 @@ Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an 
 
 All cards in this view are in a vertical stack...
 
-### [Badges](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L10)
+### [Badges](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L10)
 
 * System Load
 * HACS available updates
@@ -31,12 +31,12 @@ All cards in this view are in a vertical stack...
   <b>Vertical stack 1</b>
 </p>
 
-### [Switch card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L34)
+### [Switch card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L34)
 
 * Desk Lamp
 * TV Lamp
 
-### [Switch row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L51)
+### [Switch row I](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L51)
 
 * Night Lamp switch
 * Color Flow switch
@@ -44,7 +44,7 @@ All cards in this view are in a vertical stack...
 * Lo-Fi Beats 2 switch
 * Jazz Radio switch
 
-### [Switch row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L124)
+### [Switch row II](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L124)
 
 * AdGuard Home switch
 * Reboot `Always-On Server`
@@ -56,17 +56,17 @@ All cards in this view are in a vertical stack...
   <b>Vertical stack 2</b>
 </p>
 
-### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L209)
+### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L209)
 
 * CPU use
 * Network health
 
-### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L276)
+### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L276)
 
 * Hidden/conditional qBittorrent download card
 * Hidden/conditional qBittorrent upload card
 
-### [Now Playing card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L451)
+### [Now Playing card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L451)
 
 * Automatically shows all active media players
 
@@ -82,25 +82,25 @@ Two vertical stacks in this view.
   <b>Vertical stack 1</b>
 </p>
 
-### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L472)
+### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L472)
 
 * System Load - 5 minutes
 * SSD used %
 * Google Drive used space
 
-### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L565)
+### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L565)
 
 * AdGuard Home - % of blocked ads
 * AdGuard Home processing speed
 * Latency - Speedtest.net
 
-### [Graph row III](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L657)
+### [Graph row III](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L657)
 
 * CPU Temperature/Throttled state (host)
 * CPU Temperature/Throttled state (Always-On server)
 * Jitter - Speedtest.net
 
-### [Graph row IV](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L736)
+### [Graph row IV](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L736)
 
 * Download speed
 * Upload speed
@@ -111,18 +111,18 @@ This is a custom sensor that uses the official Speedtest CLI as opposed to the `
   <b>Vertical stack 2</b>
 </p>
 
-### [Network throughput card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L806)
+### [Network throughput card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L806)
 
 * Graphs network usage in the last hour
 
-### [Network traffic card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L833)
+### [Network traffic card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L833)
 
 * Total data in
 * Total data out
 
 This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
-### [Sensor graph](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L867)
+### [Sensor graph](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L867)
 
 Pings my local ISP node and Cloudflare DNS. Very helpful in isolating network issues.
 
@@ -136,27 +136,27 @@ Pings my local ISP node and Cloudflare DNS. Very helpful in isolating network is
   <b>Vertical stack 1</b>
 </p>
 
-### [Specific devices tracking card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L882)
+### [Specific devices tracking card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L882)
 
 ### Radarr/Sonarr cards
 
-* [Radarr/Sonarr ongoing commands](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L970)
-* [Radarr/Sonarr Upcoming](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1022)
-* [Sonarr Queue/Wanted](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1060)
-* [Radarr Movies/Sonarr Shows](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1098)
+* [Radarr/Sonarr ongoing commands](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L970)
+* [Radarr/Sonarr Upcoming](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1022)
+* [Sonarr Queue/Wanted](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1060)
+* [Radarr Movies/Sonarr Shows](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1098)
 
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
 
-### [Router devices](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1138)
+### [Router devices](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1138)
 
 Using the Netgear integration, this card shows all devices that are/were connected to my router.
 Shows the last updated device on top.
 
 ***
 
-## [Camera view](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1159)
+## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1159)
 
 This view contains one vertical stack only.
 
@@ -168,11 +168,11 @@ This view contains one vertical stack only.
 
 This view contains one vertical stack only.
 
-### [Spotify card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1182)
+### [Spotify card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1182)
 
-#### [Header card](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1211)
+#### [Header card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1211)
 
-### [Media player cards for Alexa devices](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1228)
+### [Media player cards for Alexa devices](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1228)
 
 ***
 
@@ -184,19 +184,19 @@ All cards in this view are in a single vertical stack.
 
 These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
 
-### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1287)
+### [Graph row I](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1287)
 
 * Plex Watching sensor
 * Tautulli current bandwidth
 
-### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1342)
+### [Graph row II](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1342)
 
 * Network In sensor
 * Network Out sensor
 
 ### Plex player cards
 
-* [Conditional header cards with Plex media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1396)
+* [Conditional header cards with Plex media player cards](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1396)
 
 ***
 
@@ -204,7 +204,7 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ![tv_view](.github/repo_assets/tv_view.jpg "TV view")
 
-### [TV media player cards](https://github.com/agneevX/my-ha-setup/blob/readme-overhaul/lovelace_raw.yaml#L1651)
+### [TV media player cards](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1651)
 
 * Header cards for floors
 * TV media player cards
