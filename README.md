@@ -96,8 +96,8 @@ Two vertical stacks in this view.
 
 ### [Graph row III](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L657)
 
-* CPU Temperature/Throttled state (host)
-* CPU Temperature/Throttled state (Always-On server)
+* CPU Temperature (host)
+* CPU Temperature (Always-On server)
 * Jitter - Speedtest.net
 
 ### [Graph row IV](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L736)
@@ -113,12 +113,12 @@ This is a custom sensor that uses the official Speedtest CLI as opposed to the `
 
 ### [Network throughput card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L806)
 
-* Graphs network usage in the last hour
+* Graphs network usage within the last hour
 
 ### [Network traffic card](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L833)
 
-* Total data in
-* Total data out
+* Total traffic in
+* Total traffic out
 
 This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
 
