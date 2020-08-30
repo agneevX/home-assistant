@@ -5,6 +5,23 @@ This layout was designed mobile-first.
 
 ![header](.github/repo_assets/header.jpg)
 
+- [My Home Assistant setup](#my-home-assistant-setup)
+  * [Background](#background)
+  * [Lovelace layout](#lovelace-layout)
+  * [Dashboard (home view)](#dashboard--home-view-)
+  * [Info view](#info-view)
+  * [Tile view](#tile-view)
+  * [Camera view](#-camera-view)
+  * [Remote control view](#remote-control-view)
+  * [Plex view](#plex-view)
+  * [Television view](#television-view)
+  * [Custom plugins](#custom-plugins)
+    - [Custom Components](#custom-components)
+    - [Lovelace](#lovelace)
+  * [Notes](#notes)
+  * [Special thanks](#special-thanks)
+
+
 ## Background
 
 Home Assistant is running in a Python `venv` on a Raspberry Pi 4 (4GB), with an SSD (Crucial MX500).
@@ -162,7 +179,7 @@ This view contains one vertical stack only.
 
 ***
 
-### Remote control view
+## Remote control view
 
 ![rc_view](.github/repo_assets/rc_view.jpg "Remote control view")
 
@@ -211,15 +228,15 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ***
 
-### Custom plugins
+## Custom plugins
 
-#### Custom Components
+### Custom Components
 
 * [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
 * [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 * [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-#### Lovelace
+### Lovelace
 
 * [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 * [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)

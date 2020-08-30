@@ -1,0 +1,14 @@
+[Unit]
+Description=Home Assistant daemon
+After=network-online.target
+
+[Service]
+Type=simple
+User=%i
+ExecStart=/srv/homeassistant/bin/hass -c "/home/%i/.homeassistant"
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=hass
+
+[Install]
+WantedBy=multi-user.target
