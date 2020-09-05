@@ -9,14 +9,12 @@
   count: 1
   scan_interval: 3
 - platform: ping
-  name: Orbi Satellite
+  name: Orbi Satellite Ping
   host: 10.0.0.2
   count: 1
   scan_interval: 10
-- platform: template
-  sensors:
-    front_gate_camera_state:
-      friendly_name: Front Gate Camera State
-      value_template: "{{ is_state('device_tracker.front_gate_camera','home') }}"
-      icon_template: mdi:power
-      device_class: connectivity
+- platform: ping
+  name: Front Gate Camera State
+  host: 10.0.0.20
+  count: 1
+  scan_interval: 10

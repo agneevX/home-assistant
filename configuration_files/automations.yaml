@@ -55,7 +55,7 @@
   - data_template:
       message: '`{{ trigger.entity_id }}` has throttled to `{{ trigger.to_state }}`'
       title: '*Home Assistant*'
-    service: notify.telegram_hassio
+    service: notify.telegram
 - id: '1588240541307'
   alias: Turn off certain switches
   description: ''
@@ -149,5 +149,20 @@
   - data_template:
       message: An update is available!
       title: '*Home Assistant*'
-    service: notify.telegram_hassio
+    service: notify.telegram
+  mode: single
+- id: '1598180996359'
+  alias: Notify me of tomorrow's weather forecast
+  description: ''
+  trigger:
+  - at: '21:00:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      message: Expect {{ state_attr("weather.accuweather", "forecast")[0].condition
+        }} tomorrow, with a high of {{ state_attr("weather.accuweather","forecast")[0].temperature
+        }}°C
+      title: Tomorrow's Weather Forecast
+    service: notify.mobile_app_agneevs_iphone_x
   mode: single

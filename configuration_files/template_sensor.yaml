@@ -28,32 +28,38 @@ speedtest_net_jitter:
   value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['jitter'])|round(0,floor) }}"
   icon_template: mdi:triangle-wave
   unit_of_measurement: 'ms'
+#speedtest_net_packet_loss:
+#  friendly_name: Speedtest.net Packet Loss
+#  value_template: "{{ (state_attr('sensor.speedtest_net_download','packetLoss'))|round(1) }}"
+#  icon_template: mdi:pipe-leak
+#  unit_of_measurement: '%'
 tautulli_total_bw:
   friendly_name: Tautulli Total Bandwidth
   value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
-  icon_template: mdi:arrow-up
+  icon_template: mdi:square-wave
   unit_of_measurement: 'Mb/s'
 mergerfs_free_percent:
   friendly_name: mergerFS free %
-  unit_of_measurement: '%'
-  value_template: >-
-    {% if is_state('sensor.int_mergerfs_status','on') %}
-      {{ 100 - states('sensor.disk_use_percent_merged')|int }}
-    {% else %}
-      0
-    {% endif %}
-  availability_template: >-
-    {% if is_state('sensor.int_mergerfs_status','on') %}
-      true
-    {% else %}
-      false
-    {% endif %}
-  icon_template: >-
-    {% if is_state('sensor.int_mergerfs_status','on') %}
-      mdi:database-check
-    {% elif is_state('sensor.int_mergerfs_status','off') %}
-      mdi:database-remove
-    {% endif %}
+  value_template: "{{ 100 - states('sensor.disk_use_percent_merged')|int }}"
+#  value_template: >-
+#    {% if is_state('sensor.int_mergerfs_status','on') %}
+#      {{ 100 - states('sensor.disk_use_percent_merged')|int }}
+#    {% else %}
+#      0
+#    {% endif %}
+#  availability_template: >-
+#    {% if is_state('sensor.int_mergerfs_status','on') %}
+#      true
+#    {% else %}
+#      false
+#    {% endif %}
+  icon_template: mdi:database-check
+#  icon_template: >-
+#    {% if is_state('sensor.int_mergerfs_status','on') %}
+#      mdi:database-check
+#    {% elif is_state('sensor.int_mergerfs_status','off') %}
+#      mdi:database-remove
+#    {% endif %}
 eth0_in:
   friendly_name: eth0 In
   value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"

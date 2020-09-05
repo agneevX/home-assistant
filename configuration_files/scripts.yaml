@@ -7,3 +7,88 @@ skip:
       seek_position: '{{ state_attr(entity, ''media_position'') | float + interval
         }}'
     service: media_player.media_seek
+spotify_dr_disrespect:
+  alias: Spotify Dr Disrespect
+  mode: single
+  sequence:
+  - data:
+      source: Bedroom Echo
+    entity_id: media_player.spotify
+    service: media_player.select_source
+  - data:
+      shuffle: true
+    entity_id: media_player.spotify
+    service: media_player.shuffle_set
+  - data:
+      media_content_id: spotify:playlist:5IUxvS0U3ZL2NwKoybYEmD
+      media_content_type: playlist
+    entity_id: media_player.spotify
+    service: media_player.play_media
+spotify_lofi_beats:
+  alias: Spotify lo-fi beats
+  mode: single
+  sequence:
+  - data:
+      source: Bedroom Echo
+    entity_id: media_player.spotify
+    service: media_player.select_source
+  - data:
+      shuffle: true
+    entity_id: media_player.spotify
+    service: media_player.shuffle_set
+  - data:
+      media_content_id: spotify:playlist:5FmmxErJczcrEwIFGIviYo
+      media_content_type: playlist
+    entity_id: media_player.spotify
+    service: media_player.play_media
+spotify_trending:
+  alias: Spotify trending
+  mode: single
+  sequence:
+  - data:
+      source: Bedroom Echo
+    entity_id: media_player.spotify
+    service: media_player.select_source
+  - data:
+      shuffle: true
+    entity_id: media_player.spotify
+    service: media_player.shuffle_set
+  - data:
+      media_content_id: spotify:playlist:37i9dQZF1DXcBWIGoYBM5M
+      media_content_type: playlist
+    entity_id: media_player.spotify
+    service: media_player.play_media
+spotify_daily_mix_1:
+  alias: Spotify Daily Mix 1
+  mode: single
+  sequence:
+  - data:
+      source: Bedroom Echo
+    entity_id: media_player.spotify
+    service: media_player.select_source
+  - data:
+      shuffle: true
+    entity_id: media_player.spotify
+    service: media_player.shuffle_set
+  - data:
+      media_content_id: spotify:playlist:xxxxx
+      media_content_type: playlist
+    entity_id: media_player.spotify
+    service: media_player.play_media
+spotify_daily_mix_2:
+  alias: Spotify Daily Mix 2
+  mode: single
+  sequence:
+  - data:
+      source: Bedroom Echo
+    entity_id: media_player.spotify
+    service: media_player.select_source
+  - data:
+      shuffle: true
+    entity_id: media_player.spotify
+    service: media_player.shuffle_set
+  - data:
+      media_content_id: spotify:playlist:xxxxx
+      media_content_type: playlist
+    entity_id: media_player.spotify
+    service: media_player.play_media

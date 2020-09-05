@@ -22,26 +22,23 @@
     nightlamp:
       friendly_name: Night Lamp
       icon_template: mdi:power-sleep
-      value_template: "{{ states('input_boolean.night_lamp_bool') }}"
+      value_template: "{{ is_state_attr('light.tv_lamp','effect','Night Lamp') }}" 
       turn_on:
        - service: light.turn_on
          entity_id: light.tv_lamp
          data:
            effect: Night Lamp
+       - delay: 0.2
        - service: light.turn_on
          entity_id: light.tv_lamp
          data:
            brightness: 5
-       - service: input_boolean.turn_on
-         entity_id: input_boolean.night_lamp_bool
       turn_off:
        - service: light.turn_on
          entity_id: light.tv_lamp
          data:
             effect: Stop
        - delay: 0.1
-       - service: input_boolean.turn_off
-         entity_id: input_boolean.night_lamp_bool
        - service: light.turn_off
          entity_id: light.tv_lamp
     spotify_volume:

@@ -8,6 +8,14 @@ filter:
     - switch.lofi_beats2
     - switch.jazz_radio
     - sensor.internet_health
+    - sensor.cpu_temp
+    - sensor.always_on_cpu_temp
 entity_config:
   switch.adguard_filtering:
     name: AdGuard
+  sensor.internet_health:
+    name: Internet
+  sensor.cpu_temp:
+    name: Home Server
+  sensor.always_on_cpu_temp:
+    name: Always-On
