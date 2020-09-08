@@ -4,7 +4,8 @@ Me_Dark_Theme:
   app-header-background-color: "#171717"
   app-header-text-color: "#BDC1C6"
   # Main Interface Colors
-  primary-color: "#5F9BEA"
+  primary-color: "#5198f5"
+#  primary-color: "#5F9BEA"
   light-primary-color: var(--primary-color)
   primary-background-color: "#171717"
   secondary-background-color: "#202124"
@@ -42,7 +43,8 @@ Me_Dark_Theme:
   # Cards
   card-background-color: "#202124"
   ha-card-border-radius: "15px"
-  ha-card-box-shadow: 1px 1px 5px 0px rgb(12, 12, 14)
+  ha-card-box-shadow: 3px 3px 6px 0px rgb(12, 12, 14)
+#  ha-card-box-shadow: 1px 1px 5px 0px rgb(12, 12, 14)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)

@@ -4,7 +4,8 @@ Me_AMOLED:
   app-header-background-color: "#000000"
   app-header-text-color: "#FFFFFF"
   # Main Interface Colors
-  primary-color: "#5F9BEA"
+  primary-color: "#5198f5"
+#  primary-color: "#5F9BEA"
   light-primary-color: var(--primary-color)
   primary-background-color: var(--app-header-background-color)
   secondary-background-color: "#202124"
@@ -23,7 +24,7 @@ Me_AMOLED:
   sidebar-selected-text-color: var(--sidebar-selected-icon-color))
   # States and Badges
   state-icon-color: "#7B808A"
-  state-icon-active-color: "#5F9BEA"
+  state-icon-active-color: var(--primary-color)
   state-icon-unavailable-color: var(--disabled-text-color)
   # Sliders
   paper-slider-knob-color: "#5F9BEA"
@@ -68,3 +69,5 @@ Me_AMOLED:
   hacs-chip-background-color: var(--primary-color)
   # Pre/Code
   markdown-code-background-color: var(--app-header-background-color)
+
+  paper-item-icon-active-color: var(--primary-color)

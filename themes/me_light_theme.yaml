@@ -4,8 +4,8 @@ Me_Light_Theme:
   app-header-background-color: "#F8F8F8"
   app-header-text-color: "#424242"
   # Main Interface Colors
-  primary-color: "#5F9BEA"
-#  primary-color: "#E25F67"
+  primary-color: "#1E88E5"
+#  primary-color: "#5F9BEA"
   light-primary-color: var(--primary-color)
   primary-background-color: "#F8F8F8"
   secondary-background-color: var(--primary-background-color)
@@ -43,13 +43,14 @@ Me_Light_Theme:
   # Cards
   card-background-color: "#FFFFFF"
   ha-card-border-radius: "15px"
-  ha-card-box-shadow: 1px 1px 5px 0px rgb(230, 230, 230)
+  ha-card-box-shadow: 3px 3px 6px 3px rgb(230, 230, 230)
+#  ha-card-box-shadow: 1px 1px 6px 0px rgb(230, 230, 230)
   paper-dialog-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   # Switches
   switch-checked-button-color: var(--primary-color)
-  switch-checked-track-color: "#75a2f0"
+  switch-checked-track-color: "#75A2F0"
   switch-unchecked-button-color: "#5F6267"
   switch-unchecked-track-color: "#888b91"
   # Toggles
