@@ -62,8 +62,6 @@ sensor:
         arg: eth0
   - platform: systemmonitor
     resources:
-      - type: process
-        arg: Radarr
       - type: processor_use
       - type: load_1m
       - type: load_5m

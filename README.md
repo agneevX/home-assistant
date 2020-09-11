@@ -24,23 +24,23 @@ This layout was designed mobile-first.
     - [Graph row IV](#graph-row-iv)
     - [Network throughput card](#network-throughput-card)
     - [Network traffic card](#network-traffic-card)
-    - [Hass.io info](#hassio-info)
-    - [Sensor graph](#sensor-graph)
+    - [Hass.io row](#hassio-row)
+    - [Internet graphs](#internet-graphs)
   - [Tile view](#tile-view)
     - [TV state row](#tv-state-row)
     - [Radarr/Sonarr cards](#radarrsonarr-cards)
-    - [Router devices](#router-devices)
+    - [Devices card](#devices-card)
   - [Camera view](#camera-view)
   - [Remote control view](#remote-control-view)
-    - [Spotify card](#spotify-card)
-    - [`Mopidy-mpd` card](#mopidy-mpd-card)
-    - [Media player cards for Alexa devices](#media-player-cards-for-alexa-devices)
+    - [Spotify player](#spotify-player)
+    - [MPD player](#mpd-player)
+    - [Alexa players](#alexa-players)
   - [Plex view](#plex-view)
     - [Graph row I](#graph-row-i-2)
     - [Graph row II](#graph-row-ii-2)
     - [Plex players](#plex-players)
   - [Television view](#television-view)
-    - [TV media players](#tv-media-players)
+    - [TV players](#tv-players)
   - [Custom plugins](#custom-plugins)
     - [Custom Components](#custom-components)
     - [Lovelace](#lovelace)
@@ -58,7 +58,7 @@ More details [here](https://github.com/agneevX/server-setup).
 
 ## Lovelace layout
 
-## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L41)
+## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L37)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/91996307-74287400-ed56-11ea-9fc5-b6e393680323.png "Home view")
 
@@ -82,29 +82,29 @@ All cards in this view are in a single vertical stack.
 
 * Tautulli
 * `/drive` mount
-* `/merged` mount
+* `/knox` mount
 * Front gate camera
 * Satellite (mesh router)
 
 ### Switch card
 
-* Desk lamp
+* Desk light
 * TV lamp
 
 ### Switch row I
 
-* Night lamp switch
-* Color flow switch
-* Lo-Fi beats switch
-* Lo-Fi beats 2 switch
-* Jazz radio switch
+* Night lamp
+* Color flow
+* Lo-Fi beats
+* Lo-Fi beats 2
+* Jazz radio
 
 ### Switch row II
 
-* AdGuard Home switch
+* AdGuard Home
 * Reboot `always-on` server
-* Refresh Plex switch
-* Circadian Lighting switch
+* Refresh Plex
+* Circadian Lighting
 * Shut down/restart X200M (secondary laptop)
 
 <p align="center">
@@ -127,7 +127,7 @@ All cards in this view are in a single vertical stack.
 
 ***
 
-## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L631)
+## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L527)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/91996394-8e625200-ed56-11ea-89e2-0f38f37c77dc.png "Info view")
 
@@ -139,7 +139,7 @@ All cards in this view are in a single vertical stack.
 
 * System load - 5 min.
 * SSD used %
-* Drive used space
+* `/drive` used space
 
 ### Graph row II
 
@@ -158,7 +158,7 @@ All cards in this view are in a single vertical stack.
 * Download speed
 * Upload speed
 
-This is a custom sensor that uses the official Speedtest CLI as opposed to the `speedtest-cli` integration, which is very inaccurate.
+Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -166,27 +166,35 @@ This is a custom sensor that uses the official Speedtest CLI as opposed to the `
 
 ### Network throughput card
 
-* Graphs network usage within the last hour
+* Network in
+* Network out
+
+Graphs network usage within the last hour.
 
 ### Network traffic card
 
 * Total traffic in (daily)
 * Total traffic out (daily)
 
-This is another custom sensor that gets daily network usage from `vnstat` instead of using the rather [buggy](https://github.com/home-assistant/core/issues/34804) internal integration.
+Custom-made sensor that gets network data traffic from `vnstat` instead from the rather [buggy](https://github.com/home-assistant/core/issues/34804) integration.
 
-### Hass.io info
+### Hass.io row
 
-* Home Assistant latest version
+* Home Assistant update
 * HACS updates
 
-### Sensor graph
+Using `mini-graph-card` and `config-template-card`, this card has been designed to have the same format as the HACS update card for uniformity.
 
-Pings local ISP node and Cloudflare DNS. Helpful in isolating internet issues.
+### Internet graphs
+
+* Node ping
+* Internet ping
+
+Graphs pings to our local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
 
 ***
 
-## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1063)
+## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1014)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/91996388-8d312500-ed56-11ea-833b-9e0d807fcbc6.png "Tile view")
 
@@ -209,66 +217,85 @@ Shows states of specific TVs.
   <b>Vertical stack 2</b>
 </p>
 
-### Router devices
+### Devices card
 
-Using the Netgear integration, this card shows all devices that are/were connected to my network.
-Shows the last updated device on top.
+* Network devices list
+
+Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last updated device is always on top.
 
 ***
 
-## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1334)
+## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1351)
 
 *This view contains one vertical stack only.*
 
 ***
 
-## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1356)
+## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1373)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/91996368-85718080-ed56-11ea-9608-c702c0894938.png "Remote control view")
 
 *This view contains one vertical stack only.*
 
-### Spotify card
+### Spotify player
 
-Header card
+* Spotify media player card
+  * Playlists shortcuts
+  * Bedroom Echo source
 
-### `Mopidy-mpd` card
+### MPD player
 
-### Media player cards for Alexa devices
+* `Mopidy-mpd` media player card
+
+### Alexa players
+
+* Bedroom Echo media player
+* Bedroom Echo switches
+  * Do Not Disturb
+  * Repeat
+  * Shuffle
+* New Room Echo media player
+* New Room Echo switches
+  * Do Not Disturb
+  * Repeat
+  * Shuffle
+* Alexa Everywhere media player
 
 ***
 
-## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1479)
+## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1620)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/91996383-8bfff800-ed56-11ea-8f51-3ff119abbcac.png "Plex view")
 
 *This view contains one vertical stack only.*
 
-These two graph rows provide an overview of network activity and helps track if a Plex client is buffering.
-
 ### Graph row I
 
-* Plex Watching sensor
+* Plex Watching
 * Tautulli current bandwidth
 
 ### Graph row II
 
-* Network In sensor
-* Network Out sensor
+* Network in
+* Network out
 
 ### Plex players
 
-* Conditional header cards with Plex media player cards
+* Conditional cards...
+  * Header card
+  * Plex media player cards
+
+The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
 
 ***
 
-## Television view
+## [Television view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1983)
 
 ![tv_view](https://user-images.githubusercontent.com/19761269/91996379-8b676180-ed56-11ea-8031-24ee29d855e2.png "TV view")
 
-### [TV media players](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1842)
+### TV players
 
-* Header cards for floors
+* Header card
 * TV media player cards
 
 ***
@@ -283,6 +310,7 @@ These two graph rows provide an overview of network activity and helps track if 
 
 ### Lovelace
 
+* [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 * [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 * [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
 * [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
@@ -292,7 +320,6 @@ These two graph rows provide an overview of network activity and helps track if 
 * [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
 * [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 * [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
-* [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 * [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
 
 ***
@@ -302,7 +329,7 @@ These two graph rows provide an overview of network activity and helps track if 
 * Screenshots may not be up-to-date.
 * Entities beginning with `int` are "internal" entities that are used inside templates.
 * Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
-  The cURL request calls a IFTTT webhook which in turn writes a specific word in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
+  The cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
 * The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
