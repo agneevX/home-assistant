@@ -92,3 +92,9 @@ spotify_daily_mix_2:
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+reload_themes:
+  alias: 'HA: Reload themes'
+  mode: single
+  sequence:
+  - data: {}
+    service: frontend.reload_themes

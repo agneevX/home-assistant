@@ -19,4 +19,4 @@ custom_effects:
     flow_params:
       count: 0
       transitions:
-       - RGBTransition: [255, 167, 89]
+        - RGBTransition: [255, 167, 89]

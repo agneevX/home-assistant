@@ -14,7 +14,7 @@
   count: 1
   scan_interval: 10
 - platform: ping
-  name: Front Gate Camera State
+  name: Front Gate Camera Ping
   host: 10.0.0.20
   count: 1
   scan_interval: 10

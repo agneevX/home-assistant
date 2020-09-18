@@ -1,9 +1,9 @@
-int_always_on_restart:
+always_on_restart:
   command_on: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -t sudo reboot"
-int_x200m_shutdown:
-  command_off: "curl -X POST https://maker.ifttt.com/trigger/X200M_shutdown/with/key/xxxxx"
-int_x200m_restart:
-  command_off: "curl -X POST https://maker.ifttt.com/trigger/X200M_restart/with/key/xxxxx"
+x200m_shutdown:
+  command_on: "curl -X POST https://maker.ifttt.com/trigger/X200M_shutdown/with/key/xxxxx"
+x200m_restart:
+  command_on: "curl -X POST https://maker.ifttt.com/trigger/X200M_restart/with/key/xxxxx"
 refresh_plex:
   friendly_name: Refresh Plex
   command_on: "for id in {1,12,16,2,11} ; do curl http://127.0.0.1:32400/library/sections/${id}/refresh?X-Plex-Token=xxxxx ; done"

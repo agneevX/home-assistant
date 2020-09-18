@@ -1,35 +1,13 @@
 default_config:
-discovery:
-logger:
-  default: warn
-circadian_lighting:
-wake_on_lan:
-homeassistant:
-  customize: !include customize.yaml
-frontend:
-  themes: !include_dir_merge_named themes
-  javascript_version: latest
-tts:
-  - platform: google_translate
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-recorder:
-  exclude:
-    entities:
-      - sensor.network_throughput_in_eth0
-      - sensor.network_throughput_out_eth0
-      - sensor.int_internet_health
 sensor:
-#  - platform: history_stats
-#    name: Power Downtime
-#    entity_id: device_tracker.front_gate_camera
-#    state: 'off'
-#    type: time
-#    end: '{{ now()}}'
-#    duration:
-#      days: 30
+  - platform: history_stats
+    name: Power Downtime
+    entity_id: binary_sensor.orbi_satellite_ping
+    state: 'off'
+    type: time
+    end: '{{ now()}}'
+    duration:
+      days: 14
   - platform: history_stats
     name: int_internet_health
     entity_id: binary_sensor.cloudflare_dns_ping
@@ -37,22 +15,11 @@ sensor:
     type: ratio
     end: '{{ now()}}'
     duration: 00:05:00
-#  - platform: pyload
-#    host: 127.0.0.1
-#    port: 7700
-#    name: PyLoad
-#    username: !secret pyload_user
-#    password: !secret pyload_pass
   - platform: qbittorrent
     name: qBt
     url: 'http://127.0.0.1:9234'
     username: !secret qbt_user
     password: !secret qbt_pass
-#  - platform: qbittorrent
-#    name: qBt 2
-#    url: 'http://:8080'
-#    username: 
-#    password:
   - platform: systemmonitor
     scan_interval: 10
     resources:
@@ -68,7 +35,7 @@ sensor:
       - type: disk_use_percent
         arg: /home/agneev
       - type: disk_use_percent
-        arg: /merged
+        arg: /knox
   - platform: tautulli
     api_key: !secret tautulli_api_key
     host: 127.0.0.1
@@ -82,6 +49,7 @@ sensor:
       - movies
       - upcoming
       - commands
+circadian_lighting:
 switch:
   - platform: circadian_lighting
     disable_brightness_adjust: true
@@ -89,12 +57,6 @@ switch:
       - light.desk_light
     lights_rgb:
       - light.tv_lamp
-#emulated_hue:
-#  listen_port: 80
-#  expose_by_default: false
-#  entities:
-#    switch.lofi_beats
-#    switch.lofi_beats2
 device_tracker:
   - platform: netgear
     host: 10.0.0.1
@@ -103,12 +65,14 @@ device_tracker:
     password: !secret netgear_pass
     new_device_defaults:
       track_new_devices: true
-#weather:
-#  - platform: darksky
-#    api_key: !secret dark_sky
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
+alexa_media:
+  accounts:
+    - email: !secret amazon_user
+      password: !secret amazon_pass
+      url: amazon.in
 #android_ip_webcam:
 #  - host: 10.0.0.70
 #    scan_interval: 15
@@ -121,21 +85,22 @@ spotify:
 #      - night_vision
 telegram_bot:
   - platform: broadcast
-#  - platform: polling
     api_key: !secret telegram
     allowed_chat_ids:
       - !secret telegram_chat_id
-#    proxy_url: !secret telegram_proxy_url
 notify:
   - name: telegram
     platform: telegram
     chat_id: !secret telegram_chat_id
+#weather:
+#  - platform: darksky
+#    api_key: !secret dark_sky
 ##############################
-alexa_media:
-  accounts:
-    - email: !secret amazon_user
-      password: !secret amazon_pass
-      url: amazon.in
+wake_on_lan:
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
 webostv: !include webostv.yaml
 yeelight: !include yeelight.yaml
 cloud: !include cloud.yaml
@@ -154,3 +119,21 @@ switch template:
 switch command_line: 
   platform: command_line
   switches: !include cmd_switch.yaml
+discovery:
+logger:
+  default: warning
+homeassistant:
+  customize: !include customize.yaml
+frontend:
+  themes: !include_dir_merge_named themes
+  javascript_version: latest
+tts:
+  - platform: google_translate
+recorder:
+  auto_purge: false
+  exclude:
+    entities:
+      - sensor.network_throughput_in_eth0
+      - sensor.network_throughput_out_eth0
+      - sensor.int_internet_health
+      - sensor.load_1m

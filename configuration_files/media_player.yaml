@@ -7,9 +7,9 @@
       off
     {% endif %}
   children:
-     - media_player.plex_plex_for_android_tv_sony_bravia
-     - media_player.plex_mrmc_localhost
-     - media_player.bravia_4k_gb_atv3
+    - media_player.plex_plex_for_android_tv_sony_bravia
+    - media_player.plex_mrmc_localhost
+    - media_player.bravia_4k_gb_atv3
   commands:
     turn_on:
       service: media_player.turn_on

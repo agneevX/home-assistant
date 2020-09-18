@@ -1,24 +1,44 @@
 - platform: command_line
-  name: mergerfs State
-  command: "/bin/systemctl -q is-active merged.mount && echo on || echo off"
+  name: Plex Server State
+  command: "/bin/systemctl -q is-active plexmediaserver.service && echo on || echo off"
   scan_interval: 15
 - platform: command_line
-  name: Drive State
+  name: code-server State
+  command: "/bin/systemctl -q is-active code-server.service && echo on || echo off"
+  scan_interval: 15
+- platform: command_line
+  name: Homebridge State
+  command: "/bin/systemctl -q is-active homebridge.service && echo on || echo off"
+  scan_interval: 15
+- platform: command_line
+  name: Radarr State
+  command: "/bin/systemctl -q is-active radarr.service && echo on || echo off"
+  scan_interval: 15
+- platform: command_line
+  name: Sonarr State
+  command: "/bin/systemctl -q is-active sonarr.service && echo on || echo off"
+  scan_interval: 15
+- platform: command_line
+  name: knox State
+  command: "/bin/systemctl -q is-active knox.mount && echo on || echo off"
+  scan_interval: 15
+- platform: command_line
+  name: /drive State
   command: "/bin/systemctl -q is-active drive.service && echo on || echo off"
   scan_interval: 15
 - platform: command_line
   name: Tautulli State
   command: "/bin/systemctl -q is-active tautulli.service && echo on || echo off"
-  scan_interval: 30
+  scan_interval: 15
 - platform: command_line
-  name: Always On CPU Temp
+  name: Always-On CPU Temp
   command: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -T cat /sys/class/thermal/thermal_zone0/temp"
   scan_interval: 120
   command_timeout: 20
   unit_of_measurement: '°C'
   value_template: "{{ value | multiply(0.001) | round }}"
 - platform: command_line
-  name: Drive Used
+  name: /drive Used
   unit_of_measurement: "used"
   command: "rclone size /drive --json --config=/home/agneev/.config/rclone/rclone.conf"
   json_attributes:
@@ -44,12 +64,9 @@
   json_attributes:
     - rx
     - tx
-#- platform: command_line
-#  name: Throttled State
-#  command: "vcgencmd get_throttled | cut -f 2 -d ="
 - platform: command_line
   name: CPU Temp
   command: "cat /sys/class/thermal/thermal_zone0/temp"
   unit_of_measurement: "°C"
   value_template: "{{ value | multiply(0.001) | round }}"
-  scan_interval: 120
+  scan_interval: 60

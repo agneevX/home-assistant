@@ -1,3 +1,4 @@
+### TVs
 media_player.old_room_tv:
   device_class: tv
 media_player.new_room_tv:
@@ -6,22 +7,67 @@ media_player.bedroom_tv:
   device_class: tv
 media_player.dining_hall_tv:
   device_class: tv
-camera.front_gate:
-  icon: mdi:cctv
+### Lights
 light.tv_lamp:
   icon: mdi:alarm-light
 light.desk_light:
   icon: mdi:desk-lamp
+### Switches
+switch.x200m_restart:
+  icon: mdi:restart
+switch.x200m_shutdown:
+  icon: mdi:power
+switch.always_on_restart:
+  icon: mdi:restart
 switch.refresh_plex:
-  icon: mdi:database-sync
+  icon: mdi:plex
   assumed_state: false
+### Binary sensors
+binary_sensor.remote_ui:
+  icon: mdi:search-web
+binary_sensor.node_ping:
+  icon: mdi:office-building-marker
+binary_sensor.cloudflare_dns_ping:
+  icon: mdi:web
+binary_sensor.updater:
+  icon: mdi:home-assistant
+binary_sensor.front_gate_camera_ping:
+  icon: mdi:cctv
+binary_sensor.orbi_satellite_ping:
+  icon: mdi:access-point-network
+### Sensors
+sensor.drive_used:
+  icon: mdi:google-drive
+sensor.qbt_down_speed:
+  icon: mdi:arrow-down
+sensor.qbt_up_speed:
+  icon: mdi:arrow-up
+sensor.eth0_out:
+  icon: mdi:arrow-up
+sensor.eth0_in:
+  icon: mdi:arrow-down
 sensor.speedtest_net_download:
-  icon: mdi:speedometer
-sensor.hacs:
-  unit_of_measurement: "update"
+  icon: mdi:arrow-down
 sensor.load_1m:
-  unit_of_measurement: "1-min"
-sensor.mergerfs_free_percent:
-  unit_of_measurement: "% free"
+  unit_of_measurement: '1-min'
+sensor.knox_free_percent:
+  unit_of_measurement: '% free'
 sensor.internet_health:
   device_class: humidity
+## Sensor - Dashboard - app states
+sensor.tautulli_state:
+  icon: mdi:chart-bar-stacked
+sensor.knox_state:
+  icon: mdi:harddisk
+sensor.drive_state:
+  icon: mdi:google-drive
+sensor.code_server_state:
+  icon: mdi:microsoft-visual-studio-code
+sensor.homebridge_state:
+  icon: mdi:home-automation
+sensor.radarr_state:
+  icon: mdi:movie-open
+sensor.sonarr_state:
+  icon: mdi:television-classic
+sensor.plex_server_state:
+  icon: mdi:plex

@@ -11,20 +11,20 @@ This layout was designed mobile-first.
   - [Dashboard (home view)](#dashboard-home-view)
     - [Badges](#badges)
     - [State row](#state-row)
-    - [Switch card](#switch-card)
+    - [Lights card](#lights-card)
     - [Switch row I](#switch-row-i)
     - [Switch row II](#switch-row-ii)
     - [Graph row I](#graph-row-i)
     - [Graph row II](#graph-row-ii)
     - [Now Playing card](#now-playing-card)
   - [Info view](#info-view)
+    - [State row](#state-row-1)
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii-1)
     - [Graph row III](#graph-row-iii)
-    - [Graph row IV](#graph-row-iv)
     - [Network throughput card](#network-throughput-card)
     - [Network traffic card](#network-traffic-card)
-    - [Hass.io row](#hassio-row)
+    - [Info row](#info-row)
     - [Internet graphs](#internet-graphs)
   - [Tile view](#tile-view)
     - [TV state row](#tv-state-row)
@@ -41,8 +41,8 @@ This layout was designed mobile-first.
     - [Plex players](#plex-players)
   - [Television view](#television-view)
     - [TV players](#tv-players)
-  - [Custom plugins](#custom-plugins)
-    - [Custom Components](#custom-components)
+  - [Custom plugins used](#custom-plugins-used)
+    - [Integrations](#integrations)
     - [Lovelace](#lovelace)
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
@@ -86,9 +86,10 @@ All cards in this view are in a single vertical stack.
 * Front gate camera
 * Satellite (mesh router)
 
-### Switch card
+### Lights card
 
 * Desk light
+* Desk light - color temp
 * TV lamp
 
 ### Switch row I
@@ -135,6 +136,14 @@ All cards in this view are in a single vertical stack.
   <b>Vertical stack 1</b>
 </p>
 
+### State row
+
+* Plex server state
+* Radarr state
+* Sonarr state
+* `code-server` state
+* Homebridge state
+
 ### Graph row I
 
 * System load - 5 min.
@@ -143,17 +152,11 @@ All cards in this view are in a single vertical stack.
 
 ### Graph row II
 
-* AdGuard Home - % of blocked ads
-* AdGuard Home processing speed
+* CPU Temperature (host)
+* CPU Temperature (`always-on` server)
 * Speedtest.net latency
 
 ### Graph row III
-
-* CPU Temperature (host)
-* CPU Temperature (`always-on` server)
-* Speedtest.net jitter
-
-### Graph row IV
 
 * Download speed
 * Upload speed
@@ -178,9 +181,10 @@ Graphs network usage within the last hour.
 
 Custom-made sensor that gets network data traffic from `vnstat` instead from the rather [buggy](https://github.com/home-assistant/core/issues/34804) integration.
 
-### Hass.io row
+### Info row
 
 * Home Assistant update
+* Power downtime
 * HACS updates
 
 Using `mini-graph-card` and `config-template-card`, this card has been designed to have the same format as the HACS update card for uniformity.
@@ -239,23 +243,23 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ### Spotify player
 
-* Spotify media player card
+* Spotify media player
   * Playlists shortcuts
   * Bedroom Echo source
 
 ### MPD player
 
-* `Mopidy-mpd` media player card
+* `Mopidy-mpd` media player
 
 ### Alexa players
 
 * Bedroom Echo media player
-* Bedroom Echo switches
+* ... switches
   * Do Not Disturb
   * Repeat
   * Shuffle
 * New Room Echo media player
-* New Room Echo switches
+* ... switches
   * Do Not Disturb
   * Repeat
   * Shuffle
@@ -300,27 +304,26 @@ The four graph cards provide an overview of Plex/network activity in one place a
 
 ***
 
-## Custom plugins
+## Custom plugins used
 
-### Custom Components
+### Integrations
 
 * [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
 * [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 * [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-### Lovelace
+### Lovelace 
 
 * [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 * [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
 * [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
 * [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
-* [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
-* [`state-switch`](https://github.com/thomasloven/lovelace-state-switch) by thomasloven
 * [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
-* [`slider-entity-row`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
+* [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
 * [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 * [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
 * [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
+* [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
 ***
 
@@ -329,7 +332,7 @@ The four graph cards provide an overview of Plex/network activity in one place a
 * Screenshots may not be up-to-date.
 * Entities beginning with `int` are "internal" entities that are used inside templates.
 * Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
-  The cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
+  * A cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
 * The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ***
