@@ -1,11 +1,11 @@
 Kinda Dark:
-  code-editor-background-color: white
+  cc-button-card: var(--app-header-text-color)
   accent-color: var(--primary-color)
   # Header:
   app-header-background-color: "#171717"
   app-header-text-color: "#BDC1C6"
   # Main Interface Colors
-  primary-color: "#5198f5"
+  primary-color: "#5198F5"
   light-primary-color: var(--primary-color)
   primary-background-color: "#171717"
   secondary-background-color: "#202124"
@@ -17,10 +17,10 @@ Kinda Dark:
   disabled-text-color: "#717171"
   # Sidebar Menu
   sidebar-icon-color: var(--app-header-text-color)
-  sidebar-text-color: "#BDC1C6"
-  sidebar-background-color: "#202124"
+  sidebar-text-color: var(--app-header-text-color)
+  sidebar-background-color: var(--card-background-color)
   sidebar-selected-background-color: var(--primary-background-color)
-  sidebar-selected-icon-color: "#5F9BEA"
+  sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color))
   # States and Badges
   state-icon-color: "#5F6267"
@@ -33,8 +33,8 @@ Kinda Dark:
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
   # Labels
-  label-badge-background-color: "#202124"
-  label-badge-text-color: "#BDC1C6"
+  label-badge-background-color: var(--app-header-background-color)
+  label-badge-text-color: var(--primary-text-color)
   label-badge-red: "#D06568"
   label-badge-green: "#80C884"
   label-badge-blue: "#5F9BEA"
@@ -43,7 +43,7 @@ Kinda Dark:
   # Cards
   card-background-color: "#202124"
   ha-card-border-radius: "15px"
-  ha-card-box-shadow: 3px 3px 6px 2px rgb(12, 12, 14)
+  ha-card-box-shadow: 0px 3px 3px 1px rgb(12, 12, 14)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
@@ -69,3 +69,11 @@ Kinda Dark:
   hacs-chip-background-color: var(--primary-color)
   # Pre/Code
   markdown-code-background-color: "#171717"
+  # Custom theme colors
+  green-color: "#39ff14"
+  yellow-color: "#ffff00"
+  red-color: "#FF0000"
+  qbt-color: "#54A0FF"
+  qbt-seeding-color: "#FF9333"
+  radarr-color: "#F5BB41"
+  sonarr-color: "#23CDFD"

@@ -7,6 +7,7 @@ skip:
       seek_position: '{{ state_attr(entity, ''media_position'') | float + interval
         }}'
     service: media_player.media_seek
+  icon: mdi:fast-forward-30
 spotify_dr_disrespect:
   alias: Spotify Dr Disrespect
   mode: single
@@ -24,6 +25,7 @@ spotify_dr_disrespect:
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+  icon: mdi:spotify
 spotify_lofi_beats:
   alias: Spotify lo-fi beats
   mode: single
@@ -41,6 +43,7 @@ spotify_lofi_beats:
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+  icon: mdi:spotify
 spotify_trending:
   alias: Spotify trending
   mode: single
@@ -58,6 +61,7 @@ spotify_trending:
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+  icon: mdi:spotify
 spotify_daily_mix_1:
   alias: Spotify Daily Mix 1
   mode: single
@@ -71,10 +75,11 @@ spotify_daily_mix_1:
     entity_id: media_player.spotify
     service: media_player.shuffle_set
   - data:
-      media_content_id: spotify:playlist:xxxxx
+      media_content_id: spotify:playlist:37i9dQZF1E35ZWZr2uMar9
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+  icon: mdi:spotify
 spotify_daily_mix_2:
   alias: Spotify Daily Mix 2
   mode: single
@@ -88,13 +93,29 @@ spotify_daily_mix_2:
     entity_id: media_player.spotify
     service: media_player.shuffle_set
   - data:
-      media_content_id: spotify:playlist:xxxxx
+      media_content_id: spotify:playlist:37i9dQZF1E39TnqVNn3uBi
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
+  icon: mdi:spotify
 reload_themes:
-  alias: 'HA: Reload themes'
+  alias: HA - Reload themes
   mode: single
   sequence:
   - data: {}
     service: frontend.reload_themes
+  icon: mdi:home-assistant
+refresh_plex:
+  alias: Refresh Plex
+  sequence:
+  - service: plex.refresh_library
+    data:
+      library_name: Movies
+  - service: plex.refresh_library
+    data:
+      library_name: Movies (4K)
+  - service: plex.refresh_library
+    data:
+      library_name: TV Shows
+  mode: single
+  icon: mdi:plex

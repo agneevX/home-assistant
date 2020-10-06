@@ -1,5 +1,5 @@
 Pure Black:
-  code-editor-background-color: white
+  cc-button-card: var(--app-header-text-color)
   card-mod-theme: Pure Black
   accent-color: var(--primary-color)
   paper-item-icon-active-color: var(--primary-color)
@@ -7,10 +7,10 @@ Pure Black:
   app-header-background-color: "#000000"
   app-header-text-color: "#FFFFFF"
   # Main Interface Colors
-  primary-color: "#5198F5"
+  primary-color: "#388BFF"
   light-primary-color: var(--primary-color)
   primary-background-color: var(--app-header-background-color)
-  secondary-background-color: "#202124"
+  secondary-background-color: var(--card-background-color)
   divider-color: var(--primary-background-color)
   # Text
   primary-text-color: var(--app-header-text-color)
@@ -18,25 +18,25 @@ Pure Black:
   text-primary-color: var(--app-header-text-color)
   disabled-text-color: "#717171"
   # Sidebar Menu
-  sidebar-icon-color: var(--app-header-text-color)
-  sidebar-text-color: "#BDC1C6"
-  sidebar-background-color: "#202124"
+  sidebar-icon-color: var(--primary-text-color)
+  sidebar-text-color: var(--primary-text-color)
+  sidebar-background-color: var(--card-background-color)
   sidebar-selected-background-color: var(--primary-background-color)
-  sidebar-selected-icon-color: "#5F9BEA"
-  sidebar-selected-text-color: var(--sidebar-selected-icon-color))
+  sidebar-selected-icon-color: var(--primary-color)
+  sidebar-selected-text-color: var(--sidebar-selected-icon-color)
   # States and Badges
   state-icon-color: "#7B808A"
   state-icon-active-color: var(--primary-color)
   state-icon-unavailable-color: var(--disabled-text-color)
   # Sliders
-  paper-slider-knob-color: "#5F9BEA"
+  paper-slider-knob-color: var(--primary-color)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
   # Labels
   label-badge-background-color: "#202124"
-  label-badge-text-color: "#BDC1C6"
+  label-badge-text-color: var(--primary-text-color)
   label-badge-red: "#D06568"
   label-badge-green: "#80C884"
   label-badge-blue: "#5F9BEA"
@@ -50,10 +50,10 @@ Pure Black:
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   # Switches
-  switch-checked-button-color: "#5F9BEA"
+  switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: "#404D64"
   switch-unchecked-button-color: "#636466"
-  switch-unchecked-track-color: "#636466"
+  switch-unchecked-track-color: var(--switch-unchecked-button-color)
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
@@ -71,7 +71,7 @@ Pure Black:
   hacs-chip-background-color: var(--primary-color)
   # Pre/Code
   markdown-code-background-color: var(--app-header-background-color)
-
+  # Card-mod
   card-mod-view: |
     :host {
       padding-left: 0;
@@ -81,3 +81,11 @@ Pure Black:
       margin-left: 0;
       margin-right: 0;
     }
+  # Custom theme colors
+  green-color: "#39FF14"
+  yellow-color: "#FFFF00"
+  red-color: "#FF0000"
+  qbt-color: "#54A0FF"
+  qbt-seeding-color: "#FF9333"
+  radarr-color: "#F5BB41"
+  sonarr-color: "#23CDFD"

@@ -1,11 +1,8 @@
 - platform: universal
   name: Sony Bravia TV
   state_template: >-
-    {% if is_state('media_player.kd_55_ag', 'on') %}
-      on
-    {% else %}
-      off
-    {% endif %}
+    {% if is_state('media_player.kd_55_ag', 'on') %} on
+    {% else %} off {% endif %}
   children:
     - media_player.plex_plex_for_android_tv_sony_bravia
     - media_player.plex_mrmc_localhost

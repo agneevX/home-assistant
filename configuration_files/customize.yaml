@@ -46,6 +46,10 @@ sensor.eth0_out:
   icon: mdi:arrow-up
 sensor.eth0_in:
   icon: mdi:arrow-down
+sensor.eth0_out_2:
+  icon: mdi:arrow-up
+sensor.eth0_in_2:
+  icon: mdi:arrow-down
 sensor.speedtest_net_download:
   icon: mdi:arrow-down
 sensor.load_1m:

@@ -1,84 +1,42 @@
-theme_amoled_night:
-  friendly_name: AMOLED Night Theme
-  value_template: "{{ is_state('input_boolean.amoled_bool','on') }}"
-  icon_template: >-
-    {% if is_state('input_boolean.amoled_bool','on') %}
-      mdi:weather-night
-    {% elif is_state('input_boolean.amoled_bool','off') %}
-      mdi:white-balance-sunny
-    {% endif %}
-  turn_on:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.amoled_bool
-    - service: frontend.set_theme
-      data:
-        name: Me_AMOLED
-  turn_off:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.amoled_bool
-    - service: frontend.set_theme
-      data:
-        name: Me_Light_Theme
-theme_dark:
-  friendly_name: Dark Theme
-  value_template: "{{ is_state('input_boolean.dark_theme_bool','on') }}"
-  icon_template: >-
-    {% if is_state('input_boolean.dark_theme_bool','on') %}
-      mdi:weather-night
-    {% elif is_state('input_boolean.dark_theme_bool','off') %}
-      mdi:weather-sunny
-    {% endif %}
-  turn_on:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.dark_theme_bool
-    - service: frontend.set_theme
-      data:
-        name: Me_Dark_Theme
-  turn_off:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.dark_theme_bool
-    - service: frontend.set_theme
-      data:
-        name: Me_Light_Theme
 lofi_beats:
   friendly_name: Lo-Fi Beats
   icon_template: mdi:music-circle
-  value_template: "{{ is_state('input_boolean.lofi_bool','on') }}"
+  value_template: "{{ is_state('input_boolean.lofi','on') }}"
   turn_on:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.lofi_bool
+      entity_id: input_boolean.lofi
     - service: switch.turn_on
       entity_id: switch.int_lofi_beats
   turn_off:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.lofi_bool
+      entity_id: input_boolean.lofi
     - service: switch.turn_off
       entity_id: switch.int_lofi_beats
 lofi_beats2:
   friendly_name: Lo-Fi Beats 2
   icon_template: mdi:music-circle-outline
-  value_template: "{{ is_state('input_boolean.lofi_2_bool','on') }}"
+  value_template: "{{ is_state('input_boolean.lofi2','on') }}"
   turn_on:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.lofi_2_bool
+      entity_id: input_boolean.lofi2
     - service: switch.turn_on
-      entity_id: switch.int_lofi_beats2
+      entity_id: switch.int_lofi_beats
   turn_off:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.lofi_2_bool
+      entity_id: input_boolean.lofi2
     - service: switch.turn_off
-      entity_id: switch.int_lofi_beats2
+      entity_id: switch.int_lofi_beats
 jazz_radio:
   friendly_name: Jazz Radio
   icon_template: mdi:saxophone
-  value_template: "{{ is_state('input_boolean.jazz_radio_bool','on') }}"
+  value_template: "{{ is_state('input_boolean.jazz_radio','on') }}"
   turn_on:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.jazz_radio_bool
+      entity_id: input_boolean.jazz_radio
     - service: switch.turn_on
       entity_id: switch.int_jazz_radio
   turn_off:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.jazz_radio_bool
+      entity_id: input_boolean.jazz_radio
     - service: switch.turn_off
       entity_id: switch.int_jazz_radio

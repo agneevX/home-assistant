@@ -18,21 +18,6 @@ speedtest_net_upload:
   value_template: "{{ (state_attr('sensor.speedtest_net_download','upload')['bandwidth']|float/125000)|round(1) }}"
   icon_template: mdi:arrow-up
   unit_of_measurement: 'Mb/s'
-speedtest_net_latency:
-  friendly_name: Speedtest.net Latency
-  value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['latency'])|round(0,floor) }}"
-  icon_template: mdi:ray-start-arrow
-  unit_of_measurement: 'ms'
-#speedtest_net_jitter:
-#  friendly_name: Speedtest.net Jitter
-#  value_template: "{{ (state_attr('sensor.speedtest_net_download','ping')['jitter'])|round(0,floor) }}"
-#  icon_template: mdi:triangle-wave
-#  unit_of_measurement: 'ms'
-#speedtest_net_packet_loss:
-#  friendly_name: Speedtest.net Packet Loss
-#  value_template: "{{ (state_attr('sensor.speedtest_net_download','packetLoss'))|round(1) }}"
-#  icon_template: mdi:pipe-leak
-#  unit_of_measurement: '%'
 tautulli_total_bw:
   friendly_name: Tautulli Total Bandwidth
   value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
@@ -42,18 +27,23 @@ knox_free_percent:
   friendly_name: Knox free %
   value_template: "{{ 100 - states('sensor.disk_use_percent_knox')|int }}"
   icon_template: >-
-    {% if is_state('sensor.knox_status','on') %}
-      mdi:database-check
-    {% elif is_state('sensor.knox_status','off') %}
-      mdi:database-remove
-    {% endif %}
+    {% if is_state('sensor.knox_status','active') %} mdi:database-check
+    {% else %} mdi:database-remove {% endif %}
 eth0_in:
   friendly_name: eth0 In
-  value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
+  value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(2) }}"
   unit_of_measurement: 'Mb/s'
 eth0_out:
   friendly_name: eth0 Out
-  value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
+  value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(2) }}"
+  unit_of_measurement: 'Mb/s'
+eth0_in_2:
+  friendly_name: eth0 In 2
+  value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round }}"
+  unit_of_measurement: 'Mb/s'
+eth0_out_2:
+  friendly_name: eth0 Out 2
+  value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round }}"
   unit_of_measurement: 'Mb/s'
 #  orbi_daily_down:
 #    friendly_name: Orbi - Daily - Down

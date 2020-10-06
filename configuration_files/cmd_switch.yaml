@@ -4,16 +4,12 @@ x200m_shutdown:
   command_on: "curl -X POST https://maker.ifttt.com/trigger/X200M_shutdown/with/key/xxxxx"
 x200m_restart:
   command_on: "curl -X POST https://maker.ifttt.com/trigger/X200M_restart/with/key/xxxxx"
-refresh_plex:
-  friendly_name: Refresh Plex
-  command_on: "for id in {1,12,16,2,11} ; do curl http://127.0.0.1:32400/library/sections/${id}/refresh?X-Plex-Token=xxxxx ; done"
-  command_off: "for id in {1,12,16,2,11} ; do curl http://127.0.0.1:32400/library/sections/${id}/refresh?X-Plex-Token=xxxxx ; done"
 int_lofi_beats:
-  command_on: "/usr/bin/omxplayer -o local $(youtube-dl -g -f 95 5qap5aO4i9A) > /dev/null &"
+  command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 5qap5aO4i9A) > /dev/null &"
   command_off: "pkill -u homeassistant -f omxplayer"
 int_lofi_beats2:
-  command_on: "/usr/bin/omxplayer -o local $(youtube-dl -g -f 95 DWcJFNfaw9c) > /dev/null &"
+  command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 DWcJFNfaw9c) > /dev/null &"
   command_off: "pkill -u homeassistant -f omxplayer"
 int_jazz_radio:
-  command_on: "/usr/bin/omxplayer -o local $(youtube-dl -g -f 95 5FN2sjIhxa4) > /dev/null &"
+  command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 1qA3LQDa7lQ) > /dev/null &"
   command_off: "pkill -u homeassistant -f omxplayer"

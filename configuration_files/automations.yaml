@@ -1,3 +1,12 @@
+- id: '1587105668264'
+  alias: Set speaker volume
+  trigger:
+  - platform: state
+    entity_id: input_number.speaker_volume
+  action:
+  - service: shell_command.set_speaker_volume
+  initial_state: true
+  mode: single
 - id: '1587105668090'
   alias: Light off - Plex
   description: Desk Lamp turns off when Plex plays media on MBP
@@ -18,7 +27,7 @@
     service: light.turn_off
   - entity_id: switch.lofi_beats,switch.lofi_beats2,switch.jazz_radio
     service: switch.turn_off
-  - entity_id: input_boolean.desklamp_bool
+  - entity_id: input_boolean.desk_light
     service: input_boolean.turn_on
   mode: single
 - id: '1587105718577'
@@ -30,14 +39,14 @@
       }}'
   condition:
   - condition: state
-    entity_id: input_boolean.desklamp_bool
+    entity_id: input_boolean.desk_light
     state: 'on'
   action:
   - data: {}
     entity_id: light.desk_light
     service: light.turn_on
   - data: {}
-    entity_id: input_boolean.desklamp_bool
+    entity_id: input_boolean.desk_light
     service: input_boolean.turn_off
   mode: single
 - id: '1587992031900'
@@ -56,21 +65,6 @@
       message: '`{{ trigger.entity_id }}` has throttled to `{{ trigger.to_state }}`'
       title: '*Home Assistant*'
     service: notify.telegram
-- id: '1588240541307'
-  alias: Turn off certain switches
-  description: ''
-  trigger:
-  - entity_id:
-    - switch.refresh_plex
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - delay: 00:00:05
-  - data_template:
-      entity_id: '{{ trigger.entity_id }}'
-    service: switch.turn_off
-  mode: single
 - id: 1e959b5f825c4f71bc72792f183123fa
   alias: Light theme after reboot in day
   trigger:
@@ -81,12 +75,9 @@
     entity_id: sun.sun
     state: above_horizon
   action:
-  - data: {}
-    entity_id: switch.theme_dark
-    service: switch.turn_off
-  - data: {}
-    entity_id: input_boolean.frontgatecamera_bool
-    service: input_boolean.turn_off
+  - service: frontend.set_theme
+    data:
+      name: Milky White
   mode: single
 - id: 8e6525ab98764dfd8d945ee58533462e
   alias: Dark theme after reboot in night
@@ -98,74 +89,21 @@
     entity_id: sun.sun
     state: below_horizon
   action:
-  - data: {}
-    entity_id: switch.theme_dark
-    service: switch.turn_on
-  - data: {}
-    entity_id: input_boolean.frontgatecamera_bool
-    service: input_boolean.turn_on
-  mode: single
-- id: '1593856750074'
-  alias: Light theme
-  description: ''
-  trigger:
-  - event: start
-    platform: homeassistant
-  condition:
-  - before: sunset
-    condition: sun
-  action:
-  - data: {}
-    entity_id: switch.theme_dark
-    service: switch.turn_off
-  - data: {}
-    entity_id: input_boolean.frontgatecamera_bool
-    service: input_boolean.turn_off
+  - service: frontend.set_theme
+    data:
+      name: Kinda Dark
   mode: single
 - id: '1593856822416'
-  alias: Dark theme at sunset
+  alias: Dark theme (at sunset)
   description: ''
   trigger:
   - event: sunset
     platform: sun
   condition: []
   action:
-  - data: {}
-    entity_id: switch.theme_dark
-    service: switch.turn_on
-  - data: {}
-    entity_id: input_boolean.frontgatecamera_bool
-    service: input_boolean.turn_on
-  mode: single
-- id: '1598180996359'
-  alias: Notify me of tomorrow's weather forecast
-  description: ''
-  trigger:
-  - at: '21:00:00'
-    platform: time
-  condition: []
-  action:
-  - data:
-      message: Expect {{ state_attr("weather.accuweather", "forecast")[0].condition
-        }} tomorrow, with a high of {{ state_attr("weather.accuweather","forecast")[0].temperature
-        }}°C
-      title: Tomorrow's Weather Forecast
-    service: notify.mobile_app_agneevs_iphone_x
-  mode: single
-- id: '1599557332533'
-  alias: Notify when Sonarr starts importing
-  description: ''
-  trigger:
-  - platform: template
-    value_template: "{% if is_state_attr('sensor.sonarr_commands', 'ProcessMonitoredDownloads',\
-      \ 'started') %}\n  true\n{% endif %}\n"
-  condition: []
-  action:
-  - data:
-      disable_notification: true
-      message: Sonarr has started importing!
-      title: '*Home Assistant*'
-    service: telegram_bot.send_message
+  - service: frontend.set_theme
+    data:
+      name: Kinda Dark
   mode: single
 - id: '1600016704503'
   alias: Turn off TV lamp if a specific TV is on
@@ -184,7 +122,7 @@
     service: light.turn_off
   mode: single
 - id: '1600174827470'
-  alias: Clean Hass.io DB
+  alias: 'HA: Purge DB'
   description: ''
   trigger:
   - at: '22:30:00'
@@ -200,7 +138,50 @@
     service: recorder.purge
   - data:
       disable_notification: true
-      message: ✅ Database successfully purged!
+      message: Database purged successfully! ✅
       title: '*Home Assistant*'
     service: telegram_bot.send_message
+  mode: single
+- id: '1600689970940'
+  alias: Light theme (at sunrise)
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - service: frontend.set_theme
+    data:
+      name: Milky White
+  mode: single
+- id: '1601100809199'
+  alias: Turn on TV Lamp when TV is on
+  description: Turn on TV Lamp when Bedroom TV is turned on, but only after sunset
+  trigger:
+  - platform: state
+    entity_id: media_player.bedroom_tv
+    to: 'on'
+  condition:
+  - condition: sun
+    after: sunset
+  - condition: state
+    entity_id: light.tv_lamp
+    state: 'off'
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.tv_lamp
+  mode: single
+- id: '1601826974997'
+  alias: Update speaker volume
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.speaker_volume_state
+  condition: []
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.speaker_volume
+      value: '{{ states(''sensor.speaker_volume_state'')}}'
   mode: single

@@ -1,4 +1,5 @@
 Milky White:
+  cc-button-card: var(--primary-text-color)
   code-editor-background-color: white
   accent-color: var(--primary-color)
   paper-item-icon-active-color: var(--primary-color)
@@ -6,7 +7,7 @@ Milky White:
   app-header-background-color: "#F8F8F8"
   app-header-text-color: "#262626"
   # Main Interface Colors
-  primary-color: "#1E88E5"
+  primary-color: "#4592FF"
   light-primary-color: var(--primary-color)
   primary-background-color: var(--app-header-background-color)
   secondary-background-color: "#EBEBEB"
@@ -18,7 +19,7 @@ Milky White:
   disabled-text-color: "#717171"
   # Sidebar Menu
   sidebar-icon-color: var(--app-header-text-color)
-  sidebar-text-color: '#424242'
+  sidebar-text-color: "#424242"
   sidebar-background-color: "#FFFFFF"
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-color)
@@ -34,8 +35,8 @@ Milky White:
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
   # Labels
-  label-badge-background-color: "#F8FAF9"
-  label-badge-text-color: "#4D5575"
+  label-badge-background-color: var(--app-header-background-color)
+  label-badge-text-color: var(--primary-text-color)
   label-badge-red: "#C7484C"
   label-badge-green: "#6DC071"
   label-badge-blue: "#5F9BEA" #"#51AAD1"
@@ -44,7 +45,7 @@ Milky White:
   # Cards
   card-background-color: "#FFFFFF"
   ha-card-border-radius: "15px"
-  ha-card-box-shadow: 3px 3px 6px 2px rgb(230, 230, 230)
+  ha-card-box-shadow: 0px 3px 3px 1px rgb(230, 230, 230)
   paper-dialog-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
@@ -68,4 +69,11 @@ Milky White:
   mdc-theme-surface: var(--paper-card-background-color)
   # HACS
   hacs-chip-background-color: var(--primary-color)
-
+  # Custom theme colors
+  green-color: "#04E700"
+  yellow-color: "#E1E700"
+  red-color: "#FF0000"
+  qbt-color: "#3b92ff"
+  qbt-seeding-color: "#f78016"
+  radarr-color: "#e3ad3b"
+  sonarr-color: "#1dc3f2"

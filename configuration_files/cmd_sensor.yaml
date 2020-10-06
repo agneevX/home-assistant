@@ -1,50 +1,36 @@
 - platform: command_line
-  name: Plex Server State
-  command: "/bin/systemctl -q is-active plexmediaserver.service && echo on || echo off"
-  scan_interval: 15
+  name: qBt - all torrents
+  command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=all|grep -o -i f_l_piece_prio|wc -l"
+  scan_interval: 60
+#- platform: command_line
+#  name: Speaker volume state
+#  command: amixer|grep '%'|grep -oP '(\d+(\.\d+)?(?=%))'
+#  scan_interval: 30
 - platform: command_line
-  name: code-server State
-  command: "/bin/systemctl -q is-active code-server.service && echo on || echo off"
-  scan_interval: 15
-- platform: command_line
-  name: Homebridge State
-  command: "/bin/systemctl -q is-active homebridge.service && echo on || echo off"
-  scan_interval: 15
-- platform: command_line
-  name: Radarr State
-  command: "/bin/systemctl -q is-active radarr.service && echo on || echo off"
-  scan_interval: 15
-- platform: command_line
-  name: Sonarr State
-  command: "/bin/systemctl -q is-active sonarr.service && echo on || echo off"
-  scan_interval: 15
+  name: qBt - active torrents
+  command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=active|grep -o -i f_l_piece_prio|wc -l"
+  scan_interval: 45
 - platform: command_line
   name: knox State
-  command: "/bin/systemctl -q is-active knox.mount && echo on || echo off"
-  scan_interval: 15
+  command: "/bin/systemctl is-active knox.mount"
+  scan_interval: 60
 - platform: command_line
   name: /drive State
-  command: "/bin/systemctl -q is-active drive.service && echo on || echo off"
-  scan_interval: 15
-- platform: command_line
-  name: Tautulli State
-  command: "/bin/systemctl -q is-active tautulli.service && echo on || echo off"
-  scan_interval: 15
+  command: "/bin/systemctl is-active drive.service"
+  scan_interval: 30
 - platform: command_line
   name: Always-On CPU Temp
-  command: "ssh -i ~/.ssh/pwd.key agneev@10.0.0.10 -T cat /sys/class/thermal/thermal_zone0/temp"
+  command: "ssh -i ~/.ssh/always-on.key agneev@10.0.0.10 -T cat /sys/class/thermal/thermal_zone0/temp"
   scan_interval: 120
   command_timeout: 20
   unit_of_measurement: '°C'
   value_template: "{{ value | multiply(0.001) | round }}"
-- platform: command_line
-  name: /drive Used
-  unit_of_measurement: "used"
-  command: "rclone size /drive --json --config=/home/agneev/.config/rclone/rclone.conf"
-  json_attributes:
-    - count
-  scan_interval: 120
-  value_template: "{{(value_json.bytes|float/1099511627776)|round(2)}}TB"
+#- platform: command_line
+#  name: /drive Used
+#  command: "rclone size /drive --json --config=/home/agneev/.config/rclone/rclone.conf"
+#  value_template: "{{(value_json.bytes|float/1099511627776)|round(3)}}TB"
+#  unit_of_measurement: 'used'
+#  scan_interval: 180
 - platform: command_line
   name: Speedtest.net Download
   command: "/usr/bin/speedtest -s 26195 -f json"
@@ -54,19 +40,17 @@
   value_template: "{{ (value_json.download.bandwidth|float/125000)|round(1) }}"
   json_attributes:
     - upload
-    - ping
-    - packetLoss
 - platform: command_line
   name: vnstat
-  command: "bash /home/homeassistant/vnstat.sh"
-  scan_interval: 60
+  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
+  scan_interval: 180
   value_template: "{{ (value_json.id)}}"
   json_attributes:
     - rx
     - tx
 - platform: command_line
-  name: CPU Temp
-  command: "cat /sys/class/thermal/thermal_zone0/temp"
-  unit_of_measurement: "°C"
-  value_template: "{{ value | multiply(0.001) | round }}"
+  name: Radarr Queue
+  command: "curl -s -X GET 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=xxxxx' -H 'accept: */*'"
+  unit_of_measurement: 'movies'
+  value_template: "{{ (value_json.totalRecords)}}"
   scan_interval: 60

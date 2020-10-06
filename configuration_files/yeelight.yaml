@@ -15,8 +15,3 @@ custom_effects:
         - TemperatureTransition: [1900, 1000, 80]
         - TemperatureTransition: [1900, 2000, 60]
         - SleepTransition:       [1000]
-  - name: Night Lamp
-    flow_params:
-      count: 0
-      transitions:
-        - RGBTransition: [255, 167, 89]

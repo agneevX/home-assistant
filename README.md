@@ -18,13 +18,12 @@ This layout was designed mobile-first.
     - [Graph row II](#graph-row-ii)
     - [Now Playing card](#now-playing-card)
   - [Info view](#info-view)
-    - [State row](#state-row-1)
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii-1)
-    - [Graph row III](#graph-row-iii)
     - [Network throughput card](#network-throughput-card)
     - [Network traffic card](#network-traffic-card)
-    - [Info row](#info-row)
+    - [Info row I](#info-row-i)
+    - [Info row II](#info-row-ii)
     - [Internet graphs](#internet-graphs)
   - [Tile view](#tile-view)
     - [TV state row](#tv-state-row)
@@ -47,18 +46,17 @@ This layout was designed mobile-first.
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
 
-
 ## Background
 
 Home Assistant core installation on Raspberry Pi 4.
 
 More details [here](https://github.com/agneevX/server-setup).
 
-***
+---
 
 ## Lovelace layout
 
-## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L37)
+## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L38)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/91996307-74287400-ed56-11ea-9fc5-b6e393680323.png "Home view")
 
@@ -66,13 +64,12 @@ All cards in this view are in a single vertical stack.
 
 ### Badges
 
-* System load
-* HACS available updates
-* Network in
-* Network out
-* mergerFS free %
+- System load
+- Network in
+- Network out
+- mergerFS free %
 
-*This is the only view that contain badges.*
+_This is the only view that contain badges._
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -80,33 +77,35 @@ All cards in this view are in a single vertical stack.
 
 ### State row
 
-* Tautulli
-* `/drive` mount
-* `/knox` mount
-* Front gate camera
-* Satellite (mesh router)
+- `/drive` mount
+- `/knox` mount
+- `always-on` server
+- Front gate camera
+- Mesh router satellite
 
 ### Lights card
 
-* Desk light
-* Desk light - color temp
-* TV lamp
+- Desk light
+- TV lamp
+- Soundbar volume
+
+Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
 
 ### Switch row I
 
-* Night lamp
-* Color flow
-* Lo-Fi beats
-* Lo-Fi beats 2
-* Jazz radio
+- Night lamp
+- Color flow
+- Lo-Fi beats
+- Lo-Fi beats 2
+- Jazz radio
 
 ### Switch row II
 
-* AdGuard Home
-* Reboot `always-on` server
-* Refresh Plex
-* Circadian Lighting
-* Shut down/restart X200M (secondary laptop)
+- AdGuard Home
+- `always-on` - restart
+- Refresh Plex
+- Circadian Lighting
+- X200M (secondary laptop) - shut down/restart
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -114,21 +113,25 @@ All cards in this view are in a single vertical stack.
 
 ### Graph row I
 
-* CPU use
-* Network health
+- CPU use
+- Internet health
+
+Indicates if there's any ICMP packet loss within the last hour.
 
 ### Graph row II
 
-* Hidden/conditional qBittorrent download speed
-* Hidden/conditional qBittorrent upload speed
+- qBittorrent download speed
+- qBittorrent upload speed
+
+These two cards are hidden by default and show only when there's activity (conditional).
 
 ### Now Playing card
 
-* Automatically shows all active media players
+- Automatically shows all active media players
 
-***
+---
 
-## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L527)
+## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L621)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/91996394-8e625200-ed56-11ea-89e2-0f38f37c77dc.png "Info view")
 
@@ -136,30 +139,16 @@ All cards in this view are in a single vertical stack.
   <b>Vertical stack 1</b>
 </p>
 
-### State row
-
-* Plex server state
-* Radarr state
-* Sonarr state
-* `code-server` state
-* Homebridge state
-
 ### Graph row I
 
-* System load - 5 min.
-* SSD used %
-* `/drive` used space
+- CPU temp.
+- SSD used %
+- `/knox` free space
 
 ### Graph row II
 
-* CPU Temperature (host)
-* CPU Temperature (`always-on` server)
-* Speedtest.net latency
-
-### Graph row III
-
-* Download speed
-* Upload speed
+- Download speed (Speedtest.net)
+- Upload speed (Speedtest.net)
 
 Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
 
@@ -169,36 +158,39 @@ Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest
 
 ### Network throughput card
 
-* Network in
-* Network out
+- Network in
+- Network out
 
 Graphs network usage within the last hour.
 
 ### Network traffic card
 
-* Total traffic in (daily)
-* Total traffic out (daily)
+- Total traffic in (daily)
+- Total traffic out (daily)
 
 Custom-made sensor that gets network data traffic from `vnstat` instead from the rather [buggy](https://github.com/home-assistant/core/issues/34804) integration.
 
-### Info row
+### Info row I
 
-* Home Assistant update
-* Power downtime
-* HACS updates
+- `always-on` temp
+- qBittorrent active torrents
+- qBittorrent all
 
-Using `mini-graph-card` and `config-template-card`, this card has been designed to have the same format as the HACS update card for uniformity.
+### Info row II
+
+- Home Assistant update
+- HACS updates
 
 ### Internet graphs
 
-* Node ping
-* Internet ping
+- Node ping
+- Internet ping
 
 Graphs pings to our local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
 
-***
+---
 
-## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1014)
+## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1005)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/91996388-8d312500-ed56-11ea-833b-9e0d807fcbc6.png "Tile view")
 
@@ -212,10 +204,10 @@ Shows states of specific TVs.
 
 ### Radarr/Sonarr cards
 
-* Radarr/Sonarr ongoing commands
-* Radarr/Sonarr upcoming
-* Sonarr queue/wanted
-* Radarr movies/Sonarr shows
+- Radarr/Sonarr ongoing commands
+- Radarr/Sonarr upcoming
+- Sonarr queue/wanted
+- Radarr movies/Sonarr shows
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -223,122 +215,121 @@ Shows states of specific TVs.
 
 ### Devices card
 
-* Network devices list
+- Network devices list
 
 Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last updated device is always on top.
 
-***
+---
 
-## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1351)
+## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1345)
 
-*This view contains one vertical stack only.*
+_This view contains one vertical stack only._
 
-***
+---
 
-## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1373)
+## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1365)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/91996368-85718080-ed56-11ea-9608-c702c0894938.png "Remote control view")
 
-*This view contains one vertical stack only.*
+_This view contains one vertical stack only._
 
 ### Spotify player
 
-* Spotify media player
-  * Playlists shortcuts
-  * Bedroom Echo source
+- Spotify media player
+  - Playlists shortcuts
+  - Bedroom Echo source
 
 ### MPD player
 
-* `Mopidy-mpd` media player
+- `Mopidy-mpd` media player
 
 ### Alexa players
 
-* Bedroom Echo media player
-* ... switches
-  * Do Not Disturb
-  * Repeat
-  * Shuffle
-* New Room Echo media player
-* ... switches
-  * Do Not Disturb
-  * Repeat
-  * Shuffle
-* Alexa Everywhere media player
+- Bedroom Echo media player
+- ... switches
+  - Do Not Disturb
+  - Repeat
+  - Shuffle
+- New Room Echo media player
+- ... switches
+  - Do Not Disturb
+  - Repeat
+  - Shuffle
+- Alexa Everywhere media player
 
-***
+---
 
-## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1620)
+## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1619)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/91996383-8bfff800-ed56-11ea-8f51-3ff119abbcac.png "Plex view")
 
-*This view contains one vertical stack only.*
+_This view contains one vertical stack only._
 
 ### Graph row I
 
-* Plex Watching
-* Tautulli current bandwidth
+- Plex Watching
+- Tautulli current bandwidth
 
 ### Graph row II
 
-* Network in
-* Network out
+- Network in
+- Network out
 
 ### Plex players
 
-* Conditional cards...
-  * Header card
-  * Plex media player cards
+- Conditional cards...
+  - Header card
+  - Plex media player cards
 
 The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
 
-***
+---
 
-## [Television view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1983)
+## [Television view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1982)
 
 ![tv_view](https://user-images.githubusercontent.com/19761269/91996379-8b676180-ed56-11ea-8031-24ee29d855e2.png "TV view")
 
 ### TV players
 
-* Header card
-* TV media player cards
+- Header card
+- TV media player cards
 
-***
+---
 
 ## Custom plugins used
 
 ### Integrations
 
-* [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
-* [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
-* [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
+- [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
+- [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
+- [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 
-### Lovelace 
+### Lovelace
 
-* [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
-* [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
-* [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
-* [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
-* [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
-* [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
-* [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
-* [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
-* [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
-* [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
+- [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
+- [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
+- [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
+- [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
+- [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
+- [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+- [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
+- [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
+- [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
+- [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
-***
+---
 
 ## Notes
 
-* Screenshots may not be up-to-date.
-* Entities beginning with `int` are "internal" entities that are used inside templates.
-* Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
-  * A cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
-* The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
+- Screenshots may not be up-to-date.
+- Entities beginning with `int` are "internal" entities that are used inside templates.
+- Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
+  - A cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
+- The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
-***
+---
 
 ## Special thanks
 
-* to all authors above,
-* and all the very helpful folks over at the Discord.
-
+- to all authors above,
+- and all the very helpful folks over at the Discord.

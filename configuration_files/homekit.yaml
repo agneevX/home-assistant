@@ -8,21 +8,10 @@ filter:
     - switch.lofi_beats2
     - switch.jazz_radio
     - sensor.internet_health
-    - sensor.cpu_temp
-    - sensor.always_on_cpu_temp
-    - binary_sensor.front_gate_camera_state
-    - binary_sensor.orbi_satellite_ping
+    - script.refresh_plex
     - script.reload_themes
 entity_config:
-  binary_sensor.orbi_satellite_ping:
-    name: Satellite
-  binary_sensor.front_gate_camera_state:
-    name: Front Gate Camera
   switch.adguard_filtering:
     name: AdGuard
   sensor.internet_health:
     name: Internet
-  sensor.cpu_temp:
-    name: Home Server
-  sensor.always_on_cpu_temp:
-    name: Always-On

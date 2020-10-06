@@ -1,361 +1,450 @@
 custom_header:
+  active_tab_color: var(--primary-color)
+  tab_indicator_color: var(--primary-color)
   chevrons: false
+  hide_help: true
+  hide_unused: true
+  default_tab_on_refresh: false
   exceptions:
     - conditions:
         user_agent: iPhone OS
       config:
-        all_tabs_css: 'width: calc(16.8vw - 12px) !important; padding: 0px !important;'
-        chevrons: false
-        default_tab_on_refresh: false
-        hide_help: true
-        hide_unused: true
+        fit_tabs: true
+        tab_container_css: 'width: 500px !important; margin: auto !important;'
         tab_indicator_color: var(--primary-text-color)
-  hide_help: true
-  tab_indicator_color: var(--primary-text-color)
+        active_tab_color: var(--primary-text-color)
 swipe_nav:
   animate: fade
-  swipe_amount: 25
+  swipe_amount: 20
 title: Agneev's Home
 views:
   - badges:
       - entity: sensor.load_1m
         name: Load
         style: |
-          :host {--label-badge-red: var(--primary-color);}
-      - entity: sensor.eth0_in
+          :host { --label-badge-red: var(--primary-color); }
+      - entity: sensor.eth0_in_2
         name: eth0 in
         style: |
-          :host {--label-badge-red: var(--primary-color);}
-      - entity: sensor.eth0_out
+          :host { --label-badge-red: var(--primary-color); }
+      - entity: sensor.eth0_out_2
         name: eth0 out
         style: |
-          :host {--label-badge-red: var(--primary-color);}
+          :host { --label-badge-red: var(--primary-color); }
       - entity: sensor.knox_free_percent
         name: mergerFS
         style: |
-          :host {--label-badge-red: var(--primary-color);}
+          :host { --label-badge-red: var(--primary-color); }
     cards:
       - cards:
           - cards:
-              - entity: sensor.tautulli_state
-                name: Tautulli
-                size: 31%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                    - width: 65px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
               - entity: sensor.drive_state
                 name: /drive
-                size: 31%
+                size: 30%
                 state:
-                  - styles:
+                  - value: inactive
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
                       name:
                         - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
+                  - value: active
+                    styles:
                       name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
+                        - color: var(--cc-button-card)
+                      icon:
+                        - color: var(--primary-color)
                 styles:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 48px
-                    - width: 65px
+                    - height: 44px
                 tap_action:
                   action: more-info
+                  haptic: light
                 type: 'custom:button-card'
               - entity: sensor.knox_state
                 name: /knox
-                size: 31%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                    - width: 65px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-              - double_tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/cctv
-                entity: binary_sensor.front_gate_camera_ping
-                name: Front Gate
                 size: 30%
                 state:
-                  - styles:
+                  - value: inactive
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
                       name:
                         - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
+                  - value: active
+                    styles:
                       name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
+                        - color: var(--cc-button-card)
+                      icon:
+                        - color: var(--primary-color)
                 styles:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 48px
+                    - height: 44px
                 tap_action:
                   action: more-info
+                  haptic: light
+                type: 'custom:button-card'
+              - entity: device_tracker.always_on_server
+                name: Server 2
+                icon: 'mdi:raspberry-pi'
+                size: 30%
+                state:
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--cc-button-card)
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                      name:
+                        - color: var(--disabled-text-color)
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 44px
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: 'custom:button-card'
+              - entity: binary_sensor.front_gate_camera_ping
+                name: Front Gate
+                size: 28%
+                state:
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                      name:
+                        - color: var(--disabled-text-color)
+                  - value: 'on'
+                    styles:
+                      name:
+                        - color: var(--cc-button-card)
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 44px
+                    - width: 76px
+                tap_action:
+                  action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/cctv
+                  haptic: medium
                 type: 'custom:button-card'
               - entity: binary_sensor.orbi_satellite_ping
                 name: Satellite
-                size: 31%
+                size: 30%
                 state:
-                  - styles:
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
                       name:
                         - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
+                  - value: 'on'
+                    styles:
                       name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 48px
+                    - height: 44px
                     - font-size: 12px
                     - font-weight: bold
-                    - width: 70px
                 tap_action:
                   action: more-info
+                  haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
           - entities:
               - entity: light.desk_light
-                haptic: light
                 hide_state: true
-                step: 2
-                type: 'custom:slider-entity-row'
-              - attribute: color_temp
-                entity: light.desk_light
-                full_row: true
-                hide_state: true
-                hide_when_off: true
+                toggle: true
+                haptic: medium
+                min: 5
                 step: 5
                 type: 'custom:slider-entity-row'
               - entity: light.tv_lamp
-                haptic: light
                 hide_state: true
+                toggle: true
+                haptic: medium
+                min: 2
                 step: 2
+                type: 'custom:slider-entity-row'
+              - entity: input_number.speaker_volume
+                hide_state: true
+                name: Soundbar
+                step: 2
+                icon: 'mdi:speaker'
                 type: 'custom:slider-entity-row'
             show_header_toggle: false
             type: entities
           - cards:
               - color_type: card
                 entity: light.nightlamp
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
                 entity: light.color_flow
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
                 entity: switch.lofi_beats
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
                 entity: switch.lofi_beats2
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
                 entity: switch.jazz_radio
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
           - cards:
               - color_type: card
                 entity: switch.adguard_filtering
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
-              - color_type: card
-                double_tap_action:
-                  action: toggle
-                  haptic: success
-                entity: switch.always_on_restart
-                hold_action:
-                  action: more-info
+              - color: auto
+                color_type: card
+                entity: device_tracker.always_on_server
                 icon: 'mdi:server-security'
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: home
+                    color: var(--primary-color)
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: not_home
+                    color: var(--card-background-color)
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: call-service
+                  haptic: success
+                  service: switch.turn_on
+                  service_data:
+                    entity_id: switch.always_on_restart
                 type: 'custom:button-card'
               - color_type: card
-                entity: switch.refresh_plex
-                hold_action:
-                  action: more-info
+                entity: script.refresh_plex
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
                 entity: switch.circadian_lighting_circadian_lighting
-                hold_action:
-                  action: more-info
                 show_name: false
-                size: 37%
+                size: 38%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
-                    value: 'on'
+                  - value: 'off'
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
                 styles:
                   card:
-                    - height: 57px
+                    - height: 56px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
+                entity: device_tracker.x200m
+                icon: 'mdi:laptop-windows'
+                show_name: false
+                size: 38%
+                state:
+                  - value: home
+                    color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                  - value: not_home
+                    color: var(--card-background-color)
+                    styles:
+                      icon:
+                        - color: var(--cc-button-card)
+                styles:
+                  card:
+                    - height: 56px
+                tap_action:
+                  action: call-service
+                  haptic: medium
+                  service: switch.turn_on
+                  service_data:
+                    entity_id: switch.x200m_shutdown
                 double_tap_action:
                   action: call-service
                   haptic: success
-                  service: switch.turn_off
+                  service: switch.turn_on
                   service_data:
                     entity_id: switch.x200m_restart
-                entity: switch.x200m_shutdown
                 hold_action:
                   action: more-info
-                icon: 'mdi:laptop'
-                show_name: false
-                size: 37%
-                state:
-                  - styles:
-                      icon:
-                        - color: '#ffffff'
-                    value: 'on'
-                styles:
-                  card:
-                    - height: 57px
-                tap_action:
-                  action: toggle
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
@@ -365,18 +454,19 @@ views:
               - align_state: center
                 animate: true
                 color_thresholds:
-                  - color: '#ff0000'
-                    value: 80
-                  - color: '#ff8600'
-                    value: 50
-                  - color: '#04e700'
-                    value: 30
+                  - value: 80
+                    color: '#FF0000'
+                  - value: 60
+                    color: '#E1E700'
+                  - value: 30
+                    color: '#04E700'
                 decimals: 0
                 entities:
                   - entity: sensor.processor_use
                     name: CPU
                     state_adaptive_color: true
                 font_size: 95
+                icon: 'mdi:memory'
                 font_size_header: 13
                 hours_to_show: 2
                 line_width: 6
@@ -385,7 +475,6 @@ views:
                   fill: false
                   icon_adaptive_color: true
                   labels: false
-                  name_adaptive_color: false
                   points: false
                 style: |
                   ha-card > div:nth-child(-n+2) {
@@ -400,12 +489,12 @@ views:
                   align_state: center
                   animate: true
                   color_thresholds:
-                    - color: '#ff0000'
-                      value: 94
-                    - color: '#ff8600'
-                      value: 96
-                    - color: '#04e700'
-                      value: 98
+                    - value: 94
+                      color: '#FF0000'
+                    - value: 96
+                      color: '#E1E700'
+                    - value: 98
+                      color: '#04E700'
                   entities:
                     - entity: sensor.internet_health
                       name: Internet
@@ -418,11 +507,11 @@ views:
                     ? 'mdi:ethernet-cable' : 'mdi:ethernet-cable-off'}
                   line_width: 6
                   points_per_hour: 8
+                  upper_bound: 100.1
                   show:
                     fill: false
                     icon_adaptive_color: true
                     labels: false
-                    name_adaptive_color: false
                     points: false
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -432,12 +521,13 @@ views:
                       padding: 0 16px 0px 16px !important
                     }
                   type: 'custom:mini-graph-card'
-                  upper_bound: 100.1
                 entities:
                   - 'states.[''binary_sensor.cloudflare_dns_ping''].state'
                 type: 'custom:config-template-card'
             type: horizontal-stack
           - card:
+              entities:
+                - sensor.qbt_status
               card:
                 cards:
                   - align_icon: state
@@ -445,16 +535,16 @@ views:
                     animate: true
                     decimals: 0
                     entities:
-                      - color: >-
+                      - entity: sensor.qbt_down_speed
+                        unit: KB/s
+                        color: >-
                           ${states['sensor.qbt_status'].state === 'seeding' ?
-                          '#FF9333' : '#54A0FF'}
-                        entity: sensor.qbt_down_speed
+                          'var(--qbt-seeding-color)' : 'var(--qbt-color)'}
                         state_adaptive_color: true
-                        unit: Kb/s
                     font_size: 87
                     hours_to_show: 1
                     line_width: 6
-                    points_per_hour: 8
+                    points_per_hour: 15
                     show:
                       fill: false
                       icon_adaptive_color: true
@@ -475,16 +565,16 @@ views:
                     animate: true
                     decimals: 0
                     entities:
-                      - color: >-
+                      - entity: sensor.qbt_up_speed
+                        unit: KB/s
+                        color: >-
                           ${states['sensor.qbt_status'].state === 'seeding' ?
-                          '#FF9333' : '#54A0FF'}
-                        entity: sensor.qbt_up_speed
+                          'var(--qbt-seeding-color)' : 'var(--qbt-color)'}
                         state_adaptive_color: true
-                        unit: Kb/s
                     font_size: 87
                     hours_to_show: 1
                     line_width: 6
-                    points_per_hour: 8
+                    points_per_hour: 15
                     show:
                       fill: false
                       icon_adaptive_color: true
@@ -501,8 +591,6 @@ views:
                       }
                     type: 'custom:mini-graph-card'
                 type: horizontal-stack
-              entities:
-                - 'states.[''sensor.qbt_status''].state'
               type: 'custom:config-template-card'
             conditions:
               - entity: sensor.qbt_status
@@ -518,6 +606,7 @@ views:
                 - state: unavailable
                 - state: standby
                 - state: idle
+                - entity_id: media_player.sony_bravia_tv
               include:
                 - domain: media_player
             show_empty: false
@@ -532,126 +621,23 @@ views:
     cards:
       - cards:
           - cards:
-              - entity: sensor.plex_server_state
-                name: Plex
-                size: 32%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-              - entity: sensor.sonarr_state
-                name: Sonarr
-                size: 32%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-              - entity: sensor.radarr_state
-                name: Radarr
-                size: 32%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-              - entity: sensor.code_server_state
-                name: VS Code
-                size: 32%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 48px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-              - entity: sensor.homebridge_state
-                name: Homebridge
-                size: 31%
-                state:
-                  - styles:
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: 'off'
-                  - styles:
-                      name:
-                        - color: var(--primary-text-color)
-                    value: 'on'
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 12px
-                    - font-weight: bold
-                    - width: 85px
-                tap_action:
-                  action: more-info
-                type: 'custom:button-card'
-            type: horizontal-stack
-          - cards:
               - color_thresholds:
-                  - color: '#ff0000'
-                    value: 4
-                  - color: '#e1e700'
-                    value: 3
-                  - color: '#04e700'
-                    value: 1
-                decimals: 1
+                  - value: 80
+                    color: '#FF0000'
+                  - value: 70
+                    color: '#E1E700'
+                  - value: 60
+                    color: '#04E700'
                 entities:
-                  - entity: sensor.load_5m
-                    name: 5-min
-                    state_adaptive_color: false
-                font_size: 70
-                font_size_header: 13
+                  - entity: sensor.processor_temperature
+                    name: Host
+                font_size: 72
+                font_size_header: 12.5
                 hours_to_show: 3
-                line_width: 5
+                icon: 'mdi:server-network'
+                line_width: 6
                 points_per_hour: 5
+                decimals: 0
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -665,22 +651,21 @@ views:
                   }
                 type: 'custom:mini-graph-card'
               - color_thresholds:
-                  - color: '#ff0000'
-                    value: 85
-                  - color: '#e1e700'
-                    value: 70
-                  - color: '#04e700'
-                    value: 45
+                  - value: 85
+                    color: '#FF0000'
+                  - value: 70
+                    color: '#E1E700'
+                  - value: 45
+                    color: '#04E700'
                 decimals: 1
                 entities:
                   - entity: sensor.disk_use_percent_home_agneev
                     name: SSD
-                    state_adaptive_color: false
-                font_size: 70
-                font_size_header: 13
+                font_size: 72
+                font_size_header: 12.5
                 hours_to_show: 6
-                line_width: 5
-                points_per_hour: 4
+                line_width: 6
+                points_per_hour: 10
                 show:
                   icon_adaptive_color: true
                   labels: false
@@ -694,123 +679,26 @@ views:
                   }
                 type: 'custom:mini-graph-card'
               - color_thresholds:
-                  - color: '#ff0000'
-                    value: 75
-                  - color: '#e1e700'
-                    value: 40
-                  - color: '#04e700'
-                    value: 25
-                decimals: 1
+                  - value: 100
+                    color: '#FF0000'
+                  - value: 250
+                    color: '#E1E700'
+                  - value: 500
+                    color: '#04E700'
                 entities:
-                  - entity: sensor.drive_used
-                    name: Drive
-                    state_adaptive_color: false
-                font_size: 70
-                font_size_header: 13
-                hours_to_show: 6
-                line_width: 5
-                points_per_hour: 4
-                show:
-                  fill: true
-                  icon_adaptive_color: true
-                  labels: false
-                  name_adaptive_color: false
-                  points: false
-                style: |
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-                unit: TB
-            type: horizontal-stack
-          - cards:
-              - color_thresholds:
-                  - color: '#ff0000'
-                    value: 80
-                  - color: '#e1e700'
-                    value: 65
-                  - color: '#04e700'
-                    value: 50
+                  - entity: sensor.disk_free_knox
+                    name: /knox
+                    unit: GB
+                icon: 'mdi:harddisk-plus'
+                font_size: 72
+                font_size_header: 12.5
+                hours_to_show: 12
+                line_width: 6
+                points_per_hour: 6
                 decimals: 0
-                entities:
-                  - entity: sensor.cpu_temp
-                    name: Host
-                    state_adaptive_color: false
-                font_size: 70
-                font_size_header: 13
-                hours_to_show: 3
-                icon: 'mdi:server-network'
-                line_width: 5
-                points_per_hour: 4
                 show:
                   icon_adaptive_color: true
                   labels: false
-                  points: false
-                style: |
-                  ha-card {
-                    --icon-width: 4px;
-                    --icon-height: 4px;
-                  }
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-              - color_thresholds:
-                  - color: '#ff0000'
-                    value: 70
-                  - color: '#e1e700'
-                    value: 60
-                  - color: '#04e700'
-                    value: 55
-                decimals: 0
-                entities:
-                  - entity: sensor.always_on_cpu_temp
-                    name: Server 2
-                font_size: 70
-                font_size_header: 13
-                hours_to_show: 3
-                icon: 'mdi:server-security'
-                line_width: 5
-                points_per_hour: 4
-                show:
-                  icon_adaptive_color: true
-                  labels: false
-                  points: false
-                style: |
-                  ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                  }
-                  ha-card > .info {
-                    padding: 0 14px 0px 14px !important
-                  }
-                type: 'custom:mini-graph-card'
-              - align_icon: state
-                color_thresholds:
-                  - color: '#ff0000'
-                    value: 12
-                  - color: '#e1e700'
-                    value: 8
-                  - color: '#04e700'
-                    value: 5
-                decimals: 0
-                entities:
-                  - entity: sensor.speedtest_net_latency
-                    name: Latency
-                font_size: 70
-                hours_to_show: 6
-                line_width: 7
-                points_per_hour: 2
-                show:
-                  fill: false
-                  icon_adaptive_color: true
-                  labels: false
-                  name: false
                   points: false
                 style: |
                   ha-card > div:nth-child(-n+2) {
@@ -826,22 +714,23 @@ views:
                 align_state: center
                 animate: true
                 color_thresholds:
-                  - color: '#ff0000'
-                    value: 30
-                  - color: '#e1e700'
-                    value: 50
-                  - color: '#04e700'
-                    value: 85
+                  - value: 30
+                    color: '#FF0000'
+                  - value: 50
+                    color: '#E1E700'
+                  - value: 85
+                    color: '#04E700'
                 decimals: 0
                 entities:
                   - entity: sensor.speedtest_net_download
                     state_adaptive_color: true
-                font_size: 92
+                font_size: 90
                 hours_to_show: 6
-                line_width: 4
+                line_width: 5
                 points_per_hour: 2
                 show:
                   fill: false
+                  extrema: true
                   icon_adaptive_color: true
                   labels: false
                   name: false
@@ -858,22 +747,23 @@ views:
                 align_state: center
                 animate: true
                 color_thresholds:
-                  - color: '#ff0000'
+                  - color: '#FF0000'
                     value: 30
-                  - color: '#e1e700'
+                  - color: '#E1E700'
                     value: 50
-                  - color: '#04e700'
+                  - color: '#04E700'
                     value: 85
                 decimals: 0
                 entities:
                   - entity: sensor.speedtest_net_upload
                     state_adaptive_color: true
-                font_size: 92
+                font_size: 90
                 hours_to_show: 6
-                line_width: 4
+                line_width: 5
                 points_per_hour: 2
                 show:
                   fill: false
+                  extrema: true
                   icon_adaptive_color: true
                   labels: false
                   name: false
@@ -887,8 +777,6 @@ views:
                   }
                 type: 'custom:mini-graph-card'
             type: horizontal-stack
-        type: vertical-stack
-      - cards:
           - cards:
               - decimals: 0
                 entities:
@@ -896,10 +784,10 @@ views:
                     entity: sensor.eth0_in
                   - color: '#FFCC00'
                     entity: sensor.eth0_out
-                font_size_header: 13
+                font_size_header: 12.5
                 hours_to_show: 1
                 icon: 'mdi:ethernet'
-                line_width: 2.2
+                line_width: 2.5
                 name: Network
                 points_per_hour: 70
                 show:
@@ -919,11 +807,11 @@ views:
                 type: 'custom:mini-graph-card'
               - cards:
                   - entities:
-                      - color: '#04e700'
+                      - color: '#04E700'
                         entity: sensor.eth0_in_total
                         name: Traffic In
-                    font_size: 80
-                    font_size_header: 13
+                    font_size: 78
+                    font_size_header: 12.5
                     show:
                       graph: false
                       icon_adaptive_color: true
@@ -942,12 +830,12 @@ views:
                       - color: '#FFCC00'
                         entity: sensor.eth0_out_total
                         name: Traffic Out
-                    font_size: 80
-                    font_size_header: 13
+                    font_size: 78
+                    font_size_header: 12.5
                     show:
-                      graph: false
                       icon_adaptive_color: true
                       name_adaptive_color: true
+                      graph: false
                     style: |
                       ha-card > div:nth-child(-n+2) {
                         padding: 0 14px 0 14px !important
@@ -958,47 +846,29 @@ views:
                     type: 'custom:mini-graph-card'
                 type: horizontal-stack
             type: 'custom:vertical-stack-in-card'
-          - cards:
-              - card:
-                  entities:
-                    - entity: binary_sensor.updater
-                      name: Hass.io
-                  font_size: 75
-                  font_size_header: 13
-                  show:
-                    graph: false
-                    icon_adaptive_color: true
-                  state_map:
-                    - label: 0
-                      value: 'off'
-                    - label: 1
-                      value: 'on'
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                  type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['binary_sensor.updater'].state === 'on' ? 'update'
-                    : 'updates'}
-                entities:
-                  - 'states[''binary_sensor.updater''].state'
+        type: vertical-stack
+      - cards:
+          - type: horizontal-stack
+            cards:
+              - entities:
+                  - sensor.always_on_cpu_temp
                 type: 'custom:config-template-card'
-              - card:
+                card:
                   entities:
-                    - color: >-
-                        ${states['sensor.hacs'].state > '1' ? '#ffff00' :
-                        'var(--primary-color)'}
-                      entity: sensor.hacs
-                  font_size: 75
-                  font_size_header: 13
-                  name: HACS
+                    - entity: sensor.always_on_cpu_temp
+                      name: always-on
+                      color: >-
+                        ${ states['sensor.always_on_cpu_temp'].state > 75 ?
+                        '#FFF000' : '#04E700'}
+                  font_size: 72
+                  font_size_header: 12
+                  icon: 'mdi:server-security'
+                  line_width: 6
+                  points_per_hour: 4
                   show:
-                    graph: false
                     icon_adaptive_color: true
+                    name_adaptive_color: true
+                    graph: false
                   style: |
                     ha-card > div:nth-child(-n+2) {
                       padding: 0 14px 0 14px !important
@@ -1007,41 +877,116 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                   type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.hacs'].state === '1' ? 'update' :
-                    'updates'}
+              - card:
+                  entities:
+                    - entity: sensor.qbt_active_torrents
+                      name: qBt active
+                      color: var(--qbt-color)
+                      unit: >-
+                        ${states['sensor.qbt_active_torrents'].state === '1' ?
+                        'torrent' : 'torrents'}
+                  icon: 'mdi:swap-vertical'
+                  font_size: 74
+                  font_size_header: 12.5
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                  type: 'custom:mini-graph-card'
+                entities:
+                  - sensor.qbt_active_torrents
+                type: 'custom:config-template-card'
+              - entities:
+                  - sensor.qbt_all_torrents
+                type: 'custom:config-template-card'
+                card:
+                  entities:
+                    - entity: sensor.qbt_all_torrents
+                      name: qBt all
+                      color: var(--qbt-color)
+                      unit: >-
+                        ${states['sensor.qbt_all_torrents'].state === '1' ?
+                        'torrent' : 'torrents'}
+                  icon: 'mdi:expand-all-outline'
+                  font_size: 74
+                  font_size_header: 12.5
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                  type: 'custom:mini-graph-card'
+          - cards:
+              - type: conditional
+                conditions:
+                  - entity: binary_sensor.updater
+                    state: 'on'
+                card:
+                  card:
+                    entities:
+                      - entity: binary_sensor.updater
+                        name: Hass.io
+                        unit: >-
+                          ${states['binary_sensor.updater'].state === 'on' ?
+                          'update' : 'updates'}
+                    font_size: 74
+                    font_size_header: 13
+                    show:
+                      graph: false
+                      icon_adaptive_color: true
+                      name_adaptive_color: true
+                    state_map:
+                      - value: 'off'
+                        label: '0'
+                      - value: 'on'
+                        label: '1'
+                    style: |
+                      ha-card > div:nth-child(-n+2) {
+                        padding: 0 14px 0 14px !important
+                      }
+                      ha-card > .info {
+                        padding: 0 14px 0px 14px !important
+                      }
+                    type: 'custom:mini-graph-card'
+                  entities:
+                    - 'states[''binary_sensor.updater''].state'
+                  type: 'custom:config-template-card'
+              - card:
+                  entities:
+                    - entity: sensor.hacs
+                      name: HACS
+                      unit: >-
+                        ${states['sensor.hacs'].state === '1' ? 'update' :
+                        'updates'}
+                  font_size: 74
+                  font_size_header: 13
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                  type: 'custom:mini-graph-card'
                 entities:
                   - 'states[''sensor.hacs''].state'
-                type: 'custom:config-template-card'
-              - card:
-                  entities:
-                    - color: >-
-                        ${states['binary_sensor.orbi_satellite_ping'].state ===
-                        'on' ? 'var(--primary-color)' : '#FF0000'}
-                      entity: sensor.power_downtime
-                      name: Power
-                      unit: >-
-                        ${states['sensor.power_downtime'].state === '1' ? 'hr' :
-                        'hrs'}
-                  font_size: 75
-                  font_size_header: 13
-                  icon: >-
-                    ${states['binary_sensor.orbi_satellite_ping'].state === 'on'
-                    ? 'mdi:power-plug-outline' : 'mdi:power-plug-off-outline'}
-                  show:
-                    graph: false
-                    icon_adaptive_color: true
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                  type: 'custom:mini-graph-card'
-                entities:
-                  - 'states[''binary_sensor.orbi_satellite_ping''].state'
-                  - 'states[''sensor.power_downtime''].state'
                 type: 'custom:config-template-card'
             type: horizontal-stack
           - entities:
@@ -1060,30 +1005,24 @@ views:
     cards:
       - cards:
           - cards:
-              - double_tap_action:
-                  action: call-service
-                  haptic: success
-                  service: notify.old_room_tv
-                  service_data:
-                    message: Someone is at the front gate!
-                entity: device_tracker.old_room_tv
+              - entity: device_tracker.old_room_tv
                 icon: 'mdi:television'
                 layout: icon_name_state
                 name: OLD ROOM‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎
                 size: 45%
                 state:
-                  - styles:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                      name:
+                        - color: var(--disabled-text-color)
+                  - value: home
+                    styles:
                       icon:
                         - color: var(--primary-color)
                       name:
                         - color: var(--primary-text-color)
-                    value: home
-                  - styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: not_home
                 styles:
                   card:
                     - font-size: 12px
@@ -1091,57 +1030,65 @@ views:
                     - font-weight: bold
                 tap_action:
                   action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: call-service
+                  haptic: success
+                  service: notify.old_room_tv
+                  service_data:
+                    message: Someone is at the front gate!
                 type: 'custom:button-card'
-              - double_tap_action:
+              - entity: device_tracker.new_room_tv
+                icon: 'mdi:television'
+                layout: icon_name_state
+                name: NEW ROOM‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎
+                size: 45%
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                      name:
+                        - color: var(--disabled-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--primary-text-color)
+                styles:
+                  card:
+                    - font-size: 12px
+                    - height: 38px
+                    - font-weight: bold
+                tap_action:
+                  action: more-info
+                  haptic: light
+                double_tap_action:
                   action: call-service
                   haptic: success
                   service: notify.new_room_tv
                   service_data:
                     message: Someone is at the front gate!
-                entity: device_tracker.new_room_tv
-                icon: 'mdi:television'
-                layout: icon_name_state
-                name: NEW ROOM‏‏‎ ‎‏‏‎ ‎‏‏‎
-                size: 45%
-                state:
-                  - styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-text-color)
-                    value: home
-                  - styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: not_home
-                styles:
-                  card:
-                    - font-size: 12px
-                    - height: 38px
-                    - font-weight: bold
-                tap_action:
-                  action: more-info
                 type: 'custom:button-card'
-              - entity: device_tracker.sony_bravia
+              - entity: device_tracker.sony_bravia_tv
                 icon: 'mdi:television'
                 layout: icon_name_state
                 name: BRAVIA‏‏‎ ‎‏‏‎ ‎‏‏‎‏‎
                 size: 52%
                 state:
-                  - styles:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                      name:
+                        - color: var(--disabled-text-color)
+                  - value: home
+                    styles:
                       icon:
                         - color: var(--primary-color)
                       name:
                         - color: var(--primary-text-color)
-                    value: home
-                  - styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                    value: not_home
                 styles:
                   card:
                     - height: 38px
@@ -1150,6 +1097,7 @@ views:
                     - font-weight: bold
                 tap_action:
                   action: more-info
+                  haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
           - cards:
@@ -1157,13 +1105,16 @@ views:
                   align_icon: state
                   animate: true
                   entities:
-                    - color: '#F5BB41'
+                    - color: var(--radarr-color)
                       entity: sensor.radarr_commands
+                      unit: >-
+                        ${states['sensor.radarr_commands'].state === '1' ?
+                        'Command' : 'Commands'}
                       state_adaptive_color: true
                   font_size: 85
                   hours_to_show: 6
                   icon: 'mdi:console-line'
-                  line_width: 5
+                  line_width: 6
                   points_per_hour: 5
                   show:
                     fill: false
@@ -1180,23 +1131,23 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                   type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.radarr_commands'].state === '1' ? 'Command'
-                    : 'Commands'}
                 entities:
-                  - 'states[''sensor.radarr_commands''].state'
+                  - sensor.radarr_commands
                 type: 'custom:config-template-card'
               - card:
                   align_icon: state
                   animate: true
                   entities:
-                    - color: '#23CDFD'
+                    - color: var(--sonarr-color)
                       entity: sensor.sonarr_commands
+                      unit: >-
+                        ${states['sensor.sonarr_commands'].state === '1' ?
+                        'Command' : 'Commands'}
                       state_adaptive_color: true
                   font_size: 85
                   hours_to_show: 6
                   icon: 'mdi:console-line'
-                  line_width: 5
+                  line_width: 6
                   points_per_hour: 5
                   show:
                     fill: false
@@ -1213,77 +1164,77 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                   type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.sonarr_commands'].state === '1' ? 'Command'
-                    : 'Commands'}
                 entities:
-                  - 'states[''sensor.sonarr_commands''].state'
+                  - sensor.sonarr_commands
                 type: 'custom:config-template-card'
             type: horizontal-stack
           - cards:
               - card:
                   entities:
-                    - color: '#F5BB41'
-                      entity: sensor.radarr_upcoming
-                      state_adaptive_color: true
-                  font_size: 85
-                  font_size_header: 13
-                  icon: 'mdi:movie-search'
-                  name: Upcoming
-                  show:
-                    graph: false
-                    icon_adaptive_color: true
-                    name_adaptive_color: true
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                  type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.radarr_upcoming'].state === '1' ? 'Movie' :
-                    'Movies'}
-                entities:
-                  - 'states[''sensor.radarr_upcoming''].state'
-                type: 'custom:config-template-card'
-              - card:
-                  entities:
-                    - color: '#23CDFD'
-                      entity: sensor.sonarr_upcoming
-                      state_adaptive_color: true
-                  font_size: 85
-                  font_size_header: 13
-                  icon: 'mdi:calendar'
-                  name: Upcoming
-                  show:
-                    graph: false
-                    icon_adaptive_color: true
-                    name_adaptive_color: true
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                  type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.sonarr_upcoming'].state === '1' ? 'Episode'
-                    : 'Episodes'}
-                entities:
-                  - 'states[''sensor.sonarr_upcoming''].state'
-                type: 'custom:config-template-card'
-            type: horizontal-stack
-          - cards:
-              - card:
-                  entities:
-                    - color: '#23CDFD'
-                      entity: sensor.sonarr_queue
+                    - color: var(--radarr-color)
+                      entity: sensor.radarr_queue
+                      unit: >-
+                        ${states['sensor.radarr_queue'].state === '1' ? 'Movie'
+                        : 'Movies'}
                       name: Queue
                       state_adaptive_color: true
-                  font_size: 85
+                  font_size: 88
+                  font_size_header: 13
+                  icon: 'mdi:clock-outline'
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                  type: 'custom:mini-graph-card'
+                entities:
+                  - sensor.radarr_queue
+                type: 'custom:config-template-card'
+              - card:
+                  entities:
+                    - color: var(--sonarr-color)
+                      entity: sensor.sonarr_upcoming
+                      name: Upcoming
+                      unit: >-
+                        ${states['sensor.sonarr_upcoming'].state === '1' ?
+                        'Episode' : 'Episodes'}
+                      state_adaptive_color: true
+                  font_size: 88
+                  font_size_header: 13
+                  icon: 'mdi:calendar'
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                  type: 'custom:mini-graph-card'
+                entities:
+                  - sensor.sonarr_upcoming
+                type: 'custom:config-template-card'
+            type: horizontal-stack
+          - cards:
+              - card:
+                  entities:
+                    - color: var(--sonarr-color)
+                      entity: sensor.sonarr_queue
+                      name: Queue
+                      unit: >-
+                        ${states['sensor.sonarr_queue'].state === '1' ?
+                        'Episode' : 'Episodes'}
+                      state_adaptive_color: true
+                  font_size: 88
                   font_size_header: 13
                   icon: 'mdi:progress-clock'
                   show:
@@ -1298,19 +1249,19 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                   type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.sonarr_queue'].state === '1' ? 'Episode' :
-                    'Episodes'}
                 entities:
-                  - 'states[''sensor.sonarr_queue''].state'
+                  - sensor.sonarr_queue
                 type: 'custom:config-template-card'
               - card:
                   entities:
-                    - color: '#23CDFD'
+                    - color: var(--sonarr-color)
                       entity: sensor.sonarr_wanted
                       name: Wanted
+                      unit: >-
+                        ${states['sensor.sonarr_wanted'].state === '1' ?
+                        'Episode' : 'Episodes'}
                       state_adaptive_color: true
-                  font_size: 85
+                  font_size: 88
                   font_size_header: 13
                   icon: 'mdi:timelapse'
                   show:
@@ -1325,20 +1276,17 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                   type: 'custom:mini-graph-card'
-                  unit: >-
-                    ${states['sensor.sonarr_wanted'].state === '1' ? 'Episode' :
-                    'Episodes'}
                 entities:
-                  - 'states[''sensor.sonarr_wanted''].state'
+                  - sensor.sonarr_wanted
                 type: 'custom:config-template-card'
             type: horizontal-stack
           - cards:
               - entities:
-                  - color: '#F5BB41'
+                  - color: var(--radarr-color)
                     entity: sensor.radarr_movies
                     name: Radarr
                     state_adaptive_color: true
-                font_size: 85
+                font_size: 88
                 font_size_header: 13
                 icon: 'mdi:movie-open'
                 show:
@@ -1354,11 +1302,11 @@ views:
                   }
                 type: 'custom:mini-graph-card'
               - entities:
-                  - color: '#23CDFD'
+                  - color: var(--sonarr-color)
                     entity: sensor.sonarr_shows
                     name: Sonarr
                     state_adaptive_color: true
-                font_size: 85
+                font_size: 88
                 font_size_header: 13
                 show:
                   graph: false
@@ -1396,14 +1344,13 @@ views:
   - badges: []
     cards:
       - cards:
-          - entity: binary_sensor.front_gate_camera_state
+          - entity: binary_sensor.front_gate_camera_ping
             icon: 'mdi:gate'
             name: Front Gate
             type: entity
           - card:
               camera_image: camera.front_gate_camera
               entities: []
-              entity: camera.front_gate_camera
               title: Front Gate
               type: picture-glance
             conditions:
@@ -1428,12 +1375,12 @@ views:
             shortcuts:
               attribute: source
               buttons:
-                - icon: 'mdi:city'
-                  id: script.spotify_lofi_beats
-                  type: script
                 - icon: 'mdi:trending-up'
                   id: script.spotify_trending
                   type: script
+                - icon: 'mdi:surround-sound'
+                  id: Soundbar
+                  type: source
                 - icon: 'mdi:amazon-alexa'
                   id: Bedroom Echo
                   type: source
@@ -1487,83 +1434,88 @@ views:
               source: true
             icon: 'mdi:amazon-alexa'
             idle_view:
+              after: 10
               when_idle: true
               when_standby: true
             type: 'custom:mini-media-player'
             volume_step: 2
           - cards:
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.bedroom_echo_do_not_disturb_switch
                 layout: icon_name_state
                 name: DND
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
                     - font-size: 12px
-                    - height: 40px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.bedroom_echo_repeat_switch
                 layout: icon_name_state
                 name: REPEAT
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
-                    - height: 40px
                     - font-size: 12px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.bedroom_echo_shuffle_switch
                 layout: icon_name_state
                 name: SHUFFLE
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
                     - font-size: 12px
-                    - height: 40px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
           - artwork: cover
             entity: media_player.new_room_echo
+            volume_step: 2
             hide:
               power: true
               source: true
@@ -1573,75 +1525,77 @@ views:
               when_idle: true
               when_standby: true
             type: 'custom:mini-media-player'
-            volume_step: 2
           - cards:
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.new_room_echo_do_not_disturb_switch
                 layout: icon_name_state
                 name: DND
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
                     - font-size: 12px
-                    - height: 40px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.new_room_echo_repeat_switch
                 layout: icon_name_state
                 name: REPEAT
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
-                    - height: 40px
                     - font-size: 12px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                double_tap_action:
-                  action: more-info
                 entity: switch.new_room_echo_shuffle_switch
                 layout: icon_name_state
                 name: SHUFFLE
                 size: 45%
                 state:
-                  - styles:
+                  - value: 'on'
+                    styles:
                       icon:
                         - color: '#ffffff'
                       name:
                         - color: '#ffffff'
-                    value: 'on'
                 styles:
                   card:
                     - font-size: 12px
-                    - height: 40px
                     - font-weight: bold
+                    - height: 40px
                 tap_action:
                   action: toggle
+                  haptic: medium
+                double_tap_action:
+                  action: more-info
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
@@ -1651,12 +1605,12 @@ views:
               power: true
               source: true
             icon: 'mdi:amazon-alexa'
+            volume_step: 2
             idle_view:
-              after: 15
+              after: 10
               when_idle: true
               when_standby: true
             type: 'custom:mini-media-player'
-            volume_step: 2
         type: vertical-stack
     icon: 'mdi:remote'
     path: remotes
@@ -1670,7 +1624,7 @@ views:
                 decimals: 0
                 entities:
                   - color: '#F0A400'
-                    entity: sensor.plex
+                    entity: sensor.plex_home_server
                     state_adaptive_color: true
                 font_size: 85
                 hours_to_show: 6
@@ -1773,7 +1727,7 @@ views:
             type: horizontal-stack
           - card:
               content: |
-                # <center> No TVs playing right now :( </center>
+                # <center> No TVs playing rn :( </center>
               style:
                 .: |
                   ha-card {
@@ -1824,14 +1778,14 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
+                  name: Plex Media Player
+                  volume_step: 2
                   hide:
                     power: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: Plex Media Player
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
@@ -1860,14 +1814,14 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_xplay_lg_49uf690t_tc
+                  name: XPlay
+                  volume_step: 2
                   hide:
                     power: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: XPlay
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_xplay_lg_49uf690t_tc
@@ -1896,14 +1850,14 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_plex_for_lg_lg_oled55c9pta
+                  name: Plex Media Player
+                  volume_step: 2
                   hide:
                     power: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: Plex Media Player
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
@@ -1932,14 +1886,14 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_xplay_lg_oled55c9pta_2
+                  name: XPlay
+                  volume_step: 2
                   hide:
                     power: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: XPlay
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_xplay_lg_oled55c9pta_2
@@ -1968,14 +1922,14 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_plex_for_android_tv_sony_bravia
+                  name: Plex Media Player
+                  volume_step: 2
                   hide:
                     power: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: Plex Media Player
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_plex_for_android_tv_sony_bravia
@@ -2004,15 +1958,15 @@ views:
                   type: markdown
                 - artwork: material
                   entity: media_player.plex_mrmc_localhost
+                  name: MrMC
+                  volume_step: 2
                   hide:
                     power: true
                     progress: true
                   idle_view:
                     when_idle: true
                     when_standby: true
-                  name: MrMC
                   type: 'custom:mini-media-player'
-                  volume_step: 2
               type: vertical-stack
             conditions:
               - entity: media_player.plex_mrmc_localhost
@@ -2045,6 +1999,7 @@ views:
                   }
             type: markdown
           - entity: media_player.bedroom_tv
+            volume_step: 2
             hide:
               power: true
               progress: true
@@ -2085,8 +2040,8 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-            volume_step: 2
           - entity: media_player.old_room_tv
+            volume_step: 2
             hide:
               power: true
               progress: true
@@ -2114,10 +2069,9 @@ views:
                   type: source
               columns: 5
               hide_when_off: true
-            source: full
             type: 'custom:mini-media-player'
-            volume_step: 2
           - entity: media_player.new_room_tv
+            volume_step: 2
             hide:
               power: true
               progress: true
@@ -2146,8 +2100,8 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-            volume_step: 2
           - entity: media_player.dining_hall_tv
+            volume_step: 2
             hide:
               power: true
               source: true
@@ -2169,7 +2123,6 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-            volume_step: 2
           - content: |
               # Level 2
             style:
@@ -2195,6 +2148,7 @@ views:
             idle_view:
               when_idle: true
               when_standby: true
+            volume_step: 2
             shortcuts:
               attribute: source
               buttons:
@@ -2216,7 +2170,6 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-            volume_step: 2
         type: vertical-stack
     icon: 'mdi:television'
     path: tv

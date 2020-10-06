@@ -1,13 +1,13 @@
 default_config:
+shell_command:
+  set_speaker_volume: "amixer -q set Headphone - '{{ states.input_number.speaker_volume.state | int}}'%"
+input_number:
+  speaker_volume:
+    name: Speaker Volume
+    min: 80
+    max: 100
+    icon: mdi:volume-high
 sensor:
-  - platform: history_stats
-    name: Power Downtime
-    entity_id: binary_sensor.orbi_satellite_ping
-    state: 'off'
-    type: time
-    end: '{{ now()}}'
-    duration:
-      days: 14
   - platform: history_stats
     name: int_internet_health
     entity_id: binary_sensor.cloudflare_dns_ping
@@ -17,25 +17,35 @@ sensor:
     duration: 00:05:00
   - platform: qbittorrent
     name: qBt
-    url: 'http://127.0.0.1:9234'
+    url: 'http://127.0.0.1:8100'
     username: !secret qbt_user
     password: !secret qbt_pass
+    scan_interval: 30
   - platform: systemmonitor
-    scan_interval: 10
+    scan_interval: 120
+    resources:
+      - type: processor_temperature
+  - platform: systemmonitor
+    scan_interval: 60
+    resources:
+      - type: disk_use_percent
+        arg: /home/agneev
+      - type: disk_use_percent
+        arg: /knox
+      - type: disk_free
+        arg: /knox
+  - platform: systemmonitor
+    scan_interval: 30
+    resources:
+      - type: processor_use
+      - type: load_1m
+  - platform: systemmonitor
+    scan_interval: 15
     resources:
       - type: throughput_network_in
         arg: eth0
       - type: throughput_network_out
         arg: eth0
-  - platform: systemmonitor
-    resources:
-      - type: processor_use
-      - type: load_1m
-      - type: load_5m
-      - type: disk_use_percent
-        arg: /home/agneev
-      - type: disk_use_percent
-        arg: /knox
   - platform: tautulli
     api_key: !secret tautulli_api_key
     host: 127.0.0.1
@@ -47,9 +57,8 @@ sensor:
     days: 14
     monitored_conditions:
       - movies
-      - upcoming
       - commands
-circadian_lighting:
+      - upcoming
 switch:
   - platform: circadian_lighting
     disable_brightness_adjust: true
@@ -66,8 +75,8 @@ device_tracker:
     new_device_defaults:
       track_new_devices: true
 spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
 alexa_media:
   accounts:
     - email: !secret amazon_user
@@ -96,12 +105,13 @@ notify:
 #  - platform: darksky
 #    api_key: !secret dark_sky
 ##############################
+circadian_lighting:
 wake_on_lan:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-webostv: !include webostv.yaml
+webostv: !include webos.yaml
 yeelight: !include yeelight.yaml
 cloud: !include cloud.yaml
 binary_sensor: !include binary_sensor.yaml
@@ -119,16 +129,22 @@ switch template:
 switch command_line: 
   platform: command_line
   switches: !include cmd_switch.yaml
+#sensor restful: !include restful.yaml
 discovery:
 logger:
-  default: warning
+  default: error
 homeassistant:
   customize: !include customize.yaml
 frontend:
   themes: !include_dir_merge_named themes
-  javascript_version: latest
 tts:
   - platform: google_translate
+logbook:
+  exclude:
+    entities:
+      - binary_sensor.cloudflare_dns_ping
+      - binary_sensor.node_ping
+      - input_number.speaker_volume
 recorder:
   auto_purge: false
   exclude:
@@ -137,3 +153,6 @@ recorder:
       - sensor.network_throughput_out_eth0
       - sensor.int_internet_health
       - sensor.load_1m
+      - sensor.eth0_in_2
+      - sensor.eth0_out_2
+      - input_number.speaker_volume
