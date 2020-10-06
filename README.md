@@ -20,8 +20,7 @@ This layout was designed mobile-first.
   - [Info view](#info-view)
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii-1)
-    - [Network throughput card](#network-throughput-card)
-    - [Network traffic card](#network-traffic-card)
+    - [Graph row III](#graph-row-iii)
     - [Info row I](#info-row-i)
     - [Info row II](#info-row-ii)
     - [Internet graphs](#internet-graphs)
@@ -116,7 +115,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - CPU use
 - Internet health
 
-Indicates if there's any ICMP packet loss within the last hour.
+Indicates if there's packet loss within the last hour.
 
 ### Graph row II
 
@@ -152,23 +151,20 @@ These two cards are hidden by default and show only when there's activity (condi
 
 Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
 
+### Graph row III
+
+- Current network in
+- Current network out
+- Today total traffic in
+- Today total traffic out
+
+Combined card. Graphs network usage within the last hour.
+
+Custom-made sensor that gets network data traffic from `vnstat`.
+
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
-
-### Network throughput card
-
-- Network in
-- Network out
-
-Graphs network usage within the last hour.
-
-### Network traffic card
-
-- Total traffic in (daily)
-- Total traffic out (daily)
-
-Custom-made sensor that gets network data traffic from `vnstat` instead from the rather [buggy](https://github.com/home-assistant/core/issues/34804) integration.
 
 ### Info row I
 

@@ -75,7 +75,7 @@ spotify_daily_mix_1:
     entity_id: media_player.spotify
     service: media_player.shuffle_set
   - data:
-      media_content_id: spotify:playlist:37i9dQZF1E35ZWZr2uMar9
+      media_content_id: spotify:playlist:xxxxx
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
@@ -93,7 +93,7 @@ spotify_daily_mix_2:
     entity_id: media_player.spotify
     service: media_player.shuffle_set
   - data:
-      media_content_id: spotify:playlist:37i9dQZF1E39TnqVNn3uBi
+      media_content_id: spotify:playlist:xxxxx
       media_content_type: playlist
     entity_id: media_player.spotify
     service: media_player.play_media
