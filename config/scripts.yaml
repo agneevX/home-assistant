@@ -1,3 +1,10 @@
+mute_pi:
+  alias: Mute Pi
+  sequence:
+    - service: input_number.select_value 
+      data:
+        entity_id: input_number.pi_volume
+        value: 0
 skip:
   alias: skip
   mode: single
@@ -13,10 +20,6 @@ spotify_dr_disrespect:
   mode: single
   sequence:
   - data:
-      source: Bedroom Echo
-    entity_id: media_player.spotify
-    service: media_player.select_source
-  - data:
       shuffle: true
     entity_id: media_player.spotify
     service: media_player.shuffle_set
@@ -30,10 +33,6 @@ spotify_lofi_beats:
   alias: Spotify lo-fi beats
   mode: single
   sequence:
-  - data:
-      source: Bedroom Echo
-    entity_id: media_player.spotify
-    service: media_player.select_source
   - data:
       shuffle: true
     entity_id: media_player.spotify
@@ -49,10 +48,6 @@ spotify_trending:
   mode: single
   sequence:
   - data:
-      source: Bedroom Echo
-    entity_id: media_player.spotify
-    service: media_player.select_source
-  - data:
       shuffle: true
     entity_id: media_player.spotify
     service: media_player.shuffle_set
@@ -67,10 +62,6 @@ spotify_daily_mix_1:
   mode: single
   sequence:
   - data:
-      source: Bedroom Echo
-    entity_id: media_player.spotify
-    service: media_player.select_source
-  - data:
       shuffle: true
     entity_id: media_player.spotify
     service: media_player.shuffle_set
@@ -84,10 +75,6 @@ spotify_daily_mix_2:
   alias: Spotify Daily Mix 2
   mode: single
   sequence:
-  - data:
-      source: Bedroom Echo
-    entity_id: media_player.spotify
-    service: media_player.select_source
   - data:
       shuffle: true
     entity_id: media_player.spotify

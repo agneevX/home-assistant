@@ -11,5 +11,5 @@ int_lofi_beats2:
   command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 DWcJFNfaw9c) > /dev/null &"
   command_off: "pkill -u homeassistant -f omxplayer"
 int_jazz_radio:
-  command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 1qA3LQDa7lQ) > /dev/null &"
+  command_on: "/usr/bin/omxplayer -o alsa $(youtube-dl -g -f 95 UhxUpo8IH0o) > /dev/null &"
   command_off: "pkill -u homeassistant -f omxplayer"

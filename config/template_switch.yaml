@@ -1,3 +1,77 @@
+bedroom_ac_swing:
+  friendly_name: Bedroom AC Swing
+  availability_template: >-
+    {% if not is_state('climate.bedroom_ac','off') %} true
+    {% else %} false {% endif %}
+  value_template: "{{ is_state('input_boolean.bedroom_ac_swing','on')}}"
+  icon_template: mdi:arrow-split-horizontal
+  turn_on:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm4c_remote
+        device: ac
+        command: swing_on
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.bedroom_ac_swing
+  turn_off:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm4c_remote
+        device: ac
+        command: swing_off
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedroom_ac_swing
+bedroom_ac_jetcool:
+  friendly_name: Bedroom AC Jetcool
+  availability_template: >-
+    {% if not is_state('climate.bedroom_ac','off') %} true
+    {% else %} false {% endif %}
+  value_template: "{{ is_state('input_boolean.bedroom_ac_jetcool','on')}}"
+  icon_template: mdi:weather-windy
+  turn_on:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm4c_remote
+        device: ac
+        command: jetcool_on
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.bedroom_ac_jetcool
+  turn_off:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm4c_remote
+        device: ac
+        command: jetcool_off
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedroom_ac_jetcool
+bedroom_ac_power:
+  friendly_name: Bedroom AC Power
+  availability_template: >-
+    {% if is_state('remote.broadlink_rm4c_remote','on') %} true
+    {% else %} false {% endif %}
+  value_template: >-
+    {% if not is_state ('climate.bedroom_ac','unavailable') %}
+      {% if not is_state ('climate.bedroom_ac','off') %} true
+      {% else %} false {% endif %}
+    {% else %} false {% endif %}
+  icon_template: >-
+    {% if not is_state('switch.ac_power','off') %}
+      {% if is_state('climate.bedroom_ac','dry') %} mdi:water-percent
+      {% elif is_state('climate.bedroom_ac','cool') %}
+        {% if is_state_attr('climate.bedroom_ac','fan_mode','mid') %} mdi:fan-speed-2
+        {% elif is_state_attr('climate.bedroom_ac','fan_mode','high') %} mdi:fan-speed-3
+        {% else %} mdi:air-conditioner {% endif %}
+      {% elif is_state('climate.bedroom_ac','fan_only') %}
+        {% if is_state_attr('climate.bedroom_ac','fan_mode','auto') %} mdi:autorenew
+        {% else %} mdi:fan {% endif %}
+      {% else %} mdi:air-conditioner {% endif %}
+    {% else %} mdi:air-conditioner {% endif %}
+  turn_on:
+    - service: climate.turn_on
+      entity_id: climate.bedroom_ac
+  turn_off:
+    - service: climate.turn_off   
+      entity_id: climate.bedroom_ac
 lofi_beats:
   friendly_name: Lo-Fi Beats
   icon_template: mdi:music-circle
@@ -20,12 +94,12 @@ lofi_beats2:
     - service: input_boolean.turn_on
       entity_id: input_boolean.lofi2
     - service: switch.turn_on
-      entity_id: switch.int_lofi_beats
+      entity_id: switch.int_lofi_beats2
   turn_off:
     - service: input_boolean.turn_off
       entity_id: input_boolean.lofi2
     - service: switch.turn_off
-      entity_id: switch.int_lofi_beats
+      entity_id: switch.int_lofi_beats2
 jazz_radio:
   friendly_name: Jazz Radio
   icon_template: mdi:saxophone

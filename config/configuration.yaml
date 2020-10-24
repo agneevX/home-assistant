@@ -1,11 +1,52 @@
-default_config:
+tuya_custom:
+  devices_config:
+    - device_name: Tuya Custom
+      support_color: true
+input_boolean:
+  lofi:
+    initial: off
+  lofi2:
+    initial: off
+  jazz_radio:
+    initial: off
+smartir:
+climate:
+  - platform: smartir
+    name: Bedroom AC
+    unique_id: bedroom_ac
+    device_code: 5000
+    controller_data: remote.broadlink_rm4c_remote
+logger:
+  default: error
 shell_command:
-  set_speaker_volume: "amixer -q set Headphone - '{{ states.input_number.speaker_volume.state | int}}'%"
+#  set_soundbar_volume: "amixer -q set 'Headphone' - '{{ states.input_number.soundbar_volume.state | int}}'%"
+  pi_volume_0: amixer -q cset numid=1 -- -10239
+  pi_volume_5: amixer -q cset numid=1 -- -7399
+  pi_volume_10: amixer -q cset numid=1 -- -5595
+  pi_volume_15: amixer -q cset numid=1 -- -4538
+  pi_volume_20: amixer -q cset numid=1 -- -3788
+  pi_volume_25: amixer -q cset numid=1 -- -3206
+  pi_volume_30: amixer -q cset numid=1 -- -2729
+  pi_volume_35: amixer -q cset numid=1 -- -2326
+  pi_volume_40: amixer -q cset numid=1 -- -1976
+  pi_volume_45: amixer -q cset numid=1 -- -1667
+  pi_volume_50: amixer -q cset numid=1 -- -1392
+  pi_volume_55: amixer -q cset numid=1 -- -1142
+  pi_volume_60: amixer -q cset numid=1 -- -914
+  pi_volume_65: amixer -q cset numid=1 -- -704
+  pi_volume_70: amixer -q cset numid=1 -- -548
+  pi_volume_75: amixer -q cset numid=1 -- -364
+  pi_volume_80: amixer -q cset numid=1 -- -193
+  pi_volume_85: amixer -q cset numid=1 -- -32
+  pi_volume_90: amixer -q cset numid=1 -- 120
+  pi_volume_95: amixer -q cset numid=1 -- 263
+  pi_volume_100: amixer -q cset numid=1 -- 400
 input_number:
-  speaker_volume:
-    name: Speaker Volume
-    min: 80
+  pi_volume:
+    name: Soundbar Volume
+    min: 0
     max: 100
+    step: 5
     icon: mdi:volume-high
 sensor:
   - platform: history_stats
@@ -20,14 +61,10 @@ sensor:
     url: 'http://127.0.0.1:8100'
     username: !secret qbt_user
     password: !secret qbt_pass
-    scan_interval: 30
-  - platform: systemmonitor
-    scan_interval: 120
-    resources:
-      - type: processor_temperature
   - platform: systemmonitor
     scan_interval: 60
     resources:
+      - type: processor_temperature
       - type: disk_use_percent
         arg: /home/agneev
       - type: disk_use_percent
@@ -35,7 +72,6 @@ sensor:
       - type: disk_free
         arg: /knox
   - platform: systemmonitor
-    scan_interval: 30
     resources:
       - type: processor_use
       - type: load_1m
@@ -56,7 +92,7 @@ sensor:
     api_key: !secret radarr_api_key
     days: 14
     monitored_conditions:
-      - movies
+      - upcoming
       - commands
       - upcoming
 switch:
@@ -104,22 +140,16 @@ notify:
 #weather:
 #  - platform: darksky
 #    api_key: !secret dark_sky
-##############################
 circadian_lighting:
-wake_on_lan:
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
 webostv: !include webos.yaml
 yeelight: !include yeelight.yaml
-cloud: !include cloud.yaml
 binary_sensor: !include binary_sensor.yaml
 camera: !include camera.yaml
 media_player: !include media_player.yaml
 homekit: !include homekit.yaml
 sensor command_line: !include cmd_sensor.yaml
 light: !include light.yaml
+#sensor restful: !include restful.yaml
 sensor template: 
   platform: template
   sensors: !include template_sensor.yaml
@@ -129,30 +159,28 @@ switch template:
 switch command_line: 
   platform: command_line
   switches: !include cmd_switch.yaml
-#sensor restful: !include restful.yaml
+########## SYSTEM ###########
+config:
+history:
+mobile_app:
+person:
+ssdp:
+sun:
+system_health:
+updater:
+zeroconf:
+wake_on_lan:
 discovery:
-logger:
-  default: error
 homeassistant:
   customize: !include customize.yaml
 frontend:
   themes: !include_dir_merge_named themes
 tts:
   - platform: google_translate
-logbook:
-  exclude:
-    entities:
-      - binary_sensor.cloudflare_dns_ping
-      - binary_sensor.node_ping
-      - input_number.speaker_volume
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+cloud: !include cloud.yaml
 recorder:
-  auto_purge: false
-  exclude:
-    entities:
-      - sensor.network_throughput_in_eth0
-      - sensor.network_throughput_out_eth0
-      - sensor.int_internet_health
-      - sensor.load_1m
-      - sensor.eth0_in_2
-      - sensor.eth0_out_2
-      - input_number.speaker_volume
+  db_url: mysql://hass:xxxxx@localhost/hass_db

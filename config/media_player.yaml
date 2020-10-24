@@ -43,5 +43,5 @@
 - platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64
-- platform: mpd
-  host: 127.0.0.1
+#- platform: mpd
+#  host: 127.0.0.1

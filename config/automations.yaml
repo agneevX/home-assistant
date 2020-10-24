@@ -1,10 +1,10 @@
 - id: '1587105668264'
-  alias: Set speaker volume
+  alias: Set soundbar volume
   trigger:
   - platform: state
-    entity_id: input_number.speaker_volume
+    entity_id: input_number.pi_volume
   action:
-  - service: shell_command.set_speaker_volume
+  - service_template: shell_command.pi_volume_{{ trigger.to_state.state | int }}
   initial_state: true
   mode: single
 - id: '1587105668090'
@@ -97,8 +97,8 @@
   alias: Dark theme (at sunset)
   description: ''
   trigger:
-  - event: sunset
-    platform: sun
+  - platform: time
+    at: '18:00:00'
   condition: []
   action:
   - service: frontend.set_theme
@@ -125,22 +125,13 @@
   alias: 'HA: Purge DB'
   description: ''
   trigger:
-  - at: '22:30:00'
-    platform: time
-  condition:
-  - condition: time
-    weekday:
-    - sun
-    - wed
+  - platform: time
+    at: '22:30:00'
+  condition: []
   action:
   - data:
       keep_days: 14
     service: recorder.purge
-  - data:
-      disable_notification: true
-      message: Database purged successfully! ✅
-      title: '*Home Assistant*'
-    service: telegram_bot.send_message
   mode: single
 - id: '1600689970940'
   alias: Light theme (at sunrise)
@@ -172,16 +163,18 @@
     data: {}
     entity_id: light.tv_lamp
   mode: single
-- id: '1601826974997'
-  alias: Update speaker volume
+- id: '1602836208889'
+  alias: Turn off AC switches when AC switches off
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.speaker_volume_state
+    entity_id: climate.bedroom_ac
+    to: 'off'
   condition: []
   action:
-  - service: input_number.set_value
-    data_template:
-      entity_id: input_number.speaker_volume
-      value: '{{ states(''sensor.speaker_volume_state'')}}'
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.bedroom_ac_jetcool
+    - input_boolean.bedroom_ac_swing
   mode: single

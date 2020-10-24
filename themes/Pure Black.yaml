@@ -1,4 +1,5 @@
 Pure Black:
+  theme-color: var(--app-header-background-color)
   cc-button-card: var(--app-header-text-color)
   card-mod-theme: Pure Black
   accent-color: var(--primary-color)
@@ -36,16 +37,16 @@ Pure Black:
   paper-slider-secondary-color: var(--light-primary-color)
   # Labels
   label-badge-background-color: "#202124"
-  label-badge-text-color: var(--primary-text-color)
+  label-badge-text-color: "#CCCCCC"
   label-badge-red: "#D06568"
   label-badge-green: "#80C884"
   label-badge-blue: "#5F9BEA"
   label-badge-yellow: "#DFC271"
   label-badge-gray: "#5F6267"
   # Cards
-  card-background-color: "#202124"
+  card-background-color: "#18191B"
   ha-card-border-radius: "18px"
-  ha-card-box-shadow: 1px 1px 5px 0px rgb(12, 12, 14)
+  ha-card-box-shadow: 0px 0px 0px 0px rgb(0,0,0)
   paper-card-background-color: var(--card-background-color)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
@@ -74,12 +75,12 @@ Pure Black:
   # Card-mod
   card-mod-view: |
     :host {
-      padding-left: 0;
-      padding-right: 0;
+      padding-left: 0px;
+      padding-right: 0px;
     }
-    .column > * {		
-      margin-left: 0;
-      margin-right: 0;
+    .column > * {
+      margin-left: 0px;
+      margin-right: 0px;
     }
   # Custom theme colors
   green-color: "#39FF14"

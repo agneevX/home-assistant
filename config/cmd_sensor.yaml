@@ -1,6 +1,7 @@
 - platform: command_line
   name: qBt - all torrents
   command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=all|grep -o -i f_l_piece_prio|wc -l"
+  unit_of_measurement: 'torrents'
   scan_interval: 60
 #- platform: command_line
 #  name: Speaker volume state
@@ -9,6 +10,7 @@
 - platform: command_line
   name: qBt - active torrents
   command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=active|grep -o -i f_l_piece_prio|wc -l"
+  unit_of_measurement: 'torrents'
   scan_interval: 45
 - platform: command_line
   name: knox State
@@ -50,7 +52,7 @@
     - tx
 - platform: command_line
   name: Radarr Queue
-  command: "curl -s -X GET 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=xxxxx' -H 'accept: */*'"
+  command: "curl -s 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=xxxxx' -H 'accept: */*'"
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords)}}"
   scan_interval: 60

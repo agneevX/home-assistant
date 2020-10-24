@@ -70,9 +70,9 @@ Kinda Dark:
   # Pre/Code
   markdown-code-background-color: "#171717"
   # Custom theme colors
-  green-color: "#39ff14"
-  yellow-color: "#ffff00"
-  red-color: "#FF0000"
+#  green-color: "#39ff14"
+# yellow-color: "#ffff00"
+#  red-color: "#FF0000"
   qbt-color: "#54A0FF"
   qbt-seeding-color: "#FF9333"
   radarr-color: "#F5BB41"

@@ -10,6 +10,7 @@ filter:
     - sensor.internet_health
     - script.refresh_plex
     - script.reload_themes
+    - climate.bedroom_ac
 entity_config:
   switch.adguard_filtering:
     name: AdGuard

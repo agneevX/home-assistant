@@ -1,3 +1,15 @@
+#outdoors_temp:
+#  friendly_name: Outdoor Temp
+#  value_template: "{{ state_attr('weather.accuweather','temperature')|round}}"
+#  unit_of_measurement: 'ºC'
+outdoors_temp:
+  friendly_name: Outdoor Temp
+  value_template: "{{ states('sensor.accuweather_realfeel_temperature')|round}}"
+  unit_of_measurement: °C
+outdoors_humidity:
+  friendly_name: Outdoor Humidity
+  value_template: "{{ state_attr('weather.accuweather','humidity')|round}}"
+  unit_of_measurement: '%'
 internet_health:
   friendly_name: Internet Health
   value_template: "{{ states('sensor.int_internet_health')|round }}"

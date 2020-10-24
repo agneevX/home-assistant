@@ -3,7 +3,7 @@
 
 This layout was designed mobile-first.
 
-![hero_shot](https://user-images.githubusercontent.com/19761269/91996026-2449ad00-ed56-11ea-85b3-d2d8bcfc4b23.png)
+![hero_shot](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
 - [My Home Assistant setup](#my-home-assistant-setup)
   - [Background](#background)
@@ -17,6 +17,7 @@ This layout was designed mobile-first.
     - [Graph row I](#graph-row-i)
     - [Graph row II](#graph-row-ii)
     - [Now Playing card](#now-playing-card)
+  - [Controls view](#controls-view)
   - [Info view](#info-view)
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii-1)
@@ -28,7 +29,6 @@ This layout was designed mobile-first.
     - [TV state row](#tv-state-row)
     - [Radarr/Sonarr cards](#radarrsonarr-cards)
     - [Devices card](#devices-card)
-  - [Camera view](#camera-view)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
     - [MPD player](#mpd-player)
@@ -47,7 +47,7 @@ This layout was designed mobile-first.
 
 ## Background
 
-Home Assistant core installation on Raspberry Pi 4.
+Home Assistant Core installation on Raspberry Pi 4.
 
 More details [here](https://github.com/agneevX/server-setup).
 
@@ -57,7 +57,7 @@ More details [here](https://github.com/agneevX/server-setup).
 
 ## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L38)
 
-![home_view](https://user-images.githubusercontent.com/19761269/91996307-74287400-ed56-11ea-9fc5-b6e393680323.png "Home view")
+![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
 All cards in this view are in a single vertical stack.
 
@@ -85,7 +85,9 @@ _This is the only view that contain badges._
 ### Lights card
 
 - Desk light
+- ... Color temp card
 - TV lamp
+- ... RGB card
 - Soundbar volume
 
 Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
@@ -122,7 +124,7 @@ Indicates if there's packet loss within the last hour.
 - qBittorrent download speed
 - qBittorrent upload speed
 
-These two cards are hidden by default and show only when there's activity (conditional).
+These cards are hidden by default and show only when there's activity (conditional).
 
 ### Now Playing card
 
@@ -130,9 +132,29 @@ These two cards are hidden by default and show only when there's activity (condi
 
 ---
 
+## [Controls view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1345)
+
+![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
+
+<p align="center">
+  <b>Vertical stack 1</b>
+</p>
+
+ - Front gate camera
+ - Adaptive Lighting controls
+
+<p align="center">
+  <b>Vertical stack 2</b>
+</p>
+
+ - Bedroom AC 
+ - ... addl. controls
+
+---
+
 ## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L621)
 
-![info_view](https://user-images.githubusercontent.com/19761269/91996394-8e625200-ed56-11ea-89e2-0f38f37c77dc.png "Info view")
+![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -141,15 +163,15 @@ These two cards are hidden by default and show only when there's activity (condi
 ### Graph row I
 
 - CPU temp.
+- `always-on` CPU temp.
 - SSD used %
-- `/knox` free space
 
 ### Graph row II
 
 - Download speed (Speedtest.net)
 - Upload speed (Speedtest.net)
 
-Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest-cli`, which is very inaccurate.
+Custom-made sensor that uses the official Speedtest.net CLI as opposed to `speedtest-cli`, which is very inaccurate.
 
 ### Graph row III
 
@@ -160,7 +182,7 @@ Custom-made sensor that uses the official Speedtest CLI as opposed to `speedtest
 
 Combined card. Graphs network usage within the last hour.
 
-Custom-made sensor that gets network data traffic from `vnstat`.
+Custom-made sensor that gets network traffic from `vnstat`.
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -168,7 +190,7 @@ Custom-made sensor that gets network data traffic from `vnstat`.
 
 ### Info row I
 
-- `always-on` temp
+- `/knox` free space
 - qBittorrent active torrents
 - qBittorrent all
 
@@ -182,13 +204,13 @@ Custom-made sensor that gets network data traffic from `vnstat`.
 - Node ping
 - Internet ping
 
-Graphs pings to our local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
+Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
 
 ---
 
 ## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1005)
 
-![tile_view](https://user-images.githubusercontent.com/19761269/91996388-8d312500-ed56-11ea-833b-9e0d807fcbc6.png "Tile view")
+![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
 <p align="center">
   <b>Vertical stack 1</b>
@@ -196,14 +218,14 @@ Graphs pings to our local ISP node and Cloudflare DNS. This card is very helpful
 
 ### TV state row
 
-Shows states of specific TVs.
+Tracks states of specific TVs.
 
 ### Radarr/Sonarr cards
 
 - Radarr/Sonarr ongoing commands
 - Radarr/Sonarr upcoming
-- Sonarr queue/wanted
-- Radarr movies/Sonarr shows
+- Radarr/Sonarr queue
+- Sonarr wanted episodes
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -217,22 +239,15 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ---
 
-## [Camera view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1345)
-
-_This view contains one vertical stack only._
-
----
-
 ## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1365)
 
-![rc_view](https://user-images.githubusercontent.com/19761269/91996368-85718080-ed56-11ea-9608-c702c0894938.png "Remote control view")
-
-_This view contains one vertical stack only._
+![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
 ### Spotify player
 
 - Spotify media player
   - Playlists shortcuts
+  - Soundbar source
   - Bedroom Echo source
 
 ### MPD player
@@ -257,9 +272,11 @@ _This view contains one vertical stack only._
 
 ## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1619)
 
-![plex_view](https://user-images.githubusercontent.com/19761269/91996383-8bfff800-ed56-11ea-8f51-3ff119abbcac.png "Plex view")
+![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
-_This view contains one vertical stack only._
+<p align="center">
+  <b>Vertical stack 1</b>
+</p>
 
 ### Graph row I
 
@@ -271,10 +288,14 @@ _This view contains one vertical stack only._
 - Network in
 - Network out
 
+<p align="center">
+  <b>Vertical stack 2</b>
+</p>
+
 ### Plex players
 
 - Conditional cards...
-  - Header card
+  - Header cards
   - Plex media player cards
 
 The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
@@ -283,11 +304,11 @@ The four graph cards provide an overview of Plex/network activity in one place a
 
 ## [Television view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1982)
 
-![tv_view](https://user-images.githubusercontent.com/19761269/91996379-8b676180-ed56-11ea-8031-24ee29d855e2.png "TV view")
+![tv_view](https://user-images.githubusercontent.com/19761269/97078361-6cc07100-1609-11eb-9c9c-6390ebb47308.png "TV view")
 
 ### TV players
 
-- Header card
+- Header cards
 - TV media player cards
 
 ---
@@ -297,20 +318,25 @@ The four graph cards provide an overview of Plex/network activity in one place a
 ### Integrations
 
 - [`HACS`](https://github.com/hacs/integration) by [ludeeus](https://github.com/ludeeus)
+- [`adaptive_lighting`](https://github.com/basnijholt/adaptive-lighting) by [basnijholt](https://github.com/basnijholt)
 - [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 - [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
+- [`Smart IR`](https://github.com/smartHomeHub/SmartIR) by [smartHomeHub](https://github.com/smartHomeHub)
+- [`Tuya Custom`](https://github.com/ollo69/ha_tuya_custom) by [ollo69](https://github.com/ollo69)
 
 ### Lovelace
 
+- [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
 - [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
-- [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by [thomasloven](https://github.com/thomasloven)
-- [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
-- [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
-- [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by thomasloven
-- [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+- [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by thomasloven
+- [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
 - [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 - [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
-- [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
+- [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
+- [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
+- [`rgb-light-card`](https://github.com/bokub/rgb-light-card) by [bokub](https://github.com/bokub)
+- [`simple-thermostat`](https://github.com/nervetattoo/simple-thermostat) by [nervetattoo](https://github.com/nervetattoo)
+- [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
 ---
