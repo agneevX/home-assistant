@@ -8,7 +8,7 @@ This layout was designed mobile-first.
 - [My Home Assistant setup](#my-home-assistant-setup)
   - [Background](#background)
   - [Lovelace layout](#lovelace-layout)
-  - [Dashboard (home view)](#dashboard-home-view)
+  - [Dashboard](#dashboard)
     - [Badges](#badges)
     - [State row](#state-row)
     - [Lights card](#lights-card)
@@ -47,15 +47,41 @@ This layout was designed mobile-first.
 
 ## Background
 
-Home Assistant Core installation on Raspberry Pi 4.
+Home Assistant Core installation on Raspberry Pi 4, with MariaDB.
 
 More details [here](https://github.com/agneevX/server-setup).
+
+<details><summary>Expand for install instructions</summary>
+
+**MariaDB install**
+
+1. Install MariaDB
+
+```bash
+sudo apt install -yq mariadb-server
+```
+
+2. Follow [this](https://kevinfronczak.com/blog/mysql-with-homeassistant#create-mysql-database-for-home-assistant) guide to the end.
+
+**Home Assistant install**
+
+1. [Main guide](https://www.home-assistant.io/docs/installation/raspberry-pi/)
+2. Enable auto-start on boot
+
+```bash
+cd /tmp; curl https://raw.githubusercontent.com/agneevX/my-ha-setup/master/hass.service > hass.service
+sudo mv hass.service /etc/systemd/system
+sudo systemctl enable hass.service
+```
+
+</details>
 
 ---
 
 ## Lovelace layout
 
-## [Dashboard (home view)](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L38)
+## Dashboard
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L49)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
@@ -132,7 +158,8 @@ These cards are hidden by default and show only when there's activity (condition
 
 ---
 
-## [Controls view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1345)
+## Controls view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L710)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -152,7 +179,8 @@ These cards are hidden by default and show only when there's activity (condition
 
 ---
 
-## [Info view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L621)
+## Info view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L909)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -208,7 +236,8 @@ Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in 
 
 ---
 
-## [Tile view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1005)
+## Tile view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1293)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -239,7 +268,8 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ---
 
-## [Remote control view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1365)
+## Remote control view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1616)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -270,7 +300,8 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ---
 
-## [Plex view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1619)
+## Plex view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1896)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -302,7 +333,8 @@ The four graph cards provide an overview of Plex/network activity in one place a
 
 ---
 
-## [Television view](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1982)
+## Television view
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L2225)
 
 ![tv_view](https://user-images.githubusercontent.com/19761269/97078361-6cc07100-1609-11eb-9c9c-6390ebb47308.png "TV view")
 

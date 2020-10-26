@@ -1,11 +1,12 @@
 [Unit]
 Description=Home Assistant daemon
-After=network-online.target
+After=mariadb.service network-online.target
 
 [Service]
 Type=simple
-User=%i
-ExecStart=/srv/homeassistant/bin/hass -c "/home/%i/.homeassistant"
+User=homeassistant
+ExecStart=/srv/homeassistant/bin/hass \
+    -c "/home/homeassistant/.homeassistant"
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=hass
