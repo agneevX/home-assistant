@@ -55,7 +55,7 @@ More details [here](https://github.com/agneevX/server-setup).
 
 **MariaDB install**
 
-1. Install MariaDB
+1. Install MariaDB using APT
 
 ```bash
 sudo apt install -yq mariadb-server
@@ -66,7 +66,7 @@ sudo apt install -yq mariadb-server
 **Home Assistant install**
 
 1. [Main guide](https://www.home-assistant.io/docs/installation/raspberry-pi/)
-2. Enable auto-start on boot
+2. Enable auto-start on boot:
 
 ```bash
 cd /tmp; curl https://raw.githubusercontent.com/agneevX/my-ha-setup/master/hass.service > hass.service
@@ -143,7 +143,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - CPU use
 - Internet health
 
-Indicates if there's packet loss within the last hour.
+Indicates if there's any packet loss within the last hour.
 
 ### Graph row II
 
@@ -208,7 +208,7 @@ Custom-made sensor that uses the official Speedtest.net CLI as opposed to `speed
 - Today total traffic in
 - Today total traffic out
 
-Combined card. Graphs network usage within the last hour.
+A combined card that graphs network usage within the last hour.
 
 Custom-made sensor that gets network traffic from `vnstat`.
 
@@ -361,7 +361,7 @@ The four graph cards provide an overview of Plex/network activity in one place a
 - [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
 - [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 - [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by thomasloven
-- [`config-template-card`](https://github.com/iantrich/config-template-card) by maykar
+- [`config-template-card`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
 - [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 - [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
 - [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
