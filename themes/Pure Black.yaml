@@ -15,7 +15,7 @@ Pure Black:
   divider-color: var(--primary-background-color)
   # Text
   primary-text-color: var(--app-header-text-color)
-  secondary-text-color: "#BDC1C6"
+  secondary-text-color: "#989da6"
   text-primary-color: var(--app-header-text-color)
   disabled-text-color: "#717171"
   # Sidebar Menu
