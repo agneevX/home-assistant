@@ -7,9 +7,6 @@ Type=simple
 User=homeassistant
 ExecStart=/srv/homeassistant/bin/hass \
     -c "/home/homeassistant/.homeassistant"
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=hass
 
 [Install]
 WantedBy=multi-user.target

@@ -1,52 +1,45 @@
-- platform: command_line
-  name: qBt - all torrents
-  command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=all|grep -o -i f_l_piece_prio|wc -l"
-  unit_of_measurement: 'torrents'
-  scan_interval: 60
 #- platform: command_line
-#  name: Speaker volume state
-#  command: amixer|grep '%'|grep -oP '(\d+(\.\d+)?(?=%))'
-#  scan_interval: 30
+#  name: qBittorrent - all torrents
+#  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=all|grep -o -i f_l_piece_prio|wc -l"
+#  unit_of_measurement: 'torrents'
+#  scan_interval: 60
+#- platform: command_line
+#  name: /knox read speed
+#  scan_interval: 20
+#  unit_of_measurement: 'Mb/s'
+#  command: "bash /home/homeassistant/.homeassistant/knox_rw.sh"
+#  value_template: "{{ (value_json.read) }}"
+#  json_attributes:
+#    - items
 - platform: command_line
-  name: qBt - active torrents
-  command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=active|grep -o -i f_l_piece_prio|wc -l"
+  name: qBittorrent Alt Limit State
+  command: "curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode"
+  scan_interval: 10
+- platform: command_line
+  name: qBittorrent - active torrents
+  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active|grep -o -i f_l_piece_prio|wc -l"
   unit_of_measurement: 'torrents'
-  scan_interval: 45
-- platform: command_line
-  name: knox State
-  command: "/bin/systemctl is-active knox.mount"
-  scan_interval: 60
+  scan_interval: 20
 - platform: command_line
   name: /drive State
-  command: "/bin/systemctl is-active drive.service"
+  command: "/bin/systemctl -q is-active drive.service && echo on || echo off"
   scan_interval: 30
 - platform: command_line
-  name: Always-On CPU Temp
-  command: "ssh -i ~/.ssh/always-on.key agneev@10.0.0.10 -T cat /sys/class/thermal/thermal_zone0/temp"
-  scan_interval: 120
-  command_timeout: 20
-  unit_of_measurement: '°C'
-  value_template: "{{ value | multiply(0.001) | round }}"
-#- platform: command_line
-#  name: /drive Used
-#  command: "rclone size /drive --json --config=/home/agneev/.config/rclone/rclone.conf"
-#  value_template: "{{(value_json.bytes|float/1099511627776)|round(3)}}TB"
-#  unit_of_measurement: 'used'
-#  scan_interval: 180
-- platform: command_line
-  name: Speedtest.net Download
+  name: Speedtest.net Download Speed
   command: "/usr/bin/speedtest -s 26195 -f json"
   command_timeout: 120
   scan_interval: 00:30:00
-  unit_of_measurement: "Mb/s"
+  unit_of_measurement: 'Mb/s'
   value_template: "{{ (value_json.download.bandwidth|float/125000)|round(1) }}"
   json_attributes:
     - upload
+    - server
+    - result
 - platform: command_line
   name: vnstat
   command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
   scan_interval: 180
-  value_template: "{{ (value_json.id)}}"
+  value_template: "{{ (value_json.id) }}"
   json_attributes:
     - rx
     - tx
@@ -54,5 +47,9 @@
   name: Radarr Queue
   command: "curl -s 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=xxxxx' -H 'accept: */*'"
   unit_of_measurement: 'movies'
-  value_template: "{{ (value_json.totalRecords)}}"
+  value_template: "{{ (value_json.totalRecords) }}"
   scan_interval: 60
+#- platform: command_line
+#  name: Speaker volume state
+#  command: amixer|grep '%'|grep -oP '(\d+(\.\d+)?(?=%))'
+#  scan_interval: 30

@@ -3,35 +3,35 @@
     color_flow:
       friendly_name: Color Flow
       icon_template: >-
-        {% if is_state('light.tv_lamp','on') %} mdi:lightbulb-on
+        {% if is_state('light.tv_lamp_2','on') %} mdi:lightbulb-on
         {% else %} mdi:lightbulb {% endif %}
       value_template: >-
         {% if is_state('light.tv_lamp','on') %}
-          {% if is_state_attr('light.tv_lamp','effect','Slowdown') %} true
+          {% if is_state_attr('light.tv_lamp_2','effect','Slowdown') %} true
           {% else %} false {% endif %}
         {% else %} false {% endif %}
       turn_on:
         - service: light.turn_on
-          entity_id: light.tv_lamp
+          entity_id: light.tv_lamp_2
           data:
             effect: Slowdown
       turn_off:
-        - service: light.turn_on
-          entity_id: light.tv_lamp
+        - service: light.turn_off
+          entity_id: light.tv_lamp_2
           data:
             effect: Stop
     night_lamp:
       friendly_name: Night Lamp
       icon_template: mdi:power-sleep
       value_template: >-
-        {% if is_state('light.tv_lamp','on') %}
-          {% if state_attr('light.tv_lamp','brightness') < 30 %} true
+        {% if is_state('light.tv_lamp_2','on') %}
+          {% if state_attr('light.tv_lamp_2','brightness') < 30 %} true
           {% else %} false {% endif %}
         {% else %} false {% endif %}
       turn_on:
         - service: yeelight.set_color_scene
+          entity_id: light.tv_lamp_2
           data:
-            entity_id: light.tv_lamp
             brightness: 10
             rgb_color:
               - 255
@@ -39,7 +39,7 @@
               - 0
       turn_off:
         - service: light.turn_off
-          entity_id: light.tv_lamp
+          entity_id: light.tv_lamp_2
     spotify_volume:
       friendly_name: Spotify Volume
       value_template: >-
@@ -53,10 +53,9 @@
           entity_id: media_player.spotify
           is_volume_muted: false
       turn_off:
-        service: media_player.volume_mute
+        service: media_player.media_pause
         data:
           entity_id: media_player.spotify
-          is_volume_muted: true
       set_level:
         service: media_player.volume_set
         data_template:

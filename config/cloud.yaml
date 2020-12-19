@@ -1,39 +1,38 @@
 alexa:
   filter:
+    include_domains:
+      - light
+      - climate
     include_entities:
       - switch.lofi_beats
       - switch.lofi_beats2
       - switch.jazz_radio
       - media_player.bedroom_tv
-      - climate.bedroom_ac
-      - light.night_lamp
+      - switch.bedroom_ac_exhaust
+    exclude_entities:
+      - light.tv_lamp_2
 google_actions:
   filter:
+    exclude_entities:
+      - light.tv_lamp_2
+    include_domains:
+      - light
+      - climate
     include_entities:
       - switch.lofi_beats
       - switch.lofi_beats2
       - switch.jazz_radio
       - media_player.bedroom_tv
-      - climate.bedroom_ac
       - switch.bedroom_ac_power
-      - light.night_lamp
       - media_player.old_room_tv
       - media_player.new_room_tv
-      - light.soundbar_volume
+      - switch.bedroom_ac_exhaust
   entity_config:
     light.soundbar_volume:
       name: Soundbar
       room: Level 1
-    light.night_lamp:
-      room: Bedroom
-    switch.lofi_beats:
-      room: Level 1
-    switch.lofi_beats2:
-      room: Level 1
-    switch.jazz_radio:
-      room: Level 1
     switch.bedroom_ac_power:
-      name: LG AirCon
+      name: Air Conditioner
       room: Bedroom
       aliases:
         - AC
@@ -41,7 +40,7 @@ google_actions:
       name: Television
       room: Bedroom
     climate.bedroom_ac:
-      name: Air Conditioner
+      name: LG AirCon
       room: Bedroom
       aliases:
         - AC

@@ -1,12 +1,19 @@
 ### TVs
 media_player.old_room_tv:
   device_class: tv
+  icon: mdi:television
 media_player.new_room_tv:
   device_class: tv
+  icon: mdi:television
 media_player.bedroom_tv:
   device_class: tv
+  icon: mdi:television
 media_player.dining_hall_tv:
   device_class: tv
+  icon: mdi:television
+media_player.sony_bravia_tv:
+  device_class: tv
+  icon: mdi:television
 ### Lights
 light.tv_lamp:
   icon: mdi:alarm-light
@@ -19,9 +26,6 @@ switch.x200m_shutdown:
   icon: mdi:power
 switch.always_on_restart:
   icon: mdi:restart
-switch.refresh_plex:
-  icon: mdi:plex
-  assumed_state: false
 ### Binary sensors
 binary_sensor.remote_ui:
   icon: mdi:search-web
@@ -36,6 +40,9 @@ binary_sensor.front_gate_camera_ping:
 binary_sensor.orbi_satellite_ping:
   icon: mdi:access-point-network
 ### Sensors
+sensor.hacs:
+  name: HACS
+  unit_of_measurement: updates
 sensor.drive_used:
   icon: mdi:google-drive
 sensor.qbt_down_speed:
@@ -50,28 +57,28 @@ sensor.eth0_out_2:
   icon: mdi:arrow-up
 sensor.eth0_in_2:
   icon: mdi:arrow-down
-sensor.speedtest_net_download:
+sensor.speedtest_net_download_speed:
   icon: mdi:arrow-down
 sensor.load_1m:
   unit_of_measurement: '1-min'
 sensor.knox_free_percent:
   unit_of_measurement: '% free'
-sensor.internet_health:
-  device_class: humidity
-## Sensor - Dashboard - app states
-sensor.tautulli_state:
-  icon: mdi:chart-bar-stacked
 sensor.knox_state:
   icon: mdi:harddisk
 sensor.drive_state:
   icon: mdi:google-drive
-sensor.code_server_state:
-  icon: mdi:microsoft-visual-studio-code
-sensor.homebridge_state:
-  icon: mdi:home-automation
-sensor.radarr_state:
-  icon: mdi:movie-open
-sensor.sonarr_state:
-  icon: mdi:television-classic
-sensor.plex_server_state:
-  icon: mdi:plex
+sensor.outdoor_humidity:
+  icon: mdi:water-percent
+
+  # Camera
+camera.front_gate_camera:
+  icon: mdi:cctv
+# Media Player
+media_player.bedroom_echo:
+  icon: mdi:amazon-alexa
+media_player.new_room_echo:
+  icon: mdi:amazon-alexa
+media_player.everywhere:
+  icon: mdi:amazon-alexa
+media_player.ht_z9f_2:
+  icon: mdi:speaker

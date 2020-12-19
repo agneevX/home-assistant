@@ -36,10 +36,10 @@
         volume_level: '{{ volume_level }}'
   attributes:
     state: media_player.kd_55_ag
-    is_volume_muted: media_player.ht_z9f|is_volume_muted
-    volume_level: media_player.ht_z9f|volume_level
-    source: media_player.bravia_4k_gb_atv3|app_name
-    source_list: media_player.kd_55_ag|source_list
+    is_volume_muted: media_player.ht_z9f | is_volume_muted
+    volume_level: media_player.ht_z9f | volume_level
+    source: media_player.bravia_4k_gb_atv3 | app_name
+    source_list: media_player.kd_55_ag | source_list
 - platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64

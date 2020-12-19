@@ -1,18 +1,31 @@
 name: HA Bridge
 filter:
+  exclude_entities:
+    - light.tv_lamp_2
+    - camera.front_gate_camera
   include_domains:
     - light
+    - camera
   include_entities:
     - switch.adguard_filtering
     - switch.lofi_beats
     - switch.lofi_beats2
     - switch.jazz_radio
-    - sensor.internet_health
     - script.refresh_plex
     - script.reload_themes
     - climate.bedroom_ac
+    - switch.bedroom_ac_exhaust
+    - switch.bedroom_ac_fast_cool
+    - sensor.broadlink_rm4_mini_temperature
+    - sensor.broadlink_rm4_mini_humidity
 entity_config:
+  sensor.broadlink_rm4_mini_temperature:
+    name: Bedroom Temp
+  sensor.broadlink_rm4_mini_humidity:
+    name: Bedroom Humidity
+  light.soundbar_volume:
+    name: Soundbar
+  switch.bedroom_ac_exhaust:
+    name: AC Exhaust
   switch.adguard_filtering:
     name: AdGuard
-  sensor.internet_health:
-    name: Internet

@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD024 -->
+<!-- markdownlint-disable MD024 MD033 -->
 # My Home Assistant setup
 
 This layout was designed mobile-first.
@@ -7,6 +7,8 @@ This layout was designed mobile-first.
 
 - [My Home Assistant setup](#my-home-assistant-setup)
   - [Background](#background)
+    - [MariaDB install](#mariadb-install)
+    - [Home Assistant install](#home-assistant-install)
   - [Lovelace layout](#lovelace-layout)
   - [Dashboard](#dashboard)
     - [Badges](#badges)
@@ -15,12 +17,11 @@ This layout was designed mobile-first.
     - [Switch row I](#switch-row-i)
     - [Switch row II](#switch-row-ii)
     - [Graph row I](#graph-row-i)
-    - [Graph row II](#graph-row-ii)
     - [Now Playing card](#now-playing-card)
   - [Controls view](#controls-view)
   - [Info view](#info-view)
     - [Graph row I](#graph-row-i-1)
-    - [Graph row II](#graph-row-ii-1)
+    - [Graph row II](#graph-row-ii)
     - [Graph row III](#graph-row-iii)
     - [Info row I](#info-row-i)
     - [Info row II](#info-row-ii)
@@ -35,7 +36,7 @@ This layout was designed mobile-first.
     - [Alexa players](#alexa-players)
   - [Plex view](#plex-view)
     - [Graph row I](#graph-row-i-2)
-    - [Graph row II](#graph-row-ii-2)
+    - [Graph row II](#graph-row-ii-1)
     - [Plex players](#plex-players)
   - [Television view](#television-view)
     - [TV players](#tv-players)
@@ -51,11 +52,11 @@ Home Assistant Core installation on Raspberry Pi 4, with MariaDB.
 
 More details [here](https://github.com/agneevX/server-setup).
 
-<details><summary>Expand for install instructions</summary>
+<details><summary>Install steps ⤵️</summary>
 
-**MariaDB install**
+### MariaDB install
 
-1. Install MariaDB using APT
+1. Install MariaDB using APT...
 
 ```bash
 sudo apt install -yq mariadb-server
@@ -63,15 +64,15 @@ sudo apt install -yq mariadb-server
 
 2. Follow [this](https://kevinfronczak.com/blog/mysql-with-homeassistant#create-mysql-database-for-home-assistant) guide to the end.
 
-**Home Assistant install**
+### Home Assistant install
 
 1. [Main guide](https://www.home-assistant.io/docs/installation/raspberry-pi/)
-2. Enable auto-start on boot:
+2. Start Home Assistant and enable auto-start on boot:
 
 ```bash
-cd /tmp; curl https://raw.githubusercontent.com/agneevX/my-ha-setup/master/hass.service > hass.service
-sudo mv hass.service /etc/systemd/system
-sudo systemctl enable hass.service
+cd /tmp; curl https://raw.githubusercontent.com/agneevX/my-ha-setup/master/hassio.service > hassio.service
+sudo mv hassio.service /etc/systemd/system
+sudo systemctl enable --now hassio.service
 ```
 
 </details>
@@ -81,7 +82,8 @@ sudo systemctl enable hass.service
 ## Lovelace layout
 
 ## Dashboard
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L49)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L55)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
@@ -89,10 +91,11 @@ All cards in this view are in a single vertical stack.
 
 ### Badges
 
+- CPU use
 - System load
 - Network in
 - Network out
-- mergerFS free %
+- HACS updates
 
 _This is the only view that contain badges._
 
@@ -103,7 +106,7 @@ _This is the only view that contain badges._
 ### State row
 
 - `/drive` mount
-- `/knox` mount
+- ASUS laptop
 - `always-on` server
 - Front gate camera
 - Mesh router satellite
@@ -111,9 +114,9 @@ _This is the only view that contain badges._
 ### Lights card
 
 - Desk light
-- ... Color temp card
+  - ... Color temp card
 - TV lamp
-- ... RGB card
+  - ... RGB card
 - Soundbar volume
 
 Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
@@ -129,10 +132,10 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ### Switch row II
 
 - AdGuard Home
-- `always-on` - restart
+- Bedroom AC
 - Refresh Plex
-- Circadian Lighting
-- X200M (secondary laptop) - shut down/restart
+- qBittorrent alt. speed
+- Transmission turtle mode
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -140,26 +143,20 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ### Graph row I
 
-- CPU use
+- Bedroom temperature
 - Internet health
 
 Indicates if there's any packet loss within the last hour.
 
-### Graph row II
-
-- qBittorrent download speed
-- qBittorrent upload speed
-
-These cards are hidden by default and show only when there's activity (conditional).
-
 ### Now Playing card
 
-- Automatically shows all active media players
+- Automatically lists all active media players
 
 ---
 
 ## Controls view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L710)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L650)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -167,20 +164,21 @@ These cards are hidden by default and show only when there's activity (condition
   <b>Vertical stack 1</b>
 </p>
 
- - Front gate camera
- - Adaptive Lighting controls
+- Front gate camera
+- Adaptive Lighting switches
 
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
 
- - Bedroom AC 
- - ... addl. controls
+- Bedroom AC
+  - ... addl. controls
 
 ---
 
 ## Info view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L909)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L866)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -191,8 +189,8 @@ These cards are hidden by default and show only when there's activity (condition
 ### Graph row I
 
 - CPU temp.
-- `always-on` CPU temp.
 - SSD used %
+- Bedroom humidity
 
 ### Graph row II
 
@@ -218,14 +216,15 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ### Info row I
 
-- `/knox` free space
 - qBittorrent active torrents
-- qBittorrent all
+- qBittorrent upload speed
+- qBittorrent download speed
 
 ### Info row II
 
-- Home Assistant update
-- HACS updates
+- `/knox` free %
+- `/knox` free space
+- `/knox` used space
 
 ### Internet graphs
 
@@ -237,7 +236,8 @@ Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in 
 ---
 
 ## Tile view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1293)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1257)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -269,14 +269,15 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 ---
 
 ## Remote control view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1616)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1598)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
 ### Spotify player
 
 - Spotify media player
-  - Playlists shortcuts
+  - Playlist shortcuts
   - Soundbar source
   - Bedroom Echo source
 
@@ -287,12 +288,12 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 ### Alexa players
 
 - Bedroom Echo media player
-- ... switches
+- *... switches*
   - Do Not Disturb
   - Repeat
   - Shuffle
 - New Room Echo media player
-- ... switches
+- *... switches*
   - Do Not Disturb
   - Repeat
   - Shuffle
@@ -301,7 +302,8 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 ---
 
 ## Plex view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1896)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1875)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -327,21 +329,22 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 - Conditional cards...
   - Header cards
-  - Plex media player cards
+  - Plex media players
 
 The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
 
 ---
 
 ## Television view
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L2225)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L2202)
 
 ![tv_view](https://user-images.githubusercontent.com/19761269/97078361-6cc07100-1609-11eb-9c9c-6390ebb47308.png "TV view")
 
 ### TV players
 
 - Header cards
-- TV media player cards
+- TV media players
 
 ---
 
@@ -354,7 +357,6 @@ The four graph cards provide an overview of Plex/network activity in one place a
 - [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player)
 - [`Circadian Lighting`](https://github.com/claytonjn/hass-circadian_lighting) by [claytonjn](https://github.com/claytonjn)
 - [`Smart IR`](https://github.com/smartHomeHub/SmartIR) by [smartHomeHub](https://github.com/smartHomeHub)
-- [`Tuya Custom`](https://github.com/ollo69/ha_tuya_custom) by [ollo69](https://github.com/ollo69)
 
 ### Lovelace
 

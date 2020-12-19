@@ -1,7 +1,3 @@
-tuya_custom:
-  devices_config:
-    - device_name: Tuya Custom
-      support_color: true
 input_boolean:
   lofi:
     initial: off
@@ -9,17 +5,91 @@ input_boolean:
     initial: off
   jazz_radio:
     initial: off
-smartir:
 climate:
   - platform: smartir
     name: Bedroom AC
     unique_id: bedroom_ac
     device_code: 5000
-    controller_data: remote.broadlink_rm4c_remote
-logger:
-  default: error
+    temperature_sensor: sensor.broadlink_rm4_mini_temperature
+    humidity_sensor: sensor.broadlink_rm4_mini_humidity
+    controller_data: remote.broadlink_rm4_mini_remote
+input_number:
+  pi_volume:
+    name: Soundbar Volume
+    min: 0
+    max: 100
+    step: 5
+    icon: mdi:volume-high
+sensor:
+  - platform: history_stats
+    name: int_internet_health
+    entity_id: binary_sensor.quad9_dns_ping
+    state: "on"
+    type: ratio
+    end: "{{ now() }}"
+    duration: 00:05:00
+  - platform: qbittorrent
+    name: qBt
+    url: "http://10.0.0.11:8100"
+    username: !secret qbt_user
+    password: !secret qbt_pass
+  - platform: systemmonitor
+    resources:
+      - type: processor_temperature
+      - type: processor_use
+      - type: load_1m
+      - type: disk_use_percent
+        arg: /home/agneev
+      - type: disk_use_percent
+        arg: /knox
+      - type: disk_free
+        arg: /knox
+      - type: disk_use
+        arg: /knox
+  - platform: systemmonitor
+    scan_interval: 10
+    resources:
+      - type: throughput_network_in
+        arg: eth0
+      - type: throughput_network_out
+        arg: eth0
+  - platform: tautulli
+    api_key: !secret tautulli_api_key
+    host: 127.0.0.1
+    monitored_users:
+      - agneev
+  - platform: radarr
+    host: 127.0.0.1
+    api_key: !secret radarr_api_key
+    days: 14
+    monitored_conditions:
+      - commands
+      - upcoming
+device_tracker:
+  - platform: netgear
+    host: 10.0.0.1
+    port: 80
+    password: !secret netgear_pass
+    new_device_defaults:
+      track_new_devices: true
+spotify:
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
+alexa_media:
+  accounts:
+    - email: !secret amazon_user
+      password: !secret amazon_pass
+      url: amazon.in
+telegram_bot:
+  - platform: broadcast
+    api_key: !secret telegram
+    allowed_chat_ids:
+      - !secret telegram_chat_id
+notify:
+  - platform: telegram
+    name: telegram
+    chat_id: !secret telegram_chat_id
 shell_command:
-#  set_soundbar_volume: "amixer -q set 'Headphone' - '{{ states.input_number.soundbar_volume.state | int}}'%"
   pi_volume_0: amixer -q cset numid=1 -- -10239
   pi_volume_5: amixer -q cset numid=1 -- -7399
   pi_volume_10: amixer -q cset numid=1 -- -5595
@@ -41,83 +111,79 @@ shell_command:
   pi_volume_90: amixer -q cset numid=1 -- 120
   pi_volume_95: amixer -q cset numid=1 -- 263
   pi_volume_100: amixer -q cset numid=1 -- 400
-input_number:
-  pi_volume:
-    name: Soundbar Volume
-    min: 0
-    max: 100
-    step: 5
-    icon: mdi:volume-high
-sensor:
-  - platform: history_stats
-    name: int_internet_health
-    entity_id: binary_sensor.cloudflare_dns_ping
-    state: 'on'
-    type: ratio
-    end: '{{ now()}}'
-    duration: 00:05:00
-  - platform: qbittorrent
-    name: qBt
-    url: 'http://127.0.0.1:8100'
-    username: !secret qbt_user
-    password: !secret qbt_pass
-  - platform: systemmonitor
-    scan_interval: 60
-    resources:
-      - type: processor_temperature
-      - type: disk_use_percent
-        arg: /home/agneev
-      - type: disk_use_percent
-        arg: /knox
-      - type: disk_free
-        arg: /knox
-  - platform: systemmonitor
-    resources:
-      - type: processor_use
-      - type: load_1m
-  - platform: systemmonitor
-    scan_interval: 15
-    resources:
-      - type: throughput_network_in
-        arg: eth0
-      - type: throughput_network_out
-        arg: eth0
-  - platform: tautulli
-    api_key: !secret tautulli_api_key
-    host: 127.0.0.1
-    monitored_users:
-      - agneev
-  - platform: radarr
-    host: 127.0.0.1
-    api_key: !secret radarr_api_key
-    days: 14
-    monitored_conditions:
-      - upcoming
-      - commands
-      - upcoming
-switch:
-  - platform: circadian_lighting
-    disable_brightness_adjust: true
-    lights_ct:
-      - light.desk_light
-    lights_rgb:
-      - light.tv_lamp
-device_tracker:
-  - platform: netgear
-    host: 10.0.0.1
-    port: 80
-    username: !secret netgear_user
-    password: !secret netgear_pass
-    new_device_defaults:
-      track_new_devices: true
-spotify:
-  client_id: !secret spotify_id
-  client_secret: !secret spotify_secret
-alexa_media:
-  accounts:
-    - email: !secret amazon_user
-      password: !secret amazon_pass
-      url: amazon.in
+smartir:
+webostv: !include webos.yaml
+#sensor restful: !include restful.yaml
+########## SYSTEM ###########
+logger:
+  default: warning
+  logs:
+    homeassistant.components.songpal.media_player: error
+    androidtv.adb_manager.adb_manager_async: error
+    homeassistant.components.androidtv.media_player: error
+    homeassistant.components.media_player: error
+homeassistant:
+  customize: !include customize.yaml
+frontend:
+  themes: !include_dir_merge_named themes
+  extra_module_url:
+    - /hacsfiles/custom-sidebar/custom-sidebar.js
+tts:
+  - platform: google_translate
+recorder:
+  db_url: mysql://hass:Lzn3kReQcKUHoG7w@localhost/hass_db
+binary_sensor: !include binary_sensor.yaml
+camera: !include camera.yaml
+media_player: !include media_player.yaml
+homekit: !include homekit.yaml
+light: !include light.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+cloud: !include cloud.yaml
+sensor command_line: !include cmd_sensor.yaml
+sensor template:
+  platform: template
+  sensors: !include template_sensor.yaml
+switch template:
+  platform: template
+  switches: !include template_switch.yaml
+switch command_line:
+  platform: command_line
+  switches: !include cmd_switch.yaml
+stream:
+config:
+counter:
+history:
+image:
+input_datetime:
+input_select:
+input_text:
+media_source:
+mobile_app:
+person:
+ssdp:
+sun:
+system_health:
+tag:
+timer:
+updater:
+zeroconf:
+zone:
+wake_on_lan:
+discovery:
+#circadian_lighting:
+#switch:
+#  - platform: circadian_lighting
+#    disable_brightness_adjust: true
+#    lights_ct:
+#      - light.desk_light
+#    lights_rgb:
+#      - light.tv_lamp
+#weather:
+#  - platform: darksky
+#    api_key: !secret dark_sky
 #android_ip_webcam:
 #  - host: 10.0.0.70
 #    scan_interval: 15
@@ -128,59 +194,7 @@ alexa_media:
 #    switches:
 #      - motion_detect
 #      - night_vision
-telegram_bot:
-  - platform: broadcast
-    api_key: !secret telegram
-    allowed_chat_ids:
-      - !secret telegram_chat_id
-notify:
-  - name: telegram
-    platform: telegram
-    chat_id: !secret telegram_chat_id
-#weather:
-#  - platform: darksky
-#    api_key: !secret dark_sky
-circadian_lighting:
-webostv: !include webos.yaml
-yeelight: !include yeelight.yaml
-binary_sensor: !include binary_sensor.yaml
-camera: !include camera.yaml
-media_player: !include media_player.yaml
-homekit: !include homekit.yaml
-sensor command_line: !include cmd_sensor.yaml
-light: !include light.yaml
-#sensor restful: !include restful.yaml
-sensor template: 
-  platform: template
-  sensors: !include template_sensor.yaml
-switch template: 
-  platform: template
-  switches: !include template_switch.yaml
-switch command_line: 
-  platform: command_line
-  switches: !include cmd_switch.yaml
-########## SYSTEM ###########
-config:
-history:
-mobile_app:
-person:
-ssdp:
-sun:
-system_health:
-updater:
-zeroconf:
-wake_on_lan:
-discovery:
-homeassistant:
-  customize: !include customize.yaml
-frontend:
-  themes: !include_dir_merge_named themes
-tts:
-  - platform: google_translate
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-cloud: !include cloud.yaml
-recorder:
-  db_url: mysql://hass:xxxxx@localhost/hass_db
+#tuya_custom:
+#  devices_config:
+#    - device_name: Tuya Custom
+#      support_color: true
