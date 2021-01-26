@@ -17,7 +17,7 @@
   scan_interval: 10
 - platform: command_line
   name: qBittorrent - active torrents
-  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active|grep -o -i f_l_piece_prio|wc -l"
+  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l"
   unit_of_measurement: 'torrents'
   scan_interval: 20
 - platform: command_line
@@ -26,7 +26,7 @@
   scan_interval: 30
 - platform: command_line
   name: Speedtest.net Download Speed
-  command: "/usr/bin/speedtest -s 26195 -f json"
+  command: "bash /home/homeassistant/.homeassistant/scripts/spdtst.sh"
   command_timeout: 120
   scan_interval: 00:30:00
   unit_of_measurement: 'Mb/s'
@@ -38,7 +38,7 @@
 - platform: command_line
   name: vnstat
   command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
-  scan_interval: 180
+  scan_interval: 240
   value_template: "{{ (value_json.id) }}"
   json_attributes:
     - rx

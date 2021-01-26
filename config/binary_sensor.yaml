@@ -1,11 +1,11 @@
 - platform: ping
-  name: Node ping
+  name: ISP Node ping
   host: 172.16.248.1
   count: 1
   scan_interval: 2
 - platform: ping
-  name: Quad9 DNS ping
-  host: 9.9.9.9
+  name: Cloudflare DNS ping
+  host: 1.1.1.1
   count: 1
   scan_interval: 2
 - platform: ping

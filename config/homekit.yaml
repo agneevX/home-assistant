@@ -1,31 +1,31 @@
-name: HA Bridge
+name: Home Assistant bridge
 filter:
+  include_domains:
+    - sensor
+    - switch
+    - light
+    - lock
+    - climate
+    - fan
+    - humidifier
+  include_entities:
+    - script.reload_themes
   exclude_entities:
     - light.tv_lamp_2
-    - camera.front_gate_camera
-  include_domains:
-    - light
-    - camera
-  include_entities:
-    - switch.adguard_filtering
-    - switch.lofi_beats
-    - switch.lofi_beats2
-    - switch.jazz_radio
-    - script.refresh_plex
-    - script.reload_themes
-    - climate.bedroom_ac
-    - switch.bedroom_ac_exhaust
-    - switch.bedroom_ac_fast_cool
-    - sensor.broadlink_rm4_mini_temperature
-    - sensor.broadlink_rm4_mini_humidity
+    - sensor.processor_temperature
+    - sensor.accuweather_realfeel_temperature
+  exclude_entity_globs:
+    - switch.int_*
+    - switch.adaptive*
+    - switch.new_room_echo*
+    - switch.*_shutdown
+    - switch.*_restart
 entity_config:
-  sensor.broadlink_rm4_mini_temperature:
-    name: Bedroom Temp
-  sensor.broadlink_rm4_mini_humidity:
-    name: Bedroom Humidity
+  switch.16a_plug:
+    type: outlet
+  switch.6a_plug:
+    type: outlet
   light.soundbar_volume:
     name: Soundbar
   switch.bedroom_ac_exhaust:
     name: AC Exhaust
-  switch.adguard_filtering:
-    name: AdGuard

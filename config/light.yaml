@@ -63,24 +63,24 @@
           volume_level: "{{ (brightness/255*100) | int/100 }}"
       level_template: >-
         {% if is_state('media_player.spotify','playing') %}
-          {{ (state_attr('media_player.spotify','volume_level')|float * 255)|int }}
+          {{ (state_attr('media_player.spotify','volume_level') | float * 255) | int }}
         {% else %} 0 {% endif %}
     soundbar_volume:
-      friendly_name: Soundbar Volume
+      friendly_name: Soundbar Volume (light)
       value_template: on
       turn_on:
         service: input_number.set_value
         data:
           entity_id: input_number.pi_volume
-          value: 70
+          value: 60
       turn_off:
         service: input_number.set_value
         data:
           entity_id: input_number.pi_volume
-          value: 0
+          value: 5
       set_level:
         service: input_number.set_value
         data_template:
           entity_id: input_number.pi_volume
           value: "{{ (brightness/2.55*100) | int/100 }}"
-      level_template: "{{ (states('input_number.pi_volume')|float*2.55)|int }}"
+      level_template: "{{ (states('input_number.pi_volume') | float * 2.55) | int }}"

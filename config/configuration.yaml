@@ -23,7 +23,7 @@ input_number:
 sensor:
   - platform: history_stats
     name: int_internet_health
-    entity_id: binary_sensor.quad9_dns_ping
+    entity_id: binary_sensor.cloudflare_dns_ping
     state: "on"
     type: ratio
     end: "{{ now() }}"
@@ -64,7 +64,6 @@ sensor:
     days: 14
     monitored_conditions:
       - commands
-      - upcoming
 device_tracker:
   - platform: netgear
     host: 10.0.0.1

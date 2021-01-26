@@ -1,3 +1,23 @@
+bedroom_echo_bt_speaker:
+  friendly_name: Bedroom Echo Bluetooth Connect
+  value_template: "{{ is_state('input_boolean.bedroom_echo_bluetooth_connected_state', 'on') }}"
+  icon_template: mdi:speaker-bluetooth
+  turn_on:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.bedroom_echo_bluetooth_connected_state
+    - service: media_player.play_media
+      entity_id: media_player.bedroom_echo
+      data:
+        media_content_id: 'connect to bluetooth speaker'
+        media_content_type: custom
+  turn_off:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedroom_echo_bluetooth_connected_state
+    - service: media_player.play_media
+      entity_id: media_player.bedroom_echo
+      data:
+        media_content_id: 'disconnect from bluetooth speaker'
+        media_content_type: custom
 16a_plug:
   friendly_name: 16A Plug
   value_template: "{{ is_state('input_boolean.16a_plug_state', 'on') }}"
@@ -6,18 +26,18 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.16a_plug_state
     - service: media_player.play_media
-      entity_id: media_player.bedroom_echo
+      entity_id: media_player.new_room_echo
       data:
         media_content_id: 'turn on Plug 33004ff8'
         media_content_type: custom
   turn_off:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.16a_plug_state
     - service: media_player.play_media
-      entity_id: media_player.bedroom_echo
+      entity_id: media_player.new_room_echo
       data:
         media_content_id: 'turn off Plug 33004ff8'
         media_content_type: custom
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.16a_plug_state
 6a_plug:
   friendly_name: 6A Plug
   value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
@@ -26,18 +46,18 @@
     - service: input_boolean.turn_on
       entity_id: input_boolean.16a_plug_state
     - service: media_player.play_media
-      entity_id: media_player.bedroom_echo
+      entity_id: media_player.new_room_echo
       data:
         media_content_id: 'turn on Plug 340041f6'
         media_content_type: custom
   turn_off:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.6a_plug_state
     - service: media_player.play_media
-      entity_id: media_player.bedroom_echo
+      entity_id: media_player.new_room_echo
       data:
         media_content_id: 'turn off Plug 340041f6'
         media_content_type: custom
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.6a_plug_state
 qbt_alt_limit:
   friendly_name: qBittorrent Alt Speeds
   availability_template: >-
@@ -71,10 +91,6 @@ bedroom_ac_exhaust:
       entity_id: climate.bedroom_ac
       data:
         hvac_mode: fan_only
-    - service: climate.set_fan_mode
-      entity_id: climate.bedroom_ac
-      data:
-        fan_mode: high
   turn_off:
     - service: climate.set_hvac_mode
       entity_id: climate.bedroom_ac
@@ -84,6 +100,8 @@ bedroom_ac_exhaust:
       entity_id: climate.bedroom_ac
       data:
         fan_mode: auto
+    - service: climate.turn_off
+      entity_id: climate.bedroom_ac
 bedroom_ac_swing:
   friendly_name: Bedroom AC Swing
   availability_template: >-

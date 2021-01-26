@@ -1,11 +1,3 @@
-#bedroom_temp:
-#  friendly_name: Bedroom Temperature
-#  value_template: "{{ states('remote.broadlink_rm','') }}"
-#  unit_of_measurement: '°C'
-#bedroom_humidity:
-#  friendly_name: Bedroom Humidity
-#  value_template: "{{ state_attr('remote.broadlink_rm','humidity')|round }}"
-#  unit_of_measurement: '%'
 outdoor_weather:
   friendly_name: Outdoor Weather
   value_template: >-
@@ -54,14 +46,6 @@ eth0_in:
 eth0_out:
   friendly_name: eth0 Out
   value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
-  unit_of_measurement: 'Mb/s'
-eth0_in_2:
-  friendly_name: eth0 In 2
-  value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round }}"
-  unit_of_measurement: 'Mb/s'
-eth0_out_2:
-  friendly_name: eth0 Out 2
-  value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round }}"
   unit_of_measurement: 'Mb/s'
 #orbi_daily_down:
 # friendly_name: Orbi - Daily - Down

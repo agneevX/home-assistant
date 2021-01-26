@@ -20,14 +20,14 @@ This layout was designed mobile-first.
     - [Now Playing card](#now-playing-card)
   - [Controls view](#controls-view)
   - [Info view](#info-view)
+    - [TV state row](#tv-state-row)
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii)
     - [Graph row III](#graph-row-iii)
     - [Info row I](#info-row-i)
     - [Info row II](#info-row-ii)
-    - [Internet graphs](#internet-graphs)
   - [Tile view](#tile-view)
-    - [TV state row](#tv-state-row)
+    - [Internet graphs](#internet-graphs)
     - [Radarr/Sonarr cards](#radarrsonarr-cards)
     - [Devices card](#devices-card)
   - [Remote control view](#remote-control-view)
@@ -83,7 +83,7 @@ sudo systemctl enable --now hassio.service
 
 ## Dashboard
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L55)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L34)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
@@ -134,8 +134,8 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - AdGuard Home
 - Bedroom AC
 - Refresh Plex
-- qBittorrent alt. speed
-- Transmission turtle mode
+- qBittorrent alt. speed mode
+- 16A plug
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -156,7 +156,7 @@ Indicates if there's any packet loss within the last hour.
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L650)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L671)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -178,7 +178,7 @@ Indicates if there's any packet loss within the last hour.
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L866)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L888)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -186,10 +186,14 @@ Indicates if there's any packet loss within the last hour.
   <b>Vertical stack 1</b>
 </p>
 
+### TV state row
+
+Tracks states of specific TVs.
+
 ### Graph row I
 
 - CPU temp.
-- SSD used %
+- AdGuard Home avg. processing time
 - Bedroom humidity
 
 ### Graph row II
@@ -197,7 +201,7 @@ Indicates if there's any packet loss within the last hour.
 - Download speed (Speedtest.net)
 - Upload speed (Speedtest.net)
 
-Custom-made sensor that uses the official Speedtest.net CLI as opposed to `speedtest-cli`, which is very inaccurate.
+Custom-made sensor that uses the official Speedtest.net CLI instead of the rather inaccurate `speedtest-cli`.
 
 ### Graph row III
 
@@ -222,9 +226,21 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ### Info row II
 
+- SSD free %
 - `/knox` free %
 - `/knox` free space
-- `/knox` used space
+
+---
+
+## Tile view
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1373)
+
+![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
+
+<p align="center">
+  <b>Vertical stack 1</b>
+</p>
 
 ### Internet graphs
 
@@ -233,26 +249,9 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
 
----
-
-## Tile view
-
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1257)
-
-![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
-
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
-
-### TV state row
-
-Tracks states of specific TVs.
-
 ### Radarr/Sonarr cards
 
 - Radarr/Sonarr ongoing commands
-- Radarr/Sonarr upcoming
 - Radarr/Sonarr queue
 - Sonarr wanted episodes
 
@@ -270,7 +269,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1598)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1573)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -287,12 +286,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ### Alexa players
 
-- Bedroom Echo media player
-- *... switches*
-  - Do Not Disturb
-  - Repeat
-  - Shuffle
-- New Room Echo media player
+- Household Echo media players
 - *... switches*
   - Do Not Disturb
   - Repeat
@@ -303,7 +297,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1875)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1859)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -337,7 +331,7 @@ The four graph cards provide an overview of Plex/network activity in one place a
 
 ## Television view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L2202)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L2186)
 
 ![tv_view](https://user-images.githubusercontent.com/19761269/97078361-6cc07100-1609-11eb-9c9c-6390ebb47308.png "TV view")
 

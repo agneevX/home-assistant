@@ -19,18 +19,9 @@ google_actions:
       - light
       - climate
     include_entities:
-      - switch.lofi_beats
-      - switch.lofi_beats2
-      - switch.jazz_radio
       - media_player.bedroom_tv
       - switch.bedroom_ac_power
-      - media_player.old_room_tv
-      - media_player.new_room_tv
-      - switch.bedroom_ac_exhaust
   entity_config:
-    light.soundbar_volume:
-      name: Soundbar
-      room: Level 1
     switch.bedroom_ac_power:
       name: Air Conditioner
       room: Bedroom
@@ -42,5 +33,3 @@ google_actions:
     climate.bedroom_ac:
       name: LG AirCon
       room: Bedroom
-      aliases:
-        - AC

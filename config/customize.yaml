@@ -15,6 +15,8 @@ media_player.sony_bravia_tv:
   device_class: tv
   icon: mdi:television
 ### Lights
+light.887444182cf43284aac9:
+  supported_features: 63
 light.tv_lamp:
   icon: mdi:alarm-light
 light.desk_light:
@@ -69,8 +71,7 @@ sensor.drive_state:
   icon: mdi:google-drive
 sensor.outdoor_humidity:
   icon: mdi:water-percent
-
-  # Camera
+# Camera
 camera.front_gate_camera:
   icon: mdi:cctv
 # Media Player
