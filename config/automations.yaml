@@ -1,0 +1,259 @@
+- id: '1587105668264'
+  alias: Set soundbar volume
+  trigger:
+  - platform: state
+    entity_id: input_number.pi_volume
+  action:
+  - service_template: shell_command.pi_volume_{{ trigger.to_state.state | int }}
+  initial_state: true
+  mode: single
+- id: '1587105668090'
+  alias: Turn off desk lamp when Plex starts playing
+  description: Desk Lamp turns off when Plex plays media on MBP
+  trigger:
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_web_safari_osx'', ''playing'')
+      }}'
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_web_safari_osx_2'', ''playing'')
+      }}'
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_web_safari_osx_3'', ''playing'')
+      }}'
+  - platform: template
+    value_template: '{{ is_state(''media_player.plex_plex_media_player_agneevs_macbook_pro'',
+      ''playing'') }}'
+  condition:
+  - condition: state
+    entity_id: light.desk_light
+    state: 'on'
+  action:
+  - data:
+      transition: 700
+    entity_id: light.desk_light
+    service: light.turn_off
+  - entity_id: input_boolean.desk_light
+    service: input_boolean.turn_on
+    data: {}
+  mode: single
+- id: '1587105718577'
+  alias: Turn on desk lamp when Plex stops playing
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_web_safari_osx'', ''playing'')
+      }}'
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_web_safari_osx_2'',
+      ''playing'') }}'
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_web_safari_osx_3'',
+      ''playing'') }}'
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_web_safari_osx_4'',
+      ''playing'') }}'
+  - platform: template
+    value_template: '{{ not is_state(''media_player.plex_plex_media_player_agneevs_macbook_pro'',
+      ''playing'') }}'
+  condition:
+  - condition: state
+    entity_id: input_boolean.desk_light
+    state: 'on'
+  action:
+  - data:
+      transition: 700
+    entity_id: light.desk_light
+    service: light.turn_on
+  - data: {}
+    entity_id: input_boolean.desk_light
+    service: input_boolean.turn_off
+  mode: single
+- id: 1e959b5f825c4f71bc72792f183123fa
+  alias: '[frontend] Light theme after reboot in day'
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  action:
+  - service: frontend.set_theme
+    data:
+      name: Milky White
+  mode: single
+- id: 8e6525ab98764dfd8d945ee58533462e
+  alias: '[frontend] Dark theme after reboot at night'
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  - condition: time
+    after: '18:00:00'
+  action:
+  - service: frontend.set_theme
+    data:
+      name: Kinda Dark
+  mode: single
+- id: '1593856822416'
+  alias: '[frontend] Dark theme (at sunset)'
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:00:00'
+  condition: []
+  action:
+  - service: frontend.set_theme
+    data:
+      name: Kinda Dark
+  mode: single
+- id: '1600174827470'
+  alias: '[chore] HA: Purge DB'
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:30:00'
+  condition: []
+  action:
+  - data:
+      keep_days: 14
+    service: recorder.purge
+  mode: single
+- id: '1600689970940'
+  alias: '[frontend] Light theme (at sunrise)'
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - service: frontend.set_theme
+    data:
+      name: Milky White
+  mode: single
+- id: '1601100809199'
+  alias: Turn on TV Lamp when TV turns on
+  description: Turn on TV Lamp when Bedroom TV is turned on, but only after sunset
+  trigger:
+  - platform: state
+    entity_id: media_player.bedroom_tv
+    to: 'on'
+  condition:
+  - condition: sun
+    after: sunset
+  - condition: state
+    entity_id: light.tv_lamp
+    state: 'off'
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.tv_lamp
+  mode: single
+- id: '1602836208889'
+  alias: Turn off AC switches when AC switches off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: climate.bedroom_ac
+    to: 'off'
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.bedroom_ac_jetcool
+    - input_boolean.bedroom_ac_swing
+  mode: single
+- id: '1603983097095'
+  alias: Set tv channel
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_number.stb_channel
+  condition: []
+  action:
+  - service: remote.send_command
+    data:
+      entity_id: remote.broadlink_rm4c_remote
+      device: stb
+      command: '{{ states(''input_number.stb_channel'')|int|string|list }}'
+  mode: single
+- id: '1606557136476'
+  alias: Turn off AC exhaust after 10 mins
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.bedroom_ac_exhaust
+    to: 'on'
+    for: 00:08:00
+  condition:
+  - condition: state
+    entity_id: switch.bedroom_ac_exhaust
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.bedroom_ac_exhaust
+  - service: climate.turn_off
+    data: {}
+    entity_id: climate.bedroom_ac
+  mode: single
+- id: '1608393503127'
+  alias: 'Set AC to Dry when humidity gets too high '
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.broadlink_rm4_mini_humidity
+    above: '59'
+  condition:
+  - condition: state
+    entity_id: climate.bedroom_ac
+    state: 'off'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: device_tracker.bedroom_tv
+      state: home
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: dry
+    entity_id: climate.bedroom_ac
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: high
+    entity_id: climate.bedroom_ac
+  mode: single
+- id: '1608393531189'
+  alias: Turn off AC when humidity decreases
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.broadlink_rm4_mini_humidity
+    below: '54'
+  condition:
+  - condition: state
+    entity_id: climate.bedroom_ac
+    state: dry
+    attribute: last_on_operation
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.bedroom_ac
+      state: 'off'
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: cool
+    entity_id: climate.bedroom_ac
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: low
+    entity_id: climate.bedroom_ac
+  - service: climate.turn_off
+    data: {}
+    entity_id: climate.bedroom_ac
+  mode: single

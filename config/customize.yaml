@@ -55,10 +55,12 @@ sensor.eth0_out:
   icon: mdi:arrow-up
 sensor.eth0_in:
   icon: mdi:arrow-down
-sensor.eth0_out_2:
-  icon: mdi:arrow-up
-sensor.eth0_in_2:
-  icon: mdi:arrow-down
+sensor.eth0_out_total:
+  icon: mdi:arrow-up-circle
+  unit_of_measurement: MB
+sensor.eth0_in_total:
+  icon: mdi:arrow-down-circle
+  unit_of_measurement: MB
 sensor.speedtest_net_download_speed:
   icon: mdi:arrow-down
 sensor.load_1m:

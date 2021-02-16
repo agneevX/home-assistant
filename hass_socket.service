@@ -1,0 +1,13 @@
+[Unit]
+Description=Home Assistant socket service
+
+[Service]
+ExecStart=socat -u tcp-l:7900,fork,bind=127.0.0.1 system:/home/agneev/scripts/hass_socket.sh
+KillMode=process
+Restart=on-failure
+RestartSec=5
+User=agneev
+Group=agneev
+
+[Install]
+WantedBy=multi-user.target

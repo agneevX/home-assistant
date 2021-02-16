@@ -1,12 +1,17 @@
 [Unit]
 Description=Home Assistant daemon
 After=mariadb.service network-online.target
+StartLimitIntervalSec=0
 
 [Service]
-Type=simple
 User=homeassistant
 ExecStart=/srv/homeassistant/bin/hass \
-    -c "/home/homeassistant/.homeassistant"
+        -c "/home/homeassistant/.homeassistant"
+SyslogIdentifier=hass
+StandardOutput=null
+StandardError=null
+Restart=always
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target

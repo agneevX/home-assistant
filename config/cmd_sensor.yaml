@@ -1,32 +1,25 @@
-#- platform: command_line
-#  name: qBittorrent - all torrents
-#  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=all|grep -o -i f_l_piece_prio|wc -l"
-#  unit_of_measurement: 'torrents'
-#  scan_interval: 60
-#- platform: command_line
-#  name: /knox read speed
-#  scan_interval: 20
-#  unit_of_measurement: 'Mb/s'
-#  command: "bash /home/homeassistant/.homeassistant/knox_rw.sh"
-#  value_template: "{{ (value_json.read) }}"
-#  json_attributes:
-#    - items
 - platform: command_line
   name: qBittorrent Alt Limit State
-  command: "curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode"
+  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh qbt_alt_limit_state"
   scan_interval: 10
 - platform: command_line
   name: qBittorrent - active torrents
-  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l"
+  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh qbt_active_torrents"
   unit_of_measurement: 'torrents'
   scan_interval: 20
 - platform: command_line
   name: /drive State
-  command: "/bin/systemctl -q is-active drive.service && echo on || echo off"
-  scan_interval: 30
+  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh drive_state"
+  scan_interval: 45
+- platform: command_line
+  name: Radarr Queue
+  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh radarr_queue"
+  unit_of_measurement: 'movies'
+  value_template: "{{ (value_json.totalRecords) }}"
+  scan_interval: 60
 - platform: command_line
   name: Speedtest.net Download Speed
-  command: "bash /home/homeassistant/.homeassistant/scripts/spdtst.sh"
+  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh spdtst"
   command_timeout: 120
   scan_interval: 00:30:00
   unit_of_measurement: 'Mb/s'
@@ -34,22 +27,13 @@
   json_attributes:
     - upload
     - server
-    - result
 - platform: command_line
-  name: vnstat
-  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
-  scan_interval: 240
-  value_template: "{{ (value_json.id) }}"
-  json_attributes:
-    - rx
-    - tx
+  name: eth0 In (total)
+  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'rx' | tail -1 | echo $(tr -dc '0-9')
+  value_template: "{{ (value_json|float/(1000*1000))|round }}"
+  scan_interval: 180
 - platform: command_line
-  name: Radarr Queue
-  command: "curl -s 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=xxxxx' -H 'accept: */*'"
-  unit_of_measurement: 'movies'
-  value_template: "{{ (value_json.totalRecords) }}"
-  scan_interval: 60
-#- platform: command_line
-#  name: Speaker volume state
-#  command: amixer|grep '%'|grep -oP '(\d+(\.\d+)?(?=%))'
-#  scan_interval: 30
+  name: eth0 Out (total)
+  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'tx' | tail -1 | echo $(tr -dc '0-9')
+  value_template: "{{ (value_json|float/(1000*1000))|round }}"
+  scan_interval: 180

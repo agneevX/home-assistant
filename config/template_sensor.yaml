@@ -6,25 +6,11 @@ indoor_weather:
   friendly_name: Indoor Weather
   value_template: >-
     {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C | {{ states('sensor.broadlink_rm4_mini_humidity')|round }}%
-#knox_write_speed:
-#  friendly_name: /knox write speed
-#  value_template: "{{ state_attr('sensor.knox_read_speed','rw')[0] }}"
-#  unit_of_measurement: 'Mb/s'
 internet_health:
   friendly_name: Internet Health
   value_template: "{{ states('sensor.int_internet_health')|round }}"
   icon_template: mdi:ethernet-cable
   unit_of_measurement: '%'
-eth0_in_total:
-  friendly_name: eth0 In (total)
-  value_template: "{{ (state_attr('sensor.vnstat','rx')|float/1024)|round }}"
-  icon_template: mdi:arrow-down-circle
-  unit_of_measurement: 'MB'
-eth0_out_total:
-  friendly_name: eth0 Out (total)
-  value_template: "{{ (state_attr('sensor.vnstat','tx')|float/1024)|round }}"
-  icon_template: mdi:arrow-up-circle
-  unit_of_measurement: 'MB'
 speedtest_net_upload_speed:
   friendly_name: Speedtest.net Upload Speed
   value_template: "{{ (state_attr('sensor.speedtest_net_download_speed','upload')['bandwidth']|float/125000)|round(1) }}"
