@@ -47,7 +47,7 @@ This layout was designed mobile-first.
 
 ## Background
 
-Home Assistant Core installation on Raspberry Pi 4, with MariaDB.
+Home Assistant Core installation on Raspberry Pi 4, with MySQL.
 
 More details [here](https://github.com/agneevX/server-setup).
 
@@ -147,13 +147,13 @@ switch:
   platform: template
   switches: 
     6a_plug:
-      friendly_name: 6A Plug
       value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
       turn_on:
         - service: input_boolean.turn_on
           entity_id: input_boolean.16a_plug_state
         - service: media_player.play_media
-          entity_id: media_player.new_room_echo # Preferably set an Echo device that is rarely used as the echo device actually carries out the command in the foreground
+          entity_id: media_player.new_room_echo
+          # Preferably set an Echo device that is rarely used as the echo device actually carries out the command in the foreground
           data:
             media_content_id: 'turn on 6a plug'
             media_content_type: custom
@@ -411,7 +411,6 @@ The four graph cards provide an overview of Plex/network activity in one place a
   - Plex media players
 
 ---
-
 
 ## Custom plugins used
 

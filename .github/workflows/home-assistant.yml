@@ -1,7 +1,7 @@
-name: "Run action"
+---
+name: "Hass.io config check"
 on:
   push:
-    branches: [master]
   pull_request:
     branches: [master]
 
@@ -10,9 +10,10 @@ jobs:
     name: Home Assistant Config Check
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Run Config Check
-      uses: glitchcrab/action-hass-check-config@master
-      with:
-        config_path: config
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Config Check
+        uses: glitchcrab/action-hass-check-config@main
+        with:
+          config_path: config
+
