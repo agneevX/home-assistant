@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Super-Linter
-        uses: docker://github/super-linter@v3
+        uses: docker://github/super-linter:v3
         env:
           SUPPRESS_POSSUM: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
