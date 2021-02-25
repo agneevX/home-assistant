@@ -1,14 +1,14 @@
 #!/bin/bash
-read MESSAGE
+read -r MESSAGE
 
 if [[ $MESSAGE == 'lofi_on' ]]; then 
-  screen -S lofi -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet $(/home/agneev/.local/bin/youtube-dlc -g -f 95 5qap5aO4i9A); fi
+  screen -S lofi -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 5qap5aO4i9A)"; fi
 if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 if [[ $MESSAGE == 'lofi2_on' ]]; then 
-  screen -S lofi2 -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet $(/home/agneev/.local/bin/youtube-dlc -g -f 95 DWcJFNfaw9c); fi
+  screen -S lofi2 -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 DWcJFNfaw9c)"; fi
 if [[ $MESSAGE == 'lofi2_off' ]]; then screen -S lofi2 -X quit; fi
 if [[ $MESSAGE == 'jazz_radio_on' ]]; then 
-  screen -S jazz_radio -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet $(/home/agneev/.local/bin/youtube-dlc -g -f 95 fEvM-OUbaKs); fi
+  screen -S jazz_radio -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 fEvM-OUbaKs)"; fi
 if [[ $MESSAGE == 'jazz_radio_off' ]]; then screen -S jazz_radio -X quit; fi
 
 if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
