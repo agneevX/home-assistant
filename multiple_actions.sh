@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [[ "$1" == 'radarr_queue' ]]; then
-  curl -s 'http://localhost:7878/api/v3/queue?page=1&pageSize=20&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=false&apiKey=XXXXX' -H 'accept: */*'; fi
-if [[ "$1" == 'qbt_alt_limit_state' ]]; then
-  curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode; fi
-if [[ "$1" == 'qbt_active_torrents' ]]; then
-  curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l; fi
 if [[ "$1" == 'spdtst' ]]; then
   HC_URL=https://hc-ping.com/XXXXX
 
