@@ -173,7 +173,7 @@ switch:
 
 ## Dashboard
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L34)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L29)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
@@ -246,7 +246,7 @@ Indicates if there's any packet loss within the last hour.
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L637)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L665)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -268,7 +268,7 @@ Indicates if there's any packet loss within the last hour.
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L854)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L886)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -320,7 +320,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1308)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1353)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -339,7 +339,6 @@ Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in 
 
 - Radarr/Sonarr ongoing commands
 - Radarr/Sonarr queue
-- Sonarr shows/wanted episodes
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -355,7 +354,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1511)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1492)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -379,7 +378,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1779)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1767)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 

@@ -106,6 +106,7 @@ shell_command:
   pi_volume_95: echo amixer_95 | netcat localhost 7900
   pi_volume_100: echo amixer_100 | netcat localhost 7900
 webostv: !include webos.yaml
+#sensor restful: !include restful.yaml
 ########## SYSTEM ###########
 logger:
   default: warning
@@ -123,7 +124,7 @@ frontend:
 tts:
   - platform: google_translate
 recorder:
-  db_url: mysql://hass:Lzn3kReQcKUHoG7w@localhost/hass_db
+  db_url: !secret mysql_db 
 binary_sensor: !include binary_sensor.yaml
 camera: !include camera.yaml
 media_player: !include media_player.yaml

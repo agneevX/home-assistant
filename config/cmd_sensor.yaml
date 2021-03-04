@@ -1,10 +1,10 @@
 - platform: command_line
   name: qBittorrent Alt Limit State
-  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh qbt_alt_limit_state"
+  command: !secret qbt_alt_limit_state
   scan_interval: 10
 - platform: command_line
   name: qBittorrent - active torrents
-  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh qbt_active_torrents"
+  command: !secret qbt_active_torrents
   unit_of_measurement: 'torrents'
   scan_interval: 20
 - platform: command_line
@@ -13,7 +13,7 @@
   scan_interval: 45
 - platform: command_line
   name: Radarr Queue
-  command: "bash /home/homeassistant/.homeassistant/multiple_actions.sh radarr_queue"
+  command: !secret radarr_queue
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
   scan_interval: 60

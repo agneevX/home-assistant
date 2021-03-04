@@ -257,3 +257,62 @@
     data: {}
     entity_id: climate.bedroom_ac
   mode: single
+- id: '1613652995156'
+  alias: Turn up soundbar volume if AC is turned on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: climate.bedroom_ac
+    to: cool
+    for: 00:00:05
+  - platform: state
+    entity_id: climate.bedroom_ac
+    to: dry
+    for: 00:00:05
+  - platform: state
+    entity_id: climate.bedroom_ac
+    to: fan_only
+    for: 00:00:05
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: switch.lofi_beats
+      state: 'on'
+    - condition: state
+      entity_id: switch.lofi_beats2
+      state: 'on'
+    - condition: state
+      entity_id: switch.jazz_radio
+      state: 'on'
+  action:
+  - service: input_number.increment
+    entity_id: input_number.pi_volume
+  - service: input_number.increment
+    entity_id: input_number.pi_volume
+  mode: single
+- id: '1613653342833'
+  alias: Turn down soundbar volume if AC is turned off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: climate.bedroom_ac
+    to: 'off'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: switch.lofi_beats
+      state: 'on'
+    - condition: state
+      entity_id: switch.lofi_beats2
+      state: 'on'
+    - condition: state
+      entity_id: switch.jazz_radio
+      state: 'on'
+  action:
+  - service: input_number.decrement
+    entity_id: input_number.pi_volume
+  - service: input_number.decrement
+    entity_id: input_number.pi_volume
+  mode: single
