@@ -6,7 +6,7 @@ Kinda Dark:
   # Main Interface Colors
   primary-color: "#5198F5"
   light-primary-color: var(--primary-color)
-  primary-background-color: "#171717"
+  primary-background-color: var(--app-header-background-color)
   secondary-background-color: "#202124"
   divider-color: var(--primary-background-color)
   accent-color: var(--primary-color)
@@ -43,7 +43,7 @@ Kinda Dark:
   # Cards
   card-background-color: "#202124"
   ha-card-border-radius: "16px"
-  ha-card-box-shadow: 0px 3px 3px 1px rgb(12, 12, 14)
+  ha-card-box-shadow: 0px 2.5px 2.3px 1px rgb(12, 12, 14)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
@@ -70,9 +70,6 @@ Kinda Dark:
   # Pre/Code
   markdown-code-background-color: "#171717"
   # Custom theme colors
-  #  green-color: "#39ff14"
-  # yellow-color: "#ffff00"
-  #  red-color: "#FF0000"
   qbt-color: "#54A0FF"
   qbt-seeding-color: "#FF9333"
   radarr-color: "#F5BB41"

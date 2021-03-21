@@ -188,7 +188,7 @@
   - platform: state
     entity_id: switch.bedroom_ac_exhaust
     to: 'on'
-    for: 00:08:00
+    for: 00:10:00
   condition:
   - condition: state
     entity_id: switch.bedroom_ac_exhaust

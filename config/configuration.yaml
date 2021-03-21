@@ -42,7 +42,7 @@ sensor:
       - type: disk_use
         arg: /knox
   - platform: systemmonitor
-    scan_interval: 10
+    scan_interval: 7
     resources:
       - type: throughput_network_in
         arg: eth0
@@ -53,12 +53,6 @@ sensor:
     host: 127.0.0.1
     monitored_users:
       - agneev
-  - platform: radarr
-    host: 127.0.0.1
-    api_key: !secret radarr_api_key
-    days: 14
-    monitored_conditions:
-      - commands
 device_tracker:
   - platform: netgear
     host: 10.0.0.1
@@ -74,6 +68,7 @@ alexa_media:
     - email: !secret amazon_user
       password: !secret amazon_pass
       url: amazon.in
+logbook:
 telegram_bot:
   - platform: broadcast
     api_key: !secret telegram
@@ -106,7 +101,6 @@ shell_command:
   pi_volume_95: echo amixer_95 | netcat localhost 7900
   pi_volume_100: echo amixer_100 | netcat localhost 7900
 webostv: !include webos.yaml
-#sensor restful: !include restful.yaml
 ########## SYSTEM ###########
 logger:
   default: warning
@@ -136,6 +130,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 cloud: !include cloud.yaml
 sensor command_line: !include cmd_sensor.yaml
+# fan: !include fan.yaml
 sensor template:
   platform: template
   sensors: !include template_sensor.yaml

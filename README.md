@@ -8,9 +8,10 @@ This layout was designed mobile-first.
 - [Home Assistant setup](#home-assistant-setup)
   - [Background](#background)
   - [Custom implementations](#custom-implementations)
+    - [Alexa devices control](#alexa-devices-control)
+    - [Internet health](#internet-health)
     - [Lo-fi beats](#lo-fi-beats)
     - [Soundbar control](#soundbar-control)
-    - [Alexa devices control](#alexa-devices-control)
   - [Lovelace layout](#lovelace-layout)
   - [Dashboard](#dashboard)
     - [Badges](#badges)
@@ -57,7 +58,70 @@ More details [here](https://github.com/agneevX/server-setup).
 
 ## Custom implementations
 
-These are some of my custom implementations using Home Assistant.
+These are some of my custom implementations using Home Assistant:
+
+### Alexa devices control
+
+With custom component `Alexa Media Player`, Home Assistant is able to control any thing that you're able to speak to Alexa.
+
+This requires the use of `input_boolean` helpers to control the state of the entity.
+
+E.g. to control a plug...
+
+```yaml
+# configuration.yaml
+switch:
+  platform: template
+  switches: 
+    6a_plug:
+      value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.16a_plug_state
+        - service: media_player.play_media
+          entity_id: media_player.new_room_echo
+          # Preferably set an Echo device that is rarely used as the echo device actually carries out the command in the foreground
+          data:
+            media_content_id: 'turn on 6a plug'
+            media_content_type: custom
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.6a_plug_state
+        - service: media_player.play_media
+          entity_id: media_player.new_room_echo
+          data:
+            media_content_id: 'turn off 6a plug'
+            media_content_type: custom
+```
+
+### Internet health
+
+Shows internet packet loss in `%`, if any. Useful for real-time applications like gaming or VoIP calls.
+
+```yaml
+# configuration.yaml
+binary_sensor:
+  - platform: ping
+    name: Cloudflare DNS ping
+    host: 1.1.1.1
+    count: 1
+    scan_interval: 2
+sensor:
+  - platform: history_stats
+    name: int_internet_health
+    entity_id: binary_sensor.cloudflare_dns_ping
+    state: "on"
+    type: ratio
+    end: "{{ now() }}"
+    duration: 00:05:00
+  - platform: template
+    sensors: 
+      internet_health:
+        friendly_name: Internet Health
+        value_template: "{{ states('sensor.int_internet_health') | round }}"
+        icon_template: mdi:ethernet-cable
+        unit_of_measurement: '%'
+```
 
 ### Lo-fi beats
 
@@ -65,9 +129,8 @@ Plays Lo-fi beats live stream from YouTube.
 
 This requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
 
-`configuration.yaml`:
-
 ```yaml
+# configuration.yaml
 switch:
   platform: command_line
   switches:
@@ -98,10 +161,8 @@ Controls the volume of ALSA - 3.5mm port on the Raspberry Pi. Requires `alsamixe
 
 This involves a `input_number` helper, an automation and a series of shell commands.
 
-`configuration.yaml`:
-
 ```yaml
-# Truncated. Full in ./config
+# configuration.yaml
 input_number:
   pi_volume:
     min: 0
@@ -117,54 +178,19 @@ automation:
 shell_command:
   pi_volume_0: echo amixer_0 | netcat localhost 7900
   pi_volume_5: echo amixer_5 | netcat localhost 7900
+# Truncated. Full in ./config
 ```
 
-Similar to above, the script calls the command `amixer` to increase/decrease the volume...
+Similar to above, the script calls the command `amixer` to increase or decrease the volume...
 
 `hass_socket_script.sh`:
 
 ```bash
 #!/bin/bash
-read MESSAGE
 
 if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
 if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 # Truncated. Full in ./hass_socket_script.sh
-```
-
-### Alexa devices control
-
-With custom component `Alexa Media Player`, Home Assistant is able to control any thing that you're able to speak to Alexa.
-
-This requires the use of `input_boolean` helpers to control the state of the entity.
-
-E.g. to control a plug...
-
-`configuration.yaml`:
-
-```yaml
-switch:
-  platform: template
-  switches: 
-    6a_plug:
-      value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.16a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          # Preferably set an Echo device that is rarely used as the echo device actually carries out the command in the foreground
-          data:
-            media_content_id: 'turn on 6a plug'
-            media_content_type: custom
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.6a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          data:
-            media_content_id: 'turn off 6a plug'
-            media_content_type: custom
 ```
 
 ---

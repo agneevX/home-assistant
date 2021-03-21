@@ -72,20 +72,7 @@ Pure Black:
   hacs-chip-background-color: var(--primary-color)
   # Pre/Code
   markdown-code-background-color: var(--app-header-background-color)
-  # Card-mod
-  card-mod-view: |
-    :host {
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-    .column > * {
-      margin-left: 0px;
-      margin-right: 0px;
-    }
   # Custom theme colors
-  green-color: "#39FF14"
-  yellow-color: "#FFFF00"
-  red-color: "#FF0000"
   qbt-color: "#54A0FF"
   qbt-seeding-color: "#FF9333"
   radarr-color: "#F5BB41"

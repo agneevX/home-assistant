@@ -94,12 +94,6 @@ bedroom_ac_exhaust:
       entity_id: climate.bedroom_ac
       data:
         hvac_mode: cool
-    - service: climate.set_fan_mode
-      entity_id: climate.bedroom_ac
-      data:
-        fan_mode: auto
-    - service: climate.turn_off
-      entity_id: climate.bedroom_ac
 bedroom_ac_swing:
   friendly_name: Bedroom AC Swing
   availability_template: >-
@@ -142,11 +136,11 @@ bedroom_ac_fast_cool:
     - service: climate.set_temperature
       entity_id: climate.bedroom_ac
       data:
-        temperature: 22
+        temperature: 21
     - service: climate.set_fan_mode
       entity_id: climate.bedroom_ac
       data:
-        fan_mode: auto
+        fan_mode: low
     - service: climate.turn_off
       entity_id: climate.bedroom_ac
 bedroom_ac_power:

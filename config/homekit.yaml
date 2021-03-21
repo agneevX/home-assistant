@@ -1,26 +1,32 @@
 name: Home Assistant bridge
+port: 52000
 filter:
   include_domains:
-    - sensor
-    - switch
     - light
     - lock
     - climate
     - fan
     - humidifier
   include_entities:
-    - script.reload_themes
+    - sensor.internet_health
+    - switch.adguard_filtering
+    - switch.jazz_radio
+    - switch.bedroom_ac_exhaust
+    - sensor.broadlink_rm4_mini_humidity
+    - sensor.broadlink_rm4_mini_temperature
+  include_entity_globs:
+    - switch.lofi*
+    - switch.*_plug
   exclude_entities:
+    - light.spotify_volume
     - light.tv_lamp_2
-    - sensor.processor_temperature
-    - sensor.accuweather_realfeel_temperature
-  exclude_entity_globs:
-    - switch.int_*
-    - switch.adaptive*
-    - switch.new_room_echo*
-    - switch.*_shutdown
-    - switch.*_restart
 entity_config:
+  sensor.broadlink_rm4_mini_temperature:
+    name: Bedroom Temperature
+  sensor.broadlink_rm4_mini_humidity:
+    name: Bedroom Humidity
+  switch.adguard_filtering:
+    name: AdGuard Home
   switch.16a_plug:
     type: outlet
   switch.6a_plug:

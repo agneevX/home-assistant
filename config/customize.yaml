@@ -42,6 +42,8 @@ binary_sensor.front_gate_camera_ping:
 binary_sensor.orbi_satellite_ping:
   icon: mdi:access-point-network
 ### Sensors
+sensor.internet_health:
+  device_class: humidity
 sensor.hacs:
   name: HACS
   unit_of_measurement: updates
