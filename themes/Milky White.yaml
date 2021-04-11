@@ -45,7 +45,7 @@ Milky White:
   # Cards
   card-background-color: "#FFFFFF"
   ha-card-border-radius: "16px"
-  ha-card-box-shadow: 0px 3px 5px 1px rgb(230, 230, 230)
+  ha-card-box-shadow: 1px 1px 5px 1px rgb(230, 230, 230)
   paper-dialog-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
@@ -70,9 +70,6 @@ Milky White:
   # HACS
   hacs-chip-background-color: var(--primary-color)
   # Custom theme colors
-  green-color: "#04E700"
-  yellow-color: "#E1E700"
-  red-color: "#FF0000"
   qbt-color: "#3b92ff"
   qbt-seeding-color: "#f78016"
   radarr-color: "#e3ad3b"

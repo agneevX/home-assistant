@@ -22,6 +22,9 @@ Kinda Dark:
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color))
+  # Buttons
+#  paper-item-icon-color: rgb(169, 177, 188)
+#  paper-item-icon-active-color: rgb(138, 180, 248)
   # States and Badges
   state-icon-color: "#5F6267"
   state-icon-active-color: "#5F9BEA"
@@ -43,7 +46,7 @@ Kinda Dark:
   # Cards
   card-background-color: "#202124"
   ha-card-border-radius: "16px"
-  ha-card-box-shadow: 0px 2.5px 2.3px 1px rgb(12, 12, 14)
+  ha-card-box-shadow: 1.5px 1.5px 3px 0.8px rgb(12, 12, 14)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)

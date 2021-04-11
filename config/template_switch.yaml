@@ -1,18 +1,13 @@
 bedroom_echo_bt_speaker:
   friendly_name: Bedroom Echo Bluetooth Connect
-  value_template: "{{ is_state('input_boolean.bedroom_echo_bluetooth_connected_state', 'on') }}"
   icon_template: mdi:speaker-bluetooth
   turn_on:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.bedroom_echo_bluetooth_connected_state
     - service: media_player.play_media
       entity_id: media_player.bedroom_echo
       data:
         media_content_id: 'connect to bluetooth speaker'
         media_content_type: custom
   turn_off:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.bedroom_echo_bluetooth_connected_state
     - service: media_player.play_media
       entity_id: media_player.bedroom_echo
       data:
@@ -60,12 +55,8 @@ bedroom_echo_bt_speaker:
         media_content_type: custom
 qbt_alt_limit:
   friendly_name: qBittorrent Alt Speeds
-  availability_template: >-
-    {% if not is_state('sensor.qbt_state','unavailable') %} true
-    {% else %} false {% endif %}
-  value_template: >-
-    {% if is_state('sensor.qbittorrent_alt_limit_state','1') %} on
-    {% else %} off {% endif %}
+  availability_template: "{{ not is_state('sensor.qbt_state','unavailable') }}"
+  value_template: "{{ is_state('sensor.qbittorrent_alt_limit_state','1') }}"
   icon_template: >-
     {% if is_state('switch.qbt_alt_limit','on') %} mdi:speedometer-slow
     {% else %} mdi:speedometer {% endif %}
@@ -77,28 +68,24 @@ qbt_alt_limit:
       entity_id: switch.int_qbt_alt_limit
 bedroom_ac_exhaust:
   friendly_name: Bedroom AC Exhaust
-  availability_template: >-
-    {% if is_state('remote.broadlink_rm4_mini_remote', 'on') %} true
-    {% else %} false {% endif %}
-  value_template: >-
-    {% if is_state('climate.bedroom_ac', 'fan_only') %} on
-    {% else %} off {% endif %}
+  value_template: "{{ is_state('input_boolean.bedroom_ac_exhaust', 'on') }}"
   icon_template: mdi:fan-chevron-up
   turn_on:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.bedroom_ac_exhaust
     - service: climate.set_hvac_mode
       entity_id: climate.bedroom_ac
       data:
         hvac_mode: fan_only
   turn_off:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.bedroom_ac_exhaust
     - service: climate.set_hvac_mode
       entity_id: climate.bedroom_ac
       data:
         hvac_mode: cool
 bedroom_ac_swing:
   friendly_name: Bedroom AC Swing
-  availability_template: >-
-    {% if is_state('remote.broadlink_rm4_mini_remote', 'on') %} true
-    {% else %} false {% endif %}
   icon_template: mdi:arrow-split-horizontal
   turn_on:
     - service: remote.send_command
@@ -118,9 +105,7 @@ bedroom_ac_fast_cool:
     {% if is_state('climate.bedroom_ac','cool') %}
       {% if is_state_attr('climate.bedroom_ac','temperature',18) %}
         {% if is_state_attr('climate.bedroom_ac','fan_mode','high') %} on
-        {% else %} off {% endif %}
-      {% else %} off {% endif %}
-    {% else %} off {% endif %}
+        {% endif %} {% endif %} {% endif %}
   icon_template: mdi:weather-windy
   turn_on:
     - service: climate.set_temperature
@@ -145,27 +130,11 @@ bedroom_ac_fast_cool:
       entity_id: climate.bedroom_ac
 bedroom_ac_power:
   friendly_name: Bedroom AC Power
-  availability_template: >-
-    {% if is_state('remote.broadlink_rm4_mini_remote', 'on') %} true
-    {% else %} false {% endif %}
   value_template: >-
     {% if not is_state ('climate.bedroom_ac', 'unavailable') %}
       {% if not is_state ('climate.bedroom_ac', 'off') %} true
-      {% else %} false {% endif %}
-    {% else %} false {% endif %}
-  icon_template: >-
-    {% if not is_state('switch.ac_power', 'off') %}
-      {% if is_state('climate.bedroom_ac', 'dry') %} mdi:water-percent
-      {% elif is_state('climate.bedroom_ac', 'cool') %}
-        {% if is_state_attr('climate.bedroom_ac','fan_mode','mid') %} mdi:fan-speed-2
-        {% elif is_state_attr('climate.bedroom_ac','fan_mode','high') %} mdi:fan-speed-3
-        {% else %} mdi:air-conditioner {% endif %}
-      {% elif is_state('climate.bedroom_ac','fan_only') %}
-        {% if is_state_attr('climate.bedroom_ac','fan_mode','auto') %} mdi:autorenew
-        {% elif is_state_attr('climate.bedroom_ac','fan_mode','high') %} mdi:fan-chevron-up
-        {% else %} mdi:fan {% endif %}
-      {% else %} mdi:air-conditioner {% endif %}
-    {% else %} mdi:air-conditioner {% endif %}
+      {% endif %} {% endif %}
+  icon_template: mdi:air-conditioner
   turn_on:
     - service: climate.turn_on
       entity_id: climate.bedroom_ac

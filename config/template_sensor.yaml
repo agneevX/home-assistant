@@ -1,11 +1,26 @@
+orbi_router_wan_out:
+  friendly_name: Orbi Router WAN Out
+  value_template: "{{ (state_attr('sensor.orbi_router_wan_in','sent')|float/125000)|round(2) }}"
+  icon_template: mdi:arrow-up
+  unit_of_measurement: 'Mb/s'
+orbi_router_wan_in_total:
+  friendly_name: Orbi Router WAN In (total)
+  value_template: "{{ (state_attr('sensor.orbi_router','WAN In (total)')|float/(1000*1000))|round }}"
+  icon_template: mdi:arrow-down
+  unit_of_measurement: 'MB'
+orbi_router_wan_out_total:
+  friendly_name: Orbi Router WAN Out (total)
+  value_template: "{{ (state_attr('sensor.orbi_router','WAN Out (total)')|float/(1000*1000))|round }}"
+  icon_template: mdi:arrow-up
+  unit_of_measurement: 'MB'
 outdoor_weather:
   friendly_name: Outdoor Weather
   value_template: >-
-    {{ states('sensor.accuweather_realfeel_temperature')|round }}°C | {{ state_attr('weather.accuweather','humidity')|round }}%
+    {{ states('sensor.accuweather_realfeel_temperature')|round }}°C, {{ state_attr('weather.accuweather','humidity')|round }}%
 indoor_weather:
   friendly_name: Indoor Weather
   value_template: >-
-    {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C | {{ states('sensor.broadlink_rm4_mini_humidity')|round }}%
+    {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C, {{ states('sensor.broadlink_rm4_mini_humidity')|round }}%
 internet_health:
   friendly_name: Internet Health
   value_template: "{{ states('sensor.int_internet_health')|round }}"
@@ -13,12 +28,14 @@ internet_health:
   unit_of_measurement: '%'
 speedtest_net_upload_speed:
   friendly_name: Speedtest.net Upload Speed
-  value_template: "{{ (state_attr('sensor.speedtest_net_download_speed','upload')['bandwidth']|float/125000)|round(1) }}"
+  value_template: >-
+    {{ (state_attr('sensor.speedtest_net_download_speed','upload')['bandwidth']|float/125000)|round(1) }}
   icon_template: mdi:arrow-up
   unit_of_measurement: 'Mb/s'
 tautulli_total_bandwidth:
   friendly_name: Tautulli Total Bandwidth
-  value_template: "{{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}"
+  value_template: >-
+    {{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}
   icon_template: mdi:square-wave
   unit_of_measurement: 'Mb/s'
 knox_free_percent:
@@ -33,27 +50,3 @@ eth0_out:
   friendly_name: eth0 Out
   value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
   unit_of_measurement: 'Mb/s'
-# orbi_daily_down:
-# friendly_name: Orbi - Daily - Down
-# unit_of_measurement: 'MB'
-# value_template: "{{ ((states('sensor.orbi_gateway_b_received')|int)/1000000)|round }}"
-# orbi_daily_up:
-# friendly_name: Orbi - Daily - Up
-# unit_of_measurement: 'MB'
-# value_template: "{{ ((states('sensor.orbi_gateway_b_sent')|int)/1000000)|round }}"
-# orbi_current_down:
-# friendly_name: Orbi - Current - Down
-# unit_of_measurement: "Mb/s"
-# value_template: "{{ ((states('sensor.orbi_gateway_kib_s_received')|int)/1000)|round (1) }}"
-# orbi_current_up:
-# friendly_name: Orbi - Current - Up
-# unit_of_measurement: "Mb/s"
-# value_template: "{{ ((states('sensor.orbi_gateway_kib_s_sent')|int)/1000)|round(1) }}"
-# operator_response_time:
-# friendly_name: Operator response time
-# unit_of_measurement: 'ms'
-# value_template: "{{ state_attr('binary_sensor.operator','round_trip_time_avg')|round(0, "ceil") }}"
-# dns_response_time:
-# friendly_name: DNS response time
-# unit_of_measurement: 'ms'
-# value_template: "{{ state_attr('binary_sensor.dns','round_trip_time_avg')|round(0, "ceil") }}"

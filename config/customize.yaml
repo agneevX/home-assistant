@@ -1,4 +1,3 @@
-### TVs
 media_player.old_room_tv:
   device_class: tv
   icon: mdi:television
@@ -14,21 +13,18 @@ media_player.dining_hall_tv:
 media_player.sony_bravia_tv:
   device_class: tv
   icon: mdi:television
-### Lights
 light.887444182cf43284aac9:
   supported_features: 63
 light.tv_lamp:
   icon: mdi:alarm-light
 light.desk_light:
   icon: mdi:desk-lamp
-### Switches
 switch.x200m_restart:
   icon: mdi:restart
 switch.x200m_shutdown:
   icon: mdi:power
 switch.always_on_restart:
   icon: mdi:restart
-### Binary sensors
 binary_sensor.remote_ui:
   icon: mdi:search-web
 binary_sensor.node_ping:
@@ -41,7 +37,6 @@ binary_sensor.front_gate_camera_ping:
   icon: mdi:cctv
 binary_sensor.orbi_satellite_ping:
   icon: mdi:access-point-network
-### Sensors
 sensor.internet_health:
   device_class: humidity
 sensor.hacs:
@@ -66,7 +61,7 @@ sensor.eth0_in_total:
 sensor.speedtest_net_download_speed:
   icon: mdi:arrow-down
 sensor.load_1m:
-  unit_of_measurement: '1-min'
+  unit_of_measurement: 1-min
 sensor.knox_free_percent:
   unit_of_measurement: '% free'
 sensor.knox_state:
@@ -75,10 +70,8 @@ sensor.drive_state:
   icon: mdi:google-drive
 sensor.outdoor_humidity:
   icon: mdi:water-percent
-# Camera
 camera.front_gate_camera:
   icon: mdi:cctv
-# Media Player
 media_player.bedroom_echo:
   icon: mdi:amazon-alexa
 media_player.new_room_echo:
@@ -87,3 +80,7 @@ media_player.everywhere:
   icon: mdi:amazon-alexa
 media_player.ht_z9f_2:
   icon: mdi:speaker
+sensor.orbi_router:
+  icon: mdi:router-wireless
+sensor.orbi_router_wan_in:
+  icon: mdi:arrow-down

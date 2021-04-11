@@ -1,5 +1,6 @@
 - id: '1587105668264'
-  alias: Set soundbar volume
+  alias: '[hack] Manage soundbar volume'
+  description: Calls shell commands when the main volume entity changes.
   trigger:
   - platform: state
     entity_id: input_number.pi_volume
@@ -9,7 +10,7 @@
   mode: single
 - id: '1587105668090'
   alias: Turn off desk lamp when Plex starts playing
-  description: Desk Lamp turns off when Plex plays media on MBP
+  description: Desk lamp turns off when Plex plays media on MBP
   trigger:
   - platform: template
     value_template: '{{ is_state(''media_player.plex_plex_web_safari_osx'', ''playing'')
@@ -69,7 +70,9 @@
     service: input_boolean.turn_off
   mode: single
 - id: 1e959b5f825c4f71bc72792f183123fa
-  alias: '[frontend] Light theme after reboot in day'
+  alias: '[frontend] Set Light theme after reboot in day'
+  description: If Home Assistant is rebooted in the middle of the day, it sticks to
+    using the set day theme instead of defaulting to an incorrect theme.
   trigger:
   - event: start
     platform: homeassistant
@@ -83,7 +86,9 @@
       name: Milky White
   mode: single
 - id: 8e6525ab98764dfd8d945ee58533462e
-  alias: '[frontend] Dark theme after reboot at night'
+  alias: '[frontend] Set Dark theme after reboot at night'
+  description: If Home Assistant is rebooted at night, it sticks to using the set
+    night theme instead of defaulting to an incorrect theme.
   trigger:
   - event: start
     platform: homeassistant
@@ -99,8 +104,8 @@
       name: Kinda Dark
   mode: single
 - id: '1593856822416'
-  alias: '[frontend] Dark theme (at sunset)'
-  description: ''
+  alias: '[frontend] Set Dark theme'
+  description: Sets the night theme at 6PM everyday
   trigger:
   - platform: time
     at: '18:00:00'
@@ -111,8 +116,9 @@
       name: Kinda Dark
   mode: single
 - id: '1600174827470'
-  alias: '[chore] HA: Purge DB'
-  description: ''
+  alias: '[chore] Home Assistant: Purge DB'
+  description: 'This automation purges the main Home Assistant everyday at 10:30PM,
+    while keeping data for the last 2 weeks. '
   trigger:
   - platform: time
     at: '22:30:00'
@@ -123,11 +129,11 @@
     service: recorder.purge
   mode: single
 - id: '1600689970940'
-  alias: '[frontend] Light theme (at sunrise)'
-  description: ''
+  alias: '[frontend] Set Light theme'
+  description: Sets the day theme at 6AM everyday.
   trigger:
-  - event: sunrise
-    platform: sun
+  - platform: time
+    at: 06:00:00
   condition: []
   action:
   - service: frontend.set_theme
@@ -136,7 +142,7 @@
   mode: single
 - id: '1601100809199'
   alias: Turn on TV Lamp when TV turns on
-  description: Turn on TV Lamp when Bedroom TV is turned on, but only after sunset
+  description: Turns on TV lamp when bedroom TV is turned on, but only after sunset
   trigger:
   - platform: state
     entity_id: media_player.bedroom_tv
@@ -150,36 +156,8 @@
   action:
   - service: light.turn_on
     data: {}
-    entity_id: light.tv_lamp
-  mode: single
-- id: '1602836208889'
-  alias: Turn off AC switches when AC switches off
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: climate.bedroom_ac
-    to: 'off'
-  condition: []
-  action:
-  - service: input_boolean.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.bedroom_ac_jetcool
-    - input_boolean.bedroom_ac_swing
-  mode: single
-- id: '1603983097095'
-  alias: Set tv channel
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_number.stb_channel
-  condition: []
-  action:
-  - service: remote.send_command
-    data:
-      entity_id: remote.broadlink_rm4c_remote
-      device: stb
-      command: '{{ states(''input_number.stb_channel'')|int|string|list }}'
+    target:
+      entity_id: light.tv_lamp
   mode: single
 - id: '1606557136476'
   alias: Turn off AC exhaust after 10 mins
@@ -191,15 +169,15 @@
     for: 00:10:00
   condition:
   - condition: state
-    entity_id: switch.bedroom_ac_exhaust
+    entity_id: input_boolean.bedroom_ac_exhaust
     state: 'on'
   action:
-  - service: switch.turn_off
-    data: {}
-    entity_id: switch.bedroom_ac_exhaust
   - service: climate.turn_off
     data: {}
     entity_id: climate.bedroom_ac
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.bedroom_ac_exhaust
   mode: single
 - id: '1608393503127'
   alias: 'Set AC to Dry when humidity gets too high '
@@ -258,8 +236,9 @@
     entity_id: climate.bedroom_ac
   mode: single
 - id: '1613652995156'
-  alias: Turn up soundbar volume if AC is turned on
-  description: ''
+  alias: Turn up soundbar if AC turned on
+  description: This automation increases the volume of the soundbar if anything is
+    playing and the HVAC is turned on.
   trigger:
   - platform: state
     entity_id: climate.bedroom_ac
@@ -292,8 +271,9 @@
     entity_id: input_number.pi_volume
   mode: single
 - id: '1613653342833'
-  alias: Turn down soundbar volume if AC is turned off
-  description: ''
+  alias: Turn down soundbar if AC is off
+  description: This automation decreases the volume of the soundbar if anything is
+    playing and the HVAC is turned off.
   trigger:
   - platform: state
     entity_id: climate.bedroom_ac
@@ -315,4 +295,170 @@
     entity_id: input_number.pi_volume
   - service: input_number.decrement
     entity_id: input_number.pi_volume
+  mode: single
+- id: '1616410372771'
+  alias: Turn on AC when room gets warm
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.broadlink_rm4_mini_temperature
+    above: '28'
+  condition: []
+  action:
+  - service: climate.set_hvac_mode
+    target:
+      entity_id: climate.bedroom_ac
+    data:
+      hvac_mode: cool
+  mode: single
+- id: '1616410416738'
+  alias: Turn off AC when room gets cool
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.broadlink_rm4_mini_temperature
+    below: '26'
+  condition:
+  - condition: state
+    entity_id: climate.bedroom_ac
+    state: cool
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.bedroom_ac
+  mode: single
+- id: '1616937062281'
+  alias: '[hack] Turn on AC entity if room gets cool'
+  description: If AC is manually switched on, this automation automatically detects
+    this via an decrease in the bedroom temperature and turns the HVAC entity on.
+  trigger:
+  - platform: state
+    entity_id: sensor.broadlink_rm4_mini_temperature
+  condition:
+  - condition: state
+    entity_id: climate.bedroom_ac
+    state: 'off'
+  - condition: template
+    value_template: '{{ trigger.from_state.state|float - trigger.to_state.state|float
+      >= 0.20 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
+      > 240 }}'
+  action:
+  - service: climate.turn_on
+    target:
+      entity_id: climate.bedroom_ac
+  mode: single
+- id: '1616937795644'
+  alias: '[hack] Turn off AC entity if room gets warm'
+  description: If AC is manually turned off, this automation automatically detects
+    this via an increase in the bedroom temperature and turns off the HVAC entity.
+  trigger:
+  - platform: state
+    entity_id: sensor.broadlink_rm4_mini_temperature
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state|float - trigger.from_state.state|float
+      >= 0.2 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
+      > 240 }}'
+  - condition: state
+    entity_id: climate.bedroom_ac
+    state: cool
+  action:
+  - service: climate.turn_off
+    target:
+      entity_id: climate.bedroom_ac
+  mode: single
+- id: '1617211065685'
+  alias: Disconnect speaker after Bedroom Echo stops playing
+  description: Disconnect Bluetooth speaker 10 minutes after Bedroom Echo stops playing
+    from Spotify.
+  trigger:
+  - platform: state
+    entity_id: media_player.spotify
+    to: paused
+    for: 00:10:00
+  condition:
+  - condition: state
+    entity_id: media_player.spotify
+    attribute: source
+    state: Bedroom Echo
+  - condition: state
+    entity_id: switch.bedroom_echo_bt_speaker
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.bedroom_echo_bt_speaker
+  mode: single
+- id: '1617620167457'
+  alias: Connect to speaker if source is set to Bedroom Echo
+  description: Connect Bluetooth speaker if source is set to Spotify
+  trigger:
+  - platform: state
+    entity_id: media_player.spotify
+    attribute: source
+    to: Bedroom Echo
+  condition:
+  - condition: state
+    entity_id: media_player.spotify
+    state: paused
+  - condition: state
+    entity_id: switch.bedroom_echo_bt_speaker
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.bedroom_echo_bt_speaker
+  mode: single
+- id: '1617621437178'
+  alias: Disconnect speaker if Spotify source is changed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.spotify
+    from: Bedroom Echo
+    for: 00:00:10
+    attribute: source
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: media_player.spotify
+      state: playing
+  - condition: state
+    entity_id: switch.bedroom_echo_bt_speaker
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.bedroom_echo_bt_speaker
+  mode: single
+- id: '1617807998575'
+  alias: 'Notify if LAN ports '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.orbi_router
+    attribute: WAN Port
+    from: 100M/full
+  - platform: state
+    entity_id: sensor.orbi_router
+    attribute: LAN Port 1
+    from: 1000M/Full
+  - platform: state
+    entity_id: sensor.orbi_router
+    attribute: LAN Port 2
+    from: 1000M/Full
+  condition: []
+  action:
+  - service: notify.telegram
+    data:
+      title: Home Assistant
+      message: 'Orbi router state changed!  From {{ trigger.from_state }}, to: {{
+        trigger.to_state }}'
   mode: single

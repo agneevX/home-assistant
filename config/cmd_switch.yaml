@@ -1,10 +1,6 @@
 int_qbt_alt_limit:
   command_on: "curl -s -o /dev/null http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
   command_off: "curl -s -o /dev/null http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
-x200m_shutdown:
-  command_on: !secret x200m_shutdown
-x200m_restart:
-  command_on: !secret x200m_restart
 int_lofi_beats:
   command_on: echo "lofi_on" | netcat localhost 7900
   command_off: echo "lofi_off" | netcat localhost 7900

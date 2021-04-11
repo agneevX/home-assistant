@@ -1,10 +1,8 @@
-smartir:
 climate:
   - platform: smartir
     name: Bedroom AC
     unique_id: bedroom_ac
     device_code: 5000
-    delay: 0.7
     temperature_sensor: sensor.broadlink_rm4_mini_temperature
     humidity_sensor: sensor.broadlink_rm4_mini_humidity
     controller_data: remote.broadlink_rm4_mini_remote
@@ -31,15 +29,9 @@ sensor:
   - platform: systemmonitor
     resources:
       - type: processor_temperature
-      - type: processor_use
-      - type: load_1m
       - type: disk_use_percent
         arg: /home/agneev
       - type: disk_use_percent
-        arg: /knox
-      - type: disk_free
-        arg: /knox
-      - type: disk_use
         arg: /knox
   - platform: systemmonitor
     scan_interval: 7
@@ -68,7 +60,6 @@ alexa_media:
     - email: !secret amazon_user
       password: !secret amazon_pass
       url: amazon.in
-logbook:
 telegram_bot:
   - platform: broadcast
     api_key: !secret telegram
@@ -109,12 +100,12 @@ logger:
     androidtv.adb_manager.adb_manager_async: error
     homeassistant.components.androidtv.media_player: error
     homeassistant.components.media_player: error
+#    custom_components.alexa_media: debug  
+#    alexapy: debug
 homeassistant:
   customize: !include customize.yaml
 frontend:
   themes: !include_dir_merge_named themes
-  extra_module_url:
-    - /hacsfiles/custom-sidebar/custom-sidebar.js
 tts:
   - platform: google_translate
 recorder:
@@ -134,6 +125,15 @@ sensor command_line: !include cmd_sensor.yaml
 sensor template:
   platform: template
   sensors: !include template_sensor.yaml
+switch:
+  - platform: netgear_enhanced
+    host: 10.0.0.1
+    port: 80
+    username: admin
+    password: !secret netgear_pass
+    resources:
+      - 'run_speed_test'
+      - 'reboot'
 switch template:
   platform: template
   switches: !include template_switch.yaml
