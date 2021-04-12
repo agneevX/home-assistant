@@ -27,11 +27,13 @@ This layout was designed mobile-first.
     - [Graph row I](#graph-row-i-1)
     - [Graph row II](#graph-row-ii)
     - [Graph row III](#graph-row-iii)
+    - [Graph row IV](#graph-row-iv)
     - [Info row I](#info-row-i)
-    - [Info row II](#info-row-ii)
+    - [Graph row V](#graph-row-v)
   - [Tile view](#tile-view)
     - [Internet graphs](#internet-graphs)
     - [Radarr/Sonarr cards](#radarrsonarr-cards)
+    - [Info row](#info-row)
     - [Devices card](#devices-card)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
@@ -203,12 +205,9 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
-All cards in this view are in a single vertical stack.
-
 ### Badges
 
-- CPU use
-- System load
+- *People presence*
 - Network in
 - Network out
 - HACS updates
@@ -239,8 +238,8 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ### Switch row I
 
-- Night light
-- TV lamp - Color flow
+- Night mode
+- Adaptive Lighting
 - Lo-Fi beats
 - Lo-Fi beats 2
 - Jazz radio
@@ -262,8 +261,6 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - Bedroom temperature
 - Bedroom humidity
 
-Indicates if there's any packet loss within the last hour.
-
 ### Now Playing card
 
 - Automatically lists all active media players
@@ -272,7 +269,7 @@ Indicates if there's any packet loss within the last hour.
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L665)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L648)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -281,7 +278,6 @@ Indicates if there's any packet loss within the last hour.
 </p>
 
 - Front gate camera
-- Adaptive Lighting switches
 
 <p align="center">
   <b>Vertical stack 2</b>
@@ -289,12 +285,13 @@ Indicates if there's any packet loss within the last hour.
 
 - Bedroom AC
   - ... addl. controls
+- Bedroom AC automations
 
 ---
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L886)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L816)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -316,37 +313,42 @@ Tracks states of specific TVs.
 - Download speed (Speedtest.net)
 - Upload speed (Speedtest.net)
 
-Custom-made sensor that uses the official Speedtest.net CLI instead of the rather inaccurate `speedtest-cli`.
+Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedtest.net/apps/cli) instead of the rather inaccurate `speedtest-cli`.
 
 ### Graph row III
 
-- Current network in/out
-- Today total traffic in/out
+- Router live traffic in/out
+- Total router traffic
 
-A combined card that graphs network usage within the last hour.
-
-Custom-made sensor that gets network traffic from `vnstat`.
+Custom implementation that polls data from router via SSH.
 
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
+
+### Graph row IV
+
+- Current server network in/out
+- Total server traffic in/out (today)
+
+A combined card that graphs server network usage within the last hour.
+
+Custom-made sensor that gets network traffic from `vnstat`.
 
 ### Info row I
 
 - qBittorrent active torrents
 - qBittorrent upload/download speed
 
-### Info row II
+### Graph row V
 
-- SSD free %
-- `/knox` free %
-- `/knox` free space
+- ISP node state monitor
 
 ---
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1353)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1349)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -366,6 +368,12 @@ Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in 
 - Radarr/Sonarr ongoing commands
 - Radarr/Sonarr queue
 
+### Info row
+
+- SSD free %
+- `/knox` free %
+- Orbi router info
+
 <p align="center">
   <b>Vertical stack 2</b>
 </p>
@@ -380,7 +388,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1492)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1568)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -404,7 +412,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1767)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1843)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -465,7 +473,6 @@ The four graph cards provide an overview of Plex/network activity in one place a
 
 ## Notes
 
-- Screenshots may not be up-to-date.
 - `int` are "internal" entities that are used inside templates.
 - Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
   - A cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
