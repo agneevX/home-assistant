@@ -7,6 +7,8 @@ This layout was designed mobile-first.
 
 - [Home Assistant setup](#home-assistant-setup)
   - [Background](#background)
+  - [Themes](#themes)
+  - [Add to HACS](#add-to-hacs)
   - [Custom implementations](#custom-implementations)
     - [Alexa devices control](#alexa-devices-control)
     - [Internet health](#internet-health)
@@ -54,6 +56,18 @@ Home Assistant Core installation on Raspberry Pi 4, with MySQL.
 
 More details [here](https://github.com/agneevX/server-setup).
 
+## Themes
+
+| **Milky White** | **Kinda Dark** | **Pure Black** |
+| ----------- | ----------  | --------- |
+| ![Milky White](https://user-images.githubusercontent.com/19761269/114695988-cf353700-9d39-11eb-92d9-9a4a5c181f32.PNG) | ![Kinda Dark](https://user-images.githubusercontent.com/19761269/114695994-d0666400-9d39-11eb-9f05-a03f7793c7f9.PNG) | ![Pure Black](https://user-images.githubusercontent.com/19761269/114695952-c9d7ec80-9d39-11eb-9632-628cb446678e.PNG) |
+
+## Add to HACS
+
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+
+This repository can be added to HACS as a custom repository. A guide can be found [here](https://hacs.xyz/docs/faq/custom_repositories/).
+
 ---
 
 [<i>Skip to lovelace layout</i>](#dashboard)
@@ -67,6 +81,8 @@ These are some of my custom implementations using Home Assistant:
 With custom component `Alexa Media Player`, Home Assistant is able to control any thing that you're able to speak to Alexa.
 
 This requires the use of `input_boolean` helpers to control the state of the entity.
+
+<details><summary>Expand</summary>
 
 E.g. to control a plug...
 
@@ -96,9 +112,13 @@ switch:
             media_content_type: custom
 ```
 
+</details>
+
 ### Internet health
 
 Shows internet packet loss in `%`, if any. Useful for real-time applications like gaming or VoIP calls.
+
+<details><summary>Expand</summary>
 
 ```yaml
 # configuration.yaml
@@ -112,7 +132,7 @@ sensor:
   - platform: history_stats
     name: int_internet_health
     entity_id: binary_sensor.cloudflare_dns_ping
-    state: "on"
+    state: 'on'
     type: ratio
     end: "{{ now() }}"
     duration: 00:05:00
@@ -125,11 +145,15 @@ sensor:
         unit_of_measurement: '%'
 ```
 
+</details>
+
 ### Lo-fi beats
 
 Plays Lo-fi beats live stream from YouTube.
 
 This requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+
+<details><summary>Expand</summary>
 
 ```yaml
 # configuration.yaml
@@ -157,11 +181,15 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 # Truncated. Full in ./hass_socket_script.sh
 ```
 
+</details>
+
 ### Soundbar control
 
 Controls the volume of ALSA - 3.5mm port on the Raspberry Pi. Requires `alsamixer` to be installed.
 
 This involves a `input_number` helper, an automation and a series of shell commands.
+
+<details><summary>Expand</summary>
 
 ```yaml
 # configuration.yaml
@@ -195,6 +223,8 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 # Truncated. Full in ./hass_socket_script.sh
 ```
 
+</details>
+
 ---
 
 ## Lovelace layout
@@ -208,8 +238,7 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 ### Badges
 
 - *People presence*
-- Network in
-- Network out
+- Network in/out
 - HACS updates
 
 _This is the only view that contain badges._
@@ -382,7 +411,7 @@ Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in 
 
 - Network devices list
 
-Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last updated device is always on top.
+Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last-updated device is always on top.
 
 ---
 
@@ -427,8 +456,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ### Graph row II
 
-- Network in
-- Network out
+- Network in/out
 
 The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
 
@@ -474,8 +502,6 @@ The four graph cards provide an overview of Plex/network activity in one place a
 ## Notes
 
 - `int` are "internal" entities that are used inside templates.
-- Shutting down/Rebooting X200M involves a program named `Assistant Computer Control` that runs on the laptop.
-  - A cURL request calls a IFTTT webhook which writes a specific phrase in a file inside OneDrive that the software is able to recognize and perform actions accordingly.
 - The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
 
 ---
