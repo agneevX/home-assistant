@@ -5,27 +5,32 @@ orbi_router_wan_out:
   unit_of_measurement: 'Mb/s'
 orbi_router_wan_in_total:
   friendly_name: Orbi Router WAN In (total)
-  value_template: "{{ (state_attr('sensor.orbi_router','WAN In (total)')|float/(1000*1000))|round }}"
+  value_template: >-
+    {% if state_attr('sensor.orbi_router','WAN In (total)') == None %} missing
+    {% else %}
+      {{ (state_attr('sensor.orbi_router','WAN In (total)')|float/(1000*1000))|round }}
+    {% endif %}
   icon_template: mdi:arrow-down
   unit_of_measurement: 'MB'
 orbi_router_wan_out_total:
   friendly_name: Orbi Router WAN Out (total)
-  value_template: "{{ (state_attr('sensor.orbi_router','WAN Out (total)')|float/(1000*1000))|round }}"
+  value_template: >-
+    {% if state_attr('sensor.orbi_router','WAN Out (total)') == None %} missing
+    {% else %}
+      {{ (state_attr('sensor.orbi_router','WAN Out (total)')|float/(1000*1000))|round }}
+    {% endif %}
   icon_template: mdi:arrow-up
   unit_of_measurement: 'MB'
 outdoor_weather:
   friendly_name: Outdoor Weather
+  unit_of_measurement: '%'
   value_template: >-
-    {{ states('sensor.accuweather_realfeel_temperature')|round }}°C, {{ state_attr('weather.accuweather','humidity')|round }}%
+    {{ states('sensor.accuweather_realfeel_temperature')|round }}°C, {{ state_attr('weather.accuweather','humidity')|round }}
 indoor_weather:
   friendly_name: Indoor Weather
-  value_template: >-
-    {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C, {{ states('sensor.broadlink_rm4_mini_humidity')|round }}%
-internet_health:
-  friendly_name: Internet Health
-  value_template: "{{ states('sensor.int_internet_health')|round }}"
-  icon_template: mdi:ethernet-cable
   unit_of_measurement: '%'
+  value_template: >-
+    {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C, {{ states('sensor.broadlink_rm4_mini_humidity')|round }}
 speedtest_net_upload_speed:
   friendly_name: Speedtest.net Upload Speed
   value_template: >-

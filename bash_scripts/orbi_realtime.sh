@@ -15,30 +15,30 @@ cat << EOF
 EOF
 exit 1; fi
 
-command="(/bin/cat /sys/class/net/brwan/statistics/tx_bytes && \
-/bin/cat /sys/class/net/brwan/statistics/rx_bytes && \
+command="(/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
+/bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes && \
 /bin/sleep 1 && \
-/bin/cat /sys/class/net/brwan/statistics/tx_bytes && \
-/bin/cat /sys/class/net/brwan/statistics/rx_bytes)"
+/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
+/bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes)"
 
 execute=yes;
 if [[ $execute == "yes" ]]; then
   o=$(sshpass -p XXXXX ssh -o StrictHostKeyChecking=no root@10.0.0.1 "$command")
   set -- $o
 
-  transmit="$(echo $1)"
+  sent="$(echo $1)"
   receive="$(echo $2)"
-  transmit2="$(echo $3)"
+  sent2="$(echo $3)"
   receive2="$(echo $4)"
 
-  transmit=$(expr "$transmit2" - "$transmit")
-  receive=$(expr "$receive2" - "$receive")
+  sent=$(( "$sent2" - "$sent"))
+  receive=$(( "$receive2" - "$receive"))
 else exit 1
 fi
 
 cat << EOF
 {
   "receive": "$receive",
-  "sent": "$transmit"
+  "sent": "$sent"
 }
 EOF

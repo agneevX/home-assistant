@@ -11,7 +11,6 @@ This layout was designed mobile-first.
   - [Add to HACS](#add-to-hacs)
   - [Custom implementations](#custom-implementations)
     - [Alexa devices control](#alexa-devices-control)
-    - [Internet health](#internet-health)
     - [Lo-fi beats](#lo-fi-beats)
     - [Soundbar control](#soundbar-control)
   - [Lovelace layout](#lovelace-layout)
@@ -19,30 +18,24 @@ This layout was designed mobile-first.
     - [Badges](#badges)
     - [State row](#state-row)
     - [Lights card](#lights-card)
-    - [Switch row I](#switch-row-i)
-    - [Switch row II](#switch-row-ii)
-    - [Graph row I](#graph-row-i)
+    - [Switch rows](#switch-rows)
+    - [Graph row](#graph-row)
     - [Now Playing card](#now-playing-card)
   - [Controls view](#controls-view)
   - [Info view](#info-view)
     - [TV state row](#tv-state-row)
-    - [Graph row I](#graph-row-i-1)
+    - [Graph rows](#graph-rows)
     - [Graph row II](#graph-row-ii)
     - [Graph row III](#graph-row-iii)
-    - [Graph row IV](#graph-row-iv)
-    - [Info row I](#info-row-i)
-    - [Graph row V](#graph-row-v)
+    - [Info rows](#info-rows)
   - [Tile view](#tile-view)
-    - [Internet graphs](#internet-graphs)
-    - [Radarr/Sonarr cards](#radarrsonarr-cards)
-    - [Info row](#info-row)
+    - [Graph/info rows](#graphinfo-rows)
     - [Devices card](#devices-card)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
     - [Alexa players](#alexa-players)
   - [Plex/TV view](#plextv-view)
-    - [Graph row I](#graph-row-i-2)
-    - [Graph row II](#graph-row-ii-1)
+    - [Graph rows](#graph-rows-1)
     - [Plex/TV players](#plextv-players)
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
@@ -98,7 +91,9 @@ switch:
           entity_id: input_boolean.16a_plug_state
         - service: media_player.play_media
           entity_id: media_player.new_room_echo
-          # Preferably set an Echo device that is rarely used as the echo device actually carries out the command in the foreground
+          # Preferably set an Echo device that is rarely used 
+          # as the Echo device actually carries out the command
+          # in the foreground
           data:
             media_content_id: 'turn on 6a plug'
             media_content_type: custom
@@ -110,39 +105,6 @@ switch:
           data:
             media_content_id: 'turn off 6a plug'
             media_content_type: custom
-```
-
-</details>
-
-### Internet health
-
-Shows internet packet loss in `%`, if any. Useful for real-time applications like gaming or VoIP calls.
-
-<details><summary>Expand</summary>
-
-```yaml
-# configuration.yaml
-binary_sensor:
-  - platform: ping
-    name: Cloudflare DNS ping
-    host: 1.1.1.1
-    count: 1
-    scan_interval: 2
-sensor:
-  - platform: history_stats
-    name: int_internet_health
-    entity_id: binary_sensor.cloudflare_dns_ping
-    state: 'on'
-    type: ratio
-    end: "{{ now() }}"
-    duration: 00:05:00
-  - platform: template
-    sensors: 
-      internet_health:
-        friendly_name: Internet Health
-        value_template: "{{ states('sensor.int_internet_health') | round }}"
-        icon_template: mdi:ethernet-cable
-        unit_of_measurement: '%'
 ```
 
 </details>
@@ -178,7 +140,7 @@ read MESSAGE
 if [[ $MESSAGE == 'lofi_on' ]]; then 
   screen -S lofi -dm /usr/bin/mpv --no-video $(/path/to/youtube-dlc -g -f 95 5qap5aO4i9A); fi
 if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
-# Truncated. Full in ./hass_socket_script.sh
+# Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
 </details>
@@ -220,7 +182,7 @@ Similar to above, the script calls the command `amixer` to increase or decrease 
 
 if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
 if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
-# Truncated. Full in ./hass_socket_script.sh
+# Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
 </details>
@@ -243,10 +205,6 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 _This is the only view that contain badges._
 
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
-
 ### State row
 
 - `/drive` mount
@@ -265,27 +223,20 @@ _This is the only view that contain badges._
 
 Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
 
-### Switch row I
+### Switch rows
 
 - Night mode
 - Adaptive Lighting
 - Lo-Fi beats
 - Lo-Fi beats 2
 - Jazz radio
-
-### Switch row II
-
 - AdGuard Home
 - Bedroom AC
 - Refresh Plex
 - qBittorrent alt. speed mode
 - 16A plug
 
-<p align="center">
-  <b>Vertical stack 2</b>
-</p>
-
-### Graph row I
+### Graph row
 
 - Bedroom temperature
 - Bedroom humidity
@@ -298,19 +249,11 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L648)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L651)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
-
 - Front gate camera
-
-<p align="center">
-  <b>Vertical stack 2</b>
-</p>
 
 - Bedroom AC
   - ... addl. controls
@@ -320,42 +263,30 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L816)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L819)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
-
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
 
 ### TV state row
 
 Tracks states of specific TVs.
 
-### Graph row I
+### Graph rows
 
-- CPU temp.
 - Internet health
-
-### Graph row II
-
 - Download speed (Speedtest.net)
 - Upload speed (Speedtest.net)
 
 Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedtest.net/apps/cli) instead of the rather inaccurate `speedtest-cli`.
 
-### Graph row III
+### Graph row II
 
 - Router live traffic in/out
 - Total router traffic
 
 Custom implementation that polls data from router via SSH.
 
-<p align="center">
-  <b>Vertical stack 2</b>
-</p>
-
-### Graph row IV
+### Graph row III
 
 - Current server network in/out
 - Total server traffic in/out (today)
@@ -364,52 +295,31 @@ A combined card that graphs server network usage within the last hour.
 
 Custom-made sensor that gets network traffic from `vnstat`.
 
-### Info row I
+### Info rows
 
 - qBittorrent active torrents
 - qBittorrent upload/download speed
-
-### Graph row V
-
-- ISP node state monitor
+- SSD free %
+- `/knox` free %
+- Orbi router info
 
 ---
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1349)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1381)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
+### Graph/info rows
 
-### Internet graphs
-
-- Node ping
-- Internet ping
-
-Graphs pings to local ISP node and Cloudflare DNS. This card is very helpful in isolating network issues.
-
-### Radarr/Sonarr cards
-
-- Radarr/Sonarr ongoing commands
-- Radarr/Sonarr queue
-
-### Info row
-
-- SSD free %
-- `/knox` free %
-- Orbi router info
-
-<p align="center">
-  <b>Vertical stack 2</b>
-</p>
+- ISP node state
+- Radarr/Radarr4K/Sonarr queue
+- Sonarr shows/wanted episodes
 
 ### Devices card
 
-- Network devices list
+- LAN clients
 
 Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last-updated device is always on top.
 
@@ -417,7 +327,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1568)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1563)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -441,28 +351,17 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1843)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1838)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
-<p align="center">
-  <b>Vertical stack 1</b>
-</p>
-
-### Graph row I
+### Graph rows
 
 - Plex currently watching
 - Tautulli current bandwidth
-
-### Graph row II
-
 - Network in/out
 
 The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
-
-<p align="center">
-  <b>Vertical stack 2</b>
-</p>
 
 ### Plex/TV players
 
@@ -495,6 +394,7 @@ The four graph cards provide an overview of Plex/network activity in one place a
 - [`rgb-light-card`](https://github.com/bokub/rgb-light-card) by [bokub](https://github.com/bokub)
 - [`simple-thermostat`](https://github.com/nervetattoo/simple-thermostat) by [nervetattoo](https://github.com/nervetattoo)
 - [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+- [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
 ---

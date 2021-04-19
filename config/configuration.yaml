@@ -14,21 +14,13 @@ input_number:
     step: 5
     icon: mdi:volume-high
 sensor:
-  - platform: history_stats
-    name: int_internet_health
-    entity_id: binary_sensor.cloudflare_dns_ping
-    state: "on"
-    type: ratio
-    end: "{{ now() }}"
-    duration: 00:05:00
   - platform: qbittorrent
     name: qBt
-    url: "http://10.0.0.11:8100"
+    url: "http://127.0.0.1:8100"
     username: !secret qbt_user
     password: !secret qbt_pass
   - platform: systemmonitor
     resources:
-      - type: processor_temperature
       - type: disk_use_percent
         arg: /home/agneev
       - type: disk_use_percent
@@ -95,13 +87,6 @@ webostv: !include webos.yaml
 ########## SYSTEM ###########
 logger:
   default: warning
-  logs:
-    homeassistant.components.songpal.media_player: error
-    androidtv.adb_manager.adb_manager_async: error
-    homeassistant.components.androidtv.media_player: error
-    homeassistant.components.media_player: error
-#    custom_components.alexa_media: debug  
-#    alexapy: debug
 homeassistant:
   customize: !include customize.yaml
 frontend:
@@ -125,15 +110,6 @@ sensor command_line: !include cmd_sensor.yaml
 sensor template:
   platform: template
   sensors: !include template_sensor.yaml
-switch:
-  - platform: netgear_enhanced
-    host: 10.0.0.1
-    port: 80
-    username: admin
-    password: !secret netgear_pass
-    resources:
-      - 'run_speed_test'
-      - 'reboot'
 switch template:
   platform: template
   switches: !include template_switch.yaml

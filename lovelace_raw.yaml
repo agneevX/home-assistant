@@ -187,6 +187,12 @@ views:
                 tap_action:
                   action: more-info
                   haptic: light
+                double_tap_action:
+                  action: call-service
+                  haptic: medium
+                  service: switch.turn_off
+                  service_data:
+                    entity_id: switch.reboot_orbi_satellite
                 type: 'custom:button-card'
             type: horizontal-stack
           - entities:
@@ -310,9 +316,6 @@ views:
                   action: toggle
                   haptic: medium
                 double_tap_action:
-                  action: more-info
-                  haptic: light
-                hold_action:
                   action: more-info
                   haptic: light
                 type: 'custom:button-card'
@@ -914,69 +917,33 @@ views:
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
-          - cards:
-              - entities:
-                  - entity: sensor.processor_temperature
-                    name: CPU
-                icon: 'mdi:cpu-64-bit'
-                font_size: 74
-                font_size_header: 12.8
-                line_width: 5
-                hours_to_show: 2
-                points_per_hour: 12
-                decimals: 0
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                color_thresholds:
-                  - value: 75
-                    color: '#FF0000'
-                  - value: 70
-                    color: '#FFA500'
-                  - value: 60
-                    color: '#04E700'
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-              - entities:
-                  - entity: sensor.internet_health
-                    name: Internet
-                font_size: 74
-                font_size_header: 12.8
-                line_width: 5
-                points_per_hour: 18
-                hours_to_show: 1
-                decimals: 0
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                color_thresholds:
-                  - value: 94
-                    color: '#FF0000'
-                  - value: 96
-                    color: '#FFA500'
-                  - value: 98
-                    color: '#04E700'
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-            type: horizontal-stack
+          - entity: binary_sensor.cloudflare_dns_ping
+            type: 'custom:uptime-card'
+            name: Internet
+            icon: 'mdi:ethernet-cable'
+            hours_to_show: 1
+            title_adaptive_color: true
+            status_adaptive_color: true
+            icon_adaptive_color: true
+            average_text: '% up'
+            color_thresholds:
+              - value: 94
+                color: '#C66445'
+              - value: 96
+                color: '#C6B145'
+              - value: 98
+                color: '#45C669'
+            tap_action:
+              action: more-info
+              haptic: light
+            bar:
+              spacing: 4
+              amount: 36
+              height: 22
+              round: 5
+            alias:
+              ok: Online
+              ko: Offline
           - cards:
               - align_icon: state
                 align_state: center
@@ -992,7 +959,7 @@ views:
                 entities:
                   - entity: sensor.speedtest_net_download_speed
                     state_adaptive_color: true
-                font_size: 90
+                font_size: 86
                 hours_to_show: 6
                 line_width: 6
                 points_per_hour: 2
@@ -1025,7 +992,7 @@ views:
                 entities:
                   - entity: sensor.speedtest_net_upload_speed
                     state_adaptive_color: true
-                font_size: 90
+                font_size: 86
                 hours_to_show: 6
                 line_width: 6
                 points_per_hour: 2
@@ -1048,12 +1015,12 @@ views:
           - cards:
               - decimals: 0
                 entities:
-                  - color: '#04E700'
+                  - color: '#3BD97A'
                     entity: sensor.orbi_router_wan_in
-                  - color: '#FFCC00'
+                  - color: '#D9CA3A'
                     entity: sensor.orbi_router_wan_out
-                font_size_header: 12.5
                 hours_to_show: 1
+                font_size_header: 12.9
                 icon: 'mdi:router-wireless'
                 line_width: 2.5
                 name: Local Network
@@ -1078,7 +1045,7 @@ views:
                 type: 'custom:mini-graph-card'
               - cards:
                   - entities:
-                      - color: '#04E700'
+                      - color: '#3BD97A'
                         entity: sensor.orbi_router_wan_in
                         name: WAN In
                         unit: Mb/s
@@ -1101,7 +1068,7 @@ views:
                   - align_icon: left
                     align_state: right
                     entities:
-                      - color: '#FFCC00'
+                      - color: '#D9CA3A'
                         entity: sensor.orbi_router_wan_out
                         name: WAN Out
                     font_size: 72
@@ -1121,72 +1088,74 @@ views:
                         }
                     type: 'custom:mini-graph-card'
                 type: horizontal-stack
+              - cards:
+                  - entities:
+                      - color: '#3BD97A'
+                        entity: sensor.orbi_router_wan_in_total
+                        name: Traffic In
+                    icon: 'mdi:arrow-down-circle'
+                    font_size: 72
+                    font_size_header: 12.7
+                    hours_to_show: 3
+                    points_per_hour: 8
+                    show:
+                      labels: false
+                      points: false
+                      graph: bar
+                      icon_adaptive_color: true
+                      name_adaptive_color: true
+                    card_mod:
+                      style: |
+                        ha-card > div:nth-child(-n+2) {
+                        padding: 0 14px 0 14px !important
+                        }
+                        ha-card > .info {
+                          padding: 0 14px 0px 14px !important
+                        }
+                    type: 'custom:mini-graph-card'
+                  - align_icon: left
+                    align_state: right
+                    entities:
+                      - color: '#D9CA3A'
+                        entity: sensor.orbi_router_wan_out_total
+                        name: Traffic Out
+                    icon: 'mdi:arrow-up-circle'
+                    font_size: 72
+                    font_size_header: 12.7
+                    hours_to_show: 3
+                    points_per_hour: 8
+                    show:
+                      icon_adaptive_color: true
+                      name_adaptive_color: true
+                      graph: bar
+                      labels: false
+                      points: false
+                    card_mod:
+                      style: |
+                        ha-card > div:nth-child(-n+2) {
+                          padding: 0 14px 0 14px !important
+                        }
+                        ha-card > .info {
+                          padding: 0 14px 0px 14px !important
+                        }
+                    type: 'custom:mini-graph-card'
+                type: horizontal-stack
             type: 'custom:vertical-stack-in-card'
-          - cards:
-              - entities:
-                  - color: '#04E700'
-                    entity: sensor.orbi_router_wan_in_total
-                    name: Traffic In (total)
-                icon: 'mdi:arrow-down-circle-outline'
-                font_size: 72
-                font_size_header: 12.5
-                hours_to_show: 3
-                points_per_hour: 15
-                show:
-                  labels: false
-                  points: false
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-              - align_icon: left
-                align_state: right
-                entities:
-                  - color: '#FFCC00'
-                    entity: sensor.orbi_router_wan_out_total
-                    name: Traffic Out (total)
-                icon: 'mdi:arrow-up-circle-outline'
-                font_size: 72
-                font_size_header: 12.5
-                hours_to_show: 3
-                points_per_hour: 15
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-            type: horizontal-stack
         type: vertical-stack
       - cards:
           - cards:
               - decimals: 0
                 entities:
-                  - color: '#04E700'
+                  - color: '#FF7A2D'
                     entity: sensor.eth0_in
-                  - color: '#FFCC00'
+                  - color: '#2EB2FF'
                     entity: sensor.eth0_out
-                font_size_header: 12.5
                 hours_to_show: 1
+                font_size_header: 12.9
                 icon: 'mdi:ethernet'
                 line_width: 2.5
                 name: Network
-                points_per_hour: 60
+                points_per_hour: 50
                 lower_bound: 0
                 show:
                   fill: false
@@ -1207,11 +1176,12 @@ views:
                 type: 'custom:mini-graph-card'
               - cards:
                   - entities:
-                      - color: '#04E700'
+                      - color: '#FF7A2D'
                         entity: sensor.eth0_in_total
                         name: Traffic In
+                    icon: 'mdi:arrow-down-circle-outline'
                     font_size: 72
-                    font_size_header: 12.5
+                    font_size_header: 12.7
                     show:
                       graph: false
                       icon_adaptive_color: true
@@ -1228,11 +1198,12 @@ views:
                   - align_icon: left
                     align_state: right
                     entities:
-                      - color: '#FFCC00'
+                      - color: '#2EB2FF'
                         entity: sensor.eth0_out_total
                         name: Traffic Out
+                    icon: 'mdi:arrow-up-circle-outline'
                     font_size: 72
-                    font_size_header: 12.5
+                    font_size_header: 12.7
                     show:
                       icon_adaptive_color: true
                       name_adaptive_color: true
@@ -1262,7 +1233,7 @@ views:
                         '1' ? 'torrent' : 'torrents'}
                   icon: 'mdi:swap-vertical'
                   font_size: 72
-                  font_size_header: 12.3
+                  font_size_header: 12.5
                   show:
                     icon_adaptive_color: true
                     name_adaptive_color: true
@@ -1278,12 +1249,12 @@ views:
                   type: 'custom:mini-graph-card'
               - entities:
                   - entity: sensor.qbt_up_speed
-                    name: qBt out
+                    name: qBt UL
                     unit: KB/s
                     color: var(--qbt-color)
                 icon: 'mdi:arrow-up'
                 font_size: 72
-                font_size_header: 12.3
+                font_size_header: 12.5
                 decimals: 0
                 show:
                   icon_adaptive_color: true
@@ -1301,11 +1272,11 @@ views:
               - entities:
                   - entity: sensor.qbt_down_speed
                     unit: KB/s
-                    name: qBt in
+                    name: qBt DL
                     color: var(--qbt-color)
                     state_adaptive_color: true
                 font_size: 72
-                font_size_header: 12.3
+                font_size_header: 12.5
                 decimals: 0
                 show:
                   icon_adaptive_color: true
@@ -1321,30 +1292,91 @@ views:
                     }
                 type: 'custom:mini-graph-card'
             type: horizontal-stack
-          - type: 'custom:uptime-card'
-            name: ISP Node
-            icon: 'mdi:server'
-            hours_to_show: 1
-            refresh_interval: 3
-            title_adaptive_color: true
-            status_adaptive_color: true
-            icon_adaptive_color: true
-            average_text: '% uptime'
-            bar:
-              spacing: 4
-              amount: 36
-              height: 22
-              round: 5
-            color: {}
-            show:
-              status: true
-              timeline: true
-              footer: true
-              average: true
-            alias:
-              ok: Online
-              ko: Offline
-            entity: binary_sensor.isp_node_ping
+          - type: horizontal-stack
+            cards:
+              - entities:
+                  - entity: sensor.disk_use_percent_home_agneev
+                    name: SSD
+                font_size: 72
+                font_size_header: 12.8
+                decimals: 1
+                color_thresholds:
+                  - value: 90
+                    color: '#FF0000'
+                  - value: 75
+                    color: '#FFA500'
+                  - value: 60
+                    color: '#04E700'
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  graph: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: 'custom:mini-graph-card'
+              - color_thresholds:
+                  - value: 10
+                    color: '#FF0000'
+                  - value: 20
+                    color: '#FFA500'
+                  - value: 30
+                    color: '#04E700'
+                entities:
+                  - entity: sensor.knox_free_percent
+                    name: /knox
+                icon: 'mdi:database-plus'
+                font_size: 72
+                font_size_header: 12.8
+                decimals: 0
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  graph: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: 'custom:mini-graph-card'
+              - entities:
+                  - entity: sensor.orbi_router
+                    name: Orbi
+                font_size: 70
+                font_size_header: 12.8
+                decimals: 0
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  graph: false
+                state_map:
+                  - value: online
+                    label: Online
+                  - value: offline
+                    label: Offline
+                  - value: partial
+                    label: Partial
+                  - value: timeout
+                    label: Timeout
+                  - value: disabled
+                    label: Disabled
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: 'custom:mini-graph-card'
         type: vertical-stack
   - badges: []
     icon: 'mdi:chart-tree'
@@ -1352,15 +1384,28 @@ views:
     title: Tile
     cards:
       - cards:
-          - type: history-graph
-            entities:
-              - entity: binary_sensor.isp_node_ping
-                name: Node
-              - entity: binary_sensor.cloudflare_dns_ping
-                name: Internet
+          - type: 'custom:uptime-card'
+            name: ISP Node
+            icon: 'mdi:office-building-marker'
             hours_to_show: 1
-            refresh_interval: 3
-          - cards:
+            title_adaptive_color: true
+            status_adaptive_color: true
+            icon_adaptive_color: true
+            average_text: '% uptime'
+            tap_action:
+              action: more-info
+              haptic: light
+            bar:
+              spacing: 4
+              amount: 36
+              height: 22
+              round: 5
+            alias:
+              ok: Online
+              ko: Offline
+            entity: binary_sensor.isp_node_ping
+          - type: horizontal-stack
+            cards:
               - card:
                   entities:
                     - color: var(--radarr-color)
@@ -1368,7 +1413,35 @@ views:
                       unit: >-
                         ${states['sensor.radarr_queue'].state === '1' ? 'Movie'
                         : 'Movies'}
-                      name: Queue
+                      name: Radarr Queue
+                      state_adaptive_color: true
+                  font_size: 86
+                  font_size_header: 13
+                  icon: 'mdi:clock'
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  card_mod:
+                    style: |
+                      ha-card > div:nth-child(-n+2) {
+                        padding: 0 14px 0 14px !important
+                      }
+                      ha-card > .info {
+                        padding: 0 14px 0px 14px !important
+                      }
+                  type: 'custom:mini-graph-card'
+                entities:
+                  - sensor.radarr_queue
+                type: 'custom:config-template-card'
+              - card:
+                  entities:
+                    - color: var(--radarr-color)
+                      entity: sensor.radarr4k_queue
+                      unit: >-
+                        ${states['sensor.radarr4k_queue'].state === '1' ?
+                        'Movie' : 'Movies'}
+                      name: Radarr4K Queue
                       state_adaptive_color: true
                   font_size: 86
                   font_size_header: 13
@@ -1389,11 +1462,12 @@ views:
                 entities:
                   - sensor.radarr_queue
                 type: 'custom:config-template-card'
+          - cards:
               - card:
                   entities:
                     - color: var(--sonarr-color)
                       entity: sensor.sonarr_queue
-                      name: Queue
+                      name: Sonarr Queue
                       unit: >-
                         ${states['sensor.sonarr_queue'].state === '1' ?
                         'Episode' : 'Episodes'}
@@ -1470,85 +1544,6 @@ views:
                 entities:
                   - sensor.sonarr_wanted
                 type: 'custom:config-template-card'
-          - type: horizontal-stack
-            cards:
-              - entities:
-                  - entity: sensor.disk_use_percent_home_agneev
-                    name: SSD
-                font_size: 72
-                font_size_header: 12.8
-                decimals: 1
-                color_thresholds:
-                  - value: 90
-                    color: '#FF0000'
-                  - value: 75
-                    color: '#FFA500'
-                  - value: 60
-                    color: '#04E700'
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  graph: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-              - color_thresholds:
-                  - value: 10
-                    color: '#FF0000'
-                  - value: 20
-                    color: '#FFA500'
-                  - value: 30
-                    color: '#04E700'
-                entities:
-                  - entity: sensor.knox_free_percent
-                    name: /knox
-                icon: 'mdi:database-plus'
-                font_size: 72
-                font_size_header: 12.3
-                decimals: 0
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  graph: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-              - entities:
-                  - entity: sensor.orbi_router
-                    name: Orbi
-                font_size: 70
-                font_size_header: 12
-                decimals: 0
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  graph: false
-                state_map:
-                  - value: online
-                    label: Online
-                  - value: offline
-                    label: Offline
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
         type: vertical-stack
       - cards:
           - card:
@@ -2048,7 +2043,7 @@ views:
           - card:
               cards:
                 - artwork: material
-                  entity: media_player.chromecast
+                  entity: media_player.bedroom_cast
                   volume_step: 2
                   hide:
                     power: true
@@ -2058,7 +2053,7 @@ views:
                   type: 'custom:mini-media-player'
               type: vertical-stack
             conditions:
-              - entity: media_player.chromecast
+              - entity: media_player.bedroom_cast
                 state_not: unavailable
             type: conditional
           - card:

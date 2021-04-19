@@ -1,6 +1,6 @@
 int_qbt_alt_limit:
-  command_on: "curl -s -o /dev/null http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
-  command_off: "curl -s -o /dev/null http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
+  command_on: !secret int_qbt_alt_limit
+  command_off: !secret int_qbt_alt_limit
 int_lofi_beats:
   command_on: echo "lofi_on" | netcat localhost 7900
   command_off: echo "lofi_off" | netcat localhost 7900
@@ -10,3 +10,8 @@ int_lofi_beats2:
 int_jazz_radio:
   command_on: echo "jazz_radio_on" | netcat localhost 7900
   command_off: echo "jazz_radio_off" | netcat localhost 7900
+reboot_orbi_satellite:
+  friendly_name: Reboot Orbi Satellite
+  value_template: "{{ is_state('binary_sensor.orbi_satellite_ping','on') }}"
+  command_on: !secret reboot_orbi_satellite
+  command_off: !secret reboot_orbi_satellite

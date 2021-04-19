@@ -13,7 +13,6 @@ filter:
     - switch.jazz_radio
     - switch.bedroom_ac_exhaust
     - sensor.broadlink_rm4_mini_humidity
-    - sensor.broadlink_rm4_mini_temperature
   include_entity_globs:
     - switch.lofi*
     - switch.*_plug

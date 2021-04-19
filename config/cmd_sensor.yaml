@@ -1,7 +1,7 @@
 - platform: command_line
   name: Orbi Router WAN In
   command: "/bin/bash /home/homeassistant/.homeassistant/orbi_realtime.sh"
-  scan_interval: 5
+  scan_interval: 7
   unit_of_measurement: 'Mb/s'
   value_template: "{{ (value_json.receive|float/125000)|round(2) }}"
   json_attributes:
@@ -13,7 +13,6 @@
   json_attributes:
     - Uptime
     - WAN Uptime
-    - WAN State
     - WAN Port
     - LAN Port 1
     - LAN Port 2
@@ -32,10 +31,15 @@
 - platform: command_line
   name: /drive State
   command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh drive_state"
-  scan_interval: 45
 - platform: command_line
   name: Radarr Queue
   command: !secret radarr_queue
+  unit_of_measurement: 'movies'
+  value_template: "{{ (value_json.totalRecords) }}"
+  scan_interval: 60
+- platform: command_line
+  name: Radarr4K Queue
+  command: !secret radarr4k_queue
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
   scan_interval: 60

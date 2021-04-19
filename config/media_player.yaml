@@ -43,5 +43,10 @@
 - platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64
+  device_class: firetv
+  screencap: false
+#  state_detection_rules:
+#    'in.startv.hotstar':
+
 #- platform: mpd
 #  host: 127.0.0.1
