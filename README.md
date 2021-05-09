@@ -11,8 +11,9 @@ This layout was designed mobile-first.
   - [Add to HACS](#add-to-hacs)
   - [Custom implementations](#custom-implementations)
     - [Alexa devices control](#alexa-devices-control)
-    - [Lo-fi beats](#lo-fi-beats)
+    - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
+    - [Lo-fi beats](#lo-fi-beats)
   - [Lovelace layout](#lovelace-layout)
   - [Dashboard](#dashboard)
     - [Badges](#badges)
@@ -24,9 +25,9 @@ This layout was designed mobile-first.
   - [Controls view](#controls-view)
   - [Info view](#info-view)
     - [TV state row](#tv-state-row)
-    - [Graph rows](#graph-rows)
-    - [Graph row II](#graph-row-ii)
-    - [Graph row III](#graph-row-iii)
+    - [Graph row I/II](#graph-row-iii)
+    - [Graph row III](#graph-row-iii-1)
+    - [Graph row IV](#graph-row-iv)
     - [Info rows](#info-rows)
   - [Tile view](#tile-view)
     - [Graph/info rows](#graphinfo-rows)
@@ -35,11 +36,12 @@ This layout was designed mobile-first.
     - [Spotify player](#spotify-player)
     - [Alexa players](#alexa-players)
   - [Plex/TV view](#plextv-view)
-    - [Graph rows](#graph-rows-1)
+    - [Graph rows](#graph-rows)
     - [Plex/TV players](#plextv-players)
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
+  - [`secrets.yaml` code](#secretsyaml-code)
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
 
@@ -47,7 +49,7 @@ This layout was designed mobile-first.
 
 Home Assistant Core installation on Raspberry Pi 4, with MySQL.
 
-More details [here](https://github.com/agneevX/server-setup).
+More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
@@ -71,13 +73,13 @@ These are some of my custom implementations using Home Assistant:
 
 ### Alexa devices control
 
-With custom component `Alexa Media Player`, Home Assistant is able to control any thing that you're able to speak to Alexa.
-
-This requires the use of `input_boolean` helpers to control the state of the entity.
+With custom component [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player), Home Assistant is able to control any thing that you're able to speak to Alexa.
 
 <details><summary>Expand</summary>
 
-E.g. to control a plug...
+This requires the use of `input_boolean` helpers to control the state of the entity.
+
+E.g. to control a smart plug...
 
 ```yaml
 # configuration.yaml
@@ -109,41 +111,81 @@ switch:
 
 </details>
 
-### Lo-fi beats
+---
 
-Plays Lo-fi beats live stream from YouTube.
+### Netgear Orbi integration
 
-This requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+Using custom firmware and bash scripts, I can integrate router stats like internet usage into Home Assistant
 
-<details><summary>Expand</summary>
+<details><summary>Expand for more info</summary>
 
-```yaml
-# configuration.yaml
-switch:
-  platform: command_line
-  switches:
-    lofi_beats:
-      command_on: echo "lofi_on" | netcat localhost 7900
-      command_off: echo "lofi_off" | netcat localhost 7900
+Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
+
+`vnstat` is required to get usage stats:
+
+```sh
+ssh root@orbirouter.net
+
+cd /opt/bin
+./opkg install vnstat
+./vnstat --create -i eth0
+reboot
 ```
 
-[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd service file](./hass_socket.service)) and listens for commands.
+<b>Get live WAN in/out</b>
 
-Once a switch is turned on, this script is called that starts the playback...
+`configuration.yaml`:
 
-`hass_socket_script.sh`:
+```yaml
+sensor:
+  - platform: command_line
+    name: Orbi Router WAN In
+    command: !secret orbi_wan
+    scan_interval: 5
+    unit_of_measurement: 'Mb/s'
+    value_template: "{{ (value_json.rx.bytespersecond|float/125000)|round(1) }}"
+    json_attributes:
+      - tx
+```
 
-```bash
-#!/bin/bash
-read MESSAGE
+`secrets.yaml`:
 
-if [[ $MESSAGE == 'lofi_on' ]]; then 
-  screen -S lofi -dm /usr/bin/mpv --no-video $(/path/to/youtube-dlc -g -f 95 5qap5aO4i9A); fi
-if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
-# Truncated. Full in ./bash_scripts/hass_socket_script.sh
+```yaml
+orbi_wan: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@orbirouter.net /opt/bin/vnstat --json -tr 2
+```
+
+<b>Get daily WAN usage (total)</b>
+
+`configuration.yaml`:
+
+```yaml
+sensor:
+  - platform: command_line
+    name: Orbi Router vnstat
+    command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh orbi_vnstat"
+    # Script in ./bash_scripts/multiple_actions.sh
+    scan_interval: 120
+    value_template: "{{ (value_json.id) }}"
+    json_attributes:
+      - rx
+      - tx
+  - platform: template
+    sensors:
+      orbi_router_wan_in_total:
+        friendly_name: Orbi Router WAN In (total)
+        unit_of_measurement: 'MB'
+        value_template: "{{ (state_attr('sensor.orbi_router_vnstat','rx')|float/1000)|round }}"
+        icon_template: mdi:arrow-down
+      orbi_router_wan_out_total:
+        friendly_name: Orbi Router WAN Out (total)
+        unit_of_measurement: 'MB'
+        value_template: "{{ (state_attr('sensor.orbi_router_vnstat','tx')|float/1000)|round }}"
+        icon_template: mdi:arrow-up
 ```
 
 </details>
+
+---
 
 ### Soundbar control
 
@@ -189,6 +231,42 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 ---
 
+### Lo-fi beats
+
+Plays Lo-fi beats live stream from YouTube.
+
+This requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+
+<details><summary>Expand</summary>
+
+```yaml
+# configuration.yaml
+switch:
+  platform: command_line
+  switches:
+    lofi_beats:
+      command_on: echo "lofi_on" | netcat localhost 7900
+      command_off: echo "lofi_off" | netcat localhost 7900
+```
+
+[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd service file](./hass_socket.service)) and listens for commands.
+
+Once a switch is turned on, this script is called that starts the playback...
+
+`hass_socket_script.sh`:
+
+```bash
+#!/bin/bash
+read MESSAGE
+
+if [[ $MESSAGE == 'lofi_on' ]]; then 
+  screen -S lofi -dm /usr/bin/mpv --no-video $(/path/to/youtube-dlc -g -f 95 5qap5aO4i9A); fi
+if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
+# Truncated. Full in ./bash_scripts/hass_socket_script.sh
+```
+
+</details>
+
 ## Lovelace layout
 
 ## Dashboard
@@ -200,7 +278,7 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 ### Badges
 
 - *People presence*
-- Network in/out
+- Router WAN in/out
 - HACS updates
 
 _This is the only view that contain badges._
@@ -211,7 +289,7 @@ _This is the only view that contain badges._
 - ASUS laptop
 - `always-on` server
 - Front gate camera
-- Mesh router satellite
+- Mesh router satellite/reboot[<sup>⬇️<sup>](#secretsyaml-code)
 
 ### Lights card
 
@@ -227,13 +305,13 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 - Night mode
 - Adaptive Lighting
-- Lo-Fi beats
-- Lo-Fi beats 2
+- Lofi beats
+- Lofi beats 2
 - Jazz radio
 - AdGuard Home
 - Bedroom AC
 - Refresh Plex
-- qBittorrent alt. speed mode
+- qBittorrent alt. speed mode[<sup>⬇️<sup>](#secretsyaml-code)
 - 16A plug
 
 ### Graph row
@@ -254,10 +332,9 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
 - Front gate camera
-
-- Bedroom AC
-  - ... addl. controls
-- Bedroom AC automations
+- Bedroom AC HVAC
+  - Controls
+  - Automations
 
 ---
 
@@ -271,7 +348,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 Tracks states of specific TVs.
 
-### Graph rows
+### Graph row I/II
 
 - Internet health
 - Download speed (Speedtest.net)
@@ -279,14 +356,14 @@ Tracks states of specific TVs.
 
 Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedtest.net/apps/cli) instead of the rather inaccurate `speedtest-cli`.
 
-### Graph row II
+### Graph row III
 
-- Router live traffic in/out
-- Total router traffic
+- Router live traffic in/out[<sup>⬆<sup>](#netgear-orbi-integration)
+- Total router traffic[<sup>⬆<sup>](#netgear-orbi-integration)
 
 Custom implementation that polls data from router via SSH.
 
-### Graph row III
+### Graph row IV
 
 - Current server network in/out
 - Total server traffic in/out (today)
@@ -297,7 +374,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ### Info rows
 
-- qBittorrent active torrents
+- qBittorrent active torrents[<sup>⬇️<sup>](#secretsyaml-code)
 - qBittorrent upload/download speed
 - SSD free %
 - `/knox` free %
@@ -314,7 +391,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 ### Graph/info rows
 
 - ISP node state
-- Radarr/Radarr4K/Sonarr queue
+- Radarr/Radarr4K/Sonarr queue[<sup>⬇️<sup>](#secretsyaml-code)
 - Sonarr shows/wanted episodes
 
 ### Devices card
@@ -396,6 +473,19 @@ The four graph cards provide an overview of Plex/network activity in one place a
 - [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
 - [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
+
+---
+
+## `secrets.yaml` code
+
+```yaml
+radarr_queue: curl -s 'http://127.0.0.1:9100/api/v3/queue?apiKey=<password>&pageSize=100&includeUnknownMovieItems=false'
+radarr4k_queue: curl -s 'http://127.0.0.1:9200/api/v3/queue?apiKey=<password>&pageSize=100&includeUnknownMovieItems=false'
+qbt_alt_limit_state: curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode
+qbt_active_torrents: curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l
+int_qbt_alt_limit: curl -s http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode
+reboot_orbi_satellite: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
+```
 
 ---
 

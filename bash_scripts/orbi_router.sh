@@ -18,15 +18,6 @@ exit 1; fi
 command="(/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
 /bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes)"
 
-execute=yes
-if [[ $execute == "yes" ]]; then
-  i=$(sshpass -p XXXX ssh -o StrictHostKeyChecking=no root@10.0.0.1 "$command")
-else exit 1; fi
-
-set -- $i
-WAN_IN="$(echo $2)"
-WAN_OUT="$(echo $1)"
-
 timecalc () {
   num="$1"; min=0; hour=0; day=0
   if ((num>59)); then ((num=num/60))
@@ -45,11 +36,7 @@ timecalc () {
 INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic XXXXX')
 if [[ "$INPUT" == *multi_login.html* ]]; then
 cat << EOF
-{
-  "status": "partial",
-  "WAN In (total)": "$WAN_IN",
-  "WAN Out (total)": "$WAN_OUT"
-}
+{"status": "partial"}
 EOF
 exit
 fi
@@ -85,8 +72,6 @@ cat << EOF
   "WAN Port": "$WAN_PORT_SPEED",
   "LAN Port 1": "$LAN_PORT_1_SPEED",
   "LAN Port 2": "$LAN_PORT_2_SPEED",
-  "LAN Port 3": "$LAN_PORT_3_SPEED",
-  "WAN In (total)": "$WAN_IN",
-  "WAN Out (total)": "$WAN_OUT"
+  "LAN Port 3": "$LAN_PORT_3_SPEED"
 }
 EOF
