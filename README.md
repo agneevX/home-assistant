@@ -119,7 +119,7 @@ Using custom firmware and bash scripts, router stats like internet usage can be 
 
 <details><summary>Expand</summary>
 
-Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and [`entware`]() to be installed.
+Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
 
 `vnstat` is required to get usage stats:
 
