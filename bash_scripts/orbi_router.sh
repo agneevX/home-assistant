@@ -1,5 +1,4 @@
 #!/bin/bash
-# shellcheck disable=SC2034,SC2086,SC2219,SC2116
 set -e
 
 DISABLE=no
@@ -7,16 +6,7 @@ if [[ $DISABLE == "yes" ]]; then
 cat << EOF
 {"status": "disabled"}
 EOF
-exit 1; fi
-
-if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then
-cat << EOF
-{"status": "timeout"}
-EOF
-exit 1; fi
-
-command="(/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
-/bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes)"
+exit; fi
 
 timecalc () {
   num="$1"; min=0; hour=0; day=0
@@ -42,12 +32,6 @@ exit
 fi
 
 STAGE2="$(echo "$INPUT"|grep "var "|grep '='|grep '"')"
-
-DEBUG=false
-if [[ $DEBUG == "true" ]]; then
-  echo "$INPUT"; echo "-----"
-  echo "$STAGE2"
-exit 1; fi
 
 SYS_UPTIME="$(echo "$STAGE2" | grep sys_uptime | grep -o '".*"' | sed 's/"//g')"
 SYS_UPTIME=$(timecalc "$SYS_UPTIME")

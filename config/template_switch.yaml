@@ -66,24 +66,6 @@ qbt_alt_limit:
   turn_off:
     - service: switch.turn_off
       entity_id: switch.int_qbt_alt_limit
-bedroom_ac_exhaust:
-  friendly_name: Bedroom AC Exhaust
-  value_template: "{{ is_state('input_boolean.bedroom_ac_exhaust', 'on') }}"
-  icon_template: mdi:fan-chevron-up
-  turn_on:
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.bedroom_ac_exhaust
-    - service: climate.set_hvac_mode
-      entity_id: climate.bedroom_ac
-      data:
-        hvac_mode: fan_only
-  turn_off:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.bedroom_ac_exhaust
-    - service: climate.set_hvac_mode
-      entity_id: climate.bedroom_ac
-      data:
-        hvac_mode: cool
 bedroom_ac_swing:
   friendly_name: Bedroom AC Swing
   icon_template: mdi:arrow-split-horizontal

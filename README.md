@@ -115,16 +115,16 @@ switch:
 
 ### Netgear Orbi integration
 
-Using custom firmware and bash scripts, I can integrate router stats like internet usage into Home Assistant
+Using custom firmware and bash scripts, router stats like internet usage can be integrated into Home Assistant.
 
-<details><summary>Expand for more info</summary>
+<details><summary>Expand</summary>
 
-Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
+Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and [`entware`]() to be installed.
 
 `vnstat` is required to get usage stats:
 
 ```sh
-ssh root@orbirouter.net
+ssh root@routerlogin.net
 
 cd /opt/bin
 ./opkg install vnstat
@@ -134,9 +134,8 @@ reboot
 
 <b>Get live WAN in/out</b>
 
-`configuration.yaml`:
-
 ```yaml
+# configuration.yaml
 sensor:
   - platform: command_line
     name: Orbi Router WAN In
@@ -148,17 +147,15 @@ sensor:
       - tx
 ```
 
-`secrets.yaml`:
-
 ```yaml
-orbi_wan: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@orbirouter.net /opt/bin/vnstat --json -tr 2
+# secrets.yaml
+orbi_wan: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@routerlogin.net /opt/bin/vnstat --json -tr 2
 ```
 
-<b>Get daily WAN usage (total)</b>
-
-`configuration.yaml`:
+<b>Get daily total WAN usage</b>
 
 ```yaml
+# configuration.yaml
 sensor:
   - platform: command_line
     name: Orbi Router vnstat
@@ -189,9 +186,11 @@ sensor:
 
 ### Soundbar control
 
-Controls the volume of ALSA - 3.5mm port on the Raspberry Pi. Requires `alsamixer` to be installed.
+Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
 
 This involves a `input_number` helper, an automation and a series of shell commands.
+
+Requires `alsamixer` to be installed.
 
 <details><summary>Expand</summary>
 
@@ -235,7 +234,7 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 Plays Lo-fi beats live stream from YouTube.
 
-This requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+Requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
 
 <details><summary>Expand</summary>
 
@@ -249,7 +248,7 @@ switch:
       command_off: echo "lofi_off" | netcat localhost 7900
 ```
 
-[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd service file](./hass_socket.service)) and listens for commands.
+[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
 
 Once a switch is turned on, this script is called that starts the playback...
 
@@ -340,7 +339,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L819)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L788)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -384,14 +383,15 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1381)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1374)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
 ### Graph/info rows
 
 - ISP node state
-- Radarr/Radarr4K/Sonarr queue[<sup>⬇️<sup>](#secretsyaml-code)
+- Radarr/Radarr4K queue
+- Sonarr queue[<sup>⬇️<sup>](#secretsyaml-code)/upcoming
 - Sonarr shows/wanted episodes
 
 ### Devices card
@@ -404,7 +404,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1563)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1606)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -428,7 +428,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1838)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1877)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -479,12 +479,12 @@ The four graph cards provide an overview of Plex/network activity in one place a
 ## `secrets.yaml` code
 
 ```yaml
-radarr_queue: curl -s 'http://127.0.0.1:9100/api/v3/queue?apiKey=<password>&pageSize=100&includeUnknownMovieItems=false'
-radarr4k_queue: curl -s 'http://127.0.0.1:9200/api/v3/queue?apiKey=<password>&pageSize=100&includeUnknownMovieItems=false'
+radarr_queue: curl -s 'http://127.0.0.1:9100/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
+radarr4k_queue: curl -s 'http://127.0.0.1:9200/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
 qbt_alt_limit_state: curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode
 qbt_active_torrents: curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l
 int_qbt_alt_limit: curl -s http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode
-reboot_orbi_satellite: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
+reboot_orbi_satellite: sshpass -p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
 ```
 
 ---

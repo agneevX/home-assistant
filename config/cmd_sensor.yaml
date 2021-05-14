@@ -1,17 +1,27 @@
 - platform: command_line
-  name: Orbi Router WAN In
-  command: "/bin/bash /home/homeassistant/.homeassistant/orbi_realtime.sh"
-  scan_interval: 7
-  unit_of_measurement: 'Mb/s'
-  value_template: "{{ (value_json.receive|float/125000)|round(2) }}"
+  name: Orbi Router vnstat
+  command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh orbi_vnstat"
+  scan_interval: 120
+  value_template: "{{ (value_json.id) }}"
   json_attributes:
-    - sent
+    - rx
+    - tx
+- platform: command_line
+  name: Orbi Router WAN In
+  command: !secret orbi_wan
+  scan_interval: 5
+  unit_of_measurement: 'Mb/s'
+  value_template: "{{ (value_json.rx.bytespersecond|float/125000)|round(1) }}"
+  json_attributes:
+    - tx
 - platform: command_line
   name: Orbi Router
   command: "/bin/bash /home/homeassistant/.homeassistant/orbi_router.sh"
   value_template: "{{ (value_json.status) }}"
+  scan_interval: 20
   json_attributes:
     - Uptime
+    - System load
     - WAN Uptime
     - WAN Port
     - LAN Port 1
@@ -36,17 +46,15 @@
   command: !secret radarr_queue
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
-  scan_interval: 60
 - platform: command_line
   name: Radarr4K Queue
   command: !secret radarr4k_queue
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
-  scan_interval: 60
 - platform: command_line
   name: Speedtest.net Download Speed
-  command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh spdtst"
-  command_timeout: 120
+  command: "/bin/bash /home/homeassistant/.homeassistant/spdtst.sh"
+  command_timeout: 180
   scan_interval: 00:30:00
   unit_of_measurement: 'Mb/s'
   value_template: "{{ (value_json.download.bandwidth|float/125000)|round(1) }}"

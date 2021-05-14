@@ -16,7 +16,7 @@ input_number:
 sensor:
   - platform: qbittorrent
     name: qBt
-    url: "http://127.0.0.1:8100"
+    url: !secret qbt_url
     username: !secret qbt_user
     password: !secret qbt_pass
   - platform: systemmonitor

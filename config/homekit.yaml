@@ -8,20 +8,20 @@ filter:
     - fan
     - humidifier
   include_entities:
-    - sensor.internet_health
     - switch.adguard_filtering
     - switch.jazz_radio
-    - switch.bedroom_ac_exhaust
+    - switch.reboot_orbi_satellite
+    - switch.adaptive_lighting
     - sensor.broadlink_rm4_mini_humidity
+    - binary_sensor.orbi_satellite_ping
   include_entity_globs:
     - switch.lofi*
     - switch.*_plug
   exclude_entities:
-    - light.spotify_volume
     - light.tv_lamp_2
 entity_config:
-  sensor.broadlink_rm4_mini_temperature:
-    name: Bedroom Temperature
+  binary_sensor.orbi_satellite_ping:
+    name: Orbi Satellite
   sensor.broadlink_rm4_mini_humidity:
     name: Bedroom Humidity
   switch.adguard_filtering:
@@ -32,5 +32,3 @@ entity_config:
     type: outlet
   light.soundbar_volume:
     name: Soundbar
-  switch.bedroom_ac_exhaust:
-    name: AC Exhaust

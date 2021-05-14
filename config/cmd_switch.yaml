@@ -12,6 +12,5 @@ int_jazz_radio:
   command_off: echo "jazz_radio_off" | netcat localhost 7900
 reboot_orbi_satellite:
   friendly_name: Reboot Orbi Satellite
-  value_template: "{{ is_state('binary_sensor.orbi_satellite_ping','on') }}"
   command_on: !secret reboot_orbi_satellite
   command_off: !secret reboot_orbi_satellite

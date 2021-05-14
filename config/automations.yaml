@@ -159,26 +159,6 @@
     target:
       entity_id: light.tv_lamp
   mode: single
-- id: '1606557136476'
-  alias: Turn off AC exhaust after 10 mins
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: switch.bedroom_ac_exhaust
-    to: 'on'
-    for: 00:10:00
-  condition:
-  - condition: state
-    entity_id: input_boolean.bedroom_ac_exhaust
-    state: 'on'
-  action:
-  - service: climate.turn_off
-    data: {}
-    entity_id: climate.bedroom_ac
-  - service: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.bedroom_ac_exhaust
-  mode: single
 - id: '1608393503127'
   alias: 'Set AC to Dry when humidity gets too high '
   description: ''
@@ -342,7 +322,7 @@
     state: 'off'
   - condition: template
     value_template: '{{ trigger.from_state.state|float - trigger.to_state.state|float
-      > 0.10 }}'
+      > 0.14 }}'
   - condition: template
     value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
       > 240 }}'
@@ -361,7 +341,7 @@
   condition:
   - condition: template
     value_template: '{{ trigger.to_state.state|float - trigger.from_state.state|float
-      >= 0.25 }}'
+      >= 0.21 }}'
   - condition: template
     value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
       > 240 }}'

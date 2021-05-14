@@ -34,13 +34,13 @@ views:
         icon: 'mdi:face-woman'
       - entity: person.dad
         icon: 'mdi:face'
-      - entity: sensor.eth0_in
-        name: eth0 in
+      - entity: sensor.orbi_router_wan_in
+        name: WAN In
         card_mod:
           style: |
             :host { --label-badge-red: var(--primary-color); }
-      - entity: sensor.eth0_out
-        name: eth0 out
+      - entity: sensor.orbi_router_wan_out
+        name: WAN Out
         card_mod:
           style: |
             :host { --label-badge-red: var(--primary-color); }
@@ -190,7 +190,7 @@ views:
                 double_tap_action:
                   action: call-service
                   haptic: medium
-                  service: switch.turn_off
+                  service: switch.toggle
                   service_data:
                     entity_id: switch.reboot_orbi_satellite
                 type: 'custom:button-card'
@@ -320,7 +320,7 @@ views:
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                entity: switch.adaptive_lighting_adaptive
+                entity: switch.adaptive_lighting
                 show_name: false
                 size: 37%
                 state:
@@ -747,37 +747,6 @@ views:
                   action: more-info
                   haptic: light
                 type: 'custom:button-card'
-              - entity: switch.bedroom_ac_exhaust
-                layout: icon_name_state
-                name: EXHAUST
-                size: 45%
-                color_type: card
-                state:
-                  - value: 'off'
-                    styles:
-                      icon:
-                        - color: var(--primary-text-color)
-                      name:
-                        - color: var(--primary-text-color)
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 13px
-                    - height: 44px
-                    - font-weight: bold
-                tap_action:
-                  action: toggle
-                  haptic: medium
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: 'custom:button-card'
               - entity: switch.bedroom_ac_fast_cool
                 layout: icon_name_state
                 name: FAST COOL
@@ -921,17 +890,20 @@ views:
             type: 'custom:uptime-card'
             name: Internet
             icon: 'mdi:ethernet-cable'
+            ko_icon: 'mdi:ethernet-cable-off'
             hours_to_show: 1
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
-            average_text: '% up'
+            average_template: '[[[ return variables.uptime.toFixed(1); ]]]% up'
             color_thresholds:
-              - value: 94
+              - value: 0
+                color: '#FF0000'
+              - value: 95
                 color: '#C66445'
-              - value: 96
+              - value: 97
                 color: '#C6B145'
-              - value: 98
+              - value: 100
                 color: '#45C669'
             tap_action:
               action: more-info
@@ -939,11 +911,23 @@ views:
             bar:
               spacing: 4
               amount: 36
-              height: 22
+              height: 24
               round: 5
             alias:
               ok: Online
               ko: Offline
+            card_mod:
+              style: |
+                ha-card .name > span {
+                  font-size: 1.3em;
+                }
+                ha-card .status > span {
+                  font-size: 1.1em;
+                  max-height: 1.1em;
+                }
+                ha-card .timeline {
+                  padding-bottom: 2px;
+                }
           - cards:
               - align_icon: state
                 align_state: center
@@ -1021,7 +1005,7 @@ views:
                     entity: sensor.orbi_router_wan_out
                 hours_to_show: 1
                 font_size_header: 12.9
-                icon: 'mdi:router-wireless'
+                icon: 'mdi:access-point-network'
                 line_width: 2.5
                 name: Local Network
                 points_per_hour: 60
@@ -1041,6 +1025,9 @@ views:
                     }
                     ha-card > .info {
                       padding: 0 14px 0px 14px !important
+                    }
+                    ha-card > .name > span {
+                      font-size: 1.12em;
                     }
                 type: 'custom:mini-graph-card'
               - cards:
@@ -1094,10 +1081,10 @@ views:
                         entity: sensor.orbi_router_wan_in_total
                         name: Traffic In
                     icon: 'mdi:arrow-down-circle'
-                    font_size: 72
+                    font_size: 74
                     font_size_header: 12.7
                     hours_to_show: 3
-                    points_per_hour: 8
+                    points_per_hour: 5
                     show:
                       labels: false
                       points: false
@@ -1120,10 +1107,10 @@ views:
                         entity: sensor.orbi_router_wan_out_total
                         name: Traffic Out
                     icon: 'mdi:arrow-up-circle'
-                    font_size: 72
+                    font_size: 74
                     font_size_header: 12.7
                     hours_to_show: 3
-                    points_per_hour: 8
+                    points_per_hour: 5
                     show:
                       icon_adaptive_color: true
                       name_adaptive_color: true
@@ -1157,6 +1144,7 @@ views:
                 name: Network
                 points_per_hour: 50
                 lower_bound: 0
+                cache: false
                 show:
                   fill: false
                   name_adaptive_color: true
@@ -1180,7 +1168,7 @@ views:
                         entity: sensor.eth0_in_total
                         name: Traffic In
                     icon: 'mdi:arrow-down-circle-outline'
-                    font_size: 72
+                    font_size: 74
                     font_size_header: 12.7
                     show:
                       graph: false
@@ -1202,7 +1190,7 @@ views:
                         entity: sensor.eth0_out_total
                         name: Traffic Out
                     icon: 'mdi:arrow-up-circle-outline'
-                    font_size: 72
+                    font_size: 74
                     font_size_header: 12.7
                     show:
                       icon_adaptive_color: true
@@ -1350,7 +1338,7 @@ views:
               - entities:
                   - entity: sensor.orbi_router
                     name: Orbi
-                font_size: 70
+                font_size: 72
                 font_size_header: 12.8
                 decimals: 0
                 show:
@@ -1377,6 +1365,11 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                 type: 'custom:mini-graph-card'
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.orbi_router
+                attribute: System load
         type: vertical-stack
   - badges: []
     icon: 'mdi:chart-tree'
@@ -1385,25 +1378,47 @@ views:
     cards:
       - cards:
           - type: 'custom:uptime-card'
+            entity: binary_sensor.isp_node_ping
             name: ISP Node
-            icon: 'mdi:office-building-marker'
+            icon: 'mdi:transmission-tower'
+            ko_icon: 'mdi:signal-off'
             hours_to_show: 1
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
-            average_text: '% uptime'
+            average_template: '[[[ return variables.uptime.toFixed(1); ]]]% up'
             tap_action:
               action: more-info
               haptic: light
             bar:
               spacing: 4
               amount: 36
-              height: 22
+              height: 24
               round: 5
             alias:
               ok: Online
               ko: Offline
-            entity: binary_sensor.isp_node_ping
+            color_thresholds:
+              - value: 0
+                color: '#FF0000'
+              - value: 95
+                color: '#C66445'
+              - value: 97
+                color: '#C6B145'
+              - value: 100
+                color: '#45C669'
+            card_mod:
+              style: |
+                ha-card .name > span {
+                  font-size: 1.3em;
+                }
+                ha-card .status > span {
+                  font-size: 1.1em;
+                  max-height: 1.1em;
+                }
+                ha-card .timeline {
+                  padding-bottom: 2px;
+                }
           - type: horizontal-stack
             cards:
               - card:
@@ -1413,7 +1428,7 @@ views:
                       unit: >-
                         ${states['sensor.radarr_queue'].state === '1' ? 'Movie'
                         : 'Movies'}
-                      name: Radarr Queue
+                      name: Queue
                       state_adaptive_color: true
                   font_size: 86
                   font_size_header: 13
@@ -1467,9 +1482,37 @@ views:
                   entities:
                     - color: var(--sonarr-color)
                       entity: sensor.sonarr_queue
-                      name: Sonarr Queue
+                      name: Queue
                       unit: >-
                         ${states['sensor.sonarr_queue'].state === '1' ?
+                        'Episode' : 'Episodes'}
+                      state_adaptive_color: true
+                  font_size: 86
+                  font_size_header: 13
+                  icon: 'mdi:progress-clock'
+                  show:
+                    graph: false
+                    icon_adaptive_color: true
+                    name_adaptive_color: true
+                  card_mod:
+                    style: |
+                      ha-card > div:nth-child(-n+2) {
+                        padding: 0 14px 0 14px !important
+                      }
+                      ha-card > .info {
+                        padding: 0 14px 0px 14px !important
+                      }
+                  type: 'custom:mini-graph-card'
+                entities:
+                  - sensor.sonarr_queue
+                type: 'custom:config-template-card'
+              - card:
+                  entities:
+                    - color: var(--sonarr-color)
+                      entity: sensor.sonarr_upcoming
+                      name: Upcoming
+                      unit: >-
+                        ${states['sensor.sonarr_upcoming'].state === '1' ?
                         'Episode' : 'Episodes'}
                       state_adaptive_color: true
                   font_size: 86
@@ -1591,7 +1634,6 @@ views:
             type: 'custom:mini-media-player'
             volume_step: '2'
             scale: '0.97'
-            icon: s
             idle_view:
               after: 10
               when_idle: true
@@ -1623,7 +1665,6 @@ views:
             type: 'custom:mini-media-player'
             volume_step: '2'
             scale: '0.97'
-            icon: 1
             idle_view:
               when_idle: true
               when_standby: true
@@ -1728,7 +1769,6 @@ views:
               after: 10
               when_idle: true
               when_standby: true
-            icon: s
           - cards:
               - color_type: card
                 entity: switch.new_room_echo_do_not_disturb_switch
@@ -1830,7 +1870,6 @@ views:
               after: 10
               when_idle: true
               when_standby: true
-            icon: s
         type: vertical-stack
     icon: 'mdi:remote'
     path: remotes
