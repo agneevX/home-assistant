@@ -1,1 +1,8 @@
 .DS_Store
+secrets.yaml
+known_devices.yaml
+
+fan.yaml
+groups.yaml
+scenes.yaml
+scripts.yaml

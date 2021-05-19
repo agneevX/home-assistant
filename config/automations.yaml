@@ -341,7 +341,7 @@
   condition:
   - condition: template
     value_template: '{{ trigger.to_state.state|float - trigger.from_state.state|float
-      >= 0.21 }}'
+      >= 0.25 }}'
   - condition: template
     value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
       > 240 }}'
@@ -442,3 +442,37 @@
       message: 'Orbi router state changed!  From {{ trigger.from_state }}, to: {{
         trigger.to_state }}'
   mode: single
+- id: '1621069557216'
+  alias: '[hack] Siti cable box HK widget'
+  description: ''
+  trigger:
+  - platform: event
+    context: {}
+    event_type: homekit_tv_remote_key_pressed
+    event_data:
+      entity_id: media_player.siti_cable_box
+  condition: []
+  action:
+  - service: remote.send_command
+    data:
+      device: siti_cable_box
+      command: '{% set key_map = {''arrow_right'': ''arrow-right'', ''arrow_down''
+        : ''arrow-down'', ''arrow_left'': ''arrow-left'', ''arrow_up'': ''arrow-up'',  ''select'':
+        ''ok'', ''back'': ''back'', ''information'': ''info''} %} {{ key_map[trigger.event.data[''key_name'']]
+        }}'
+  mode: single
+- id: '1621071296517'
+  alias: Call webostv.button on HomeKit Remote key presses
+  trigger:
+  - platform: event
+    event_type: homekit_tv_remote_key_pressed
+    event_data:
+      entity_id: media_player.living_room_tv
+  action:
+  - service: webostv.button
+    data_template:
+      entity_id: '{{ trigger.event.data[''entity_id''] }}'
+      button: '{% set key_map = {''arrow_right'': ''RIGHT'', ''arrow_down'' : ''DOWN'',
+        ''arrow_left'': ''LEFT'', ''arrow_up'': ''UP'',  ''select'': ''ENTER'', ''back'':
+        ''BACK'', ''information'': ''HOME''} %} {{ key_map[trigger.event.data[''key_name'']]
+        }}'

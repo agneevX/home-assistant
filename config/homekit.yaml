@@ -1,34 +1,38 @@
-name: Home Assistant bridge
-port: 52000
-filter:
-  include_domains:
-    - light
-    - lock
-    - climate
-    - fan
-    - humidifier
-  include_entities:
-    - switch.adguard_filtering
-    - switch.jazz_radio
-    - switch.reboot_orbi_satellite
-    - switch.adaptive_lighting
-    - sensor.broadlink_rm4_mini_humidity
-    - binary_sensor.orbi_satellite_ping
-  include_entity_globs:
-    - switch.lofi*
-    - switch.*_plug
-  exclude_entities:
-    - light.tv_lamp_2
-entity_config:
-  binary_sensor.orbi_satellite_ping:
-    name: Orbi Satellite
-  sensor.broadlink_rm4_mini_humidity:
-    name: Bedroom Humidity
-  switch.adguard_filtering:
-    name: AdGuard Home
-  switch.16a_plug:
-    type: outlet
-  switch.6a_plug:
-    type: outlet
-  light.soundbar_volume:
-    name: Soundbar
+- name: Home Assistant bridge
+  port: 52000
+  filter:
+    include_domains:
+      - light
+      - lock
+      - climate
+      - fan
+      - humidifier
+    include_entities:
+      - switch.adguard_filtering
+      - switch.jazz_radio
+      - switch.reboot_orbi_satellite
+      - switch.adaptive_lighting
+      - switch.adaptive_lighting_sleep_mode_adaptive
+      - sensor.broadlink_rm4_mini_humidity
+      - binary_sensor.orbi_satellite_ping
+      - media_player.siti_cable_stb
+    include_entity_globs:
+      - switch.lofi*
+      - switch.*_plug
+    exclude_entities:
+      - light.tv_lamp_2
+  entity_config:
+    switch.adaptive_lighting_sleep_mode_adaptive:
+      name: Sleep mode
+    binary_sensor.orbi_satellite_ping:
+      name: Orbi Satellite
+    sensor.broadlink_rm4_mini_humidity:
+      name: Bedroom Humidity
+    switch.adguard_filtering:
+      name: AdGuard Home
+    switch.16a_plug:
+      type: outlet
+    switch.6a_plug:
+      type: outlet
+    light.soundbar_volume:
+      name: Soundbar

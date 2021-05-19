@@ -1,18 +1,19 @@
 - platform: command_line
-  name: Orbi Router vnstat
-  command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh orbi_vnstat"
+  name: Orbi Router vnstat (total)
+  command: "/bin/bash /home/homeassistant/.homeassistant/orbi_router.sh vnstat_total"
   scan_interval: 120
-  value_template: "{{ (value_json.id) }}"
+  value_template: "{{ value_json.id }}"
   json_attributes:
     - rx
     - tx
 - platform: command_line
-  name: Orbi Router WAN In
-  command: !secret orbi_wan
+  name: Orbi Router vnstat (live)
+  command: "/bin/bash /home/homeassistant/.homeassistant/orbi_router.sh vnstat_live"
   scan_interval: 5
   unit_of_measurement: 'Mb/s'
-  value_template: "{{ (value_json.rx.bytespersecond|float/125000)|round(1) }}"
+  value_template: "{{ value_json.interface }}"
   json_attributes:
+    - rx
     - tx
 - platform: command_line
   name: Orbi Router

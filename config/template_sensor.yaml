@@ -1,16 +1,27 @@
+orbi_router_wan_in:
+  friendly_name: Orbi Router WAN In
+  value_template: >-
+    {% if state_attr('sensor.orbi_router_vnstat_live','rx')['bytespersecond'] != None %}
+       {{ (state_attr('sensor.orbi_router_vnstat_live','rx')['bytespersecond']|float/125000)|round(1) }}
+    {% else %} missing {% endif %}
+  icon_template: mdi:arrow-down
+  unit_of_measurement: 'Mb/s'
 orbi_router_wan_out:
   friendly_name: Orbi Router WAN Out
-  value_template: "{{ (state_attr('sensor.orbi_router_wan_in','tx')['bytespersecond']|float/125000)|round(1) }}"
+  value_template: >-
+    {% if state_attr('sensor.orbi_router_vnstat_live','tx')['bytespersecond'] != None %}
+       {{ (state_attr('sensor.orbi_router_vnstat_live','tx')['bytespersecond']|float/125000)|round(1) }}
+    {% else %} missing {% endif %}
   icon_template: mdi:arrow-up
   unit_of_measurement: 'Mb/s'
 orbi_router_wan_in_total:
   friendly_name: Orbi Router WAN In (total)
-  value_template: "{{ (state_attr('sensor.orbi_router_vnstat','rx')|float/1000)|round }}"
+  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_total','rx')|float/1000)|round }}"
   icon_template: mdi:arrow-down
   unit_of_measurement: 'MB'
 orbi_router_wan_out_total:
   friendly_name: Orbi Router WAN Out (total)
-  value_template: "{{ (state_attr('sensor.orbi_router_vnstat','tx')|float/1000)|round }}"
+  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_total','tx')|float/1000)|round }}"
   icon_template: mdi:arrow-up
   unit_of_measurement: 'MB'
 outdoor_weather:

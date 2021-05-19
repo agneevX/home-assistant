@@ -84,3 +84,7 @@ sensor.orbi_router:
   icon: mdi:router-wireless
 sensor.orbi_router_wan_in:
   icon: mdi:arrow-down
+media_player.siti_cable_stb:
+  icon: mdi:set-top-box
+media_player.ht_z9f:
+  icon: mdi:speaker-wireless

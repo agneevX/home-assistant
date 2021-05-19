@@ -14,6 +14,45 @@ input_number:
     step: 5
     icon: mdi:volume-high
 sensor:
+  - platform: netdata
+    host: 10.0.0.1
+    name: Orbi Router
+    resources:
+      eth0_inbound_errors:
+        data_group: net_errors.eth0
+        element: inbound
+      eth0_outbound_errors:
+        data_group: net_errors.eth0
+        element: outbound
+        invert: true
+      eth0_inbound_drops:
+        data_group: net_errors.eth0
+        element: inbound
+      eth0_outbound_drops:
+        data_group: net_errors.eth0
+        element: outbound
+        invert: true
+#      backhaul_receive:
+#        data_group: net.ath2
+#        element: received
+#      backhaul_sent:
+#        data_group: net.ath2
+#        element: sent
+#        invert: true
+#      guest_2.4_receive:
+#        data_group: net.ath02
+#        element: received
+#      guest_2.4_sent:
+#        data_group: net.ath02
+#        element: sent
+#        invert: true
+#      guest_5_receive:
+#        data_group: net.ath11
+#        element: received
+#      guest_5_sent:
+#        data_group: net.ath11
+#        element: sent
+#        invert: true
   - platform: qbittorrent
     name: qBt
     url: !secret qbt_url
@@ -34,7 +73,7 @@ sensor:
         arg: eth0
   - platform: tautulli
     api_key: !secret tautulli_api_key
-    host: 127.0.0.1
+    host: 10.0.0.10
     monitored_users:
       - agneev
 device_tracker:

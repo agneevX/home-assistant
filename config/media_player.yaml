@@ -1,3 +1,9 @@
+- platform: smartir
+  name: Siti Cable STB
+  unique_id: bedroom_cable_stb
+  device_code: 1000
+  controller_data: remote.broadlink_rm4_mini_remote
+  power_sensor: media_player.bedroom_tv
 - platform: universal
   name: Sony Bravia TV
   state_template: >-
