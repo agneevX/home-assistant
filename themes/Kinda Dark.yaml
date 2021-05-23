@@ -1,4 +1,5 @@
 Kinda Dark:
+  card-mod-theme: "Kinda Dark"
   cc-button-card: var(--app-header-text-color)
   # Header:
   app-header-background-color: "#171717"
@@ -73,7 +74,17 @@ Kinda Dark:
   # Pre/Code
   markdown-code-background-color: "#171717"
   # Custom theme colors
+
+  green-color: "#04F000"
+  orange-color: "#FFC14D"
+  red-color: "#FFBDBD"
   qbt-color: "#54A0FF"
   qbt-seeding-color: "#FF9333"
   radarr-color: "#F5BB41"
   sonarr-color: "#23CDFD"
+
+  card-mod-view-yaml: |
+    "*:first-child$": |
+      :host {
+        padding-top: 2px;
+      }

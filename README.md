@@ -277,7 +277,7 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 ### Badges
 
 - *People presence*
-- Router WAN in/out
+- Ethernet in/out
 - HACS updates
 
 _This is the only view that contain badges._
@@ -326,7 +326,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L651)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L677)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -339,7 +339,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L788)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L821)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -383,7 +383,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1374)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1308)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -404,7 +404,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1606)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1541)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -428,7 +428,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1877)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1818)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -481,9 +481,6 @@ The four graph cards provide an overview of Plex/network activity in one place a
 ```yaml
 radarr_queue: curl -s 'http://127.0.0.1:9100/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
 radarr4k_queue: curl -s 'http://127.0.0.1:9200/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
-qbt_alt_limit_state: curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode
-qbt_active_torrents: curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l
-int_qbt_alt_limit: curl -s http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode
 reboot_orbi_satellite: sshpass -p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
 ```
 

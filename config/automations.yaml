@@ -341,7 +341,7 @@
   condition:
   - condition: template
     value_template: '{{ trigger.to_state.state|float - trigger.from_state.state|float
-      >= 0.25 }}'
+      >= 0.29 }}'
   - condition: template
     value_template: '{{ as_timestamp(now())|int - as_timestamp(states.climate.bedroom_ac.last_changed)|int
       > 240 }}'

@@ -32,11 +32,11 @@
     - WAN Out (total)
 - platform: command_line
   name: qBittorrent Alt Limit State
-  command: !secret qbt_alt_limit_state
+  command: "curl -s http://10.0.0.11:8100/api/v2/transfer/speedLimitsMode"
   scan_interval: 10
 - platform: command_line
   name: qBittorrent - active torrents
-  command: !secret qbt_active_torrents
+  command: "curl -s http://10.0.0.11:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l"
   unit_of_measurement: 'torrents'
   scan_interval: 20
 - platform: command_line

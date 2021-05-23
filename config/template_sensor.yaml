@@ -1,43 +1,29 @@
 orbi_router_wan_in:
   friendly_name: Orbi Router WAN In
-  value_template: >-
-    {% if state_attr('sensor.orbi_router_vnstat_live','rx')['bytespersecond'] != None %}
-       {{ (state_attr('sensor.orbi_router_vnstat_live','rx')['bytespersecond']|float/125000)|round(1) }}
-    {% else %} missing {% endif %}
+  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_live','rx')['bytespersecond']|float/125000)|round(1) }}"
   icon_template: mdi:arrow-down
   unit_of_measurement: 'Mb/s'
 orbi_router_wan_out:
   friendly_name: Orbi Router WAN Out
-  value_template: >-
-    {% if state_attr('sensor.orbi_router_vnstat_live','tx')['bytespersecond'] != None %}
-       {{ (state_attr('sensor.orbi_router_vnstat_live','tx')['bytespersecond']|float/125000)|round(1) }}
-    {% else %} missing {% endif %}
+  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_live','tx')['bytespersecond']|float/125000)|round(1) }}"
   icon_template: mdi:arrow-up
   unit_of_measurement: 'Mb/s'
 orbi_router_wan_in_total:
   friendly_name: Orbi Router WAN In (total)
-  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_total','rx')|float/1000)|round }}"
+  value_template: >-
+    {% if state_attr('sensor.orbi_router_vnstat_total','rx')|float/1000 != 0 %}
+      {{ (state_attr('sensor.orbi_router_vnstat_total','rx')|float/1000)|round }}
+    {% else %} missing {% endif %}
   icon_template: mdi:arrow-down
   unit_of_measurement: 'MB'
 orbi_router_wan_out_total:
   friendly_name: Orbi Router WAN Out (total)
-  value_template: "{{ (state_attr('sensor.orbi_router_vnstat_total','tx')|float/1000)|round }}"
+  value_template: >-
+    {% if state_attr('sensor.orbi_router_vnstat_total','tx')|float/1000 != 0 %}
+      {{ (state_attr('sensor.orbi_router_vnstat_total','tx')|float/1000)|round }}
+    {% else %} missing {% endif %}
   icon_template: mdi:arrow-up
   unit_of_measurement: 'MB'
-outdoor_weather:
-  friendly_name: Outdoor Weather
-  unit_of_measurement: '%'
-  value_template: >-
-    {% if is_state('sensor.accuweather_realfeel_temperature','unavailable') %}
-      -, {{ state_attr('weather.accuweather','humidity')|round }}
-    {% else %}
-      {{ states('sensor.accuweather_realfeel_temperature')|round }}°C, {{ state_attr('weather.accuweather','humidity')|round }}
-    {% endif %}
-indoor_weather:
-  friendly_name: Indoor Weather
-  unit_of_measurement: '%'
-  value_template: >-
-    {{ states('sensor.broadlink_rm4_mini_temperature')|round }}°C, {{ states('sensor.broadlink_rm4_mini_humidity')|round }}
 speedtest_net_upload_speed:
   friendly_name: Speedtest.net Upload Speed
   value_template: >-
@@ -47,7 +33,9 @@ speedtest_net_upload_speed:
 tautulli_total_bandwidth:
   friendly_name: Tautulli Total Bandwidth
   value_template: >-
-    {{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}
+    {% if state_attr('sensor.tautulli','total_bandwidth')|float/1024 < 1000 %}
+      {{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}
+    {% else %} - {% endif %}
   icon_template: mdi:square-wave
   unit_of_measurement: 'Mb/s'
 knox_free_percent:

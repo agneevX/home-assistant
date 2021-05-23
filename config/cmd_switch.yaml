@@ -1,6 +1,6 @@
 int_qbt_alt_limit:
-  command_on: !secret int_qbt_alt_limit
-  command_off: !secret int_qbt_alt_limit
+  command_on: "curl -s http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
+  command_off: "curl -s http://10.0.0.11:8100/api/v2/transfer/toggleSpeedLimitsMode"
 int_lofi_beats:
   command_on: echo "lofi_on" | netcat localhost 7900
   command_off: echo "lofi_off" | netcat localhost 7900

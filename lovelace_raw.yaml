@@ -32,15 +32,41 @@ views:
     badges:
       - entity: person.mom
         icon: 'mdi:face-woman'
+        style:
+          ha-state-label-badge:
+            $:
+              ha-label-badge:
+                $: |
+                  .badge-container .label-badge {
+                    border-style: dashed; 
+                    border-radius: 20px;
+                    {% if is_state('person.mom','home') %} border-color: var(--green-color);
+                    {% else %} border-color: red;{% endif %}}
+                  .badge-container .label-badge .label span {
+                    {% if is_state('person.mom','home') %} background-color: green;
+                    {% else %} background-color: red;{% endif %}
       - entity: person.dad
         icon: 'mdi:face'
-      - entity: sensor.orbi_router_wan_in
-        name: WAN In
+        style:
+          ha-state-label-badge:
+            $:
+              ha-label-badge:
+                $: |
+                  .badge-container .label-badge {
+                    border-style: dashed;    
+                    border-radius: 20px;
+                    {% if is_state('person.dad','home') %} border-color: var(--green-color);
+                    {% else %} border-color: red;{% endif %}}
+                  .badge-container .label-badge .label span {
+                    {% if is_state('person.dad','home') %} background-color: green;
+                    {% else %} background-color: red;{% endif %}}
+      - entity: sensor.eth0_in
+        name: Net In
         card_mod:
           style: |
             :host { --label-badge-red: var(--primary-color); }
-      - entity: sensor.orbi_router_wan_out
-        name: WAN Out
+      - entity: sensor.eth0_out
+        name: Net Out
         card_mod:
           style: |
             :host { --label-badge-red: var(--primary-color); }
@@ -559,11 +585,11 @@ views:
       - cards:
           - cards:
               - color_thresholds:
-                  - value: 19
+                  - value: 20
                     color: '#00c8ff'
-                  - value: 24
+                  - value: 26
                     color: '#6be410'
-                  - value: 28
+                  - value: 30
                     color: '#ff6900'
                 entities:
                   - entity: sensor.broadlink_rm4_mini_temperature
@@ -571,6 +597,12 @@ views:
                     state_adaptive_color: true
                 hours_to_show: 3
                 points_per_hour: 7
+                decimals: 1
+                font_size: 94
+                font_size_header: 13
+                align_state: center
+                animate: true
+                line_width: 7
                 show:
                   fill: false
                   name_adaptive_color: true
@@ -579,12 +611,6 @@ views:
                   labels_secondary: false
                   points: false
                   legend: false
-                decimals: 1
-                font_size: 95
-                font_size_header: 13
-                align_state: center
-                animate: true
-                line_width: 7
                 card_mod:
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -595,15 +621,25 @@ views:
                       14px !important
                     }
                 type: 'custom:mini-graph-card'
-              - align_state: center
-                color_thresholds_transition: hard
+              - color_thresholds:
+                  - value: 40
+                    color: '#54dbff'
+                  - value: 50
+                    color: '#29aaff'
+                  - value: 60
+                    color: '#005bff'
+                entities:
+                  - entity: sensor.broadlink_rm4_mini_humidity
+                    name: Humidity
+                    state_adaptive_color: true
+                align_state: center
                 animate: true
-                font_size: 95
+                font_size: 94
                 font_size_header: 13
                 line_width: 8
                 points_per_hour: 7
                 hours_to_show: 3
-                decimals: 0
+                decimals: 1
                 show:
                   fill: false
                   icon_adaptive_color: true
@@ -619,17 +655,6 @@ views:
                       padding: 0 16px 0px 16px !important
                     }
                 type: 'custom:mini-graph-card'
-                entities:
-                  - entity: sensor.broadlink_rm4_mini_humidity
-                    name: Humidity
-                    state_adaptive_color: true
-                color_thresholds:
-                  - value: 45
-                    color: '#00c9ff'
-                  - value: 60
-                    color: '#0099ff'
-                  - value: 70
-                    color: '#0065ff'
             type: horizontal-stack
           - card:
               type: entities
@@ -644,7 +669,8 @@ views:
                 - domain: media_player
             show_empty: false
             sort:
-              method: last_changed
+              method: last_updated
+              ignore_case: true
               reverse: true
             type: 'custom:auto-entities'
         type: vertical-stack
@@ -676,11 +702,14 @@ views:
             layout:
               step: row
             decimals: '0'
+            step_size: '1'
             sensors:
-              - entity: sensor.indoor_weather
+              - entity: sensor.broadlink_rm4_mini_temperature
                 name: Currently
-              - entity: sensor.outdoor_weather
-                name: Outdoors
+                decimals: 1
+              - entity: sensor.broadlink_rm4_mini_humidity
+                name: Humidity
+                decimals: 1
             hide:
               temperature: true
               state: true
@@ -713,7 +742,7 @@ views:
                   --ha-card-border-radius: 12px;
                   --st-spacing: 3.5px;
                   --st-font-size-xl: 55px;
-                  --st-font-size-m: 25px;
+                  --st-font-size-m: 23px;
                 }
           - cards:
               - entity: switch.bedroom_ac_swing
@@ -783,6 +812,10 @@ views:
             entities:
               - entity: automation.turn_on_ac_when_temps_reach_28oc
               - entity: automation.turn_off_ac_when_temps_reach_28oc_duplicate
+              - entity: >-
+                  automation.hack_turn_on_ac_entity_if_room_gets_cooler_duplicate
+              - entity: >-
+                  automation.hack_turn_off_ac_entity_if_room_gets_warmer_duplicate
             show_header_toggle: false
             state_color: true
   - badges: []
@@ -791,102 +824,7 @@ views:
     title: Info
     cards:
       - cards:
-          - cards:
-              - entity: device_tracker.old_room_tv
-                icon: 'mdi:television'
-                layout: icon_name_state
-                name: OLD ROOM
-                size: 21px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--secondary-text-color)
-                      name:
-                        - color: var(--secondary-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  card:
-                    - font-size: 12px
-                    - height: 36px
-                    - font-weight: bold
-                tap_action:
-                  action: more-info
-                  haptic: light
-                double_tap_action:
-                  action: call-service
-                  haptic: success
-                  service: notify.old_room_tv
-                  service_data:
-                    message: Someone is at the front gate!
-                type: 'custom:button-card'
-              - entity: device_tracker.new_room_tv
-                icon: 'mdi:television'
-                layout: icon_name_state
-                name: NEW ROOM
-                size: 21px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--secondary-text-color)
-                      name:
-                        - color: var(--secondary-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  card:
-                    - font-size: 12px
-                    - height: 36px
-                    - font-weight: bold
-                tap_action:
-                  action: more-info
-                  haptic: light
-                double_tap_action:
-                  action: call-service
-                  haptic: success
-                  service: notify.new_room_tv
-                  service_data:
-                    message: Someone is at the front gate!
-                type: 'custom:button-card'
-              - entity: device_tracker.sony_bravia_tv
-                icon: 'mdi:television'
-                layout: icon_name_state
-                name: BRAVIA
-                size: 21px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--secondary-text-color)
-                      name:
-                        - color: var(--secondary-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  card:
-                    - height: 36px
-                    - font-size: 12px
-                    - font-weight: bold
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: 'custom:button-card'
-            type: horizontal-stack
-          - entity: binary_sensor.cloudflare_dns_ping
+          - entity: binary_sensor.cloudflare_dns_ping_tcp
             type: 'custom:uptime-card'
             name: Internet
             icon: 'mdi:ethernet-cable'
@@ -895,7 +833,7 @@ views:
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
-            average_template: '[[[ return variables.uptime.toFixed(1); ]]]% up'
+            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% up'
             color_thresholds:
               - value: 0
                 color: '#FF0000'
@@ -910,9 +848,9 @@ views:
               haptic: light
             bar:
               spacing: 4
-              amount: 36
-              height: 24
-              round: 5
+              amount: 24
+              height: 25
+              round: 6.5
             alias:
               ok: Online
               ko: Offline
@@ -1285,6 +1223,7 @@ views:
               - entities:
                   - entity: sensor.disk_use_percent_home_agneev
                     name: SSD
+                icon: 'mdi:card-text'
                 font_size: 72
                 font_size_header: 12.8
                 decimals: 1
@@ -1365,11 +1304,6 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                 type: 'custom:mini-graph-card'
-          - type: horizontal-stack
-            cards:
-              - type: entity
-                entity: sensor.orbi_router
-                attribute: System load
         type: vertical-stack
   - badges: []
     icon: 'mdi:chart-tree'
@@ -1392,9 +1326,9 @@ views:
               haptic: light
             bar:
               spacing: 4
-              amount: 36
-              height: 24
-              round: 5
+              amount: 24
+              height: 25
+              round: 6.5
             alias:
               ok: Online
               ko: Offline
@@ -1597,9 +1531,10 @@ views:
               include:
                 - domain: device_tracker
                   options:
-                    secondary_info: last-changed
+                    secondary_info: last-updated
             sort:
-              method: last_updated
+              method: last_changed
+              ignore_case: true
               reverse: true
             type: 'custom:auto-entities'
         type: vertical-stack
@@ -1607,6 +1542,24 @@ views:
     cards:
       - type: vertical-stack
         cards:
+          - content: |
+              # Cloud ☁️
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                      letter-spacing: '-0.01em';
+                    }
+            type: markdown
           - artwork: material
             entity: media_player.spotify
             hide:
@@ -1640,7 +1593,7 @@ views:
               when_standby: true
       - cards:
           - content: |
-              # Level 1
+              # Bedroom
             card_mod:
               style:
                 .: |
@@ -1672,11 +1625,6 @@ views:
               - color_type: card
                 entity: switch.bedroom_echo_do_not_disturb_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 15px;
-                    }
                 name: DND
                 size: 45%
                 state:
@@ -1699,14 +1647,9 @@ views:
                   haptic: light
                 type: 'custom:button-card'
               - color_type: card
-                entity: switch.bedroom_echo_bt_speaker
+                entity: switch.bedroom_echo_repeat_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 15px;
-                    }
-                name: BLUETOOTH
+                name: REPEAT
                 size: 45%
                 state:
                   - value: 'on'
@@ -1730,11 +1673,6 @@ views:
               - color_type: card
                 entity: switch.bedroom_echo_shuffle_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 15px;
-                    }
                 name: SHUFFLE
                 size: 45%
                 state:
@@ -1757,6 +1695,24 @@ views:
                   haptic: light
                 type: 'custom:button-card'
             type: horizontal-stack
+          - content: |
+              # Level 1
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                      letter-spacing: '-0.01em';
+                    }
+            type: markdown
           - artwork: cover
             entity: media_player.new_room_echo
             scale: '0.97'
@@ -1773,11 +1729,6 @@ views:
               - color_type: card
                 entity: switch.new_room_echo_do_not_disturb_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 14px;
-                    }
                 name: DND
                 size: 45%
                 state:
@@ -1802,11 +1753,6 @@ views:
               - color_type: card
                 entity: switch.new_room_echo_repeat_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 14px;
-                    }
                 name: REPEAT
                 size: 45%
                 state:
@@ -1831,11 +1777,6 @@ views:
               - color_type: card
                 entity: switch.new_room_echo_shuffle_switch
                 layout: icon_name_state
-                card_mod:
-                  style: |
-                    ha-card {
-                      --ha-card-border-radius: 14px;
-                    }
                 name: SHUFFLE
                 size: 45%
                 state:
@@ -1879,24 +1820,148 @@ views:
       - type: vertical-stack
         cards:
           - cards:
-              - align_icon: state
-                align_state: center
-                decimals: 0
+              - entity: device_tracker.old_room_tv
+                layout: icon_name_state
+                name: OLD ROOM TV
+                icon: 'mdi:home-floor-a'
+                size: 24px
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--secondary-text-color)
+                      name:
+                        - color: var(--secondary-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - font-size: 12px
+                    - height: 40px
+                    - font-weight: bold
+                tap_action:
+                  action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: call-service
+                  haptic: success
+                  service: notify.old_room_tv
+                  service_data:
+                    message: Someone is at the front gate!
+                type: 'custom:button-card'
+              - entity: device_tracker.new_room_tv
+                icon: 'mdi:home-floor-b'
+                layout: icon_name_state
+                name: NEW ROOM TV
+                size: 24px
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--secondary-text-color)
+                      name:
+                        - color: var(--secondary-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - font-size: 12px
+                    - height: 40px
+                    - font-weight: bold
+                tap_action:
+                  action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: call-service
+                  haptic: success
+                  service: notify.new_room_tv
+                  service_data:
+                    message: Someone is at the front gate!
+                type: 'custom:button-card'
+            type: horizontal-stack
+          - type: horizontal-stack
+            cards:
+              - entity: device_tracker.amazon_fire_tv_stick_2nd_gen
+                icon: 'mdi:silverware-fork-knife'
+                layout: icon_name_state
+                name: DINING HALL TV
+                size: 22px
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--secondary-text-color)
+                      name:
+                        - color: var(--secondary-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - height: 40px
+                    - font-size: 12px
+                    - font-weight: bold
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: 'custom:button-card'
+              - entity: device_tracker.sony_bravia_tv
+                icon: 'mdi:television-play'
+                layout: icon_name_state
+                name: SONY BRAVIA
+                size: 23px
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--secondary-text-color)
+                      name:
+                        - color: var(--secondary-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                      name:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - height: 40px
+                    - font-size: 12px
+                    - font-weight: bold
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: 'custom:button-card'
+          - cards:
+              - decimals: 0
                 entities:
                   - color: '#F0A400'
                     entity: sensor.tautulli
+                    name: Plex
                     state_adaptive_color: true
-                font_size: 85
+                font_size: 84
+                font_size_header: 12.6
                 hours_to_show: 6
-                icon: 'mdi:eye-outline'
-                line_width: 4
+                line_width: 5
                 points_per_hour: 10
                 show:
-                  fill: false
+                  name_adaptive_color: true
                   icon_adaptive_color: true
                   labels: false
-                  name: false
+                  labels_secondary: false
                   points: false
+                  legend: false
                 card_mod:
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -1906,23 +1971,23 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                 type: 'custom:mini-graph-card'
-              - align_icon: state
-                align_state: center
-                entities:
+              - entities:
                   - color: '#F0A400'
                     entity: sensor.tautulli_total_bandwidth
+                    name: Tautulli
                     state_adaptive_color: true
-                    unit: Mbps
-                font_size: 85
+                font_size: 84
+                font_size_header: 12.6
                 hours_to_show: 6
-                line_width: 4
+                line_width: 5
                 points_per_hour: 12
                 show:
-                  fill: false
+                  name_adaptive_color: true
                   icon_adaptive_color: true
                   labels: false
-                  name: false
+                  labels_secondary: false
                   points: false
+                  legend: false
                 card_mod:
                   style: |
                     ha-card > div:nth-child(-n+2) {
@@ -1933,95 +1998,63 @@ views:
                     }
                 type: 'custom:mini-graph-card'
             type: horizontal-stack
-          - cards:
-              - align_state: center
-                decimals: 1
-                entities:
-                  - color: '#F0A400'
-                    entity: sensor.eth0_in
-                    state_adaptive_color: true
-                font_size: 86
-                font_size_header: 13
-                hours_to_show: 0.5
-                line_width: 4
-                points_per_hour: 60
-                show:
-                  extrema: true
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-              - align_state: center
-                decimals: 1
-                entities:
-                  - color: '#F0A400'
-                    entity: sensor.eth0_out
-                    state_adaptive_color: true
-                font_size: 86
-                font_size_header: 13
-                hours_to_show: 0.5
-                line_width: 4
-                points_per_hour: 60
-                name_adaptive_color: true
-                show:
-                  extrema: true
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: 'custom:mini-graph-card'
-            type: horizontal-stack
-      - cards:
           - card:
-              content: |
-                # <center> No TVs playing rn :( </center>
-              card_mod:
-                style:
-                  .: |
-                    ha-card {
-                      --ha-card-background: none !important;
-                      box-shadow: none !important;
-                    }
-                  ha-markdown:
-                    $: |
-                      h1 {
-                        font-size: 20px;
-                        font-weight: bold;
-                        font-family: Helvetica;
-                        letter-spacing: '-0.01em';
-                      }
-              type: markdown
+              type: entities
+            filter:
+              exclude:
+                - state: 'off'
+                - state: unavailable
+                - state: standby
+                - entity_id: media_player.plex_plex_for_android_tv_sony_bravia
+                - entity_id: media_player.plex_xplay_lg_49uf690t_tc
+              include:
+                - entity_id: media_player.plex_*
+            show_empty: false
+            sort:
+              method: last_changed
+              ignore_case: true
+              reverse: true
+            type: 'custom:auto-entities'
+          - card:
+              artwork: material
+              entity: media_player.plex_plex_for_android_tv_sony_bravia
+              name: Plex media player
+              icon: 'mdi:plex'
+              volume_step: '2'
+              hide:
+                power: true
+              idle_view:
+                when_idle: true
+                when_standby: true
+              type: 'custom:mini-media-player'
             conditions:
-              - entity: media_player.plex_plex_for_lg_lg_49uf690t_tc
-                state: unavailable
-              - entity: media_player.plex_xplay_lg_49uf690t_tc
-                state: unavailable
-              - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-                state: unavailable
               - entity: media_player.plex_plex_for_android_tv_sony_bravia
-                state: unavailable
-              - entity: media_player.plex_mrmc_localhost
-                state: unavailable
+                state_not: unavailable
+              - entity: media_player.plex_plex_for_android_tv_sony_bravia
+                state_not: idle
             type: conditional
+          - card:
+              artwork: material
+              entity: media_player.plex_xplay_lg_49uf690t_tc
+              name: XPlay
+              icon: 'mdi:plex'
+              volume_step: '2'
+              hide:
+                power: true
+              idle_view:
+                when_idle: true
+                when_standby: true
+              type: 'custom:mini-media-player'
+            conditions:
+              - entity: media_player.plex_xplay_lg_49uf690t_tc
+                state_not: unavailable
+              - entity: media_player.plex_xplay_lg_49uf690t_tc
+                state_not: idle
+            type: conditional
+      - type: vertical-stack
+        cards:
           - content: |
-              # Level 1
+              # Bedroom
             card_mod:
               style:
                 .: |
@@ -2039,7 +2072,7 @@ views:
                     }
             type: markdown
           - entity: media_player.bedroom_tv
-            volume_step: 2
+            volume_step: '2'
             hide:
               progress: true
               source: true
@@ -2079,42 +2112,42 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.bedroom_cast
-                  volume_step: 2
-                  hide:
-                    power: true
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-              type: vertical-stack
-            conditions:
-              - entity: media_player.bedroom_cast
-                state_not: unavailable
-            type: conditional
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.plex_xplay_lg_49uf690t_tc
-                  name: XPlay
-                  icon: 'mdi:plex'
-                  volume_step: 2
-                  hide:
-                    power: true
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-              type: vertical-stack
-            conditions:
-              - entity: media_player.plex_xplay_lg_49uf690t_tc
-                state_not: unavailable
-              - entity: media_player.plex_xplay_lg_49uf690t_tc
-                state_not: idle
-            type: conditional
+          - artwork: material
+            volume_step: '2'
+            hide:
+              power: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            type: 'custom:mini-media-player'
+            entity: media_player.bedroom_cast
+          - volume_step: '2'
+            hide:
+              progress: true
+              source: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            type: 'custom:mini-media-player'
+            entity: media_player.siti_cable_stb
+          - content: |
+              # Level 1
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                      letter-spacing: '-0.01em';
+                    }
+            type: markdown
           - entity: media_player.old_room_tv
             hide:
               progress: true
@@ -2144,27 +2177,8 @@ views:
             idle_view:
               when_idle: true
               when_standby: true
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-                  name: Plex app
-                  volume_step: 2
-                  hide:
-                    power: true
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-              type: vertical-stack
-            conditions:
-              - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-                state_not: unavailable
-              - entity: media_player.plex_plex_for_lg_lg_oled55c9pta
-                state_not: idle
-            type: conditional
           - entity: media_player.new_room_tv
-            volume_step: 2
+            volume_step: '2'
             hide:
               progress: true
               source: true
@@ -2210,13 +2224,12 @@ views:
                       letter-spacing: '-0.01em';
                     }
             type: markdown
-          - entity: media_player.sony_bravia_tv
-            hide:
+          - hide:
               progress: true
             idle_view:
               when_idle: true
               when_standby: true
-            volume_step: 2
+            volume_step: '2'
             shortcuts:
               attribute: source
               buttons:
@@ -2238,47 +2251,7 @@ views:
               columns: 5
               hide_when_off: true
             type: 'custom:mini-media-player'
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.plex_plex_for_android_tv_sony_bravia
-                  name: Plex app
-                  volume_step: 2
-                  hide:
-                    power: true
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-              type: vertical-stack
-            conditions:
-              - entity: media_player.plex_plex_for_android_tv_sony_bravia
-                state_not: unavailable
-              - entity: media_player.plex_plex_for_android_tv_sony_bravia
-                state_not: idle
-            type: conditional
-          - card:
-              cards:
-                - artwork: material
-                  entity: media_player.plex_mrmc_localhost
-                  name: MrMC Lite
-                  volume_step: 2
-                  hide:
-                    power: true
-                    controls: true
-                    volume: true
-                  idle_view:
-                    when_idle: true
-                    when_standby: true
-                  type: 'custom:mini-media-player'
-              type: vertical-stack
-            conditions:
-              - entity: media_player.plex_mrmc_localhost
-                state_not: unavailable
-              - entity: media_player.plex_mrmc_localhost
-                state_not: idle
-            type: conditional
-        type: vertical-stack
+            entity: media_player.sony_bravia_tv
     icon: 'mdi:television'
     path: tv
     title: TV

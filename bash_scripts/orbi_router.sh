@@ -1,15 +1,17 @@
 #!/bin/bash
-# shellcheck disable=SC2206
+# shellcheck disable=SC2086,2206
+set -e
 
 SSH_COMMAND="-p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.1"
-DEBUG=false
-DISABLE=no
+DISABLE=no; DEBUG=false
 
 if [[ "$1" == "vnstat_live" ]]; then
-  o="$(sshpass "$SSH_COMMAND" /opt/bin/vnstat --json -tr 2)"
+  o=$(sshpass "$SSH_COMMAND" /opt/bin/vnstat --json -tr 2)
   echo "$o"; exit
 elif [[ "$1" == "vnstat_total" ]]; then
-  o="$(sshpass "$SSH_COMMAND" /opt/bin/vnstat -i eth0 --json d)"
+  if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then exit; fi
+
+  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat -i eth0 --json d)"
   o="$(echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)')"
   echo "$o"; exit
 fi
@@ -28,8 +30,7 @@ exit; fi
 
 command="(/bin/cat /proc/loadavg)"
 
-i="$(sshpass "$SSH_COMMAND" "$command")"
-i=($i)
+i="$(sshpass $SSH_COMMAND $command)"; i=($i)
 
 timecalc () {
   num="$1"; min=0; hour=0; day=0

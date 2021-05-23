@@ -1,3 +1,9 @@
+- platform: command_line
+  command: "if /usr/sbin/hping3 1.1.1.1 -p 80 -c 1 -S >/dev/null 2>&1; then echo ON; else echo OFF; fi"
+  name: Cloudflare DNS ping (TCP)
+  device_class: connectivity
+  scan_interval: 2
+  command_timeout: 4
 - platform: ping
   name: ISP Node ping
   host: 172.16.248.1
