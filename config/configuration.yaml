@@ -8,35 +8,9 @@ climate:
     controller_data: remote.broadlink_rm4_mini_remote
 input_number:
   pi_volume:
-    name: Soundbar Volume
     min: 0
     max: 100
     step: 5
-    icon: mdi:volume-high
-sensor:
-  - platform: qbittorrent
-    name: qBt
-    url: "http://10.0.0.11:8100"
-    username: !secret qbt_user
-    password: !secret qbt_pass
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /home/agneev
-      - type: disk_use_percent
-        arg: /knox
-  - platform: systemmonitor
-    scan_interval: 7
-    resources:
-      - type: throughput_network_in
-        arg: eth0
-      - type: throughput_network_out
-        arg: eth0
-  - platform: tautulli
-    api_key: !secret tautulli_api_key
-    host: 10.0.0.10
-    monitored_users:
-      - agneev
 device_tracker:
   - platform: netgear
     host: 10.0.0.1
@@ -61,32 +35,27 @@ notify:
   - platform: telegram
     name: telegram
     chat_id: !secret telegram_chat_id
-shell_command:
-  pi_volume_0: echo amixer_0 | netcat localhost 7900
-  pi_volume_5: echo amixer_5 | netcat localhost 7900
-  pi_volume_10: echo amixer_10 | netcat localhost 7900
-  pi_volume_15: echo amixer_15 | netcat localhost 7900
-  pi_volume_20: echo amixer_20 | netcat localhost 7900
-  pi_volume_25: echo amixer_25 | netcat localhost 7900
-  pi_volume_30: echo amixer_30 | netcat localhost 7900
-  pi_volume_35: echo amixer_35 | netcat localhost 7900
-  pi_volume_40: echo amixer_40 | netcat localhost 7900
-  pi_volume_45: echo amixer_45 | netcat localhost 7900
-  pi_volume_50: echo amixer_50 | netcat localhost 7900
-  pi_volume_55: echo amixer_55 | netcat localhost 7900
-  pi_volume_60: echo amixer_60 | netcat localhost 7900
-  pi_volume_65: echo amixer_65 | netcat localhost 7900
-  pi_volume_70: echo amixer_70 | netcat localhost 7900
-  pi_volume_75: echo amixer_75 | netcat localhost 7900
-  pi_volume_80: echo amixer_80 | netcat localhost 7900
-  pi_volume_85: echo amixer_85 | netcat localhost 7900
-  pi_volume_90: echo amixer_90 | netcat localhost 7900
-  pi_volume_95: echo amixer_95 | netcat localhost 7900
-  pi_volume_100: echo amixer_100 | netcat localhost 7900
 webostv: !include webos.yaml
+homekit: !include homekit.yaml
+alexa: !include alexa.yaml
+google_assistant: !include google_assistant.yaml
+cloud: !include cloud.yaml
 ########## SYSTEM ###########
 logger:
   default: warning
+sensor: !include sensor.yaml
+switch: !include switch.yaml
+binary_sensor: !include binary_sensor.yaml
+camera: !include camera.yaml
+media_player: !include media_player.yaml
+light: !include light.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+# fan: !include fan.yaml
+shell_command: !include shell_command.yaml
+default_config:
 homeassistant:
   customize: !include customize.yaml
 frontend:
@@ -94,36 +63,4 @@ frontend:
 tts:
   - platform: google_translate
 recorder:
-  db_url: !secret mysql_db 
-binary_sensor: !include binary_sensor.yaml
-camera: !include camera.yaml
-media_player: !include media_player.yaml
-homekit: !include homekit.yaml
-light: !include light.yaml
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-cloud: !include cloud.yaml
-sensor command_line: !include cmd_sensor.yaml
-# fan: !include fan.yaml
-sensor template:
-  platform: template
-  sensors: !include template_sensor.yaml
-switch template:
-  platform: template
-  switches: !include template_switch.yaml
-switch command_line:
-  platform: command_line
-  switches: !include cmd_switch.yaml
-default_config:
-#android_ip_webcam:
-#  - host: 10.0.0.70
-#    scan_interval: 15
-#    sensors:
-#      - battery_level
-#      - light
-#      - motion
-#    switches:
-#      - motion_detect
-#      - night_vision
+  db_url: !secret mysql_db

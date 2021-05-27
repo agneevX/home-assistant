@@ -1,0 +1,27 @@
+smart_home:
+  endpoint: https://api.eu.amazonalexa.com/v3/events
+  client_id: !secret alexa_client_id
+  client_secret: !secret alexa_client_secret
+  filter:
+    include_entities:
+      - media_player.bedroom_tv
+      - media_player.old_room_tv
+      - media_player.new_room_tv
+    exclude_entities:
+      - light.soundbar_volume
+      - light.tv_lamp_2
+      - switch.6a_plug
+      - switch.16a_plug
+      - switch.qbt_alt_limit
+      - switch.adguard_filtering
+    exclude_domains:
+      - binary_sensor
+      - media_player
+      - camera
+      - input_boolean
+      - input_number
+    exclude_entity_globs:
+      - switch.adaptive_lighting*
+      - switch.*echo*
+      - switch.this_device*
+      - switch.int*

@@ -1,5 +1,5 @@
 - platform: command_line
-  command: "if /usr/sbin/hping3 1.1.1.1 -p 80 -c 1 -S >/dev/null 2>&1; then echo ON; else echo OFF; fi"
+  command: "if /usr/sbin/hping3 1.0.0.1 -p 80 -c 1 -S >/dev/null 2>&1; then echo ON; else echo OFF; fi"
   name: Cloudflare DNS ping (TCP)
   device_class: connectivity
   scan_interval: 2

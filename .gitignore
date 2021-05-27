@@ -1,8 +1,11 @@
 .DS_Store
 secrets.yaml
 known_devices.yaml
+customize.yaml
+automations.yaml
 
 fan.yaml
 groups.yaml
 scenes.yaml
 scripts.yaml
+cloud.yaml

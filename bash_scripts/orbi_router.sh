@@ -5,8 +5,17 @@ set -e
 SSH_COMMAND="-p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.1"
 DISABLE=no; DEBUG=false
 
+if [[ "$1" == "wan_live" ]]; then
+  o=$(curl "http://10.0.0.1:19999/api/v1/data?chart=net.eth0&points=1&options=jsonwrap&format=json" -s |jq '.latest_values[]')
+  receive=$(echo "$o"|sed -n '1p'| awk '{print int($1+0.5)}')
+  sent=$(echo "$o"| sed -n '2p'|sed 's/-//g'| awk '{print int($1+0.5)}')
+cat << EOF
+{"index": "0","receive": "$receive","sent": "$sent"}
+EOF
+exit
+fi
 if [[ "$1" == "vnstat_live" ]]; then
-  o=$(sshpass "$SSH_COMMAND" /opt/bin/vnstat --json -tr 2)
+  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json -tr 2)"
   echo "$o"; exit
 elif [[ "$1" == "vnstat_total" ]]; then
   if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then exit; fi
@@ -28,9 +37,16 @@ cat << EOF
 EOF
 exit; fi
 
+#command="(/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
+#/bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes)"
+
 command="(/bin/cat /proc/loadavg)"
 
 i="$(sshpass $SSH_COMMAND $command)"; i=($i)
+
+#set -- $i
+#WAN_IN="$(echo $2)"
+#WAN_OUT="$(echo $1)"
 
 timecalc () {
   num="$1"; min=0; hour=0; day=0
@@ -47,7 +63,7 @@ timecalc () {
   echo "$day"d "$hour"h "$min"m
 }
 
-INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic XXXXX')
+INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic YWRtaW46UUZlM3FMQVBHUkhrMlBAVQ==')
 if [[ "$INPUT" == *multi_login.html* ]]; then
 exit; fi
 
