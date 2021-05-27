@@ -63,7 +63,7 @@ timecalc () {
   echo "$day"d "$hour"h "$min"m
 }
 
-INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic YWRtaW46UUZlM3FMQVBHUkhrMlBAVQ==')
+INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic XXXXX')
 if [[ "$INPUT" == *multi_login.html* ]]; then
 exit; fi
 

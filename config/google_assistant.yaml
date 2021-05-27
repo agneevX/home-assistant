@@ -1,9 +1,0 @@
-project_id: !secret google_assistant_project_id
-# service_account: !include service_account.json
-# report_state: true
-exposed_domains:
-  - climate
-  - media_player
-  - light
-  - fan
-  - sensor
