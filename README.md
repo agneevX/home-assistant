@@ -188,11 +188,11 @@ sensor:
 
 Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
 
+<details><summary>Expand</summary>
+
 This involves a `input_number` helper, an automation and a series of shell commands.
 
 Requires `alsamixer` to be installed.
-
-<details><summary>Expand</summary>
 
 ```yaml
 # configuration.yaml
@@ -286,7 +286,7 @@ _This is the only view that contain badges._
 
 - `/drive` mount
 - ASUS laptop
-- `always-on` server
+- AdGuard Home
 - Front gate camera
 - Mesh router satellite/reboot[<sup>⬇️<sup>](#secretsyaml-code)
 
@@ -310,8 +310,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - AdGuard Home
 - Bedroom AC
 - Refresh Plex
-- qBittorrent alt. speed mode[<sup>⬇️<sup>](#secretsyaml-code)
-- 16A plug
+- qBittorrent alt. speed mode [<sup>⬇️<sup>](#secretsyaml-code)
 
 ### Graph row
 
@@ -326,7 +325,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L677)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L646)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -339,7 +338,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L821)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L790)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -373,7 +372,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ### Info rows
 
-- qBittorrent active torrents[<sup>⬇️<sup>](#secretsyaml-code)
+- qBittorrent active torrents [<sup>⬇️<sup>](#secretsyaml-code)
 - qBittorrent upload/download speed
 - SSD free %
 - `/knox` free %
@@ -383,7 +382,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1308)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1507)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -391,7 +390,7 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 - ISP node state
 - Radarr/Radarr4K queue
-- Sonarr queue[<sup>⬇️<sup>](#secretsyaml-code)/upcoming
+- Sonarr queue [<sup>⬇️<sup>](#secretsyaml-code) / upcoming
 - Sonarr shows/wanted episodes
 
 ### Devices card
@@ -404,7 +403,7 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1541)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1766)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -436,16 +435,12 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 - Plex currently watching
 - Tautulli current bandwidth
-- Network in/out
-
-The four graph cards provide an overview of Plex/network activity in one place and indicates potential network issues.
+- Plex media players
 
 ### Plex/TV players
 
-- Conditional cards...
-  - Header cards
-  - TV player cards
-  - Plex media players
+- Header cards
+- Conditional TV player cards
 
 ---
 
