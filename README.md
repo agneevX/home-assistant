@@ -8,7 +8,6 @@ This layout was designed mobile-first.
 - [Home Assistant setup](#home-assistant-setup)
   - [Background](#background)
   - [Themes](#themes)
-  - [Add to HACS](#add-to-hacs)
   - [Custom implementations](#custom-implementations)
     - [Alexa devices control](#alexa-devices-control)
     - [Netgear Orbi integration](#netgear-orbi-integration)
@@ -47,21 +46,21 @@ This layout was designed mobile-first.
 
 ## Background
 
-Home Assistant Core installation on Raspberry Pi 4, with MySQL.
+Home Assistant Core installation on Raspberry Pi 4, with MySQL database.
 
 More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
+<img src="https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge" href="https://github.com/custom-components/hacs" alt="HACS badge" align="right">
+
+The [themes](../themes) in this repository can be [added](https://hacs.xyz/docs/faq/custom_repositories) to Home Assistant via HACS as a custom repository (select `Themes` as category).
+
 | **Milky White** | **Kinda Dark** | **Pure Black** |
-| ----------- | ----------  | --------- |
+| :-: | :-: | :-: |
 | ![Milky White](https://user-images.githubusercontent.com/19761269/114695988-cf353700-9d39-11eb-92d9-9a4a5c181f32.PNG) | ![Kinda Dark](https://user-images.githubusercontent.com/19761269/114695994-d0666400-9d39-11eb-9f05-a03f7793c7f9.PNG) | ![Pure Black](https://user-images.githubusercontent.com/19761269/114695952-c9d7ec80-9d39-11eb-9632-628cb446678e.PNG) |
 
-## Add to HACS
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
-
-This repository can be added to HACS as a custom repository. A guide can be found [here](https://hacs.xyz/docs/faq/custom_repositories/).
+Three individual themes + two combined light/dark themes (requires Home Assistant 2021.6+).
 
 ---
 
@@ -115,7 +114,7 @@ switch:
 
 ### Netgear Orbi integration
 
-Using custom firmware and bash scripts, router stats like internet usage can be integrated into Home Assistant.
+With custom firmware and using bash scripts, router stats like internet usage can be integrated into Home Assistant.
 
 <details><summary>Expand</summary>
 

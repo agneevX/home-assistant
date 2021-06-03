@@ -1,0 +1,182 @@
+## Combined Light/dark mode theme by @agneevX
+## Requires Home Assistant 2021.6+
+#
+White or Dark:
+  card-mod-theme: "White or Dark"
+  card-mod-view-yaml: |
+    "*:first-child$": |
+      :host {
+        padding-top: 2px;
+      }
+  card-mod-badge-yaml: |
+    .: |
+      :host {
+
+        /* Make badge borders red/green for binary sensors and blue otherwise */
+        --label-badge-blue: {% if not states(config.entity) %} var(--primary-color);
+          {% elif is_state(config.entity, 'off') %} orange;
+          {% elif is_state(config.entity, 'closed') %} orange;
+          {% elif is_state(config.entity, 'locked') %} orange;
+          {% elif is_state(config.entity, 'not_home') %} orange;
+          {% else %} var(--primary-color); {% endif %}
+        --label-badge-red: var(--primary-color);
+      }
+  modes:
+    light:
+      cc-button-card: var(--primary-text-color)
+      code-editor-background-color: white
+      accent-color: var(--primary-color)
+      paper-item-icon-active-color: var(--primary-color)
+      # Header:
+      app-header-background-color: "#F8F8F8"
+      app-header-text-color: "#262626"
+      # Main Interface Colors
+      primary-color: "#4592FF"
+      light-primary-color: var(--primary-color)
+      primary-background-color: var(--app-header-background-color)
+      secondary-background-color: "#EBEBEB"
+      divider-color: var(--primary-background-color)
+      # Text
+      primary-text-color: "#424242"
+      secondary-text-color: "#5F6267"
+      text-primary-color: "#FFFFFF"
+      disabled-text-color: "#717171"
+      # Sidebar Menu
+      sidebar-icon-color: var(--app-header-text-color)
+      sidebar-text-color: var(--primary-text-color)
+      sidebar-background-color: var(--card-background-color)
+      sidebar-selected-background-color: var(--primary-background-color)
+      sidebar-selected-icon-color: var(--primary-color)
+      sidebar-selected-text-color: var(--sidebar-selected-icon-color)
+      # States and Badges
+      state-icon-color: "#5F6267"
+      state-icon-active-color: var(--primary-color)
+      state-icon-unavailable-color: var(--disabled-text-color)
+      # Sliders
+      paper-slider-knob-color: var(--primary-color)
+      paper-slider-knob-start-color: var(--paper-slider-knob-color)
+      paper-slider-pin-color: var(--paper-slider-knob-color)
+      paper-slider-active-color: var(--paper-slider-knob-color)
+      paper-slider-secondary-color: var(--light-primary-color)
+      # Badges
+      label-badge-background-color: var(--primary-background-color)
+      label-badge-text-color: var(--primary-text-color)
+      label-badge-red: "#C7484C"
+      label-badge-green: "#6DC071"
+      label-badge-blue: "#5F9BEA"
+      label-badge-yellow: "#D9B757"
+      label-badge-gray: "#5F6267"
+      # Cards
+      card-background-color: "#FFFFFF"
+      ha-card-border-radius: "16px"
+      ha-card-box-shadow: 1px 1px 5px 1px rgb(230, 230, 230)
+      paper-dialog-background-color: var(--card-background-color)
+      paper-card-background-color: var(--card-background-color)
+      paper-listbox-background-color: var(--card-background-color)
+      # Switches
+      switch-checked-button-color: var(--primary-color)
+      switch-checked-track-color: "#75A2F0"
+      switch-unchecked-button-color: "#5F6267"
+      switch-unchecked-track-color: "#888b91"
+      # Toggles
+      paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+      paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+      paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+      paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+      # Table
+      table-row-background-color: var(--primary-background-color)
+      table-row-alternative-background-color: var(--secondary-background-color)
+      data-table-background-color: var(--primary-background-color)
+      # Dropdowns
+      material-background-color: var(--paper-card-background-color)
+      material-secondary-background-color: var(--primary-background-color)
+      mdc-theme-surface: var(--paper-card-background-color)
+      # HACS
+      hacs-chip-background-color: var(--primary-color)
+      # Custom theme colors
+      green-color: "#014D00"
+      orange-color: "#573800"
+      red-color: "#8A0000"
+      qbt-color: "#3b92ff"
+      qbt-seeding-color: "#f78016"
+      radarr-color: "#e3ad3b"
+      sonarr-color: "#1dc3f2"
+    dark:
+      cc-button-card: var(--app-header-text-color)
+      # Header:
+      app-header-background-color: "#171717"
+      app-header-text-color: "#BDC1C6"
+      # Main Interface Colors
+      primary-color: "#5198F5"
+      light-primary-color: var(--primary-color)
+      primary-background-color: var(--app-header-background-color)
+      secondary-background-color: "#202124"
+      divider-color: var(--primary-background-color)
+      accent-color: var(--primary-color)
+      # Text
+      primary-text-color: "#BDC1C6"
+      secondary-text-color: "#8a8d91"
+      text-primary-color: "#FFFFFF"
+      disabled-text-color: "#717171"
+      # Sidebar Menu
+      sidebar-icon-color: var(--primary-text-color)
+      sidebar-text-color: var(--primary-text-color)
+      sidebar-background-color: var(--card-background-color)
+      sidebar-selected-background-color: var(--primary-background-color)
+      sidebar-selected-icon-color: var(--primary-color)
+      sidebar-selected-text-color: var(--sidebar-selected-icon-color))
+      # States and Badges
+      state-icon-color: "#5F6267"
+      state-icon-active-color: "#5F9BEA"
+      state-icon-unavailable-color: var(--disabled-text-color)
+      # Sliders
+      paper-slider-knob-color: var(--primary-color)
+      paper-slider-knob-start-color: var(--paper-slider-knob-color)
+      paper-slider-pin-color: var(--paper-slider-knob-color)
+      paper-slider-active-color: var(--paper-slider-knob-color)
+      paper-slider-secondary-color: var(--light-primary-color)
+      # Badges
+      label-badge-background-color: var(--secondary-background-color)
+      label-badge-text-color: var(--primary-text-color)
+      label-badge-red: "#D06568"
+      label-badge-green: "#80C884"
+      label-badge-blue: "#5F9BEA"
+      label-badge-yellow: "#DFC271"
+      label-badge-gray: "#5F6267"
+      # Cards
+      card-background-color: "#202124"
+      ha-card-border-radius: "16px"
+      ha-card-box-shadow: 1.5px 1.5px 3px 0.8px rgb(12, 12, 14)
+      paper-dialog-background-color: var(--card-background-color)
+      paper-listbox-background-color: var(--card-background-color)
+      paper-card-background-color: var(--card-background-color)
+      # Switches
+      switch-checked-button-color: var(--primary-color)
+      switch-checked-track-color: "#404D64"
+      switch-unchecked-button-color: "#636466"
+      switch-unchecked-track-color: var(--switch-unchecked-button-color)
+      # Toggles
+      paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+      paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+      paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+      paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+      # Table
+      table-row-background-color: var(--primary-background-color)
+      table-row-alternative-background-color: var(--secondary-background-color)
+      data-table-background-color: var(--primary-background-color)
+      # Dropdowns
+      material-background-color: var(--secondary-background-color)
+      material-secondary-background-color: var(--primary-background-color)
+      mdc-theme-surface: var(--secondary-background-color)
+      # HACS
+      hacs-chip-background-color: var(--primary-color)
+      # Pre/Code
+      markdown-code-background-color: "#171717"
+      # Custom theme colors
+      green-color: "#04F000"
+      orange-color: "#FFC14D"
+      red-color: "#FFBDBD"
+      qbt-color: "#54A0FF"
+      qbt-seeding-color: "#FF9333"
+      radarr-color: "#F5BB41"
+      sonarr-color: "#23CDFD"
