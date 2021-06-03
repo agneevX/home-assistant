@@ -1,3 +1,5 @@
+## Kinda Dark theme by @agneevX
+#
 Kinda Dark:
   card-mod-theme: "Kinda Dark"
   cc-button-card: var(--app-header-text-color)
@@ -22,10 +24,7 @@ Kinda Dark:
   sidebar-background-color: var(--card-background-color)
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-color)
-  sidebar-selected-text-color: var(--sidebar-selected-icon-color))
-  # Buttons
-#  paper-item-icon-color: rgb(169, 177, 188)
-#  paper-item-icon-active-color: rgb(138, 180, 248)
+  sidebar-selected-text-color: var(--sidebar-selected-icon-color)
   # States and Badges
   state-icon-color: "#5F6267"
   state-icon-active-color: "#5F9BEA"
@@ -87,4 +86,17 @@ Kinda Dark:
     "*:first-child$": |
       :host {
         padding-top: 2px;
+      }
+  card-mod-badge-yaml: |
+    .: |
+      :host {
+
+        /* Make badge borders red/green for binary sensors and blue otherwise */
+        --label-badge-blue: {% if not states(config.entity) %} var(--primary-color);
+          {% elif is_state(config.entity, 'off') %} orange;
+          {% elif is_state(config.entity, 'closed') %} orange;
+          {% elif is_state(config.entity, 'locked') %} orange;
+          {% elif is_state(config.entity, 'not_home') %} orange;
+          {% else %} var(--primary-color); {% endif %}
+        --label-badge-red: var(--primary-color);
       }

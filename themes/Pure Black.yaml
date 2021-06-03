@@ -1,3 +1,5 @@
+## Pure Black theme by @agneevX
+#
 Pure Black:
   theme-color: var(--app-header-background-color)
   cc-button-card: var(--app-header-text-color)
@@ -74,7 +76,6 @@ Pure Black:
   markdown-code-background-color: var(--app-header-background-color)
   # Custom theme colors
   green-color: "#04E700"
-#  yellow-color: "#"
   orange-color: "#FFB62E"
   red-color: "#FFB3B3"
   qbt-color: "#54A0FF"
@@ -90,4 +91,19 @@ Pure Black:
       #columns {
         margin-left: 0px;
         margin-right: 0px;
+      }
+
+  card-mod-badge-yaml: |
+    .: |
+      :host {
+        color: var(--primary-text-color);
+
+        /* Make badge borders red/green for binary sensors and blue otherwise */
+        --label-badge-blue: {% if not states(config.entity) %} var(--primary-color);
+          {% elif is_state(config.entity, 'off') %} orange;
+          {% elif is_state(config.entity, 'closed') %} orange;
+          {% elif is_state(config.entity, 'locked') %} orange;
+          {% elif is_state(config.entity, 'not_home') %} orange;
+          {% else %} var(--primary-color); {% endif %}
+        --label-badge-red: var(--primary-color);
       }
