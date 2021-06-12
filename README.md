@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD024 MD033 -->
+<!-- markdownlint-disable MD033 MD036-->
 # Home Assistant setup
 
 This layout was designed mobile-first.
@@ -23,18 +23,19 @@ This layout was designed mobile-first.
     - [Now Playing card](#now-playing-card)
   - [Controls view](#controls-view)
   - [Info view](#info-view)
-    - [TV state row](#tv-state-row)
     - [Graph row I/II](#graph-row-iii)
     - [Graph row III](#graph-row-iii-1)
-    - [Graph row IV](#graph-row-iv)
+    - [Info row IV](#info-row-iv)
     - [Info rows](#info-rows)
   - [Tile view](#tile-view)
-    - [Graph/info rows](#graphinfo-rows)
+    - [Graph row](#graph-row-1)
+    - [Info card](#info-card)
     - [Devices card](#devices-card)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
     - [Alexa players](#alexa-players)
   - [Plex/TV view](#plextv-view)
+    - [TV state row](#tv-state-row)
     - [Graph rows](#graph-rows)
     - [Plex/TV players](#plextv-players)
   - [Custom plugins used](#custom-plugins-used)
@@ -120,46 +121,33 @@ With custom firmware and using bash scripts, router stats like internet usage ca
 
 Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
 
-`vnstat` is required to get usage stats:
+**To get live WAN stats**
+
+Using `netdata`:
 
 ```sh
-ssh root@routerlogin.net
+opkg install netdata
+```
 
-cd /opt/bin
-./opkg install vnstat
-./vnstat --create -i eth0
+Add to Home Assistant via Netdata integration.
+
+**To get daily total WAN usage**
+
+Using `vnstat`:
+
+```sh
+opkg install vnstat
+vnstat --create -i brwan
 reboot
 ```
 
-<b>Get live WAN in/out</b>
-
 ```yaml
 # configuration.yaml
 sensor:
   - platform: command_line
-    name: Orbi Router WAN In
-    command: !secret orbi_wan
-    scan_interval: 5
-    unit_of_measurement: 'Mb/s'
-    value_template: "{{ (value_json.rx.bytespersecond|float/125000)|round(1) }}"
-    json_attributes:
-      - tx
-```
-
-```yaml
-# secrets.yaml
-orbi_wan: sshpass -p <password> ssh -o StrictHostKeyChecking=no root@routerlogin.net /opt/bin/vnstat --json -tr 2
-```
-
-<b>Get daily total WAN usage</b>
-
-```yaml
-# configuration.yaml
-sensor:
-  - platform: command_line
-    name: Orbi Router vnstat
-    command: "/bin/bash /home/homeassistant/.homeassistant/multiple_actions.sh orbi_vnstat"
-    # Script in ./bash_scripts/multiple_actions.sh
+    name: Orbi Router vnstat (total)
+    command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh vnstat_total"
+    # Script in ./bash_scripts/orbi_router.sh
     scan_interval: 120
     value_template: "{{ (value_json.id) }}"
     json_attributes:
@@ -170,12 +158,12 @@ sensor:
       orbi_router_wan_in_total:
         friendly_name: Orbi Router WAN In (total)
         unit_of_measurement: 'MB'
-        value_template: "{{ (state_attr('sensor.orbi_router_vnstat','rx')|float/1000)|round }}"
+        value_template: "{{ (state_attr('sensor.orbi_router_total_vnstat','rx')|float/1000)|round }}"
         icon_template: mdi:arrow-down
       orbi_router_wan_out_total:
         friendly_name: Orbi Router WAN Out (total)
         unit_of_measurement: 'MB'
-        value_template: "{{ (state_attr('sensor.orbi_router_vnstat','tx')|float/1000)|round }}"
+        value_template: "{{ (state_attr('sensor.orbi_router_total_vnstat','tx')|float/1000)|round }}"
         icon_template: mdi:arrow-up
 ```
 
@@ -301,15 +289,13 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ### Switch rows
 
-- Night mode
 - Adaptive Lighting
 - Lofi beats
 - Lofi beats 2
 - Jazz radio
-- AdGuard Home
+- Sleep mode
 - Bedroom AC
 - Refresh Plex
-- qBittorrent alt. speed mode [<sup>⬇️<sup>](#secretsyaml-code)
 
 ### Graph row
 
@@ -324,7 +310,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L646)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L499)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -337,13 +323,9 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L790)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L642)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
-
-### TV state row
-
-Tracks states of specific TVs.
 
 ### Graph row I/II
 
@@ -355,19 +337,16 @@ Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedt
 
 ### Graph row III
 
-- Router live traffic in/out[<sup>⬆<sup>](#netgear-orbi-integration)
-- Total router traffic[<sup>⬆<sup>](#netgear-orbi-integration)
+- Router state/system load
+- Router live traffic in/out [<sup>⬆<sup>](#netgear-orbi-integration)
+- Total router traffic [<sup>⬆<sup>](#netgear-orbi-integration)
 
-Custom implementation that polls data from router via SSH.
+Custom implementations that poll data via Netdata, and `vnstat`.
 
-### Graph row IV
+### Info row IV
 
-- Current server network in/out
-- Total server traffic in/out (today)
-
-A combined card that graphs server network usage within the last hour.
-
-Custom-made sensor that gets network traffic from `vnstat`.
+- qBittorrent card
+- Radarr/4K/Sonarr queue
 
 ### Info rows
 
@@ -381,28 +360,38 @@ Custom-made sensor that gets network traffic from `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1507)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L921)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
-### Graph/info rows
+### Graph row
 
 - ISP node state
-- Radarr/Radarr4K queue
-- Sonarr queue [<sup>⬇️<sup>](#secretsyaml-code) / upcoming
-- Sonarr shows/wanted episodes
+- Current server network in/out
+- Total server traffic in/out (today)
+
+A combined card that graphs server network usage within the last half hour.
+
+### Info card
+
+- Sonarr upcoming episodes
+- Monthly internet traffic
+- Storage used
+- HACS
 
 ### Devices card
 
 - LAN clients
 
-Using the Netgear integration, this card shows all network-connected devices. Dynamically sorted such that the last-updated device is always on top.
+Using the nmap integration, this card shows all network-connected devices.
+
+Dynamically sorted such that the last-updated device is always on top.
 
 ---
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1766)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1138)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -426,9 +415,13 @@ Using the Netgear integration, this card shows all network-connected devices. Dy
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1818)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1395)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
+
+### TV state row
+
+Tracks states of specific TVs.
 
 ### Graph rows
 

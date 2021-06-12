@@ -21,19 +21,19 @@ EOF
 exit
 fi
 
-if [[ "$1" == "vnstat_live" ]]; then
-  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json -tr 2)"
-  echo "$o"
-  exit
-fi
-
-# if [[ "$1" == "vnstat_total" ]]; then
-#   if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then exit; fi
-
-#   o="$(sshpass $SSH_COMMAND /opt/bin/vnstat -i eth0 --json d)"
-#   o="$(echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)')"
-#   echo "$o"; exit
+# if [[ "$1" == "vnstat_live" ]]; then
+#   o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json -tr 2)"
+#   echo "$o"
+#   exit
 # fi
+
+if [[ "$1" == "vnstat_total" ]]; then
+  if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then exit; fi
+
+  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat -i eth0 --json d)"
+  o="$(echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)')"
+  echo "$o"; exit
+fi
 
 if [[ "$1" == "wan_monthly_usage" ]]; then
   o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json m)"
