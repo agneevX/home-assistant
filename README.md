@@ -41,7 +41,7 @@ This layout was designed mobile-first.
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
-  - [`secrets.yaml` code](#secretsyaml-code)
+  - [secrets.yaml code](#secretsyaml-code)
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
 
@@ -450,7 +450,6 @@ Tracks states of specific TVs.
 - [`auto-entities`](https://github.com/thomasloven/lovelace-auto-entities) by [thomasloven](https://github.com/thomasloven)
 - [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 - [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by thomasloven
-- [`config-template-card`](https://github.com/iantrich/config-template-card) by [iantrich](https://github.com/iantrich)
 - [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
 - [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
 - [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
@@ -458,16 +457,17 @@ Tracks states of specific TVs.
 - [`rgb-light-card`](https://github.com/bokub/rgb-light-card) by [bokub](https://github.com/bokub)
 - [`simple-thermostat`](https://github.com/nervetattoo/simple-thermostat) by [nervetattoo](https://github.com/nervetattoo)
 - [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
+- [template-entity-row](https://github.com/thomasloven/lovelace-template-entity-row) by thomasloven
 - [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
 ---
 
-## `secrets.yaml` code
+## secrets.yaml code
 
 ```yaml
-radarr_queue: curl -s 'http://127.0.0.1:9100/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
-radarr4k_queue: curl -s 'http://127.0.0.1:9200/api/v3/queue?apiKey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
+radarr_queue: curl -s 'http://127.0.0.1:7878/api/v3/queue?apikey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
+radarr4k_queue: curl -s 'http://127.0.0.1:7879/api/v3/queue?apikey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
 reboot_orbi_satellite: sshpass -p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
 ```
 
