@@ -6,43 +6,63 @@ climate:
     temperature_sensor: sensor.broadlink_rm4_mini_temperature
     humidity_sensor: sensor.broadlink_rm4_mini_humidity
     controller_data: remote.broadlink_rm4_mini_remote
+
 input_number:
   pi_volume:
     min: 0
     max: 100
     step: 5
+
 device_tracker:
-  - platform: netgear
-    host: 10.0.0.1
-    port: 80
-    password: !secret netgear_pass
-    new_device_defaults:
-      track_new_devices: true
+  - platform: nmap_tracker
+    hosts: 10.0.0.0/24
+    scan_options: "--privileged -sn"
+    exclude:
+      - 10.0.0.1
+#  - platform: netgear
+#    host: 10.0.0.1
+#    port: 80
+#    password: !secret netgear_pass
+#    new_device_defaults:
+#      track_new_devices: true
+
 spotify:
   client_id: !secret spotify_id
   client_secret: !secret spotify_secret
+
 alexa_media:
   accounts:
     - email: !secret amazon_user
       password: !secret amazon_pass
       url: amazon.in
+
 telegram_bot:
   - platform: broadcast
     api_key: !secret telegram
     allowed_chat_ids:
       - !secret telegram_chat_id
+
 notify:
   - platform: telegram
     name: telegram
     chat_id: !secret telegram_chat_id
+
+http:
+  server_host: 127.0.0.1
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - !secret public_proxied_ip
+logger:
+  default: warning
+
+### YAML linked files
+
 webostv: !include webos.yaml
 homekit: !include homekit.yaml
 alexa: !include alexa.yaml
 google_assistant: !include google_assistant.yaml
 cloud: !include cloud.yaml
-########## SYSTEM ###########
-logger:
-  default: warning
 sensor: !include sensor.yaml
 switch: !include switch.yaml
 binary_sensor: !include binary_sensor.yaml
@@ -55,12 +75,15 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 # fan: !include fan.yaml
 shell_command: !include shell_command.yaml
-default_config:
 homeassistant:
   customize: !include customize.yaml
+
+### Misc
+
 frontend:
   themes: !include_dir_merge_named themes
 tts:
   - platform: google_translate
 recorder:
   db_url: !secret mysql_db
+default_config:

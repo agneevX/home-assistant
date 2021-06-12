@@ -124,7 +124,7 @@ White or Dark:
       sidebar-background-color: var(--card-background-color)
       sidebar-selected-background-color: var(--primary-background-color)
       sidebar-selected-icon-color: var(--primary-color)
-      sidebar-selected-text-color: var(--sidebar-selected-icon-color))
+      sidebar-selected-text-color: var(--sidebar-selected-icon-color)
       # States and Badges
       state-icon-color: "#5F6267"
       state-icon-active-color: "#5F9BEA"

@@ -7,10 +7,10 @@ if [[ "$1" == 'drive_state' ]]; then
   if [[ $mount_state == "active" ]]; then
     if [[ $drive_state == "active" ]]; then
       if [[ $crypt_state == "active" ]]; then
-        echo "on"
-      else echo "crypt_off"; fi
+        echo "all_mounted"
+      else echo "crypt_umount"; fi
     elif [[ $crypt_state == "active" ]]; then
-      echo "drive_off"
-    else echo "drive_crypt_off"; fi
-  else echo "mount_off"; fi
+      echo "drive_umount"
+    else echo "all_umount"; fi
+  else echo "mfs_umount"; fi
 fi

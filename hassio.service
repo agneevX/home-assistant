@@ -5,11 +5,9 @@ After=mariadb.service network-online.target
 [Service]
 User=homeassistant
 ExecStart=/srv/homeassistant/bin/hass \
-        -c "/home/homeassistant/.homeassistant"
-SyslogIdentifier=hass
+        --config /home/homeassistant/data
+SyslogIdentifier=hassio
 StandardOutput=null
-Restart=always
-RestartSec=10
 
 [Install]
 WantedBy=multi-user.target

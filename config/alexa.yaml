@@ -8,7 +8,6 @@ smart_home:
       - media_player.old_room_tv
       - media_player.new_room_tv
     exclude_entities:
-      - light.soundbar_volume
       - light.tv_lamp_2
       - switch.6a_plug
       - switch.16a_plug
