@@ -52,7 +52,7 @@ More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 <img src="https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge" href="https://github.com/custom-components/hacs" alt="HACS badge" align="right">
 
-The [themes](../themes) in this repository can be [added](https://hacs.xyz/docs/faq/custom_repositories) to Home Assistant via HACS as a custom repository (select `Themes` as category).
+The [themes](./themes) in this repository can be [added](https://hacs.xyz/docs/faq/custom_repositories) to Home Assistant via HACS as a custom repository (select `Themes` as category).
 
 | **Milky White** | **Kinda Dark** | **Pure Black** |
 | :-: | :-: | :-: |
