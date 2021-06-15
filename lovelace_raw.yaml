@@ -2,14 +2,12 @@ custom_header:
   active_tab_color: var(--primary-color)
   tab_indicator_color: var(--primary-color)
   chevrons: false
-  hide_help: true
-  menu_hide: true
-  default_tab_on_refresh: false
   disabled_mode: true
   exceptions:
     - conditions:
         user_agent: iPhone OS
       config:
+        menu_hide: true
         compact_mode: true
         disabled_mode: false
         tab_indicator_color: var(--primary-text-color)
@@ -29,72 +27,18 @@ views:
   - icon: mdi:home-variant
     path: home
     title: Home
-    badges:
-      - entity: person.mom
-        icon: mdi:face-woman
-      - entity: person.dad
-        icon: mdi:face
+    type: custom:masonry-layout
+    layout:
+      width: 280
+      max_cols: 2
+    badges: []
     cards:
       - cards:
           - cards:
-              - entity: sensor.drive_state
+              - entity: person.mom
+                icon: mdi:face-woman
                 show_name: false
-                icon: mdi:folder-lock
-                size: 33%
-                state:
-                  - value: all_mounted
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                  - value: mfs_umount
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                  - value: drive_umount
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                  - value: crypt_umount
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                  - value: all_umount
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                styles:
-                  card:
-                    - height: 40px
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - entity: switch.adguard_filtering
-                show_name: false
-                size: 31%
-                state:
-                  - value: 'off'
-                    icon: mdi-shield-off
-                styles:
-                  card:
-                    - height: 40px
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                tap_action:
-                  action: more-info
-                  haptic: light
-                double_tap_action:
-                  action: toggle
-                  haptic: medium
-                  confirmation:
-                    text: Disable AdGuard Home?
-                type: custom:button-card
-              - entity: device_tracker.asus_x200m
-                show_name: false
-                icon: mdi:laptop-windows
-                size: 32%
+                size: 35%
                 state:
                   - value: not_home
                     styles:
@@ -106,7 +50,56 @@ views:
                         - color: var(--primary-color)
                 styles:
                   card:
-                    - height: 40px
+                    - height: 48px
+                    - background-color: var(--background-color)
+                    - border: solid 2px var(--card-background-color)
+                tap_action:
+                  action: more-info
+                  haptic: light
+                double_tap_action:
+                  action: toggle
+                  haptic: light
+                  confirmation:
+                    text: test
+                type: custom:button-card
+              - entity: person.dad
+                icon: mdi:face
+                show_name: false
+                size: 35%
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - height: 48px
+                    - background-color: var(--background-color)
+                    - border: solid 2px var(--card-background-color)
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - entity: device_tracker.asus_x200m
+                show_name: false
+                icon: mdi:laptop-windows
+                size: 35%
+                state:
+                  - value: not_home
+                    styles:
+                      icon:
+                        - color: var(--disabled-text-color)
+                  - value: home
+                    styles:
+                      icon:
+                        - color: var(--primary-color)
+                styles:
+                  card:
+                    - height: 48px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -116,10 +109,10 @@ views:
               - entity: binary_sensor.front_gate_camera_ping
                 icon: mdi:cctv
                 show_name: false
-                size: 33%
+                size: 35%
                 styles:
                   card:
-                    - height: 40px
+                    - height: 48px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -128,17 +121,14 @@ views:
                 double_tap_action:
                   action: navigate
                   navigation_path: /lovelace/cctv
-                  haptic: medium
+                  haptic: light
                 type: custom:button-card
               - entity: binary_sensor.orbi_satellite_ping
                 show_name: false
-                size: 32%
-                state:
-                  - value: 'off'
-                    icon: mdi:access-point-network-off
+                size: 35%
                 styles:
                   card:
-                    - height: 40px
+                    - height: 48px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -146,7 +136,7 @@ views:
                   haptic: light
                 double_tap_action:
                   action: call-service
-                  haptic: medium
+                  haptic: success
                   service: switch.toggle
                   service_data:
                     entity_id: switch.reboot_orbi_satellite
@@ -154,10 +144,93 @@ views:
                     text: Reboot Orbi Satellite?
                 type: custom:button-card
             type: horizontal-stack
+          - cards:
+              - color_thresholds:
+                  - value: 22
+                    color: '#3bcf77'
+                  - value: 27
+                    color: '#d7da40'
+                  - value: 32
+                    color: '#df6943'
+                entities:
+                  - entity: sensor.broadlink_rm4_mini_temperature
+                    state_adaptive_color: true
+                hours_to_show: 1
+                points_per_hour: 14
+                decimals: 1
+                font_size: 92
+                align_icon: state
+                align_state: center
+                line_width: 7
+                show:
+                  fill: false
+                  name: false
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px
+                      14px !important
+                    }
+                type: custom:mini-graph-card
+              - color_thresholds:
+                  - value: 40
+                    color: '#3cbcc8'
+                  - value: 50
+                    color: '#29aaff'
+                  - value: 60
+                    color: '#005bff'
+                entities:
+                  - entity: sensor.broadlink_rm4_mini_humidity
+                    state_adaptive_color: true
+                align_state: center
+                font_size: 92
+                line_width: 8
+                points_per_hour: 14
+                hours_to_show: 1
+                decimals: 1
+                align_icon: state
+                show:
+                  fill: false
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                  name: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 16px 0 16px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 16px 0px 16px !important
+                    }
+                type: custom:mini-graph-card
+            type: horizontal-stack
+          - content: '# 〡 Controls'
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - entities:
               - entity: light.desk_light
                 toggle: true
-                haptic: medium
+                haptic: light
                 min: 5
                 step: 5
                 type: custom:slider-entity-row
@@ -188,7 +261,7 @@ views:
                       rgba(227,119,21,1) 100%)
               - entity: light.tv_lamp
                 toggle: true
-                haptic: medium
+                haptic: light
                 min: 5
                 step: 5
                 type: custom:slider-entity-row
@@ -263,7 +336,7 @@ views:
                     - font-size: 12px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -283,7 +356,7 @@ views:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -303,7 +376,7 @@ views:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -323,7 +396,7 @@ views:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -334,13 +407,19 @@ views:
                 entity: switch.adaptive_lighting_sleep_mode_adaptive
                 icon: mdi:weather-night
                 show_name: false
-                size: 30%
+                size: 35%
+                state:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
                 styles:
                   card:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -351,7 +430,7 @@ views:
                 show_label: true
                 show_name: false
                 layout: icon_label
-                size: 34%
+                size: 39%
                 label: |
                   [[[
                     var ac = states['climate.bedroom_ac'];
@@ -362,7 +441,7 @@ views:
                 styles:
                   card:
                     - height: 50px
-                    - width: 180px
+                    - width: 145px
                     - font-size: 13px
                     - font-weight: bold
                     - text-transform: uppercase
@@ -385,7 +464,27 @@ views:
                         - color: '#ffffff'
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
+                entity: switch.adguard_filtering
+                show_name: false
+                size: 33%
+                state:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - height: 50px
+                tap_action:
+                  action: toggle
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -393,93 +492,47 @@ views:
               - color_type: card
                 entity: script.refresh_plex
                 show_name: false
-                size: 30%
+                size: 35%
+                state:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
                 styles:
                   card:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
                 type: custom:button-card
             type: horizontal-stack
         type: vertical-stack
-      - cards:
-          - cards:
-              - color_thresholds:
-                  - value: 20
-                    color: '#00c8ff'
-                  - value: 26
-                    color: '#6be410'
-                  - value: 30
-                    color: '#ff6900'
-                entities:
-                  - entity: sensor.broadlink_rm4_mini_temperature
-                    name: Bedroom
-                    state_adaptive_color: true
-                hours_to_show: 1
-                points_per_hour: 30
-                decimals: 1
-                font_size: 96
-                font_size_header: 13
-                align_state: center
-                line_width: 7
-                show:
-                  fill: false
-                  name_adaptive_color: true
-                  icon_adaptive_color: true
-                  labels: false
-                  labels_secondary: false
-                  points: false
-                  legend: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
+      - type: vertical-stack
+        cards:
+          - content: |
+              # 〡 Now Playing
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
                     }
-                    ha-card > .info {
-                      padding: 0 14px 0px
-                      14px !important
-                    }
-                type: custom:mini-graph-card
-              - color_thresholds:
-                  - value: 40
-                    color: '#54dbff'
-                  - value: 50
-                    color: '#29aaff'
-                  - value: 60
-                    color: '#005bff'
-                entities:
-                  - entity: sensor.broadlink_rm4_mini_humidity
-                    name: Humidity
-                    state_adaptive_color: true
-                align_state: center
-                font_size: 96
-                font_size_header: 13
-                line_width: 8
-                points_per_hour: 30
-                hours_to_show: 1
-                decimals: 1
-                show:
-                  fill: false
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 16px 0 16px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 16px 0px 16px !important
-                    }
-                type: custom:mini-graph-card
-            type: horizontal-stack
           - card:
               type: entities
+              state_color: true
             filter:
               exclude:
                 - state: 'off'
@@ -491,14 +544,17 @@ views:
                 - domain: media_player
             show_empty: false
             sort:
-              method: last_updated
+              method: last_changed
               ignore_case: true
               reverse: true
             type: custom:auto-entities
-        type: vertical-stack
   - icon: mdi:camera-control
     path: controls
     title: Controls
+    type: custom:horizontal-layout
+    layout:
+      width: 300
+      max_cols: 2
     badges: []
     cards:
       - cards:
@@ -592,7 +648,7 @@ views:
                     - font-weight: bold
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -623,7 +679,7 @@ views:
                     - font-weight: bold
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -639,10 +695,14 @@ views:
                   automation.hack_turn_off_ac_entity_if_room_gets_warmer_duplicate
             show_header_toggle: false
             state_color: true
-  - badges: []
-    icon: mdi:chart-areaspline
+  - icon: mdi:chart-areaspline
     path: info
     title: Info
+    type: custom:masonry-layout
+    layout:
+      width: 300
+      max_cols: 2
+    badges: []
     cards:
       - cards:
           - entity: binary_sensor.cloudflare_dns_ping_tcp
@@ -673,7 +733,7 @@ views:
               spacing: 4
               amount: 24
               height: 25
-              round: 6.5
+              round: 7
             alias:
               ok: Online
               ko: Offline
@@ -755,6 +815,23 @@ views:
                     }
                 type: custom:mini-graph-card
             type: horizontal-stack
+          - content: |
+              # 〡 Network Stats
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - cards:
               - type: entities
                 entities:
@@ -896,32 +973,87 @@ views:
       - cards:
           - type: entities
             entities:
+              - entity: sensor.hacs
+              - type: section
+                label: qBittorrent
               - entity: sensor.qbittorrent_active_torrents
                 name: Active transfers
                 icon: mdi:swap-vertical
-              - entity: sensor.qbt_up_speed
-                name: Upload speed
-                type: custom:template-entity-row
-                state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
               - entity: sensor.qbt_down_speed
                 name: Download speed
                 type: custom:template-entity-row
                 state: '{{ states(''sensor.qbt_down_speed'')|round}} KB/s'
-              - type: section
-                label: Media apps
+              - entity: sensor.qbt_up_speed
+                name: Upload speed
+                type: custom:template-entity-row
+                state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
+            show_header_toggle: false
+            state_color: true
+          - content: |
+              # 〡 Media queue
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
+          - type: glance
+            entities:
               - entity: sensor.radarr_queue
+                name: Radarr
                 icon: mdi:filmstrip
               - entity: sensor.radarr_4k_queue
                 icon: mdi:video-4k-box
+                name: Radarr 4K
               - entity: sensor.sonarr_queue
+                name: Sonarr
                 icon: mdi:television-box
+          - content: |
+              # 〡 Storage
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
+          - type: entities
+            entities:
+              - entity: sensor.drive_state
+                name: /drive mount
+              - type: divider
+              - entity: sensor.disk_use_percent_home_agneev
+                icon: mdi:card-text
+              - entity: sensor.disk_use_percent_knox
+                name: /knox used
             show_header_toggle: false
             state_color: true
         type: vertical-stack
-  - badges: []
-    icon: mdi:chart-tree
+  - icon: mdi:chart-tree
     path: tile
     title: Tile
+    type: custom:masonry-layout
+    layout:
+      width: 300
+      max_cols: 2
+    badges: []
     cards:
       - cards:
           - type: custom:uptime-card
@@ -1003,7 +1135,7 @@ views:
                   - entities:
                       - color: '#FF7A2D'
                         entity: sensor.eth0_in
-                        name: Net In
+                        name: LAN In
                         unit: Mb/s
                     font_size: 72
                     font_size_header: 12.5
@@ -1026,7 +1158,7 @@ views:
                     entities:
                       - color: '#2EB2FF'
                         entity: sensor.eth0_out
-                        name: Net Out
+                        name: LAN Out
                     font_size: 72
                     font_size_header: 12.5
                     decimals: 1
@@ -1052,13 +1184,11 @@ views:
                     name: Traffic In
                 icon: mdi:arrow-down-circle-outline
                 font_size: 76
-                font_size_header: 12.5
-                hours_to_show: 2
-                points_per_hour: 6
+                font_size_header: 12.9
                 show:
                   labels: false
                   points: false
-                  graph: bar
+                  graph: false
                   icon_adaptive_color: true
                   name_adaptive_color: true
                 card_mod:
@@ -1078,13 +1208,11 @@ views:
                     name: Traffic Out
                 icon: mdi:arrow-up-circle-outline
                 font_size: 76
-                font_size_header: 12.5
-                hours_to_show: 2
-                points_per_hour: 6
+                font_size_header: 12.9
                 show:
                   labels: false
                   points: false
-                  graph: bar
+                  graph: false
                   icon_adaptive_color: true
                   name_adaptive_color: true
                 card_mod:
@@ -1097,28 +1225,53 @@ views:
                     }
                 type: custom:mini-graph-card
             type: horizontal-stack
+        type: vertical-stack
+      - type: vertical-stack
+        cards:
+          - content: |
+              # 〡 History
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - type: entities
             entities:
-              - entity: sensor.sonarr_upcoming
-                icon: mdi:progress-clock
-              - type: section
-                label: Internet traffic (monthly)
               - entity: sensor.wan_monthly_usage_up
                 name: Data uploaded
               - entity: sensor.wan_monthly_usage_down
                 name: Data downloaded
+              - type: divider
               - entity: sensor.wan_monthly_usage_total
                 name: Total traffic
-          - type: entities
-            entities:
-              - entity: sensor.disk_use_percent_home_agneev
-                icon: mdi:card-text
-              - entity: sensor.disk_use_percent_knox
-                name: /knox used
-              - type: divider
-              - entity: sensor.hacs
-        type: vertical-stack
       - cards:
+          - content: |
+              # 〡 LAN Devices
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - card:
               type: entities
             filter:
@@ -1138,12 +1291,16 @@ views:
   - icon: mdi:remote
     path: remote-control
     title: Remote Control
+    type: custom:horizontal-layout
+    layout:
+      width: 300
+      max_cols: 2
     badges: []
     cards:
       - type: vertical-stack
         cards:
           - content: |
-              # Cloud ☁️
+              # 〡 Cloud ☁️
             type: markdown
             card_mod:
               style:
@@ -1192,7 +1349,7 @@ views:
               when_standby: true
       - cards:
           - content: |
-              # Level 1
+              # 〡 Level 1
             type: markdown
             card_mod:
               style:
@@ -1236,10 +1393,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1260,10 +1417,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1284,10 +1441,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1322,10 +1479,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1346,10 +1503,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1370,10 +1527,10 @@ views:
                   card:
                     - font-size: 12px
                     - font-weight: bold
-                    - height: 40px
+                    - height: 42px
                 tap_action:
                   action: toggle
-                  haptic: medium
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -1395,6 +1552,11 @@ views:
   - icon: mdi:television-play
     path: tv
     title: TV
+    type: custom:masonry-layout
+    layout:
+      width: 300
+      max_cols: 2
+    theme: ''
     badges: []
     cards:
       - type: vertical-stack
@@ -1619,7 +1781,7 @@ views:
           - card:
               artwork: material
               entity: media_player.plex_plex_for_android_tv_sony_bravia
-              name: Plex - Sony Bravia
+              name: Plex on Sony Bravia
               icon: mdi:plex
               volume_step: '2'
               hide:
@@ -1632,32 +1794,12 @@ views:
               - entity: media_player.plex_plex_for_android_tv_sony_bravia
                 state_not: unavailable
               - entity: media_player.plex_plex_for_android_tv_sony_bravia
-                state_not: idle
-            type: conditional
-          - card:
-              artwork: material
-              name: MrMC
-              icon: mdi:plex
-              volume_step: '2'
-              hide:
-                power: true
-                controls: true
-                volume: true
-              idle_view:
-                when_idle: true
-                when_standby: true
-              type: custom:mini-media-player
-              entity: media_player.plex_mrmc_localhost
-            conditions:
-              - entity: media_player.plex_mrmc_localhost
-                state_not: unavailable
-              - entity: media_player.plex_mrmc_localhost
                 state_not: idle
             type: conditional
       - type: vertical-stack
         cards:
           - content: |
-              # Bedroom
+              # 〡 Bedroom
             card_mod:
               style:
                 .: |
@@ -1734,7 +1876,7 @@ views:
             type: custom:mini-media-player
             entity: media_player.siti_cable_stb
           - content: |
-              # Level 1
+              # 〡 Level 1
             card_mod:
               style:
                 .: |
@@ -1809,7 +1951,7 @@ views:
               hide_when_off: true
             type: custom:mini-media-player
           - content: |
-              # Level 2
+              # 〡 Level 2
             card_mod:
               style:
                 .: |

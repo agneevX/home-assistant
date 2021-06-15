@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 MD036-->
 # Home Assistant setup
 
-This layout was designed mobile-first.
+Layout designed mobile-first, fully optimized for all screen sizes.
 
 ![hero_shot](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
@@ -15,7 +15,6 @@ This layout was designed mobile-first.
     - [Lo-fi beats](#lo-fi-beats)
   - [Lovelace layout](#lovelace-layout)
   - [Dashboard](#dashboard)
-    - [Badges](#badges)
     - [State row](#state-row)
     - [Lights card](#lights-card)
     - [Switch rows](#switch-rows)
@@ -37,7 +36,7 @@ This layout was designed mobile-first.
   - [Plex/TV view](#plextv-view)
     - [TV state row](#tv-state-row)
     - [Graph rows](#graph-rows)
-    - [Plex/TV players](#plextv-players)
+    - [Plex/TV cards](#plextv-cards)
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
@@ -93,9 +92,6 @@ switch:
           entity_id: input_boolean.16a_plug_state
         - service: media_player.play_media
           entity_id: media_player.new_room_echo
-          # Preferably set an Echo device that is rarely used 
-          # as the Echo device actually carries out the command
-          # in the foreground
           data:
             media_content_id: 'turn on 6a plug'
             media_content_type: custom
@@ -257,23 +253,14 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 
 ## Dashboard
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L29)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L27)
 
 ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
 
-### Badges
-
-- *People presence*
-- Ethernet in/out
-- HACS updates
-
-_This is the only view that contain badges._
-
 ### State row
 
-- `/drive` mount
+- Person presence
 - ASUS laptop
-- AdGuard Home
 - Front gate camera
 - Mesh router satellite/reboot[<sup>⬇️<sup>](#secretsyaml-code)
 
@@ -295,6 +282,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - Jazz radio
 - Sleep mode
 - Bedroom AC
+- AdGuard Home
 - Refresh Plex
 
 ### Graph row
@@ -310,7 +298,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Controls view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L499)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L551)
 
 ![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
@@ -323,7 +311,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L642)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L698)
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
@@ -360,7 +348,7 @@ Custom implementations that poll data via Netdata, and `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L921)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1049)
 
 ![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
 
@@ -391,7 +379,7 @@ Dynamically sorted such that the last-updated device is always on top.
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1138)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1291)
 
 ![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
 
@@ -415,7 +403,7 @@ Dynamically sorted such that the last-updated device is always on top.
 
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1395)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1552)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
 
@@ -427,12 +415,11 @@ Tracks states of specific TVs.
 
 - Plex currently watching
 - Tautulli current bandwidth
+
+### Plex/TV cards
+
 - Plex media players
-
-### Plex/TV players
-
-- Header cards
-- Conditional TV player cards
+- TV media player
 
 ---
 
@@ -451,13 +438,14 @@ Tracks states of specific TVs.
 - [`button-card`](https://github.com/custom-cards/button-card) by [RomRider](https://github.com/RomRider)
 - [`card-mod`](https://github.com/thomasloven/lovelace-card-mod) by thomasloven
 - [`custom-header`](https://github.com/maykar/custom-header) by [maykar](https://github.com/maykar)
+- [`layout-card`](https://github.com/thomasloven/lovelace-layout-card) by thomasloven
 - [`lovelace-swipe-navigation`](https://github.com/maykar/lovelace-swipe-navigation) by maykar
 - [`mini-graph-card`](https://github.com/kalkih/mini-graph-card) by [kalkih](https://github.com/kalkih)
 - [`mini-media-player`](https://github.com/kalkih/mini-media-player) by kalkih
 - [`rgb-light-card`](https://github.com/bokub/rgb-light-card) by [bokub](https://github.com/bokub)
 - [`simple-thermostat`](https://github.com/nervetattoo/simple-thermostat) by [nervetattoo](https://github.com/nervetattoo)
 - [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
-- [template-entity-row](https://github.com/thomasloven/lovelace-template-entity-row) by thomasloven
+- [`template-entity-row`](https://github.com/thomasloven/lovelace-template-entity-row) by thomasloven
 - [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
 
