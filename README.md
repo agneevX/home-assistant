@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD033 MD036-->
+<!-- markdownlint-disable MD024 MD033 MD036 -->
 # Home Assistant setup
 
 Layout designed mobile-first, fully optimized for all screen sizes.
@@ -13,29 +13,27 @@ Layout designed mobile-first, fully optimized for all screen sizes.
     - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
     - [Lo-fi beats](#lo-fi-beats)
-  - [Lovelace layout](#lovelace-layout)
+- [Lovelace layout](#lovelace-layout)
   - [Dashboard](#dashboard)
     - [State row](#state-row)
+    - [Graph row](#graph-row)
     - [Lights card](#lights-card)
     - [Switch rows](#switch-rows)
-    - [Graph row](#graph-row)
     - [Now Playing card](#now-playing-card)
   - [Controls view](#controls-view)
   - [Info view](#info-view)
-    - [Graph row I/II](#graph-row-iii)
-    - [Graph row III](#graph-row-iii-1)
-    - [Info row IV](#info-row-iv)
-    - [Info rows](#info-rows)
+    - [Graph rows](#graph-rows)
+    - [Network stats](#network-stats)
+    - [Sensor cards](#sensor-cards)
   - [Tile view](#tile-view)
     - [Graph row](#graph-row-1)
-    - [Info card](#info-card)
-    - [Devices card](#devices-card)
+    - [Info cards](#info-cards)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
     - [Alexa players](#alexa-players)
   - [Plex/TV view](#plextv-view)
     - [TV state row](#tv-state-row)
-    - [Graph rows](#graph-rows)
+    - [Graph rows](#graph-rows-1)
     - [Plex/TV cards](#plextv-cards)
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
@@ -107,8 +105,6 @@ switch:
 
 </details>
 
----
-
 ### Netgear Orbi integration
 
 With custom firmware and using bash scripts, router stats like internet usage can be integrated into Home Assistant.
@@ -165,8 +161,6 @@ sensor:
 
 </details>
 
----
-
 ### Soundbar control
 
 Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
@@ -211,8 +205,6 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 </details>
 
----
-
 ### Lo-fi beats
 
 Plays Lo-fi beats live stream from YouTube.
@@ -249,20 +241,29 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 
 </details>
 
-## Lovelace layout
+---
+
+# Lovelace layout
 
 ## Dashboard
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L27)
 
-![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view")
+![dashboard](https://user-images.githubusercontent.com/19761269/122021355-38d9cc00-cde3-11eb-8d34-7bee796123c2.png "Dashboard")
+
+<!-- ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view") -->
 
 ### State row
 
 - Person presence
 - ASUS laptop
 - Front gate camera
-- Mesh router satellite/reboot[<sup>⬇️<sup>](#secretsyaml-code)
+- Mesh router satellite/reboot
+
+### Graph row
+
+- Bedroom temperature
+- Bedroom humidity
 
 ### Lights card
 
@@ -277,18 +278,11 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ### Switch rows
 
 - Adaptive Lighting
-- Lofi beats
-- Lofi beats 2
-- Jazz radio
+- Lofi beats/2/Jazz radio
 - Sleep mode
 - Bedroom AC
 - AdGuard Home
 - Refresh Plex
-
-### Graph row
-
-- Bedroom temperature
-- Bedroom humidity
 
 ### Now Playing card
 
@@ -315,7 +309,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
 
-### Graph row I/II
+### Graph rows
 
 - Internet health
 - Download speed (Speedtest.net)
@@ -323,7 +317,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedtest.net/apps/cli) instead of the rather inaccurate `speedtest-cli`.
 
-### Graph row III
+### Network stats
 
 - Router state/system load
 - Router live traffic in/out [<sup>⬆<sup>](#netgear-orbi-integration)
@@ -331,18 +325,12 @@ Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedt
 
 Custom implementations that poll data via Netdata, and `vnstat`.
 
-### Info row IV
+### Sensor cards
 
+- HACS
 - qBittorrent card
-- Radarr/4K/Sonarr queue
-
-### Info rows
-
-- qBittorrent active torrents [<sup>⬇️<sup>](#secretsyaml-code)
-- qBittorrent upload/download speed
-- SSD free %
-- `/knox` free %
-- Orbi router info
+- Radarr/Sonarr card
+- Storage stats card
 
 ---
 
@@ -360,16 +348,10 @@ Custom implementations that poll data via Netdata, and `vnstat`.
 
 A combined card that graphs server network usage within the last half hour.
 
-### Info card
+### Info cards
 
-- Sonarr upcoming episodes
-- Monthly internet traffic
-- Storage used
-- HACS
-
-### Devices card
-
-- LAN clients
+- Monthly internet traffic card
+- LAN clients card
 
 Using the nmap integration, this card shows all network-connected devices.
 
@@ -388,15 +370,11 @@ Dynamically sorted such that the last-updated device is always on top.
 - Spotify media player
   - Playlist shortcuts
   - Soundbar source
-  - Bedroom Echo source
+  - Amazon Echo sources
 
 ### Alexa players
 
-- Household Echo media players
-- *... switches*
-  - Do Not Disturb
-  - Repeat
-  - Shuffle
+- Echo media players & switches
 - Alexa Everywhere media player
 
 ---
