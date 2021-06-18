@@ -10,7 +10,7 @@ SSH_PASSWORD=""
 WEB_AUTH=""
 
 ssh_command () {
-  sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no root@$HOST "$1"
+  sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@"$HOST" "$1"
 }
 
 vnstat_current () {
@@ -44,7 +44,7 @@ EOF
 }
 
 ping_router () {
-  if ! ping -c 1 -W 1 $HOST &> /dev/null; then exit; fi
+  if ! ping -c 1 -W 1 "$HOST" &> /dev/null; then exit; fi
 }
 
 web_scrape () {

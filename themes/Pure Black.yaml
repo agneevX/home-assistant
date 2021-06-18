@@ -74,14 +74,6 @@ Pure Black:
   hacs-chip-background-color: var(--primary-color)
   # Pre/Code
   markdown-code-background-color: var(--app-header-background-color)
-  # Custom theme colors
-  green-color: "#04E700"
-  orange-color: "#FFB62E"
-  red-color: "#FFB3B3"
-  qbt-color: "#54A0FF"
-  qbt-seeding-color: "#FF9333"
-  radarr-color: "#F5BB41"
-  sonarr-color: "#23CDFD"
 
   card-mod-view-yaml: |
     "*:first-child$": |
