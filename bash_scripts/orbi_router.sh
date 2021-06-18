@@ -1,75 +1,57 @@
 #!/bin/bash
-# shellcheck disable=SC2086,2206
+# shellcheck disable=SC2206,2046
 set -e
-DISABLE=no
 
-# if [[ "$1" == "-d" ]] || [[ "$1" == "--debug" ]]; then 
-#   set -x
-#   DEBUG=true
-# fi
+# Enable debug mode
+if [[ "$1" == "-d" ]] || [[ "$1" == "--debug" ]]; then set -x; fi
 
-PASSWORD="XXXXX"
-SSH_COMMAND="-p $PASSWORD ssh -o StrictHostKeyChecking=no root@10.0.0.1"
+HOST=""
+SSH_PASSWORD=""
+WEB_AUTH=""
 
-if [[ "$1" == "wan_live" ]]; then
-  o=$(curl -s "http://10.0.0.1:19999/api/v1/data?chart=net.brwan&points=1&options=jsonwrap&format=json" | jq '.latest_values[]')
-  receive=$(echo "$o"|sed -n '1p'| awk '{print int($1+0.5)}')
-  sent=$(echo "$o"| sed -n '2p'|sed 's/-//g'| awk '{print int($1+0.5)}')
-cat << EOF
-{"index": "0","receive": "$receive","sent": "$sent"}
-EOF
-exit
-fi
+ssh_command () {
+  sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no root@$HOST "$1"
+}
 
-# if [[ "$1" == "vnstat_live" ]]; then
-#   o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json -tr 2)"
-#   echo "$o"
-#   exit
-# fi
+vnstat_current () {
+  ssh_command '/opt/bin/vnstat -i brwan --json -tr 2'
+}
 
-if [[ "$1" == "vnstat_total" ]]; then
-  if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then exit; fi
+vnstat_daily_total () {
+  o="$(ssh_command '/opt/bin/vnstat -i eth0 --json d')"
 
-  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat -i eth0 --json d)"
-  o="$(echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)')"
-  echo "$o"; exit
-fi
+  echo "$o"|jq '.interfaces[]|select(.id=="eth0")'|jq '.traffic.days[]|select(.id==0)'
+}
 
-if [[ "$1" == "wan_monthly_usage" ]]; then
-  o="$(sshpass $SSH_COMMAND /opt/bin/vnstat --json m)"
-  upload="$(echo "$o"|jq '.interfaces[0].traffic.months[0].tx')"
-  download="$(echo "$o"|jq '.interfaces[0].traffic.months[0].rx')"
-  total=$(( $upload + $download ))
+vnstat_month_total () {
+  o="$(ssh_command '/opt/bin/vnstat -i eth0 --json m')"
+
+  upload="$(echo "$o" | jq '.interfaces[0].traffic.months[0].tx')"
+  download="$(echo "$o" | jq '.interfaces[0].traffic.months[0].rx')"
+  total=$(( upload + download ))
 cat << EOF
 {"index":"0","upload":"$upload","download":"$download","total":"$total"}
 EOF
-  exit
-fi
+}
 
-if [[ $DISABLE == "yes" ]]; then
+netdata_net () {
+  o=$(curl -s "http://$HOST:19999/api/v1/data?chart=$1&points=1&options=jsonwrap&format=json")
+  receive="$(echo "$o" | jq '.latest_values[0]' | awk '{printf "%.0f\n", $1}')"
+  sent="$(echo "$o" | jq '.latest_values[1]' | sed 's/-//g' | awk '{printf "%.0f\n", $1}')"
 cat << EOF
-{"status": "disabled"}
+{"index": "0","receive": "$receive","sent": "$sent"}
 EOF
-exit; fi
+}
 
-if ! ping -c 1 -W 1 10.0.0.1 &> /dev/null; then
-cat << EOF
-{"status": "timeout"}
-EOF
-exit; fi
+ping_router () {
+  if ! ping -c 1 -W 1 $HOST &> /dev/null; then exit; fi
+}
 
-#command="(/bin/cat /sys/devices/virtual/net/brwan/statistics/tx_bytes && \
-#/bin/cat /sys/devices/virtual/net/brwan/statistics/rx_bytes)"
+web_scrape () {
+  echo "$WEB_SCRAPE" | grep var | grep '=' | grep '"' | grep "$1" | grep -o '".*"' | sed 's/"//g'
+}
 
-command="(/bin/cat /proc/loadavg)"
-
-i="$(sshpass $SSH_COMMAND $command)"; i=($i)
-
-#set -- $i
-#WAN_IN="$(echo $2)"
-#WAN_OUT="$(echo $1)"
-
-timecalc () {
+calculate_time () {
   num="$1"; min=0; hour=0; day=0
   if ((num>59)); then ((num=num/60))
     if ((num>59)); then
@@ -84,44 +66,73 @@ timecalc () {
   echo "$day"d "$hour"h "$min"m
 }
 
-INPUT=$(curl -s --http0.9 "http://10.0.0.1/RST_statistic.htm" -H 'Content-Type: application/octet-stream' -H 'Authorization: Basic XXXXX')
-if [[ "$INPUT" == *multi_login.html* ]]; then
+# Exit script if router cannot be reached
+if [[ $(ping_router) ]]; then
 cat << EOF
-{"status": "unknown"}
+{"status": "timeout"}
 EOF
+exit
+fi
+
+# Get current WAN stats from Netdata via it's API
+if [[ "$1" == "wan_current" ]]; then 
+  netdata_net "net.brwan"
 exit; fi
 
-STAGE2="$(echo "$INPUT"|grep "var"|grep '='|grep '"')"
+# Get current stats from wireless backhaul
+if [[ "$1" == "backhaul_current" ]]; then 
+  netdata_net "net.ath2"
+exit; fi
 
-if [[ $DEBUG == "true" ]]; then
-  echo "$INPUT"; echo "-----"
-  echo "$STAGE2"
-exit 1; fi
+# Get daily WAN stats from vnstat over SSH
+if [[ "$1" == "wan_daily" ]]; then 
+  ping_router
+  vnstat_daily_total
+  exit
+fi
 
-UPTIME="$(echo "$STAGE2" | grep sys_uptime | grep -o '".*"' | sed 's/"//g')"
-UPTIME=$(timecalc "$UPTIME")
+# Get monthly WAN stats from vnstat over SSH
+if [[ "$1" == "wan_month" ]]; then
+  ping_router
+  vnstat_month_total
+  exit
+fi
 
-WAN_UPTIME="$(echo "$STAGE2" | grep wan_systime | grep -o '".*"' | sed 's/"//g')"
-WAN_UPTIME=$(timecalc "$WAN_UPTIME")
+#####################################################
 
-WAN_PORT_SPEED="$(echo "$STAGE2" | grep wan_status | grep -o '".*"' | sed 's/"//g')"
+WEB_SCRAPE=$(curl -s --http0.9 "http://$HOST/RST_statistic.htm" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH")
+
+# Exit script if logged in on another device
+if [[ "$WEB_SCRAPE" == *multi_login.html* ]]; then
+cat << EOF
+{"status": "logged-in"}
+EOF
+exit
+fi
+
+# Get WAN port speed/state
+WAN_PORT_SPEED="$(web_scrape wan_status)"
+
 if [[ $WAN_PORT_SPEED == *"Full"* ]]; then
   WAN_STATUS="Link up"
-else WAN_STATUS="$WAN_PORT_SPEED"; fi
+else
+  WAN_STATUS="Link DOWN"
+fi
 
-LAN_PORT_1_SPEED="$(echo "$STAGE2" | grep lan_status0 | grep -o '".*"' | sed 's/"//g')"
-LAN_PORT_2_SPEED="$(echo "$STAGE2" | grep lan_status1 | grep -o '".*"' | sed 's/"//g')"
-LAN_PORT_3_SPEED="$(echo "$STAGE2" | grep lan_status2 | grep -o '".*"' | sed 's/"//g')"
+LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"; LOAD_AVG=($LOAD_AVG)
 
+# Print router stats
 cat << EOF
 {
   "status": "$WAN_STATUS",
-  "Uptime": "$UPTIME",
-  "System load": "${i[0]} ${i[1]} ${i[2]}",
-  "WAN Uptime": "$WAN_UPTIME",
+  "Uptime": "$(calculate_time $(web_scrape sys_uptime))",
+  "System load": "${LOAD_AVG[0]} ${LOAD_AVG[1]} ${LOAD_AVG[2]}",
+  "WAN Uptime": "$(calculate_time $(web_scrape wan_systime))",
   "WAN Port": "$WAN_PORT_SPEED",
-  "LAN Port 1": "$LAN_PORT_1_SPEED",
-  "LAN Port 2": "$LAN_PORT_2_SPEED",
-  "LAN Port 3": "$LAN_PORT_3_SPEED"
+  "LAN Port 1": "$(web_scrape lan_status0)",
+  "LAN Port 2": "$(web_scrape lan_status1)",
+  "LAN Port 3": "$(web_scrape lan_status2)"
 }
 EOF
