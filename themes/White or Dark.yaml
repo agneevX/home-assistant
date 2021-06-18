@@ -64,20 +64,9 @@ White or Dark:
       disabled-text-color: "#717171"
       # Sidebar Menu
       sidebar-icon-color: var(--app-header-text-color)
-      sidebar-text-color: var(--primary-text-color)
-      sidebar-background-color: var(--card-background-color)
-      sidebar-selected-background-color: var(--primary-background-color)
-      sidebar-selected-icon-color: var(--primary-color)
-      sidebar-selected-text-color: var(--sidebar-selected-icon-color)
       # States and Badges
       state-icon-color: "#5F6267"
       state-icon-active-color: var(--primary-color)
-      # Sliders
-      paper-slider-knob-color: var(--primary-color)
-      paper-slider-knob-start-color: var(--paper-slider-knob-color)
-      paper-slider-pin-color: var(--paper-slider-knob-color)
-      paper-slider-active-color: var(--paper-slider-knob-color)
-      paper-slider-secondary-color: var(--light-primary-color)
       # Cards
       card-background-color: "#FFFFFF"
       ha-card-box-shadow: 1px 1px 5px 1px rgb(230, 230, 230)
