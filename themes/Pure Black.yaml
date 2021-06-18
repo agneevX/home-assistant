@@ -86,24 +86,9 @@ Pure Black:
   card-mod-view-yaml: |
     "*:first-child$": |
       :host {
-        padding-top: 2px;
+        padding-top: 0px;
       }
       #columns {
         margin-left: 0px;
         margin-right: 0px;
-      }
-
-  card-mod-badge-yaml: |
-    .: |
-      :host {
-        color: var(--primary-text-color);
-
-        /* Make badge borders red/green for binary sensors and blue otherwise */
-        --label-badge-blue: {% if not states(config.entity) %} var(--primary-color);
-          {% elif is_state(config.entity, 'off') %} orange;
-          {% elif is_state(config.entity, 'closed') %} orange;
-          {% elif is_state(config.entity, 'locked') %} orange;
-          {% elif is_state(config.entity, 'not_home') %} orange;
-          {% else %} var(--primary-color); {% endif %}
-        --label-badge-red: var(--primary-color);
       }
