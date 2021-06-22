@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  homeassistant:
+    container_name: homeassistant
+    hostname: homeassistant
+    image: homeassistant/home-assistant:stable
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /opt/appdata/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      # System sensors
+      - /home/agneev/.homeassistant:/home/agneev:ro
+      - /knox/.homeassistant:/knox:ro

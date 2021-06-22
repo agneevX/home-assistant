@@ -44,7 +44,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ## Background
 
-Home Assistant Core installation on Raspberry Pi 4, with MySQL database.
+Home Assistant Docker installation on Raspberry Pi 4, with MariaDB database.
 
 More details [here](https://github.com/agneevX/server-setup#nas-server).
 
