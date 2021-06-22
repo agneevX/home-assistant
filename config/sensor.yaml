@@ -3,12 +3,14 @@
   url: "http://127.0.0.1:8100"
   username: !secret qbt_user
   password: !secret qbt_pass
+
 - platform: systemmonitor
   resources:
     - type: disk_use_percent
       arg: /home/agneev
     - type: disk_use_percent
       arg: /knox
+
 - platform: systemmonitor
   scan_interval: 7
   resources:
@@ -16,39 +18,46 @@
       arg: eth0
     - type: throughput_network_out
       arg: eth0
+
 - platform: tautulli
   api_key: !secret tautulli_api_key
   host: 10.0.0.10
   monitored_users:
     - agneev
+
+# Command line sensors
+#
 - platform: command_line
-  name: Monthly WAN usage
-  command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh wan_monthly_usage"
+  name: Router monthly WAN usage
+  command: "/bin/bash /config/scripts/orbi_router.sh wan_monthly"
   scan_interval: 00:30:00
   value_template: "{{ value_json.index }}"
   json_attributes:
     - upload
     - download
     - total
+
 - platform: command_line
-  name: Orbi Router vnstat (total)
-  command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh vnstat_total"
-  scan_interval: 120
+  name: Router daily WAN usage
+  command: "/bin/bash /config/scripts/orbi_router.sh wan_daily"
+  scan_interval: 180
   value_template: "{{ value_json.id }}"
   json_attributes:
     - rx
     - tx
+
 - platform: command_line
-  name: Orbi Router WAN live data
-  command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh wan_live"
+  name: Router current WAN usage
+  command: "/bin/bash /config/scripts/orbi_router.sh wan_current"
   scan_interval: 3
   value_template: "{{ value_json.index }}"
   json_attributes:
     - receive
     - sent
+
 - platform: command_line
-  name: Orbi Router
-  command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh"
+  name: Netgear Orbi
+  command: "/bin/bash /config/scripts/orbi_router.sh"
   value_template: "{{ (value_json.status) }}"
   scan_interval: 20
   json_attributes:
@@ -59,118 +68,138 @@
     - LAN Port 1
     - LAN Port 2
     - LAN Port 3
+
 - platform: command_line
   name: qBittorrent - active torrents
   command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l"
   unit_of_measurement: 'torrents'
   scan_interval: 20
+
 - platform: command_line
   name: /drive State
-  command: "/bin/bash /home/homeassistant/scripts/multiple_actions.sh drive_state"
+  command: "/bin/bash /config/scripts/multiple_actions.sh drive_state"
+
 - platform: command_line
   name: Radarr Queue
   command: !secret radarr_queue
+#  json_attributes:
+#    - records
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
+
 - platform: command_line
   name: Radarr 4K Queue
   command: !secret radarr4k_queue
   unit_of_measurement: 'movies'
   value_template: "{{ (value_json.totalRecords) }}"
+#  json_attributes:
+#    - records
+
 - platform: command_line
   name: Speedtest.net Download Speed
-  command: "/bin/bash /home/homeassistant/scripts/spdtst.sh"
-  command_timeout: 60
-  scan_interval: 00:30:00
+  command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_download"
   unit_of_measurement: 'Mb/s'
-  value_template: "{{ (value_json.download_speed|float/125000)|round(1) }}"
+  value_template: "{{ value_json.speed|round(1) }}"
   json_attributes:
-    - upload_speed
     - Ping
     - Server
-    - Data used
+
+- platform: command_line
+  name: Speedtest.net Upload Speed
+  command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_upload"
+  unit_of_measurement: 'Mb/s'
+  value_template: "{{ value_json.speed|round(1) }}"
+  json_attributes:
+    - Ping
+    - Server
+
 - platform: command_line
   name: eth0 In (total)
-  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'rx' | tail -1 | echo $(tr -dc '0-9')
+  command: "/bin/bash /config/scripts/multiple_actions.sh vnstat_daily_receive"
   value_template: "{{ (value_json|float/(1000*1000))|round }}"
   scan_interval: 180
+
 - platform: command_line
   name: eth0 Out (total)
-  command: vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'tx' | tail -1 | echo $(tr -dc '0-9')
+  command: "/bin/bash /config/scripts/multiple_actions.sh vnstat_daily_sent"
   value_template: "{{ (value_json|float/(1000*1000))|round }}"
   scan_interval: 180
+
+# Template sensors
+#
 - platform: template
   sensors:
     wan_monthly_usage_up:
-      friendly_name: WAN Monthly Usage - Upload
+      friendly_name: WAN monthly usage (upload)
       value_template: >-
-        {% if state_attr('sensor.monthly_wan_usage','upload') != None %}
-          {{ (state_attr('sensor.monthly_wan_usage','upload')|float/976563)|round(1) }}
+        {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
         {% else %} NaN {% endif %}
       icon_template: mdi:upload
       unit_of_measurement: GB
+
     wan_monthly_usage_down:
-      friendly_name: WAN Monthly Usage - Download
+      friendly_name: WAN monthly usage (download)
       value_template: >-
-        {% if state_attr('sensor.monthly_wan_usage','download') != None %}
-          {{ (state_attr('sensor.monthly_wan_usage','download')|float/976563)|round(1) }}
+        {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
         {% else %} NaN {% endif %}
       icon_template: mdi:download
       unit_of_measurement: GB
+
     wan_monthly_usage_total:
-      friendly_name: WAN Monthly Usage - Total
+      friendly_name: WAN monthly usage (total)
       value_template: >-
-        {% if state_attr('sensor.monthly_wan_usage','total') != None %}
-          {{ (state_attr('sensor.monthly_wan_usage','total')|float/976563)|round }}
+        {% if state_attr('sensor.router_monthly_wan_usage','total') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','total')|float/976563)|round(1) }}
         {% else %} NaN {% endif %}
       icon_template: mdi:wifi-arrow-up-down
       unit_of_measurement: GB
-    orbi_router_wan_in:
-      friendly_name: Orbi Router WAN In
-      value_template: "{{ (state_attr('sensor.orbi_router_wan_live_data','receive')|float/1000)|round(1) }}"
+
+    wan_in:
+      friendly_name: WAN In
+      value_template: "{{ (state_attr('sensor.router_current_wan_usage','receive')|float/1000)|round(1) }}"
       icon_template: mdi:arrow-down
       unit_of_measurement: 'Mb/s'
-    orbi_router_wan_out:
-      friendly_name: Orbi Router WAN Out
-      value_template: "{{ (state_attr('sensor.orbi_router_wan_live_data','sent')|float/1000)|round(1) }}"
+
+    wan_out:
+      friendly_name: WAN Out
+      value_template: "{{ (state_attr('sensor.router_current_wan_usage','sent')|float/1000)|round(1) }}"
       icon_template: mdi:arrow-up
       unit_of_measurement: 'Mb/s'
-    orbi_router_wan_in_total:
-      friendly_name: Orbi Router WAN In (total)
+
+    wan_daily_usage_up:
+      friendly_name: WAN daily usage (upload)
       value_template: >-
-        {% if state_attr('sensor.orbi_router_vnstat_total','rx') != 0 %}
-          {{ (state_attr('sensor.orbi_router_vnstat_total','rx')|float/1000)|round }}
+        {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
         {% else %} NaN {% endif %}
       icon_template: mdi:arrow-down
       unit_of_measurement: 'MB'
-    orbi_router_wan_out_total:
-      friendly_name: Orbi Router WAN Out (total)
+
+    wan_daily_usage_down:
+      friendly_name: WAN daily usage (download)
       value_template: >-
-        {% if state_attr('sensor.orbi_router_vnstat_total','tx') != 0 %}
-          {{ (state_attr('sensor.orbi_router_vnstat_total','tx')|float/1000)|round }}
+        {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
         {% else %} NaN {% endif %}
       icon_template: mdi:arrow-up
       unit_of_measurement: 'MB'
-    speedtest_net_upload_speed:
-      friendly_name: Speedtest.net Upload Speed
-      value_template: >-
-        {% if state_attr('sensor.speedtest_net_download_speed','upload_speed') != None %}
-          {{ (state_attr('sensor.speedtest_net_download_speed','upload_speed')|float/125000)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:arrow-up
-      unit_of_measurement: 'Mb/s'
+
     tautulli_total_bandwidth:
-      friendly_name: Tautulli Total Bandwidth
+      friendly_name: Tautulli total bandwidth
       value_template: >-
         {% if state_attr('sensor.tautulli','total_bandwidth')|float/1024 < 1000 %}
           {{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}
         {% else %} - {% endif %}
       icon_template: mdi:square-wave
       unit_of_measurement: 'Mb/s'
+
     eth0_in:
       friendly_name: eth0 In
       value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
       unit_of_measurement: 'Mb/s'
+
     eth0_out:
       friendly_name: eth0 Out
       value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
