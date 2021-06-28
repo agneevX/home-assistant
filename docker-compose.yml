@@ -1,14 +1,18 @@
 version: "3.8"
 services:
-  homeassistant:
-    container_name: homeassistant
-    hostname: homeassistant
+  home-assistant:
+    container_name: home-assistant
     image: homeassistant/home-assistant:stable
     restart: unless-stopped
     network_mode: host
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8123 -o /dev/null || exit 1"]
     volumes:
-      - /opt/appdata/homeassistant:/config
+      - /opt/appdata/home-assistant:/config
       - /etc/localtime:/etc/localtime:ro
+      # MariaDB database
+      - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
       # System sensors
       - /home/agneev/.homeassistant:/home/agneev:ro
       - /knox/.homeassistant:/knox:ro
+      
