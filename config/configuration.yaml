@@ -9,22 +9,18 @@ climate:
 
 input_number:
   pi_volume:
+    name: Soundbar Volume
     min: 0
     max: 100
     step: 5
 
 device_tracker:
-  - platform: nmap_tracker
-    hosts: 10.0.0.0/24
-    scan_options: "--privileged -sn"
-    exclude:
-      - 10.0.0.1
-#  - platform: netgear
-#    host: 10.0.0.1
-#    port: 80
-#    password: !secret netgear_pass
-#    new_device_defaults:
-#      track_new_devices: true
+  - platform: netgear
+    host: 10.0.0.1
+    port: 80
+    password: !secret netgear_pass
+    new_device_defaults:
+      track_new_devices: true
 
 spotify:
   client_id: !secret spotify_id
@@ -48,11 +44,11 @@ notify:
     chat_id: !secret telegram_chat_id
 
 http:
-  server_host: 127.0.0.1
   use_x_forwarded_for: true
   trusted_proxies:
-    - 127.0.0.1
     - !secret public_proxied_ip
+    - !secret oc1_tailscale_ip
+
 logger:
   default: warning
 

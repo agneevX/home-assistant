@@ -11,7 +11,7 @@ fi
 
 if [[ "$1" == *"speedtest"* ]]; then
 
-  o=$(curl -s "http://127.0.0.1:8700/api/speedtest/latest")
+  o=$(curl -s "http://10.0.0.10:8700/api/speedtest/latest")
 
   if [[ "$1" == *"download"* ]]; then
     speed=$(echo "$o" | jq -r '.data.download')

@@ -4,6 +4,7 @@
   device_code: 1000
   controller_data: remote.broadlink_rm4_mini_remote
   power_sensor: media_player.bedroom_tv
+
 - platform: universal
   name: Sony Bravia TV
   state_template: >-
@@ -41,11 +42,13 @@
       data_template:
         entity_id: media_player.ht_z9f
         volume_level: "{{ volume_level }}"
+
   attributes:
     is_volume_muted: media_player.ht_z9f|is_volume_muted
     volume_level: media_player.ht_z9f|volume_level
     source: media_player.sony_bravia|app_name
     source_list: media_player.kd_55_ag|source_list
+
 - platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64

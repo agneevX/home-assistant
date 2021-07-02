@@ -6,11 +6,10 @@ set -e
 if [[ "$1" == "-d" ]] || [[ "$1" == "--debug" ]]; then set -x; fi
 
 HOST=""
-SSH_PASSWORD=""
 WEB_AUTH=""
 
 ssh_command () {
-  sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@"$HOST" "$1"
+  ssh -i /config/scripts/orbi_router.key -o StrictHostKeyChecking=no root@"$HOST" "$1"
 }
 
 vnstat_current () {
@@ -20,7 +19,7 @@ vnstat_current () {
 vnstat_daily_total () {
   o="$(ssh_command '/opt/bin/vnstat -i eth0 --json d')"
 
-  echo "$o"|jq '.interfaces[]|select(.id=="eth0")'|jq '.traffic.days[]|select(.id==0)'
+  echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
 }
 
 vnstat_month_total () {
@@ -67,32 +66,29 @@ calculate_time () {
 }
 
 # Exit script if router cannot be reached
-if [[ $(ping_router) ]]; then
-cat << EOF
-{"status": "timeout"}
-EOF
-exit
-fi
+ping_router
 
 # Get current WAN stats from Netdata via it's API
-if [[ "$1" == "wan_current" ]]; then 
+if [[ "$1" == "wan_current" ]]; then
   netdata_net "net.brwan"
-exit; fi
+  exit
+fi
 
 # Get current stats from wireless backhaul
-if [[ "$1" == "backhaul_current" ]]; then 
+if [[ "$1" == "backhaul_current" ]]; then
   netdata_net "net.ath2"
-exit; fi
+  exit
+fi
 
 # Get daily WAN stats from vnstat over SSH
-if [[ "$1" == "wan_daily" ]]; then 
+if [[ "$1" == "wan_daily" ]]; then
   ping_router
   vnstat_daily_total
   exit
 fi
 
 # Get monthly WAN stats from vnstat over SSH
-if [[ "$1" == "wan_month" ]]; then
+if [[ "$1" == "wan_monthly" ]]; then
   ping_router
   vnstat_month_total
   exit
@@ -115,13 +111,14 @@ fi
 # Get WAN port speed/state
 WAN_PORT_SPEED="$(web_scrape wan_status)"
 
-if [[ $WAN_PORT_SPEED == *"Full"* ]]; then
+if [[ "$WAN_PORT_SPEED" == *"Full"* ]]; then
   WAN_STATUS="Link up"
 else
-  WAN_STATUS="Link DOWN"
+  WAN_STATUS="Link down"
 fi
 
-LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"; LOAD_AVG=($LOAD_AVG)
+LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
+LOAD_AVG=($LOAD_AVG)
 
 # Print router stats
 cat << EOF

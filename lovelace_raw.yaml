@@ -50,17 +50,12 @@ views:
                         - color: var(--primary-color)
                 styles:
                   card:
-                    - height: 48px
+                    - height: 46px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
                   action: more-info
                   haptic: light
-                double_tap_action:
-                  action: toggle
-                  haptic: light
-                  confirmation:
-                    text: test
                 type: custom:button-card
               - entity: person.dad
                 icon: mdi:face
@@ -77,7 +72,7 @@ views:
                         - color: var(--primary-color)
                 styles:
                   card:
-                    - height: 48px
+                    - height: 46px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -99,7 +94,7 @@ views:
                         - color: var(--primary-color)
                 styles:
                   card:
-                    - height: 48px
+                    - height: 46px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -112,7 +107,7 @@ views:
                 size: 35%
                 styles:
                   card:
-                    - height: 48px
+                    - height: 46px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -128,7 +123,7 @@ views:
                 size: 35%
                 styles:
                   card:
-                    - height: 48px
+                    - height: 46px
                     - background-color: var(--background-color)
                     - border: solid 2px var(--card-background-color)
                 tap_action:
@@ -241,24 +236,24 @@ views:
                 colors:
                   - color_temp: 200
                     icon_color: >-
-                      linear-gradient(20deg, rgba(255,239,220,1) 0%,
-                      rgba(249,215,180,1) 100%)
+                      linear-gradient(20deg, rgba(255,239,220,1) 20%,
+                      rgba(249,215,180,1) 80%)
                   - color_temp: 243
                     icon_color: >-
-                      linear-gradient(20deg, rgba(249,215,180,1) 0%,
-                      rgba(244,191,140,1) 100%)
+                      linear-gradient(20deg, rgba(249,215,180,1) 20%,
+                      rgba(244,191,140,1) 80%)
                   - color_temp: 285
                     icon_color: >-
-                      linear-gradient(20deg, rgba(244,191,140,1) 0%,
-                      rgba(238,167,100,1) 100%)
+                      linear-gradient(20deg, rgba(244,191,140,1) 20%,
+                      rgba(238,167,100,1) 80%)
                   - color_temp: 328
                     icon_color: >-
-                      linear-gradient(20deg, rgba(238,167,100,1) 0%,
-                      rgba(233,143,61,1) 100%)
+                      linear-gradient(20deg, rgba(238,167,100,1) 20%,
+                      rgba(233,143,61,1) 80%)
                   - color_temp: 370
                     icon_color: >-
-                      linear-gradient(20deg, rgba(233,143,61,1) 0%,
-                      rgba(227,119,21,1) 100%)
+                      linear-gradient(20deg, rgba(233,143,61,1) 20%,
+                      rgba(227,119,21,1) 80%)
               - entity: light.tv_lamp
                 toggle: true
                 haptic: light
@@ -270,43 +265,43 @@ views:
                 type: custom:rgb-light-card
                 colors:
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(230,90,17,1) 0%,
-                      rgba(255,0,73,1) 100%)
+                      linear-gradient(15deg, rgba(185,36,36,1) 20%,
+                      rgba(247,69,69,1) 80%)
                     rgb_color:
                       - 255
-                      - 2
-                      - 74
+                      - 58
+                      - 58
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(28,232,233,1) 0%,
-                      rgba(0,255,135,1) 100%)
+                      linear-gradient(15deg, rgba(35,180,106,1) 20%,
+                      rgba(13,244,180,1) 80%)
                     rgb_color:
                       - 0
                       - 169
                       - 155
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(133,3,255,1) 0%,
-                      rgba(169,3,255,1) 100%)
+                      linear-gradient(15deg, rgba(68,102,255,1) 20%,
+                      rgba(0,218,255,1) 80%)
                     rgb_color:
-                      - 169
-                      - 3
+                      - 68
+                      - 102
                       - 255
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(162,30,238,1) 0%,
-                      rgba(243,28,255,1) 100%)
+                      linear-gradient(15deg, rgba(162,30,238,1) 20%,
+                      rgba(243,28,255,1) 80%)
                     rgb_color:
                       - 243
                       - 28
                       - 255
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(255,59,39,1) 0%,
-                      rgba(255,116,64,1) 100%)
+                      linear-gradient(15deg, rgba(255,59,39,1) 20%,
+                      rgba(255,116,64,1) 80%)
                     rgb_color:
                       - 255
                       - 116
                       - 64
                   - icon_color: >-
-                      linear-gradient(15deg, rgba(201,38,101,1) 0%,
-                      rgba(255,0,100,1) 100%)
+                      linear-gradient(15deg, rgba(201,38,101,1) 20%,
+                      rgba(255,0,100,1) 80%)
                     rgb_color:
                       - 255
                       - 0
@@ -427,10 +422,11 @@ views:
               - color: auto
                 color_type: card
                 entity: climate.bedroom_ac
+                icon: mdi:air-conditioner
                 show_label: true
                 show_name: false
                 layout: icon_label
-                size: 39%
+                size: 42%
                 label: |
                   [[[
                     var ac = states['climate.bedroom_ac'];
@@ -470,6 +466,20 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
+                entity: script.refresh_plex
+                show_name: false
+                size: 35%
+                styles:
+                  card:
+                    - height: 50px
+                tap_action:
+                  action: toggle
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
                 entity: switch.adguard_filtering
                 show_name: false
                 size: 33%
@@ -484,27 +494,9 @@ views:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: script.refresh_plex
-                show_name: false
-                size: 35%
-                state:
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - height: 50px
-                tap_action:
-                  action: toggle
-                  haptic: light
+                  haptic: success
+                  confirmation:
+                    text: Disable AdGuard Home?
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -563,11 +555,6 @@ views:
               entities: []
               type: picture-glance
               title: Front Gate
-              card_mod:
-                style: |
-                  ha-card {
-                    --ha-card-border-radius: 10px;
-                  }
             conditions:
               - entity: binary_sensor.front_gate_camera_ping
                 state: 'on'
@@ -613,6 +600,8 @@ views:
                   icon: mdi:fan-speed-3
                 auto:
                   icon: mdi:fan-plus
+            view_layout:
+              step: row
             card_mod:
               style: |
                 ha-card {
@@ -687,12 +676,12 @@ views:
             type: horizontal-stack
           - type: entities
             entities:
-              - entity: automation.turn_on_ac_when_temps_reach_28oc
-              - entity: automation.turn_off_ac_when_temps_reach_28oc_duplicate
               - entity: >-
                   automation.hack_turn_on_ac_entity_if_room_gets_cooler_duplicate
+                name: '[hack] Turn on AC entity'
               - entity: >-
                   automation.hack_turn_off_ac_entity_if_room_gets_warmer_duplicate
+                name: '[hack] Turn off AC entity'
             show_header_toggle: false
             state_color: true
   - icon: mdi:chart-areaspline
@@ -705,11 +694,11 @@ views:
     badges: []
     cards:
       - cards:
-          - entity: binary_sensor.cloudflare_dns_ping_tcp
+          - entity: binary_sensor.cloudflare_dns_ping
             type: custom:uptime-card
             name: Internet
-            icon: mdi:ethernet-cable
-            ko_icon: mdi:ethernet-cable-off
+            icon: mdi:check-network
+            ko_icon: mdi:close-network
             hours_to_show: 1
             title_adaptive_color: true
             status_adaptive_color: true
@@ -728,7 +717,7 @@ views:
                 color: '#45C669'
             tap_action:
               action: more-info
-              haptic: light
+              haptic: success
             bar:
               spacing: 4
               amount: 24
@@ -816,7 +805,7 @@ views:
                 type: custom:mini-graph-card
             type: horizontal-stack
           - content: |
-              # 〡 Network Stats
+              # 〡 Internet
             type: markdown
             card_mod:
               style:
@@ -835,21 +824,21 @@ views:
           - cards:
               - type: entities
                 entities:
-                  - entity: sensor.orbi_router
-                    name: Netgear Orbi
+                  - entity: sensor.netgear_orbi
                     type: custom:template-entity-row
-                    secondary: '{{ state_attr(''sensor.orbi_router'',''System load'') }}'
+                    secondary: '{{ state_attr(''sensor.netgear_orbi'',''System load'') }}'
+                    active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
               - type: divider
               - decimals: 0
                 entities:
                   - color: '#3BD97A'
-                    entity: sensor.orbi_router_wan_in
+                    entity: sensor.wan_in
                   - color: '#D9CA3A'
-                    entity: sensor.orbi_router_wan_out
-                hours_to_show: 1
+                    entity: sensor.wan_out
+                hours_to_show: 0.5
                 font_size_header: 13
                 line_width: 2.8
-                points_per_hour: 70
+                points_per_hour: 140
                 lower_bound: 0
                 show:
                   fill: false
@@ -874,7 +863,7 @@ views:
               - cards:
                   - entities:
                       - color: '#3BD97A'
-                        entity: sensor.orbi_router_wan_in
+                        entity: sensor.wan_in
                         name: WAN In
                     font_size: 72
                     font_size_header: 12.5
@@ -896,7 +885,7 @@ views:
                     align_state: right
                     entities:
                       - color: '#D9CA3A'
-                        entity: sensor.orbi_router_wan_out
+                        entity: sensor.wan_out
                         name: WAN Out
                     font_size: 72
                     font_size_header: 12.5
@@ -919,7 +908,7 @@ views:
           - cards:
               - entities:
                   - color: '#3BD97A'
-                    entity: sensor.orbi_router_wan_in_total
+                    entity: sensor.wan_daily_usage_down
                     name: Traffic In
                 icon: mdi:arrow-down-circle
                 font_size: 74
@@ -946,7 +935,7 @@ views:
                 align_state: right
                 entities:
                   - color: '#D9CA3A'
-                    entity: sensor.orbi_router_wan_out_total
+                    entity: sensor.wan_daily_usage_up
                     name: Traffic Out
                 icon: mdi:arrow-up-circle
                 font_size: 74
@@ -971,26 +960,8 @@ views:
             type: horizontal-stack
         type: vertical-stack
       - cards:
-          - type: entities
-            entities:
-              - entity: sensor.hacs
-              - type: section
-                label: qBittorrent
-              - entity: sensor.qbittorrent_active_torrents
-                name: Active transfers
-                icon: mdi:swap-vertical
-              - entity: sensor.qbt_down_speed
-                name: Download speed
-                type: custom:template-entity-row
-                state: '{{ states(''sensor.qbt_down_speed'')|round}} KB/s'
-              - entity: sensor.qbt_up_speed
-                name: Upload speed
-                type: custom:template-entity-row
-                state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
-            show_header_toggle: false
-            state_color: true
           - content: |
-              # 〡 Media queue
+              # 〡 Downloads
             type: markdown
             card_mod:
               style:
@@ -1006,8 +977,23 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - type: glance
+          - type: entities
             entities:
+              - entity: sensor.qbittorrent_active_torrents
+                name: Active transfers
+                icon: mdi:swap-vertical
+              - entity: sensor.qbt_down_speed
+                name: Download speed
+                type: custom:template-entity-row
+                state: '{{ states(''sensor.qbt_down_speed'')|round}} KB/s'
+                condition: '{{ not is_state(''sensor.qbt_status'', ''idle'')}}'
+              - entity: sensor.qbt_up_speed
+                name: Upload speed
+                type: custom:template-entity-row
+                state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
+                condition: '{{ not is_state(''sensor.qbt_status'', ''idle'')}}'
+              - type: section
+                label: Media Queue
               - entity: sensor.radarr_queue
                 name: Radarr
                 icon: mdi:filmstrip
@@ -1017,6 +1003,8 @@ views:
               - entity: sensor.sonarr_queue
                 name: Sonarr
                 icon: mdi:television-box
+            show_header_toggle: false
+            state_color: true
           - content: |
               # 〡 Storage
             type: markdown
@@ -1046,9 +1034,9 @@ views:
             show_header_toggle: false
             state_color: true
         type: vertical-stack
-  - icon: mdi:chart-tree
-    path: tile
-    title: Tile
+  - icon: mdi:server-network
+    path: network
+    title: Network
     type: custom:masonry-layout
     layout:
       width: 300
@@ -1059,24 +1047,24 @@ views:
           - type: custom:uptime-card
             entity: binary_sensor.isp_node_ping
             name: ISP Node
-            icon: mdi:transmission-tower
-            ko_icon: mdi:signal-off
+            icon: mdi:ethernet-cable
+            ko_icon: mdi:ethernet-cable-off
             hours_to_show: 1
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
-            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% up'
+            average_template: '[[[ return variables.uptime.toFixed(1); ]]]% up'
             tap_action:
               action: more-info
-              haptic: light
+              haptic: success
             bar:
               spacing: 4
               amount: 24
               height: 25
-              round: 6.5
+              round: 7
             alias:
-              ok: Online
-              ko: Offline
+              ok: Connected
+              ko: Disconnected
             color_thresholds:
               - value: 0
                 color: '#C64545'
@@ -1100,6 +1088,23 @@ views:
                 ha-card .timeline {
                   padding-bottom: 2px;
                 }
+          - content: |
+              # 〡 Local Network
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - cards:
               - decimals: 0
                 entities:
@@ -1229,7 +1234,7 @@ views:
       - type: vertical-stack
         cards:
           - content: |
-              # 〡 History
+              # 〡 Monthly Stats
             type: markdown
             card_mod:
               style:
@@ -1561,150 +1566,6 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - cards:
-              - entity: device_tracker.old_room_tv
-                layout: icon_name_state
-                name: OLD ROOM TV
-                icon: mdi:home-floor-a
-                size: 24px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  name:
-                    - justify-self: start
-                  card:
-                    - font-size: 12px
-                    - height: 40px
-                    - font-weight: bold
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                    - border-radius: 20px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                double_tap_action:
-                  action: call-service
-                  haptic: success
-                  service: notify.old_room_tv
-                  service_data:
-                    message: Someone is at the front gate!
-                type: custom:button-card
-              - entity: device_tracker.new_room_tv
-                icon: mdi:home-floor-b
-                layout: icon_name_state
-                name: NEW ROOM TV
-                size: 24px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  name:
-                    - justify-self: start
-                  card:
-                    - font-size: 12px
-                    - height: 40px
-                    - font-weight: bold
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                    - border-radius: 20px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                double_tap_action:
-                  action: call-service
-                  haptic: success
-                  service: notify.new_room_tv
-                  service_data:
-                    message: Someone is at the front gate!
-                type: custom:button-card
-            type: horizontal-stack
-          - type: horizontal-stack
-            cards:
-              - entity: device_tracker.amazon_fire_tv_stick_2nd_gen
-                icon: mdi:silverware-fork-knife
-                layout: icon_name_state
-                name: DINING HALL TV
-                size: 22px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  name:
-                    - justify-self: start
-                  card:
-                    - font-size: 12px
-                    - height: 40px
-                    - font-weight: bold
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                    - border-radius: 20px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - entity: device_tracker.sony_bravia_tv
-                icon: mdi:television
-                layout: icon_name_state
-                name: SONY BRAVIA
-                size: 23px
-                state:
-                  - value: not_home
-                    styles:
-                      icon:
-                        - color: var(--disabled-text-color)
-                      name:
-                        - color: var(--disabled-text-color)
-                  - value: home
-                    styles:
-                      icon:
-                        - color: var(--primary-color)
-                      name:
-                        - color: var(--primary-color)
-                styles:
-                  name:
-                    - justify-self: start
-                  card:
-                    - font-size: 12px
-                    - height: 40px
-                    - font-weight: bold
-                    - background-color: var(--background-color)
-                    - border: solid 2px var(--card-background-color)
-                    - border-radius: 20px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
           - cards:
               - decimals: 0
                 entities:

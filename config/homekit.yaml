@@ -1,5 +1,6 @@
 - name: Home Assistant bridge
   port: 52000
+
   filter:
     include_domains:
       - light
@@ -7,6 +8,7 @@
       - climate
       - fan
       - humidifier
+
     include_entities:
       - switch.adguard_filtering
       - switch.jazz_radio
@@ -16,11 +18,16 @@
       - sensor.broadlink_rm4_mini_humidity
       - binary_sensor.orbi_satellite_ping
       - media_player.siti_cable_stb
+
     include_entity_globs:
       - switch.lofi*
       - switch.*_plug
+
     exclude_entities:
       - light.tv_lamp_2
+      - light.yeelight_bslamp2_0x0000000010dd06ea
+      - light.yeelight_lamp4_0x000000001015ab0a
+
   entity_config:
     switch.adaptive_lighting_sleep_mode_adaptive:
       name: Sleep mode

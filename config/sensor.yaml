@@ -21,7 +21,7 @@
 
 - platform: tautulli
   api_key: !secret tautulli_api_key
-  host: 10.0.0.10
+  host: tautulli.server
   monitored_users:
     - agneev
 
@@ -99,7 +99,9 @@
   name: Speedtest.net Download Speed
   command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_download"
   unit_of_measurement: 'Mb/s'
-  value_template: "{{ value_json.speed|round(1) }}"
+  value_template: >-
+    {% if value_json.speed|int == 0 %} NaN
+    {% else %} {{ value_json.speed|round(2) }} {% endif %}
   json_attributes:
     - Ping
     - Server
@@ -108,7 +110,9 @@
   name: Speedtest.net Upload Speed
   command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_upload"
   unit_of_measurement: 'Mb/s'
-  value_template: "{{ value_json.speed|round(1) }}"
+  value_template: >-
+    {% if value_json.speed|int == 0 %} NaN
+    {% else %} {{ value_json.speed|round(2) }} {% endif %}
   json_attributes:
     - Ping
     - Server
@@ -171,8 +175,8 @@
     wan_daily_usage_up:
       friendly_name: WAN daily usage (upload)
       value_template: >-
-        {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
-          {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
+        {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
         {% else %} NaN {% endif %}
       icon_template: mdi:arrow-down
       unit_of_measurement: 'MB'
@@ -180,8 +184,8 @@
     wan_daily_usage_down:
       friendly_name: WAN daily usage (download)
       value_template: >-
-        {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
-          {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
+        {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
         {% else %} NaN {% endif %}
       icon_template: mdi:arrow-up
       unit_of_measurement: 'MB'

@@ -1,18 +1,22 @@
 - platform: command_line
   switches:
     int_lofi_beats:
-      command_on: echo lofi_on | netcat localhost 7900
-      command_off: echo lofi_off | netcat localhost 7900
+      command_on: echo lofi_on | nc localhost 7900
+      command_off: echo lofi_off | nc localhost 7900
+
     int_lofi_beats2:
-      command_on: echo lofi2_on | netcat localhost 7900
-      command_off: echo lofi2_off | netcat localhost 7900
+      command_on: echo lofi2_on | nc localhost 7900
+      command_off: echo lofi2_off | nc localhost 7900
+
     int_jazz_radio:
-      command_on: echo jazz_radio_on | netcat localhost 7900
-      command_off: echo jazz_radio_off | netcat localhost 7900
+      command_on: echo jazz_radio_on | nc localhost 7900
+      command_off: echo jazz_radio_off | nc localhost 7900
+
     reboot_orbi_satellite:
       friendly_name: Reboot Orbi Satellite
       command_on: !secret reboot_orbi_satellite
       command_off: !secret reboot_orbi_satellite
+
 - platform: template
   switches: 
     16a_plug:
@@ -35,6 +39,7 @@
           data:
             media_content_id: 'turn off Plug 33004ff8'
             media_content_type: custom
+
     6a_plug:
       friendly_name: 6A Plug
       value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
@@ -55,6 +60,7 @@
           data:
             media_content_id: 'turn off Plug 340041f6'
             media_content_type: custom
+
     bedroom_ac_swing:
       friendly_name: Bedroom AC Swing
       icon_template: mdi:arrow-split-horizontal
@@ -70,6 +76,7 @@
           data:
             device: ac
             command: swing
+
     bedroom_ac_fast_cool:
       friendly_name: Bedroom AC Fast Cool
       value_template: >-
@@ -99,6 +106,7 @@
             fan_mode: low
         - service: climate.turn_off
           entity_id: climate.bedroom_ac
+
     bedroom_ac_power:
       friendly_name: Bedroom AC Power
       value_template: "{{ not is_state('climate.bedroom_ac', 'off') }}"
@@ -109,6 +117,7 @@
       turn_off:
         - service: climate.turn_off
           entity_id: climate.bedroom_ac
+
     lofi_beats:
       friendly_name: Lo-Fi Beats
       icon_template: mdi:music-circle
@@ -123,6 +132,7 @@
           entity_id: input_boolean.lofi
         - service: switch.turn_off
           entity_id: switch.int_lofi_beats
+
     lofi_beats2:
       friendly_name: Lo-Fi Beats 2
       icon_template: mdi:music-circle-outline
@@ -137,6 +147,7 @@
           entity_id: input_boolean.lofi2
         - service: switch.turn_off
           entity_id: switch.int_lofi_beats2
+
     jazz_radio:
       friendly_name: Jazz Radio
       icon_template: mdi:saxophone

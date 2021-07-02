@@ -2,11 +2,11 @@ version: "3.8"
 services:
   home-assistant:
     container_name: home-assistant
-    image: homeassistant/home-assistant:stable
+    image: homeassistant/home-assistant
     restart: unless-stopped
     network_mode: host
     healthcheck:
-      test: ["CMD-SHELL", "curl -fs http://localhost:8123 -o /dev/null || exit 1"]
+      test: ["CMD", "curl", "localhost:8123", "-fso", "/dev/null"]
     volumes:
       - /opt/appdata/home-assistant:/config
       - /etc/localtime:/etc/localtime:ro
@@ -15,4 +15,7 @@ services:
       # System sensors
       - /home/agneev/.homeassistant:/home/agneev:ro
       - /knox/.homeassistant:/knox:ro
-      
+    labels:
+      - "org.hotio.pullio.update=true"
+      - "org.hotio.pullio.notify=true"
+      - "org.hotio.pullio.discord.webhook=${DISCORD_WEBHOOK}"

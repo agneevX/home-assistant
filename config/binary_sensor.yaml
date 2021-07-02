@@ -1,24 +1,21 @@
-- platform: command_line
-  command: "if /usr/sbin/hping3 1.0.0.1 -p 80 -c 1 -S >/dev/null 2>&1; then echo ON; else echo OFF; fi"
-  name: Cloudflare DNS ping (TCP)
-  device_class: connectivity
-  scan_interval: 2
-  command_timeout: 4
 - platform: ping
   name: ISP Node ping
   host: 172.16.248.1
   count: 1
   scan_interval: 2
+
 - platform: ping
   name: Cloudflare DNS ping
   host: 1.1.1.1
   count: 1
   scan_interval: 2
+
 - platform: ping
   name: Orbi Satellite ping
   host: 10.0.0.2
   count: 1
   scan_interval: 10
+
 - platform: ping
   name: Front gate camera ping
   host: 10.0.0.20

@@ -44,7 +44,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ## Background
 
-Home Assistant Docker installation on Raspberry Pi 4, with MariaDB database.
+Home Assistant Container install on Raspberry Pi 4, with MariaDB database.
 
 More details [here](https://github.com/agneevX/server-setup#nas-server).
 
@@ -219,8 +219,8 @@ switch:
   platform: command_line
   switches:
     lofi_beats:
-      command_on: echo "lofi_on" | netcat localhost 7900
-      command_off: echo "lofi_off" | netcat localhost 7900
+      command_on: echo "lofi_on" | nc localhost 7900
+      command_off: echo "lofi_off" | nc localhost 7900
 ```
 
 [`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
@@ -282,7 +282,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - Sleep mode
 - Bedroom AC
 - AdGuard Home
-- Refresh Plex
+- Plex library refresh
 
 ### Now Playing card
 
@@ -312,10 +312,10 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ### Graph rows
 
 - Internet health
-- Download speed (Speedtest.net)
-- Upload speed (Speedtest.net)
+- Internet download speed
+- Internet upload speed
 
-Custom-made sensor that uses the official [Speedtest.net CLI](https://www.speedtest.net/apps/cli) instead of the rather inaccurate `speedtest-cli`.
+Custom sensors that query data from the self-hosted [Speedtest-tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) API.
 
 ### Network stats
 
@@ -384,10 +384,6 @@ Dynamically sorted such that the last-updated device is always on top.
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1552)
 
 ![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
-
-### TV state row
-
-Tracks states of specific TVs.
 
 ### Graph rows
 
