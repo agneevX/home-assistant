@@ -246,11 +246,9 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 
 ## Dashboard
 
+<img src="https://user-images.githubusercontent.com/19761269/125283392-02d22e00-e336-11eb-84db-ccd2ff87036d.PNG" alt="Dashboard view" align="right" width="270">
+
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L27)
-
-![dashboard](https://user-images.githubusercontent.com/19761269/122021355-38d9cc00-cde3-11eb-8d34-7bee796123c2.png "Dashboard")
-
-<!-- ![home_view](https://user-images.githubusercontent.com/19761269/97078367-7649d900-1609-11eb-9fb1-4f5ff511c39c.png "Home view") -->
 
 ### State row
 
@@ -304,9 +302,9 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L698)
+<img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="right" width="270">
 
-<img src="https://user-images.githubusercontent.com/19761269/125280920-3eb7c400-e333-11eb-80d8-72cef07f4602.PNG" alt="Info view" align="right" width="280">
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L698)
 
 ### Graph rows
 
@@ -335,9 +333,9 @@ Custom implementations that poll data via Netdata, and `vnstat`.
 
 ## Tile view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1049)
+<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="270">
 
-<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="280">
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1049)
 
 ### Graph row
 
@@ -360,9 +358,9 @@ Dynamically sorted such that the last-updated device is always on top.
 
 ## Remote control view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1291)
+<img src="https://user-images.githubusercontent.com/19761269/125283407-0796e200-e336-11eb-8202-22b896f082f1.PNG" alt="Remote control view" align="right" width="270">
 
-![rc_view](https://user-images.githubusercontent.com/19761269/97078368-76e26f80-1609-11eb-82ef-3746e93b556d.png "Remote control view")
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1291)
 
 ### Spotify player
 
