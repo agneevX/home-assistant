@@ -32,7 +32,6 @@ Layout designed mobile-first, fully optimized for all screen sizes.
     - [Spotify player](#spotify-player)
     - [Alexa players](#alexa-players)
   - [Plex/TV view](#plextv-view)
-    - [TV state row](#tv-state-row)
     - [Graph rows](#graph-rows-1)
     - [Plex/TV cards](#plextv-cards)
   - [Custom plugins used](#custom-plugins-used)
@@ -50,7 +49,7 @@ More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
-<img src="https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge" href="https://github.com/custom-components/hacs" alt="HACS badge" align="right">
+<img src="https://img.shields.io/badge/HACS-Custom-blue.svg?style=for-the-badge" alt="HACS Custom badge" align="right">
 
 The [themes](./themes) in this repository can be [added](https://hacs.xyz/docs/faq/custom_repositories) to Home Assistant via HACS as a custom repository (select `Themes` as category).
 
@@ -307,7 +306,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L698)
 
-![info_view](https://user-images.githubusercontent.com/19761269/97078363-721dbb80-1609-11eb-8a87-a9b477705d37.png "Info view")
+<img src="https://user-images.githubusercontent.com/19761269/125280920-3eb7c400-e333-11eb-80d8-72cef07f4602.PNG" alt="Info view" align="right" width="280">
 
 ### Graph rows
 
@@ -338,7 +337,7 @@ Custom implementations that poll data via Netdata, and `vnstat`.
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1049)
 
-![tile_view](https://user-images.githubusercontent.com/19761269/97079345-bfe9f200-1610-11eb-8d9a-067a70ea137c.png "Tile view")
+<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="280">
 
 ### Graph row
 
