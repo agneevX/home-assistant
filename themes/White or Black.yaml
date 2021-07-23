@@ -6,39 +6,48 @@ White or Black:
   card-mod-theme: "White or Black"
   ## Common variables
   accent-color: var(--primary-color)
+
   # Sidebar Menu
   sidebar-text-color: var(--primary-text-color)
   sidebar-background-color: var(--card-background-color)
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color)
+
   # States and Badges
   state-icon-active-color: var(--primary-color)
   state-icon-unavailable-color: var(--disabled-text-color)
+
   # Sliders
   paper-slider-knob-color: var(--primary-color)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
+
   # Cards
   ha-card-border-radius: "16px"
   paper-card-background-color: var(--card-background-color)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
+
   # Switches
   switch-checked-button-color: var(--primary-color)
+
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
   paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+
   # Table
   table-row-background-color: var(--primary-background-color)
   table-row-alternative-background-color: var(--secondary-background-color)
   data-table-background-color: var(--primary-background-color)
+
   # Dropdowns
   material-secondary-background-color: var(--primary-background-color)
+
   # HACS
   hacs-chip-background-color: var(--primary-color)
 
@@ -47,31 +56,39 @@ White or Black:
       cc-button-card: var(--primary-text-color)
       code-editor-background-color: white
       paper-item-icon-active-color: var(--primary-color)
+
       # Header:
       app-header-background-color: "#F8F8F8"
       app-header-text-color: "#262626"
+
       # Main Interface Colors
       primary-color: "#4592FF"
       light-primary-color: var(--primary-color)
       primary-background-color: var(--app-header-background-color)
       secondary-background-color: "#EBEBEB"
       divider-color: var(--primary-background-color)
+
       # Text
       primary-text-color: "#424242"
       secondary-text-color: "#5F6267"
       text-primary-color: "#FFFFFF"
       disabled-text-color: "#717171"
+
       # Sidebar Menu
       sidebar-icon-color: var(--app-header-text-color)
+
       # States and Badges
       state-icon-color: "#5F6267"
+
       # Cards
       card-background-color: "#FFFFFF"
       ha-card-box-shadow: 1px 1px 5px 1px rgb(230, 230, 230)
+
       # Switches
       switch-checked-track-color: "#75A2F0"
       switch-unchecked-button-color: "#5F6267"
       switch-unchecked-track-color: "#888b91"
+
       # Dropdowns
       material-background-color: var(--paper-card-background-color)
       mdc-theme-surface: var(--paper-card-background-color)
@@ -81,31 +98,39 @@ White or Black:
       cc-button-card: var(--app-header-text-color)
       accent-color: var(--primary-color)
       paper-item-icon-active-color: var(--primary-color)
+
       # Header:
       app-header-background-color: "#000000"
       app-header-text-color: "#FFFFFF"
+
       # Main Interface Colors
       primary-color: "#388BFF"
       light-primary-color: var(--primary-color)
       primary-background-color: var(--app-header-background-color)
       secondary-background-color: var(--card-background-color)
       divider-color: var(--primary-background-color)
+
       # Text
       primary-text-color: var(--app-header-text-color)
       secondary-text-color: "#989da6"
       text-primary-color: var(--app-header-text-color)
       disabled-text-color: "#717171"
+
       # Sidebar Menu
       sidebar-icon-color: var(--primary-text-color)
+
       # States and Badges
       state-icon-color: "#7B808A"
+
       # Cards
       card-background-color: "#18191B"
       ha-card-box-shadow: 0px 0px 0px 0px rgb(0,0,0)
+
       # Switches
       switch-checked-track-color: "#404D64"
       switch-unchecked-button-color: "#636466"
       switch-unchecked-track-color: var(--switch-unchecked-button-color)
+
       # Dropdowns
       material-background-color: var(--secondary-background-color)
       mdc-theme-surface: var(--secondary-background-color)

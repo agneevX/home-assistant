@@ -7,7 +7,7 @@
 - platform: systemmonitor
   resources:
     - type: disk_use_percent
-      arg: /home/agneev
+      arg: /ssd
     - type: disk_use_percent
       arg: /knox
 
@@ -18,12 +18,6 @@
       arg: eth0
     - type: throughput_network_out
       arg: eth0
-
-- platform: tautulli
-  api_key: !secret tautulli_api_key
-  host: tautulli.server
-  monitored_users:
-    - agneev
 
 # Command line sensors
 #
@@ -80,42 +74,22 @@
   command: "/bin/bash /config/scripts/multiple_actions.sh drive_state"
 
 - platform: command_line
-  name: Radarr Queue
-  command: !secret radarr_queue
-#  json_attributes:
-#    - records
-  unit_of_measurement: 'movies'
-  value_template: "{{ (value_json.totalRecords) }}"
-
-- platform: command_line
-  name: Radarr 4K Queue
-  command: !secret radarr4k_queue
-  unit_of_measurement: 'movies'
-  value_template: "{{ (value_json.totalRecords) }}"
-#  json_attributes:
-#    - records
-
-- platform: command_line
   name: Speedtest.net Download Speed
-  command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_download"
+  command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json.speed|int == 0 %} NaN
-    {% else %} {{ value_json.speed|round(2) }} {% endif %}
-  json_attributes:
-    - Ping
-    - Server
+    {% if value_json.data.download|int < 0.1 %} NaN
+    {% else %} {{ value_json.data.download|float|round(2) }}
+    {% endif %}
 
 - platform: command_line
   name: Speedtest.net Upload Speed
-  command: "/bin/bash /config/scripts/multiple_actions.sh speedtest_upload"
+  command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json.speed|int == 0 %} NaN
-    {% else %} {{ value_json.speed|round(2) }} {% endif %}
-  json_attributes:
-    - Ping
-    - Server
+    {% if value_json.data.upload|int < 0.1 %} NaN
+    {% else %} {{ value_json.data.upload|float|round(2) }}
+    {% endif %}
 
 - platform: command_line
   name: eth0 In (total)
@@ -189,15 +163,6 @@
         {% else %} NaN {% endif %}
       icon_template: mdi:arrow-up
       unit_of_measurement: 'MB'
-
-    tautulli_total_bandwidth:
-      friendly_name: Tautulli total bandwidth
-      value_template: >-
-        {% if state_attr('sensor.tautulli','total_bandwidth')|float/1024 < 1000 %}
-          {{ (state_attr('sensor.tautulli','total_bandwidth')|float/1024)|round(1) }}
-        {% else %} - {% endif %}
-      icon_template: mdi:square-wave
-      unit_of_measurement: 'Mb/s'
 
     eth0_in:
       friendly_name: eth0 In

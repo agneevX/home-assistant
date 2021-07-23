@@ -2,37 +2,19 @@
 # shellcheck disable=SC2046,2005,2206
 
 if [[ "$1" == "vnstat_daily_receive" ]]; then
-  ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'rx' | tail -1 | echo $(tr -dc '0-9')
+  ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 \
+  vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'rx' | tail -1 | echo $(tr -dc '0-9')
 fi
 
 if [[ "$1" == "vnstat_daily_sent" ]]; then
-  ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'tx' | tail -1 | echo $(tr -dc '0-9')
-fi
-
-if [[ "$1" == *"speedtest"* ]]; then
-
-  o=$(curl -s "http://10.0.0.10:8700/api/speedtest/latest")
-
-  if [[ "$1" == *"download"* ]]; then
-    speed=$(echo "$o" | jq -r '.data.download')
-  else
-    speed=$(echo "$o" | jq -r '.data.upload')
-  fi
-
-cat << EOF
-{
-  "Ping": "$(echo "$o" | jq -r '.data.ping' | awk '{printf "%.0f\n", $1}') ms",
-  "speed": "$speed",
-  "Server": "$(echo "$o" | jq -r '.data.server_name')"
-}
-EOF
-
+  ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 \
+  vnstat -i eth0 --json d | jq '.interfaces[] | select(.name=="eth0")' | jq '.traffic.day[]' | grep 'tx' | tail -1 | echo $(tr -dc '0-9')
 fi
 
 if [[ "$1" == "drive_state" ]]; then
 
-o=$(ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 "systemctl is-active mfs-drive.service && systemctl is-active rclone-drive.service && systemctl is-active rclone-drive.service")
-o=($o)
+  o=$(ssh -i /config/scripts/falcon.key -o StrictHostKeyChecking=no agneev@127.0.0.1 "systemctl is-active mfs-drive.service && systemctl is-active rclone-drive.service && systemctl is-active rclone-drive.service")
+  o=($o)
 
   mount_state=${o[0]}
   drive_state=${o[1]}

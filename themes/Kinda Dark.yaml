@@ -3,9 +3,11 @@
 Kinda Dark:
   card-mod-theme: "Kinda Dark"
   cc-button-card: var(--app-header-text-color)
+
   # Header:
   app-header-background-color: "#171717"
   app-header-text-color: "#BDC1C6"
+
   # Main Interface Colors
   primary-color: "#5198F5"
   light-primary-color: var(--primary-color)
@@ -13,11 +15,13 @@ Kinda Dark:
   secondary-background-color: "#202124"
   divider-color: var(--primary-background-color)
   accent-color: var(--primary-color)
+
   # Text
   primary-text-color: "#BDC1C6"
   secondary-text-color: "#8a8d91"
   text-primary-color: "#FFFFFF"
   disabled-text-color: "#717171"
+
   # Sidebar Menu
   sidebar-icon-color: var(--primary-text-color)
   sidebar-text-color: var(--primary-text-color)
@@ -25,16 +29,19 @@ Kinda Dark:
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color)
+
   # States and Badges
   state-icon-color: "#5F6267"
   state-icon-active-color: "#5F9BEA"
   state-icon-unavailable-color: var(--disabled-text-color)
+
   # Sliders
   paper-slider-knob-color: var(--primary-color)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
+
   # Badges
   label-badge-background-color: var(--secondary-background-color)
   label-badge-text-color: var(--primary-text-color)
@@ -43,6 +50,7 @@ Kinda Dark:
   label-badge-blue: "#5F9BEA"
   label-badge-yellow: "#DFC271"
   label-badge-gray: "#5F6267"
+
   # Cards
   card-background-color: "#202124"
   ha-card-border-radius: "16px"
@@ -50,26 +58,32 @@ Kinda Dark:
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
+
   # Switches
   switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: "#404D64"
   switch-unchecked-button-color: "#636466"
   switch-unchecked-track-color: var(--switch-unchecked-button-color)
+
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
   paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+
   # Table
   table-row-background-color: var(--primary-background-color)
   table-row-alternative-background-color: var(--secondary-background-color)
   data-table-background-color: var(--primary-background-color)
+
   # Dropdowns
   material-background-color: var(--secondary-background-color)
   material-secondary-background-color: var(--primary-background-color)
   mdc-theme-surface: var(--secondary-background-color)
+
   # HACS
   hacs-chip-background-color: var(--primary-color)
+
   # Pre/Code
   markdown-code-background-color: "#171717"
   

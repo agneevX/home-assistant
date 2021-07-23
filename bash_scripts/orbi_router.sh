@@ -96,6 +96,9 @@ fi
 
 #####################################################
 
+LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
+LOAD_AVG=($LOAD_AVG)
+
 WEB_SCRAPE=$(curl -s --http0.9 "http://$HOST/RST_statistic.htm" \
   -H 'Content-Type: application/octet-stream' \
   -H "Authorization: Basic $WEB_AUTH")
@@ -103,7 +106,7 @@ WEB_SCRAPE=$(curl -s --http0.9 "http://$HOST/RST_statistic.htm" \
 # Exit script if logged in on another device
 if [[ "$WEB_SCRAPE" == *multi_login.html* ]]; then
 cat << EOF
-{"status": "logged-in"}
+{"status": "Logged in","System load": "${LOAD_AVG[0]} ${LOAD_AVG[1]} ${LOAD_AVG[2]}"}
 EOF
 exit
 fi
@@ -114,11 +117,8 @@ WAN_PORT_SPEED="$(web_scrape wan_status)"
 if [[ "$WAN_PORT_SPEED" == *"Full"* ]]; then
   WAN_STATUS="Link up"
 else
-  WAN_STATUS="Link down"
+  WAN_STATUS="WAN Link down"
 fi
-
-LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
-LOAD_AVG=($LOAD_AVG)
 
 # Print router stats
 cat << EOF

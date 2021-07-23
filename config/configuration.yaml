@@ -50,7 +50,7 @@ http:
     - !secret oc1_tailscale_ip
 
 logger:
-  default: warning
+  default: error
 
 ### YAML linked files
 

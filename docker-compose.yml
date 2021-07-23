@@ -19,10 +19,10 @@ services:
     volumes:
       - /opt/appdata/home-assistant:/config
       - /etc/localtime:/etc/localtime:ro
-      # MariaDB database
+      # MariaDB database socket
       - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
       # System sensors
-      - /home/agneev/.homeassistant:/home/agneev:ro
+      - /home/agneev/.homeassistant:/ssd:ro
       - /knox/.homeassistant:/knox:ro
     labels:
       - "org.hotio.pullio.update=true"
