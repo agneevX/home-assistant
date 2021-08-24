@@ -1,18 +1,10 @@
 version: "3.8"
-
-x-logging: &default-logging
-  driver: json-file
-  options:
-    max-file: "5"
-    max-size: "10m"
-
 services:
 
   home-assistant:
     container_name: home-assistant
     image: homeassistant/home-assistant
     restart: unless-stopped
-    logging: *default-logging
     network_mode: host
     healthcheck:
       test: ["CMD", "curl", "localhost:8123", "-fso", "/dev/null"]
@@ -33,7 +25,6 @@ services:
     container_name: speedtest-tracker
     image: henrywhitaker3/speedtest-tracker:latest-arm
     restart: unless-stopped
-    logging: *default-logging
     ports:
       - 8700:80
     healthcheck:
@@ -46,6 +37,22 @@ services:
       - OOKLA_EULA_GDPR=true
     volumes:
       - /opt/appdata/speedtest-tracker:/config
+      - type: tmpfs
+        target: /config/log
+        tmpfs:
+          size: 32mb
+      - type: tmpfs
+        target: /config/www/node_modules
+        tmpfs:
+          size: 400mb
+      - type: tmpfs
+        target: /config/www/vendor
+        tmpfs:
+          size: 100mb
+      - type: tmpfs
+        target: /config/www/public
+        tmpfs:
+          size: 50mb
     labels:
       - "org.hotio.pullio.update=true"
       - "org.hotio.pullio.notify=true"

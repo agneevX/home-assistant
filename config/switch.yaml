@@ -8,9 +8,9 @@
       command_on: echo lofi2_on | nc localhost 7900
       command_off: echo lofi2_off | nc localhost 7900
 
-    int_jazz_radio:
-      command_on: echo jazz_radio_on | nc localhost 7900
-      command_off: echo jazz_radio_off | nc localhost 7900
+    int_the_good_life_radio:
+      command_on: echo the_good_life_radio_on | nc localhost 7900
+      command_off: echo the_good_life_radio_off | nc localhost 7900
 
     reboot_orbi_satellite:
       friendly_name: Reboot Orbi Satellite
@@ -19,48 +19,6 @@
 
 - platform: template
   switches: 
-    16a_plug:
-      friendly_name: 16A Plug
-      value_template: "{{ is_state('input_boolean.16a_plug_state', 'on') }}"
-      icon_template: mdi:power-socket-uk
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.16a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          data:
-            media_content_id: 'turn on Plug 33004ff8'
-            media_content_type: custom
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.16a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          data:
-            media_content_id: 'turn off Plug 33004ff8'
-            media_content_type: custom
-
-    6a_plug:
-      friendly_name: 6A Plug
-      value_template: "{{ is_state('input_boolean.6a_plug_state', 'on') }}"
-      icon_template: mdi:power-socket-uk
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.16a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          data:
-            media_content_id: 'turn on Plug 340041f6'
-            media_content_type: custom
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.6a_plug_state
-        - service: media_player.play_media
-          entity_id: media_player.new_room_echo
-          data:
-            media_content_id: 'turn off Plug 340041f6'
-            media_content_type: custom
-
     bedroom_ac_swing:
       friendly_name: Bedroom AC Swing
       icon_template: mdi:arrow-split-horizontal
@@ -76,36 +34,6 @@
           data:
             device: ac
             command: swing
-
-    bedroom_ac_fast_cool:
-      friendly_name: Bedroom AC Fast Cool
-      value_template: >-
-        {% if is_state('climate.bedroom_ac', 'cool') %}
-          {% if is_state_attr('climate.bedroom_ac', 'temperature', 18) %}
-            {% if is_state_attr('climate.bedroom_ac', 'fan_mode', 'high') %}
-            on {% endif %} {% endif %} {% endif %}
-      icon_template: mdi:weather-windy
-      turn_on:
-        - service: climate.set_temperature
-          entity_id: climate.bedroom_ac
-          data:
-            temperature: 18
-            hvac_mode: cool
-        - service: climate.set_fan_mode
-          entity_id: climate.bedroom_ac
-          data:
-            fan_mode: high
-      turn_off:
-        - service: climate.set_temperature
-          entity_id: climate.bedroom_ac
-          data:
-            temperature: 21
-        - service: climate.set_fan_mode
-          entity_id: climate.bedroom_ac
-          data:
-            fan_mode: low
-        - service: climate.turn_off
-          entity_id: climate.bedroom_ac
 
     bedroom_ac_power:
       friendly_name: Bedroom AC Power
@@ -148,17 +76,17 @@
         - service: switch.turn_off
           entity_id: switch.int_lofi_beats2
 
-    jazz_radio:
-      friendly_name: Jazz Radio
-      icon_template: mdi:saxophone
-      value_template: "{{ is_state('input_boolean.jazz_radio', 'on') }}"
+    the_good_life_radio:
+      friendly_name: The Good Life Radio
+      icon_template: mdi:radio
+      value_template: "{{ is_state('input_boolean.the_good_life_radio', 'on') }}"
       turn_on:
         - service: input_boolean.turn_on
-          entity_id: input_boolean.jazz_radio
+          entity_id: input_boolean.the_good_life_radio
         - service: switch.turn_on
-          entity_id: switch.int_jazz_radio
+          entity_id: switch.int_the_good_life_radio
       turn_off:
         - service: input_boolean.turn_off
-          entity_id: input_boolean.jazz_radio
+          entity_id: input_boolean.the_good_life_radio
         - service: switch.turn_off
-          entity_id: switch.int_jazz_radio
+          entity_id: switch.int_the_good_life_radio

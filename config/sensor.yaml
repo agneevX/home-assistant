@@ -21,15 +21,6 @@
 
 # Command line sensors
 #
-- platform: command_line
-  name: Router monthly WAN usage
-  command: "/bin/bash /config/scripts/orbi_router.sh wan_monthly"
-  scan_interval: 00:30:00
-  value_template: "{{ value_json.index }}"
-  json_attributes:
-    - upload
-    - download
-    - total
 
 - platform: command_line
   name: Router daily WAN usage
@@ -41,22 +32,12 @@
     - tx
 
 - platform: command_line
-  name: Router current WAN usage
-  command: "/bin/bash /config/scripts/orbi_router.sh wan_current"
-  scan_interval: 3
-  value_template: "{{ value_json.index }}"
-  json_attributes:
-    - receive
-    - sent
-
-- platform: command_line
   name: Netgear Orbi
   command: "/bin/bash /config/scripts/orbi_router.sh"
   value_template: "{{ (value_json.status) }}"
   scan_interval: 20
   json_attributes:
     - Uptime
-    - System load
     - WAN Uptime
     - WAN Port
     - LAN Port 1
@@ -107,44 +88,6 @@
 #
 - platform: template
   sensors:
-    wan_monthly_usage_up:
-      friendly_name: WAN monthly usage (upload)
-      value_template: >-
-        {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:upload
-      unit_of_measurement: GB
-
-    wan_monthly_usage_down:
-      friendly_name: WAN monthly usage (download)
-      value_template: >-
-        {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:download
-      unit_of_measurement: GB
-
-    wan_monthly_usage_total:
-      friendly_name: WAN monthly usage (total)
-      value_template: >-
-        {% if state_attr('sensor.router_monthly_wan_usage','total') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','total')|float/976563)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:wifi-arrow-up-down
-      unit_of_measurement: GB
-
-    wan_in:
-      friendly_name: WAN In
-      value_template: "{{ (state_attr('sensor.router_current_wan_usage','receive')|float/1000)|round(1) }}"
-      icon_template: mdi:arrow-down
-      unit_of_measurement: 'Mb/s'
-
-    wan_out:
-      friendly_name: WAN Out
-      value_template: "{{ (state_attr('sensor.router_current_wan_usage','sent')|float/1000)|round(1) }}"
-      icon_template: mdi:arrow-up
-      unit_of_measurement: 'Mb/s'
 
     wan_daily_usage_up:
       friendly_name: WAN daily usage (upload)

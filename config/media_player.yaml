@@ -50,12 +50,25 @@
     source_list: media_player.kd_55_ag|source_list
 
 - platform: androidtv
+  host: 10.0.0.65
+  name: Bedroom Mi Box
+  device_class: androidtv
+  screencap: false
+  exclude_unnamed_apps: true
+
+- platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64
   device_class: firetv
   screencap: false
-#  state_detection_rules:
-#    'in.startv.hotstar':
+  exclude_unnamed_apps: true
 
 #- platform: mpd
 #  host: 127.0.0.1
+
+#- platform: androidtv
+#  host: 10.0.0.63
+#  name: Sony Bravia (atv int.)
+#  device_class: androidtv
+#  screencap: false
+#  exclude_unnamed_apps: true

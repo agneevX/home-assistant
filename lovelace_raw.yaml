@@ -15,6 +15,7 @@ custom_header:
     - conditions:
         user_agent: Android
       config:
+        menu_hide: true
         compact_mode: true
         disabled_mode: false
         tab_indicator_color: var(--primary-text-color)
@@ -27,10 +28,10 @@ views:
   - icon: mdi:home-variant
     path: home
     title: Home
-    type: custom:masonry-layout
     layout:
       width: 280
       max_cols: 2
+    type: custom:masonry-layout
     badges: []
     cards:
       - cards:
@@ -308,10 +309,10 @@ views:
                       - 100
               - entity: input_number.pi_volume
                 hide_state: true
-                name: Soundbar
+                name: Speakers
                 step: 5
                 min: 30
-                icon: mdi:surround-sound
+                icon: mdi:speaker-multiple
                 type: custom:slider-entity-row
             show_header_toggle: false
             type: entities
@@ -377,7 +378,7 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: switch.jazz_radio
+                entity: switch.the_good_life_radio
                 show_name: false
                 size: 35%
                 state:
@@ -466,9 +467,16 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: script.refresh_plex
+                entity: switch.bedroom_ac_swing
+                icon: mdi:fan-chevron-down
                 show_name: false
                 size: 35%
+                state:
+                  - value: 'on'
+                    color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
                 styles:
                   card:
                     - height: 50px
@@ -545,7 +553,7 @@ views:
     title: Controls
     type: custom:horizontal-layout
     layout:
-      width: 300
+      width: 280
       max_cols: 2
     badges: []
     cards:
@@ -606,74 +614,9 @@ views:
               style: |
                 ha-card {
                   --st-mode-background: var(--card-background-color);
-                  --st-spacing: 3.5px;
                   --st-font-size-xl: 55px;
                   --st-font-size-m: 23px;
                 }
-          - cards:
-              - entity: switch.bedroom_ac_swing
-                layout: icon_name_state
-                name: SWING
-                size: 45%
-                color_type: card
-                state:
-                  - value: 'off'
-                    styles:
-                      icon:
-                        - color: var(--primary-text-color)
-                      name:
-                        - color: var(--primary-text-color)
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 13px
-                    - height: 44px
-                    - font-weight: bold
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - entity: switch.bedroom_ac_fast_cool
-                layout: icon_name_state
-                name: FAST COOL
-                size: 45%
-                color_type: card
-                state:
-                  - value: 'off'
-                    styles:
-                      icon:
-                        - color: var(--primary-text-color)
-                      name:
-                        - color: var(--primary-text-color)
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 13px
-                    - height: 44px
-                    - font-weight: bold
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
           - type: entities
             entities:
               - entity: >-
@@ -687,10 +630,10 @@ views:
   - icon: mdi:chart-areaspline
     path: info
     title: Info
-    type: custom:masonry-layout
     layout:
-      width: 300
+      width: 280
       max_cols: 2
+    type: custom:masonry-layout
     badges: []
     cards:
       - cards:
@@ -709,9 +652,9 @@ views:
             color_thresholds:
               - value: 0
                 color: '#C64545'
-              - value: 94
+              - value: 95
                 color: '#C66445'
-              - value: 98
+              - value: 99
                 color: '#C6B145'
               - value: 100
                 color: '#45C669'
@@ -821,55 +764,33 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - cards:
+          - type: custom:vertical-stack-in-card
+            cards:
               - type: entities
                 entities:
                   - entity: sensor.netgear_orbi
                     type: custom:template-entity-row
-                    secondary: '{{ state_attr(''sensor.netgear_orbi'',''System load'') }}'
+                    secondary: '{{ state_attr(''sensor.netgear_orbi'',''WAN Uptime'') }}'
                     active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
-              - type: divider
-              - decimals: 0
-                entities:
-                  - color: '#3BD97A'
-                    entity: sensor.wan_in
-                  - color: '#D9CA3A'
-                    entity: sensor.wan_out
-                hours_to_show: 0.5
-                font_size_header: 13
-                line_width: 2.8
-                points_per_hour: 140
-                lower_bound: 0
-                show:
-                  fill: false
-                  labels: true
-                  legend: false
-                  points: false
-                  state: false
-                  name: false
-                  icon: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                    ha-card > .name > span {
-                      font-size: 1.12em;
-                    }
-                type: custom:mini-graph-card
+              - type: iframe
+                aspect_ratio: 55%
+                url: >-
+                  http://grafana.server/d-solo/Gw_B5UMnk/router-dash-copy?orgId=1&fullscreen&refresh=5s&panelId=16
               - cards:
                   - entities:
                       - color: '#3BD97A'
-                        entity: sensor.wan_in
-                        name: WAN In
-                    font_size: 72
+                        entity: sensor.wan_daily_usage_down
+                        name: Traffic In
+                    icon: mdi:arrow-down-circle
+                    font_size: 74
                     font_size_header: 12.5
-                    decimals: 1
+                    hours_to_show: 2
+                    points_per_hour: 6
+                    aggregate_func: delta
                     show:
-                      graph: false
+                      labels: false
+                      points: false
+                      graph: bar
                       icon_adaptive_color: true
                       name_adaptive_color: true
                     card_mod:
@@ -885,15 +806,19 @@ views:
                     align_state: right
                     entities:
                       - color: '#D9CA3A'
-                        entity: sensor.wan_out
-                        name: WAN Out
-                    font_size: 72
+                        entity: sensor.wan_daily_usage_up
+                        name: Traffic Out
+                    icon: mdi:arrow-up-circle
+                    font_size: 74
                     font_size_header: 12.5
-                    decimals: 1
+                    hours_to_show: 2
+                    points_per_hour: 6
                     show:
                       icon_adaptive_color: true
                       name_adaptive_color: true
-                      graph: false
+                      graph: bar
+                      labels: false
+                      points: false
                     card_mod:
                       style: |
                         ha-card > div:nth-child(-n+2) {
@@ -904,60 +829,6 @@ views:
                         }
                     type: custom:mini-graph-card
                 type: horizontal-stack
-            type: custom:vertical-stack-in-card
-          - cards:
-              - entities:
-                  - color: '#3BD97A'
-                    entity: sensor.wan_daily_usage_down
-                    name: Traffic In
-                icon: mdi:arrow-down-circle
-                font_size: 74
-                font_size_header: 12.5
-                hours_to_show: 2
-                points_per_hour: 6
-                aggregate_func: delta
-                show:
-                  labels: false
-                  points: false
-                  graph: bar
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                    padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
-              - align_icon: left
-                align_state: right
-                entities:
-                  - color: '#D9CA3A'
-                    entity: sensor.wan_daily_usage_up
-                    name: Traffic Out
-                icon: mdi:arrow-up-circle
-                font_size: 74
-                font_size_header: 12.5
-                hours_to_show: 2
-                points_per_hour: 6
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  graph: bar
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
-            type: horizontal-stack
         type: vertical-stack
       - cards:
           - content: |
@@ -980,7 +851,7 @@ views:
           - type: entities
             entities:
               - entity: sensor.qbittorrent_active_torrents
-                name: Active transfers
+                name: Active torrents
                 icon: mdi:swap-vertical
               - entity: sensor.qbt_down_speed
                 name: Download speed
@@ -992,19 +863,6 @@ views:
                 type: custom:template-entity-row
                 state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
                 condition: '{{ not is_state(''sensor.qbt_status'', ''idle'')}}'
-              - type: section
-                label: Media Queue
-              - entity: sensor.radarr_queue
-                name: Radarr
-                icon: mdi:filmstrip
-              - entity: sensor.radarr_4k_queue
-                icon: mdi:video-4k-box
-                name: Radarr 4K
-              - entity: sensor.sonarr_queue
-                name: Sonarr
-                icon: mdi:television-box
-            show_header_toggle: false
-            state_color: true
           - content: |
               # 〡 Storage
             type: markdown
@@ -1027,33 +885,31 @@ views:
               - entity: sensor.drive_state
                 name: /drive mount
               - type: divider
-              - entity: sensor.disk_use_percent_home_agneev
+              - entity: sensor.disk_use_percent_ssd
                 icon: mdi:card-text
               - entity: sensor.disk_use_percent_knox
                 name: /knox used
             show_header_toggle: false
             state_color: true
         type: vertical-stack
-  - icon: mdi:server-network
-    path: network
-    title: Network
-    type: custom:masonry-layout
+  - icon: mdi:chart-tree
+    path: tile
+    title: Tile
     layout:
-      width: 300
+      width: 280
       max_cols: 2
+    type: custom:masonry-layout
     badges: []
     cards:
       - cards:
           - type: custom:uptime-card
-            entity: binary_sensor.isp_node_ping
-            name: ISP Node
-            icon: mdi:ethernet-cable
-            ko_icon: mdi:ethernet-cable-off
-            hours_to_show: 1
+            entity: binary_sensor.orbi_satellite_ping
+            name: Orbi Satellite
+            hours_to_show: 24
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
-            average_template: '[[[ return variables.uptime.toFixed(1); ]]]% up'
+            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% online'
             tap_action:
               action: more-info
               haptic: success
@@ -1063,18 +919,18 @@ views:
               height: 25
               round: 7
             alias:
-              ok: Connected
-              ko: Disconnected
+              ok: Online
+              ko: Offline
             color_thresholds:
-              - value: 0
-                color: '#C64545'
-              - value: 94
-                color: '#C66445'
-              - value: 98
-                color: '#C6B145'
+              - value: 70
+                color: '#da23f0'
+              - value: 80
+                color: '#f1de20'
               - value: 100
-                color: '#45C669'
+                color: '#0fb6f7'
             color:
+              ok: '#0fb6f7'
+              ko: '#da23f0'
               tooltip: var(--secondary-text-color)
             card_mod:
               style: |
@@ -1231,35 +1087,28 @@ views:
                 type: custom:mini-graph-card
             type: horizontal-stack
         type: vertical-stack
-      - type: vertical-stack
-        cards:
-          - content: |
-              # 〡 Monthly Stats
-            type: markdown
-            card_mod:
-              style:
-                .: |
-                  ha-card {
-                    --ha-card-background: none !important;
-                    box-shadow: none !important;
-                  }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 20px;
-                      font-weight: bold;
-                      font-family: Helvetica;
-                    }
-          - type: entities
-            entities:
-              - entity: sensor.wan_monthly_usage_up
-                name: Data uploaded
-              - entity: sensor.wan_monthly_usage_down
-                name: Data downloaded
-              - type: divider
-              - entity: sensor.wan_monthly_usage_total
-                name: Total traffic
       - cards:
+          - type: statistics-graph
+            entities:
+              - entity: sensor.broadlink_rm4_mini_temperature
+                name: Temp.
+            days_to_show: 7
+            stat_types:
+              - mean
+              - min
+              - sum
+              - max
+          - type: statistics-graph
+            entities:
+              - entity: sensor.broadlink_rm4_mini_humidity
+                name: Humidity
+            days_to_show: 7
+            stat_types:
+              - mean
+              - min
+              - sum
+              - max
+            chart_type: line
           - content: |
               # 〡 LAN Devices
             type: markdown
@@ -1296,33 +1145,15 @@ views:
   - icon: mdi:remote
     path: remote-control
     title: Remote Control
-    type: custom:horizontal-layout
     layout:
-      width: 300
+      width: 280
       max_cols: 2
+    type: custom:horizontal-layout
     badges: []
     cards:
       - type: vertical-stack
         cards:
-          - content: |
-              # 〡 Cloud ☁️
-            type: markdown
-            card_mod:
-              style:
-                .: |
-                  ha-card {
-                    --ha-card-background: none !important;
-                    box-shadow: none !important;
-                  }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 20px;
-                      font-weight: bold;
-                      font-family: Helvetica;
-                    }
           - artwork: material
-            entity: media_player.spotify
             hide:
               power: true
               source: true
@@ -1335,23 +1166,23 @@ views:
                 - icon: mdi:surround-sound
                   id: Soundbar
                   type: source
-                - icon: mdi:speaker-bluetooth
+                - icon: mdi:amazon-alexa
                   id: Bedroom Echo
                   type: source
-                - icon: mdi:amazon-alexa
-                  id: New Room Echo
+                - icon: mdi:google-home
+                  id: New Room Speaker
                   type: source
-                - icon: mdi:numeric-1
-                  id: script.spotify_daily_mix_1
-                  type: script
+                - icon: mdi:silverware
+                  id: Dining Hall Echo
+                  type: source
               columns: 5
             type: custom:mini-media-player
             volume_step: '2'
-            scale: '0.97'
             idle_view:
               after: 10
               when_idle: true
               when_standby: true
+            entity: media_player.spotify
       - cards:
           - content: |
               # 〡 Level 1
@@ -1370,8 +1201,7 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - artwork: cover
-            entity: media_player.bedroom_echo
+          - entity: media_player.bedroom_echo
             hide:
               power: true
               source: true
@@ -1381,12 +1211,13 @@ views:
             idle_view:
               when_idle: true
               when_standby: true
+            artwork: material
           - cards:
               - color_type: card
                 entity: switch.bedroom_echo_do_not_disturb_switch
                 layout: icon_name_state
                 name: DND
-                size: 45%
+                size: 44%
                 state:
                   - value: 'on'
                     styles:
@@ -1410,7 +1241,7 @@ views:
                 entity: switch.bedroom_echo_repeat_switch
                 layout: icon_name_state
                 name: REPEAT
-                size: 45%
+                size: 44%
                 state:
                   - value: 'on'
                     styles:
@@ -1434,93 +1265,7 @@ views:
                 entity: switch.bedroom_echo_shuffle_switch
                 layout: icon_name_state
                 name: SHUFFLE
-                size: 45%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
-          - artwork: cover
-            entity: media_player.new_room_echo
-            scale: '0.97'
-            hide:
-              power: true
-              source: true
-            type: custom:mini-media-player
-            volume_step: '2'
-            idle_view:
-              after: 10
-              when_idle: true
-              when_standby: true
-          - cards:
-              - color_type: card
-                entity: switch.new_room_echo_do_not_disturb_switch
-                layout: icon_name_state
-                name: DND
-                size: 45%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.new_room_echo_repeat_switch
-                layout: icon_name_state
-                name: REPEAT
-                size: 45%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.new_room_echo_shuffle_switch
-                layout: icon_name_state
-                name: SHUFFLE
-                size: 45%
+                size: 44%
                 state:
                   - value: 'on'
                     styles:
@@ -1542,7 +1287,7 @@ views:
                 type: custom:button-card
             type: horizontal-stack
           - artwork: material
-            entity: media_player.everywhere
+            icon: mdi:google-home
             scale: '0.97'
             hide:
               power: true
@@ -1553,78 +1298,202 @@ views:
               after: 10
               when_idle: true
               when_standby: true
+            entity: media_player.new_room_speaker
+          - cards:
+              - color_type: card
+                entity: switch.new_room_speaker_do_not_disturb
+                layout: icon_name_state
+                name: DND
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
+                entity: sensor.new_room_speaker_alarms
+                layout: icon_name_state
+                name: ALARMS
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
+                entity: sensor.new_room_speaker_timers
+                layout: icon_name_state
+                name: TIMERS
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+            type: horizontal-stack
+          - scale: '0.97'
+            hide:
+              power: true
+              source: true
+            type: custom:mini-media-player
+            volume_step: '2'
+            idle_view:
+              after: 10
+              when_idle: true
+              when_standby: true
+            entity: media_player.dining_hall_echo
+            artwork: material
+          - cards:
+              - color_type: card
+                entity: switch.dining_hall_echo_do_not_disturb_switch
+                layout: icon_name_state
+                name: DND
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: toggle
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
+                entity: switch.dining_hall_echo_repeat_switch
+                layout: icon_name_state
+                name: REPEAT
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: toggle
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - color_type: card
+                entity: switch.dining_hall_echo_shuffle_switch
+                layout: icon_name_state
+                name: SHUFFLE
+                size: 44%
+                state:
+                  - value: 'on'
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                      name:
+                        - color: '#ffffff'
+                styles:
+                  card:
+                    - font-size: 12px
+                    - font-weight: bold
+                    - height: 42px
+                tap_action:
+                  action: toggle
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+            type: horizontal-stack
         type: vertical-stack
   - icon: mdi:television-play
     path: tv
     title: TV
-    type: custom:masonry-layout
     layout:
-      width: 300
+      width: 280
       max_cols: 2
     theme: ''
+    type: custom:masonry-layout
     badges: []
     cards:
       - type: vertical-stack
         cards:
-          - cards:
-              - decimals: 0
-                entities:
-                  - color: '#F0A400'
-                    entity: sensor.tautulli
-                    name: Plex
-                    state_adaptive_color: true
-                font_size: 84
-                font_size_header: 12.6
-                hours_to_show: 6
-                line_width: 5
-                points_per_hour: 10
-                show:
-                  name_adaptive_color: true
-                  icon_adaptive_color: true
-                  labels: false
-                  labels_secondary: false
-                  points: false
-                  legend: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
-              - entities:
-                  - color: '#F0A400'
-                    entity: sensor.tautulli_total_bandwidth
-                    name: Tautulli
-                    state_adaptive_color: true
-                font_size: 84
-                font_size_header: 12.6
-                hours_to_show: 6
-                line_width: 5
-                points_per_hour: 12
-                show:
-                  name_adaptive_color: true
-                  icon_adaptive_color: true
-                  labels: false
-                  labels_secondary: false
-                  points: false
-                  legend: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
-            type: horizontal-stack
+          - decimals: 0
+            entities:
+              - color: '#F0A400'
+                entity: sensor.plex_falcon
+                name: Plex Server
+                state_adaptive_color: true
+            font_size: 88
+            font_size_header: 13
+            hours_to_show: 24
+            line_width: 3
+            points_per_hour: 8
+            show:
+              name_adaptive_color: true
+              icon_adaptive_color: true
+              labels: false
+              labels_secondary: false
+              points: false
+              legend: false
+            card_mod:
+              style: |
+                ha-card > div:nth-child(-n+2) {
+                  padding: 0 14px 0 14px !important
+                }
+                ha-card > .info {
+                  padding: 0 14px 0px 14px !important
+                }
+            type: custom:mini-graph-card
           - card:
               artwork: material
-              entity: media_player.plex_xplay_lg_49uf690t_tc
-              name: XPlay
+              entity: media_player.plex_plex_for_android_tv_mibox4
+              name: Plex
               icon: mdi:plex
               volume_step: '2'
               hide:
@@ -1634,9 +1503,27 @@ views:
                 when_standby: true
               type: custom:mini-media-player
             conditions:
-              - entity: media_player.plex_xplay_lg_49uf690t_tc
+              - entity: media_player.plex_plex_for_android_tv_mibox4
                 state_not: unavailable
-              - entity: media_player.plex_xplay_lg_49uf690t_tc
+              - entity: media_player.plex_plex_for_android_tv_mibox4
+                state_not: idle
+            type: conditional
+          - card:
+              artwork: material
+              entity: media_player.plex_mrmc_localhost
+              name: MrMC
+              icon: mdi:plex
+              volume_step: '2'
+              hide:
+                power: true
+              idle_view:
+                when_idle: true
+                when_standby: true
+              type: custom:mini-media-player
+            conditions:
+              - entity: media_player.plex_mrmc_localhost
+                state_not: unavailable
+              - entity: media_player.plex_mrmc_localhost
                 state_not: idle
             type: conditional
           - card:
@@ -1676,8 +1563,7 @@ views:
                       font-family: Helvetica;
                     }
             type: markdown
-          - entity: media_player.bedroom_tv
-            name: Television
+          - name: Television
             volume_step: '2'
             hide:
               progress: true
@@ -1688,24 +1574,9 @@ views:
             shortcuts:
               attribute: source
               buttons:
-                - icon: mdi:plex
-                  id: Plex
-                  type: source
-                - icon: mdi:netflix
-                  id: Netflix
-                  type: source
-                - icon: mdi:amazon
-                  id: Amazon Prime Video
-                  type: source
-                - icon: mdi:youtube
-                  id: YouTube
-                  type: source
-                - icon: mdi:alpha-x-box
-                  id: XPlay
-                  type: source
-                - icon: mdi:video-input-hdmi
+                - icon: mdi:video-4k-box
                   id: HDMI1
-                  name: HDMI 1
+                  name: Mi Box
                   type: source
                 - icon: mdi:video-input-hdmi
                   id: HDMI2
@@ -1715,9 +1586,10 @@ views:
                   id: Cable
                   name: Cable
                   type: source
-              columns: 5
+              columns: 3
               hide_when_off: true
             type: custom:mini-media-player
+            entity: media_player.bedroom_tv
           - artwork: material
             volume_step: '2'
             hide:
@@ -1726,7 +1598,24 @@ views:
               when_idle: true
               when_standby: true
             type: custom:mini-media-player
-            entity: media_player.bedroom_cast
+            name: Mi Box
+            shortcuts:
+              attribute: source
+              columns: 5
+              buttons:
+                - icon: mdi:plex
+                  id: Plex
+                  type: source
+                - icon: mdi:youtube
+                  id: YouTube
+                  type: source
+                - icon: mdi:twitch
+                  id: Twitch
+                  type: source
+                - icon: mdi:netflix
+                  id: Netflix
+                  type: source
+            entity: media_player.bedroom_mi_box_android
           - volume_step: '2'
             hide:
               progress: true
@@ -1763,14 +1652,14 @@ views:
                 - icon: mdi:plex
                   id: Plex
                   type: source
+                - icon: mdi:youtube
+                  id: YouTube
+                  type: source
                 - icon: mdi:netflix
                   id: Netflix
                   type: source
-                - icon: mdi:amazon
-                  id: Amazon Prime Video
-                  type: source
-                - icon: mdi:youtube
-                  id: YouTube
+                - icon: mdi:twitch
+                  id: Twitch
                   type: source
                 - icon: mdi:alpha-x-box
                   id: XPlay
@@ -1796,14 +1685,11 @@ views:
                 - icon: mdi:plex
                   id: Plex
                   type: source
-                - icon: mdi:netflix
-                  id: Netflix
-                  type: source
-                - icon: mdi:amazon
-                  id: Amazon Prime Video
-                  type: source
                 - icon: mdi:youtube
                   id: YouTube
+                  type: source
+                - icon: mdi:netflix
+                  id: Netflix
                   type: source
                 - icon: mdi:alpha-x-box
                   id: XPlay

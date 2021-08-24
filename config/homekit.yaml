@@ -1,5 +1,4 @@
 - name: Home Assistant bridge
-  port: 52000
 
   filter:
     include_domains:
@@ -11,13 +10,14 @@
 
     include_entities:
       - switch.adguard_filtering
-      - switch.jazz_radio
+      - switch.the_good_life_radio
       - switch.reboot_orbi_satellite
       - switch.adaptive_lighting
       - switch.adaptive_lighting_sleep_mode_adaptive
       - sensor.broadlink_rm4_mini_humidity
       - binary_sensor.orbi_satellite_ping
       - media_player.siti_cable_stb
+      - media_player.bedroom_mi_box_android
 
     include_entity_globs:
       - switch.lofi*
@@ -29,6 +29,8 @@
       - light.yeelight_lamp4_0x000000001015ab0a
 
   entity_config:
+    media_player.bedroom_mi_box_android:
+      name: Mi Box
     switch.adaptive_lighting_sleep_mode_adaptive:
       name: Sleep mode
     binary_sensor.orbi_satellite_ping:
@@ -42,4 +44,6 @@
     switch.6a_plug:
       type: outlet
     light.soundbar_volume:
-      name: Soundbar
+      name: Speakers
+    switch.the_good_life_radio:
+      name: Good Life Radio

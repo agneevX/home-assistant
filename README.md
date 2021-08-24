@@ -1,16 +1,16 @@
 <!-- markdownlint-disable MD024 MD033 MD036 -->
+
 # Home Assistant setup
 
 Layout designed mobile-first, fully optimized for all screen sizes.
 
-![hero_shot](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
+![mobile_hero](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
 - [Home Assistant setup](#home-assistant-setup)
   - [Background](#background)
   - [Themes](#themes)
   - [Custom implementations](#custom-implementations)
     - [Alexa devices control](#alexa-devices-control)
-    - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
     - [Lo-fi beats](#lo-fi-beats)
 - [Lovelace layout](#lovelace-layout)
@@ -30,14 +30,13 @@ Layout designed mobile-first, fully optimized for all screen sizes.
     - [Info cards](#info-cards)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
-    - [Alexa players](#alexa-players)
+    - [Voice assistant players](#voice-assistant-players)
   - [Plex/TV view](#plextv-view)
     - [Graph rows](#graph-rows-1)
     - [Plex/TV cards](#plextv-cards)
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
-  - [secrets.yaml code](#secretsyaml-code)
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
 
@@ -49,15 +48,7 @@ More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
-<img src="https://img.shields.io/badge/HACS-Custom-blue.svg?style=for-the-badge" alt="HACS Custom badge" align="right">
-
-The [themes](./themes) in this repository can be [added](https://hacs.xyz/docs/faq/custom_repositories) to Home Assistant via HACS as a custom repository (select `Themes` as category).
-
-| **Milky White** | **Kinda Dark** | **Pure Black** |
-| :-: | :-: | :-: |
-| ![Milky White](https://user-images.githubusercontent.com/19761269/114695988-cf353700-9d39-11eb-92d9-9a4a5c181f32.PNG) | ![Kinda Dark](https://user-images.githubusercontent.com/19761269/114695994-d0666400-9d39-11eb-9f05-a03f7793c7f9.PNG) | ![Pure Black](https://user-images.githubusercontent.com/19761269/114695952-c9d7ec80-9d39-11eb-9632-628cb446678e.PNG) |
-
-Three individual themes + two combined light/dark themes (requires Home Assistant 2021.6+).
+For themes, head over to [themes/README.md](themes/README.md).
 
 ---
 
@@ -104,62 +95,6 @@ switch:
 
 </details>
 
-### Netgear Orbi integration
-
-With custom firmware and using bash scripts, router stats like internet usage can be integrated into Home Assistant.
-
-<details><summary>Expand</summary>
-
-Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
-
-**To get live WAN stats**
-
-Using `netdata`:
-
-```sh
-opkg install netdata
-```
-
-Add to Home Assistant via Netdata integration.
-
-**To get daily total WAN usage**
-
-Using `vnstat`:
-
-```sh
-opkg install vnstat
-vnstat --create -i brwan
-reboot
-```
-
-```yaml
-# configuration.yaml
-sensor:
-  - platform: command_line
-    name: Orbi Router vnstat (total)
-    command: "/bin/bash /home/homeassistant/scripts/orbi_router.sh vnstat_total"
-    # Script in ./bash_scripts/orbi_router.sh
-    scan_interval: 120
-    value_template: "{{ (value_json.id) }}"
-    json_attributes:
-      - rx
-      - tx
-  - platform: template
-    sensors:
-      orbi_router_wan_in_total:
-        friendly_name: Orbi Router WAN In (total)
-        unit_of_measurement: 'MB'
-        value_template: "{{ (state_attr('sensor.orbi_router_total_vnstat','rx')|float/1000)|round }}"
-        icon_template: mdi:arrow-down
-      orbi_router_wan_out_total:
-        friendly_name: Orbi Router WAN Out (total)
-        unit_of_measurement: 'MB'
-        value_template: "{{ (state_attr('sensor.orbi_router_total_vnstat','tx')|float/1000)|round }}"
-        icon_template: mdi:arrow-up
-```
-
-</details>
-
 ### Soundbar control
 
 Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
@@ -177,6 +112,7 @@ input_number:
     min: 0
     max: 100
     step: 5
+
 automation: 
   - alias: Set soundbar volume
     trigger:
@@ -184,6 +120,7 @@ automation:
       entity_id: input_number.pi_volume
     action:
     - service_template: shell_command.pi_volume_{{ trigger.to_state.state | int }}
+
 shell_command:
   pi_volume_0: echo amixer_0 | netcat localhost 7900
   pi_volume_5: echo amixer_5 | netcat localhost 7900
@@ -246,13 +183,15 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 
 ## Dashboard
 
-<img src="https://user-images.githubusercontent.com/19761269/125283392-02d22e00-e336-11eb-84db-ccd2ff87036d.PNG" alt="Dashboard view" align="right" width="270">
+<!-- <img src="https://user-images.githubusercontent.com/19761269/125283392-02d22e00-e336-11eb-84db-ccd2ff87036d.PNG" alt="Dashboard view" align="right" width="270"> -->
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L27)
+![hero](https://user-images.githubusercontent.com/19761269/122021355-38d9cc00-cde3-11eb-8d34-7bee796123c2.png)
+
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L28)
 
 ### State row
 
-- Person presence
+- People presence
 - ASUS laptop
 - Front gate camera
 - Mesh router satellite/reboot
@@ -275,11 +214,10 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ### Switch rows
 
 - Adaptive Lighting
-- Lofi beats/2/Jazz radio
+- Lofi beats/2/Music radio
 - Sleep mode
-- Bedroom AC
+- Bedroom AC/swing
 - AdGuard Home
-- Plex library refresh
 
 ### Now Playing card
 
@@ -287,11 +225,11 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ---
 
+<img src="https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png" alt="Controls view" align="right" width="400">
+
 ## Controls view
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L551)
-
-![controls_view](https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png "Controls view")
 
 - Front gate camera
 - Bedroom AC HVAC
@@ -302,9 +240,9 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-<img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="right" width="270">
+<img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="right" width="250">
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L698)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L630)
 
 ### Graph rows
 
@@ -316,76 +254,96 @@ Custom sensors that query data from the self-hosted [Speedtest-tracker](https://
 
 ### Network stats
 
-- Router state/system load
-- Router live traffic in/out [<sup>⬆<sup>](#netgear-orbi-integration)
-- Total router traffic [<sup>⬆<sup>](#netgear-orbi-integration)
+- Router card
+- Router live traffic in/out
+- Total router traffic in/out (today)
 
 Custom implementations that poll data via Netdata, and `vnstat`.
 
+Grafana iframe is used for the live traffic graph.
+
 ### Sensor cards
 
-- HACS
 - qBittorrent card
-- Radarr/Sonarr card
 - Storage stats card
 
 ---
 
+<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="240">
+
 ## Tile view
 
-<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="270">
-
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1049)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L895)
 
 ### Graph row
 
-- ISP node state
-- Current server network in/out
+- Orbi Satellite uptime
+- Server network traffic in/out
 - Total server traffic in/out (today)
 
 A combined card that graphs server network usage within the last half hour.
 
 ### Info cards
 
-- Monthly internet traffic card
+- HA Statistics cards
 - LAN clients card
 
-Using the nmap integration, this card shows all network-connected devices.
+Using the Netgear integration, this card shows all network-connected devices.
 
 Dynamically sorted such that the last-updated device is always on top.
 
 ---
 
+<img src="https://user-images.githubusercontent.com/19761269/125283407-0796e200-e336-11eb-8202-22b896f082f1.PNG" alt="Remote control view" align="right" width="230">
+
 ## Remote control view
 
-<img src="https://user-images.githubusercontent.com/19761269/125283407-0796e200-e336-11eb-8202-22b896f082f1.PNG" alt="Remote control view" align="right" width="270">
-
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1291)
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1145)
 
 ### Spotify player
 
 - Spotify media player
   - Playlist shortcuts
   - Soundbar source
+  - Google Home source
   - Amazon Echo sources
 
-### Alexa players
+**Hosted Spotify Connect with [`spocon`](https://github.com/spocon/spocon)...**
 
-- Echo media players & switches
+<details><summary>Expand</summary>
+
+```sh
+sudo add-apt-repository ppa:spocon/spocon
+sudo apt update
+sudo apt install spocon 
+
+# Customize config file:
+nano /opt/spocon/config.toml
+```
+
+</details>
+
+### Voice assistant players
+
+- Alexa media players
+- Google Home media players
 - Alexa Everywhere media player
+
+Custom integrations used for Alexa and Google Home.
 
 ---
 
+<img src="https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png" alt="Plex view" align="right" width="400">
+
 ## Plex/TV view
 
-[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1552)
-
-![plex_view](https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png "Plex view")
+[Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L1454)
 
 ### Graph rows
 
 - Plex currently watching
-- Tautulli current bandwidth
+
+This figure is obtained using the Plex integration.
 
 ### Plex/TV cards
 
@@ -419,16 +377,6 @@ Dynamically sorted such that the last-updated device is always on top.
 - [`template-entity-row`](https://github.com/thomasloven/lovelace-template-entity-row) by thomasloven
 - [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
 - [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
-
----
-
-## secrets.yaml code
-
-```yaml
-radarr_queue: curl -s 'http://127.0.0.1:7878/api/v3/queue?apikey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
-radarr4k_queue: curl -s 'http://127.0.0.1:7879/api/v3/queue?apikey=<API_KEY>&pageSize=100&includeUnknownMovieItems=false'
-reboot_orbi_satellite: sshpass -p <PASSWORD> ssh -o StrictHostKeyChecking=no root@10.0.0.2 /sbin/reboot
-```
 
 ---
 

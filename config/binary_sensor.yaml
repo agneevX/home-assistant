@@ -1,5 +1,5 @@
 - platform: ping
-  name: ISP Node ping
+  name: ISP node ping
   host: 172.22.227.1
   count: 1
   scan_interval: 2
