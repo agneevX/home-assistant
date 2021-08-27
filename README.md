@@ -9,8 +9,9 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 - [Home Assistant setup](#home-assistant-setup)
   - [Background](#background)
   - [Themes](#themes)
-  - [Custom implementations](#custom-implementations)
+  - [Implementations](#implementations)
     - [Alexa devices control](#alexa-devices-control)
+    - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
     - [Lo-fi beats](#lo-fi-beats)
 - [Lovelace layout](#lovelace-layout)
@@ -48,13 +49,13 @@ More details [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
-For themes, head over to [themes/README.md](themes/README.md).
+For themes, head over to the [themes](themes/) folder.
 
 ---
 
 [<i>Skip to lovelace layout</i>](#dashboard)
 
-## Custom implementations
+## Implementations
 
 These are some of my custom implementations using Home Assistant:
 
@@ -94,6 +95,114 @@ switch:
 ```
 
 </details>
+
+### Netgear Orbi integration
+
+With custom firmware and bash scripts, router stats like current internet usage or monthly usage can be integrated into Home Assistant.
+
+<details><summary>Expand</summary>
+
+Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
+
+**Get live WAN usage**
+
+Using `netdata`:
+
+```sh
+opkg install netdata
+```
+
+Add to Home Assistant with the Netdata integration.
+
+**Using `vnstat` to get total daily/monthly usage**
+
+```sh
+# Install on router
+opkg install vnstat
+vnstat --create -i eth0
+reboot
+```
+
+```yaml
+# configuration.yaml
+# Daily usage
+sensor:
+ - platform: command_line
+   name: Router daily WAN usage
+   command: "/bin/bash /config/scripts/orbi_router.sh wan_daily"
+   # Script in ./bash_scripts/orbi_router.sh
+   scan_interval: 120
+   value_template: "{{ (value_json.id) }}"
+   json_attributes:
+     - rx
+     - tx
+     
+ - platform: template
+   sensors:
+    wan_daily_usage_up:
+    friendly_name: WAN daily usage (upload)
+    value_template: >-
+      {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
+        {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
+      {% else %} NaN {% endif %}
+    icon_template: mdi:arrow-down
+    unit_of_measurement: 'MB'
+
+  wan_daily_usage_down:
+    friendly_name: WAN daily usage (download)
+    value_template: >-
+      {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
+        {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
+      {% else %} NaN {% endif %}
+    icon_template: mdi:arrow-up
+    unit_of_measurement: 'MB'
+```
+
+```yml
+# configuration.yaml
+# Monthly internet usage
+sensor:
+  - platform: command_line
+    name: Router monthly WAN usage
+    command: "/bin/bash /config/scripts/orbi_router.sh wan_monthly"
+    scan_interval: 00:30:00
+    value_template: "{{ value_json.index }}"
+    json_attributes:
+      - upload
+      - download
+      - total
+
+  - platform: template
+    sensors:
+    wan_monthly_usage_up:
+      friendly_name: WAN monthly usage (upload)
+      value_template: >-
+        {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
+        {% else %} NaN {% endif %}
+      icon_template: mdi:upload
+      unit_of_measurement: GB
+
+    wan_monthly_usage_down:
+      friendly_name: WAN monthly usage (download)
+      value_template: >-
+        {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
+        {% else %} NaN {% endif %}
+      icon_template: mdi:download
+      unit_of_measurement: GB
+
+    wan_monthly_usage_total:
+      friendly_name: WAN monthly usage (total)
+      value_template: >-
+        {% if state_attr('sensor.router_monthly_wan_usage','total') != None %}
+          {{ (state_attr('sensor.router_monthly_wan_usage','total')|float/976563)|round(1) }}
+        {% else %} NaN {% endif %}
+      icon_template: mdi:wifi-arrow-up-down
+      unit_of_measurement: GB
+```
+
+ </details>
 
 ### Soundbar control
 
