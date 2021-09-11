@@ -13,9 +13,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       # MariaDB database socket
       - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
-      # System sensors
-      - /home/agneev/.homeassistant:/ssd:ro
-      - /knox/.homeassistant:/knox:ro
     labels:
       - "org.hotio.pullio.update=true"
       - "org.hotio.pullio.notify=true"

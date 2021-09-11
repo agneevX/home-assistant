@@ -7,7 +7,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 ![mobile_hero](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
 - [Home Assistant setup](#home-assistant-setup)
-  - [Background](#background)
+  - [Hardware](#hardware)
   - [Themes](#themes)
   - [Implementations](#implementations)
     - [Alexa devices control](#alexa-devices-control)
@@ -41,11 +41,11 @@ Layout designed mobile-first, fully optimized for all screen sizes.
   - [Notes](#notes)
   - [Special thanks](#special-thanks)
 
-## Background
+## Hardware
 
-Home Assistant Container install on Raspberry Pi 4, with MariaDB database.
+Home Assistant Container install on Raspberry Pi 4 with MariaDB database.
 
-More details [here](https://github.com/agneevX/server-setup#nas-server).
+Full setup [here](https://github.com/agneevX/server-setup#nas-server).
 
 ## Themes
 
@@ -98,17 +98,18 @@ switch:
 
 ### Netgear Orbi integration
 
-With custom firmware and bash scripts, router stats like current internet usage or monthly usage can be integrated into Home Assistant.
+With custom firmware and bash scripts, statistics from router like current internet usage or monthly usage can be integrated into Home Assistant.
 
 <details><summary>Expand</summary>
 
 Requires [Voxel's firmware](https://www.voxel-firmware.com/Downloads/Voxel/html/index.html) and `entware` to be installed.
 
-**Get live WAN usage**
+**Get current WAN usage**
 
 Using `netdata`:
 
 ```sh
+# ssh root@routerlogin.net
 opkg install netdata
 ```
 
@@ -132,11 +133,11 @@ sensor:
    command: "/bin/bash /config/scripts/orbi_router.sh wan_daily"
    # Script in ./bash_scripts/orbi_router.sh
    scan_interval: 120
-   value_template: "{{ (value_json.id) }}"
+   value_template: "{{ value_json.id }}"
    json_attributes:
      - rx
      - tx
-     
+
  - platform: template
    sensors:
     wan_daily_usage_up:
@@ -170,7 +171,6 @@ sensor:
     json_attributes:
       - upload
       - download
-      - total
 
   - platform: template
     sensors:
@@ -190,15 +190,6 @@ sensor:
           {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
         {% else %} NaN {% endif %}
       icon_template: mdi:download
-      unit_of_measurement: GB
-
-    wan_monthly_usage_total:
-      friendly_name: WAN monthly usage (total)
-      value_template: >-
-        {% if state_attr('sensor.router_monthly_wan_usage','total') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','total')|float/976563)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:wifi-arrow-up-down
       unit_of_measurement: GB
 ```
 
@@ -225,10 +216,10 @@ input_number:
 automation: 
   - alias: Set soundbar volume
     trigger:
-    - platform: state
-      entity_id: input_number.pi_volume
+      - platform: state
+        entity_id: input_number.pi_volume
     action:
-    - service_template: shell_command.pi_volume_{{ trigger.to_state.state | int }}
+      - service_template: shell_command.pi_volume_{{ trigger.to_state.state | int }
 
 shell_command:
   pi_volume_0: echo amixer_0 | netcat localhost 7900

@@ -27,9 +27,8 @@ vnstat_month_total () {
 
   upload="$(echo "$o" | jq '.interfaces[0].traffic.months[0].tx')"
   download="$(echo "$o" | jq '.interfaces[0].traffic.months[0].rx')"
-  total=$(( upload + download ))
 cat << EOF
-{"index":"0","upload":"$upload","download":"$download","total":"$total"}
+{"index":"0","upload":"$upload","download":"$download"}
 EOF
 }
 
