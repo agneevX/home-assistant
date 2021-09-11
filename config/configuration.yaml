@@ -1,15 +1,3 @@
-influxdb:
-  api_version: 2
-  ssl: false
-  host: 127.0.0.1
-  port: 8086
-  token: !secret influxdb_token
-  organization: !secret influxdb_org
-  bucket: home-assistant
-  include:
-    entity_globs:
-      - sensor.broadlink*
-
 climate:
   - platform: smartir
     name: Bedroom AC

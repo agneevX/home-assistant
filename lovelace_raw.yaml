@@ -637,50 +637,6 @@ views:
     badges: []
     cards:
       - cards:
-          - entity: binary_sensor.cloudflare_dns_ping
-            type: custom:uptime-card
-            name: Internet
-            icon: mdi:check-network
-            ko_icon: mdi:close-network
-            hours_to_show: 1
-            title_adaptive_color: true
-            status_adaptive_color: true
-            icon_adaptive_color: true
-            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% up'
-            color:
-              tooltip: var(--secondary-text-color)
-            color_thresholds:
-              - value: 0
-                color: '#C64545'
-              - value: 95
-                color: '#C66445'
-              - value: 99
-                color: '#C6B145'
-              - value: 100
-                color: '#45C669'
-            tap_action:
-              action: more-info
-              haptic: success
-            bar:
-              spacing: 4
-              amount: 24
-              height: 25
-              round: 7
-            alias:
-              ok: Online
-              ko: Offline
-            card_mod:
-              style: |
-                ha-card .name > span {
-                  font-size: 1.3em;
-                }
-                ha-card .status > span {
-                  font-size: 1.1em;
-                  max-height: 1.1em;
-                }
-                ha-card .timeline {
-                  padding-bottom: 2px;
-                }
           - cards:
               - align_icon: state
                 align_state: center
@@ -773,9 +729,9 @@ views:
                     secondary: '{{ state_attr(''sensor.netgear_orbi'',''WAN Uptime'') }}'
                     active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
               - type: iframe
-                aspect_ratio: 55%
+                aspect_ratio: 58%
                 url: >-
-                  http://grafana.server/d-solo/Gw_B5UMnk/router-dash-copy?orgId=1&fullscreen&refresh=5s&panelId=16
+                  http://grafana.server/d-solo/o7HWS3Znk/router-dash?orgId=1&refresh=5s&panelId=16&from=now-30m&to=now
               - cards:
                   - entities:
                       - color: '#3BD97A'
@@ -830,68 +786,20 @@ views:
                     type: custom:mini-graph-card
                 type: horizontal-stack
         type: vertical-stack
-      - cards:
-          - content: |
-              # 〡 Downloads
-            type: markdown
-            card_mod:
-              style:
-                .: |
-                  ha-card {
-                    --ha-card-background: none !important;
-                    box-shadow: none !important;
-                  }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 20px;
-                      font-weight: bold;
-                      font-family: Helvetica;
-                    }
-          - type: entities
+      - type: vertical-stack
+        cards:
+          - type: statistics-graph
             entities:
-              - entity: sensor.qbittorrent_active_torrents
-                name: Active torrents
-                icon: mdi:swap-vertical
-              - entity: sensor.qbt_down_speed
-                name: Download speed
-                type: custom:template-entity-row
-                state: '{{ states(''sensor.qbt_down_speed'')|round}} KB/s'
-                condition: '{{ not is_state(''sensor.qbt_status'', ''idle'')}}'
-              - entity: sensor.qbt_up_speed
-                name: Upload speed
-                type: custom:template-entity-row
-                state: '{{ states(''sensor.qbt_up_speed'')|round}} KB/s'
-                condition: '{{ not is_state(''sensor.qbt_status'', ''idle'')}}'
-          - content: |
-              # 〡 Storage
-            type: markdown
-            card_mod:
-              style:
-                .: |
-                  ha-card {
-                    --ha-card-background: none !important;
-                    box-shadow: none !important;
-                  }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 20px;
-                      font-weight: bold;
-                      font-family: Helvetica;
-                    }
-          - type: entities
-            entities:
-              - entity: sensor.drive_state
-                name: /drive mount
-              - type: divider
-              - entity: sensor.disk_use_percent_ssd
-                icon: mdi:card-text
-              - entity: sensor.disk_use_percent_knox
-                name: /knox used
-            show_header_toggle: false
-            state_color: true
-        type: vertical-stack
+              - entity: sensor.broadlink_rm4_mini_temperature
+                name: 🌡
+              - entity: sensor.broadlink_rm4_mini_humidity
+                name: 💧
+            stat_types:
+              - mean
+              - min
+              - sum
+              - max
+            days_to_show: 5
   - icon: mdi:chart-tree
     path: tile
     title: Tile
@@ -961,6 +869,10 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
+          - type: entities
+            entities:
+              - entity: sensor.drive_state
+                name: /drive mount
           - cards:
               - decimals: 0
                 entities:
@@ -1088,27 +1000,6 @@ views:
             type: horizontal-stack
         type: vertical-stack
       - cards:
-          - type: statistics-graph
-            entities:
-              - entity: sensor.broadlink_rm4_mini_temperature
-                name: Temp.
-            days_to_show: 7
-            stat_types:
-              - mean
-              - min
-              - sum
-              - max
-          - type: statistics-graph
-            entities:
-              - entity: sensor.broadlink_rm4_mini_humidity
-                name: Humidity
-            days_to_show: 7
-            stat_types:
-              - mean
-              - min
-              - sum
-              - max
-            chart_type: line
           - content: |
               # 〡 LAN Devices
             type: markdown

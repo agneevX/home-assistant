@@ -5,11 +5,6 @@
       - com.webos.app.hdmi1
       - com.webos.app.hdmi2
       - com.webos.app.externalinput.av1
-      - youtube.leanback.v4
-      - netflix
-      - cdp-30
-      - com.itkey.plexclient
-      - amazon.global
   turn_on_action:
     service: wake_on_lan.send_magic_packet
     data:

@@ -346,7 +346,6 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ### Graph rows
 
-- Internet health
 - Internet download speed
 - Internet upload speed
 
@@ -362,11 +361,6 @@ Custom implementations that poll data via Netdata, and `vnstat`.
 
 Grafana iframe is used for the live traffic graph.
 
-### Sensor cards
-
-- qBittorrent card
-- Storage stats card
-
 ---
 
 <img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="240">
@@ -377,15 +371,13 @@ Grafana iframe is used for the live traffic graph.
 
 ### Graph row
 
-- Orbi Satellite uptime
 - Server network traffic in/out
 - Total server traffic in/out (today)
 
 A combined card that graphs server network usage within the last half hour.
 
-### Info cards
+### Info card
 
-- HA Statistics cards
 - LAN clients card
 
 Using the Netgear integration, this card shows all network-connected devices.

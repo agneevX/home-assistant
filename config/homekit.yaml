@@ -9,7 +9,6 @@
       - humidifier
 
     include_entities:
-      - switch.adguard_filtering
       - switch.the_good_life_radio
       - switch.reboot_orbi_satellite
       - switch.adaptive_lighting

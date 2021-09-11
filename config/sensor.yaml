@@ -1,16 +1,3 @@
-- platform: qbittorrent
-  name: qBt
-  url: "http://127.0.0.1:8100"
-  username: !secret qbt_user
-  password: !secret qbt_pass
-
-- platform: systemmonitor
-  resources:
-    - type: disk_use_percent
-      arg: /ssd
-    - type: disk_use_percent
-      arg: /knox
-
 - platform: systemmonitor
   scan_interval: 7
   resources:
@@ -20,7 +7,6 @@
       arg: eth0
 
 # Command line sensors
-#
 
 - platform: command_line
   name: Router daily WAN usage
@@ -43,12 +29,6 @@
     - LAN Port 1
     - LAN Port 2
     - LAN Port 3
-
-- platform: command_line
-  name: qBittorrent - active torrents
-  command: "curl -s http://127.0.0.1:8100/api/v2/torrents/info?filter=active | grep -o -i f_l_piece_prio | wc -l"
-  unit_of_measurement: 'torrents'
-  scan_interval: 20
 
 - platform: command_line
   name: /drive State
@@ -85,10 +65,9 @@
   scan_interval: 180
 
 # Template sensors
-#
+
 - platform: template
   sensors:
-
     wan_daily_usage_up:
       friendly_name: WAN daily usage (upload)
       value_template: >-

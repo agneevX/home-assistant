@@ -1,16 +1,4 @@
 - platform: ping
-  name: ISP node ping
-  host: 172.22.227.1
-  count: 1
-  scan_interval: 2
-
-- platform: ping
-  name: Cloudflare DNS ping
-  host: 1.1.1.1
-  count: 1
-  scan_interval: 2
-
-- platform: ping
   name: Orbi Satellite ping
   host: 10.0.0.2
   count: 1
