@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD024 MD033 MD036 -->
 
-# Home Assistant setup
+# <img width="24px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup
 
 Layout designed mobile-first, fully optimized for all screen sizes.
 
