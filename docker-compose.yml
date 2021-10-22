@@ -1,4 +1,16 @@
 version: "3.8"
+
+x-env: &env
+  PGID: 1001
+  PUID: 1001
+  UMASK: 002
+  TZ: Asia/Kolkata
+
+x-labels: &pullio
+  org.hotio.pullio.update: true
+  org.hotio.pullio.notify: true
+  org.hotio.pullio.discord.webhook: ${DISCORD_WEBHOOK}
+
 services:
 
   home-assistant:
@@ -8,15 +20,13 @@ services:
     network_mode: host
     healthcheck:
       test: ["CMD", "curl", "localhost:8123", "-fso", "/dev/null"]
+    environment:
+      <<: *env
     volumes:
       - /opt/appdata/home-assistant:/config
-      - /etc/localtime:/etc/localtime:ro
-      # MariaDB database socket
       - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
     labels:
-      - "org.hotio.pullio.update=true"
-      - "org.hotio.pullio.notify=true"
-      - "org.hotio.pullio.discord.webhook=${DISCORD_WEBHOOK}"
+      <<: *pullio
 
   speedtest-tracker:
     container_name: speedtest-tracker
@@ -27,30 +37,14 @@ services:
     healthcheck:
       test: ["CMD", "curl", "localhost", "-fso", "/dev/null"]
     environment:
-      - PUID=1001
-      - PGID=1001
-      - UMASK=002
-      - TZ=Asia/Kolkata
-      - OOKLA_EULA_GDPR=true
+      <<: *env
+      OOKLA_EULA_GDPR: true
+    tmpfs:
+      - /config/www:size=500m
+      - /config/log:size=32m
     volumes:
+      - /opt/appdata/speedtest-tracker/app:/config/www/app/Bin
       - /opt/appdata/speedtest-tracker:/config
-      - type: tmpfs
-        target: /config/log
-        tmpfs:
-          size: 32mb
-      - type: tmpfs
-        target: /config/www/node_modules
-        tmpfs:
-          size: 400mb
-      - type: tmpfs
-        target: /config/www/vendor
-        tmpfs:
-          size: 100mb
-      - type: tmpfs
-        target: /config/www/public
-        tmpfs:
-          size: 50mb
     labels:
-      - "org.hotio.pullio.update=true"
-      - "org.hotio.pullio.notify=true"
-      - "org.hotio.pullio.discord.webhook=${DISCORD_WEBHOOK}"
+      traefik.http.routers.speedtest-tracker.rule: Host(`speedtest.always-on.nt`)
+      <<: *pullio
