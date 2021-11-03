@@ -1,3 +1,9 @@
+- platform: command_line
+  command: "if [[ $(curl -s '10.0.0.10:9115/probe?target=8.8.8.8&module=icmp' | grep -v '#' | grep probe_success|grep -Eo '[0-9]+$') == '1' ]]; then echo ON; else echo OFF; fi"
+  name: Network DNS ping
+  device_class: connectivity
+  scan_interval: 2
+
 - platform: ping
   name: Orbi Satellite ping
   host: 10.0.0.2

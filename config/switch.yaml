@@ -12,11 +12,6 @@
       command_on: echo the_good_life_radio_on | nc localhost 7900
       command_off: echo the_good_life_radio_off | nc localhost 7900
 
-    reboot_orbi_satellite:
-      friendly_name: Reboot Orbi Satellite
-      command_on: !secret reboot_orbi_satellite
-      command_off: !secret reboot_orbi_satellite
-
 - platform: template
   switches: 
     bedroom_ac_swing:

@@ -21,7 +21,7 @@
   name: Netgear Orbi
   command: "/bin/bash /config/scripts/orbi_router.sh"
   value_template: "{{ (value_json.status) }}"
-  scan_interval: 20
+  scan_interval: 40
   json_attributes:
     - Uptime
     - WAN Uptime
@@ -35,7 +35,7 @@
   command: "/bin/bash /config/scripts/multiple_actions.sh drive_state"
 
 - platform: command_line
-  name: Speedtest.net Download Speed
+  name: Speedtest.net download speed
   command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
   unit_of_measurement: 'Mb/s'
   value_template: >-
@@ -44,7 +44,7 @@
     {% endif %}
 
 - platform: command_line
-  name: Speedtest.net Upload Speed
+  name: Speedtest.net upload speed
   command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
   unit_of_measurement: 'Mb/s'
   value_template: >-
@@ -68,6 +68,7 @@
 
 - platform: template
   sensors:
+
     wan_daily_usage_up:
       friendly_name: WAN daily usage (upload)
       value_template: >-

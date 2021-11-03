@@ -5,70 +5,9 @@
   controller_data: remote.broadlink_rm4_mini_remote
   power_sensor: media_player.bedroom_tv
 
-- platform: universal
-  name: Sony Bravia TV
-  state_template: >-
-    {% if is_state('media_player.kd_55_ag', 'on') %} 
-      on {% else %} off {% endif %}
-  children:
-    - media_player.plex_plex_for_android_tv_sony_bravia
-    - media_player.plex_mrmc_localhost
-    - media_player.kd_55_ag
-    - media_player.sony_bravia
-  commands:
-    turn_on:
-      service: media_player.turn_on
-      data:
-        entity_id: media_player.kd_55_ag
-    turn_off:
-      service: media_player.turn_off
-      data:
-        entity_id: media_player.kd_55_ag
-    volume_up:
-      service: media_player.volume_up
-      data:
-        entity_id: media_player.ht_z9f
-    volume_down:
-      service: media_player.volume_down
-      data:
-        entity_id: media_player.ht_z9f
-    select_source:
-      service: media_player.select_source
-      data_template:
-        entity_id: media_player.kd_55_ag
-        source: "{{ source }}"
-    volume_set:
-      service: media_player.volume_set
-      data_template:
-        entity_id: media_player.ht_z9f
-        volume_level: "{{ volume_level }}"
-
-  attributes:
-    is_volume_muted: media_player.ht_z9f|is_volume_muted
-    volume_level: media_player.ht_z9f|volume_level
-    source: media_player.sony_bravia|app_name
-    source_list: media_player.kd_55_ag|source_list
-
-- platform: androidtv
-  host: 10.0.0.65
-  name: Bedroom Mi Box
-  device_class: androidtv
-  screencap: false
-  exclude_unnamed_apps: true
-
 - platform: androidtv
   name: Dining Hall TV
   host: 10.0.0.64
   device_class: firetv
   screencap: false
   exclude_unnamed_apps: true
-
-#- platform: mpd
-#  host: 127.0.0.1
-
-#- platform: androidtv
-#  host: 10.0.0.63
-#  name: Sony Bravia (atv int.)
-#  device_class: androidtv
-#  screencap: false
-#  exclude_unnamed_apps: true

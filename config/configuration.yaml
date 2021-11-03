@@ -14,14 +14,6 @@ input_number:
     max: 100
     step: 5
 
-device_tracker:
-  - platform: netgear
-    host: 10.0.0.1
-    port: 80
-    password: !secret netgear_pass
-    new_device_defaults:
-      track_new_devices: true
-
 spotify:
   client_id: !secret spotify_id
   client_secret: !secret spotify_secret
@@ -46,11 +38,14 @@ notify:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
+    - 172.18.0.0/16
     - !secret public_proxied_ip
     - !secret oc1_tailscale_ip
 
 logger:
-  default: error
+  default: warn
+#  logs:
+#    homeassistant.components.netgear: debug
 
 ### YAML linked files
 

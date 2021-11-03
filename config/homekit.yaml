@@ -9,7 +9,7 @@
       - humidifier
 
     include_entities:
-      - switch.the_good_life_radio
+      - sensor.old_room_echo_temperature
       - switch.reboot_orbi_satellite
       - switch.adaptive_lighting
       - switch.adaptive_lighting_sleep_mode_adaptive
@@ -19,15 +19,13 @@
       - media_player.bedroom_mi_box_android
 
     include_entity_globs:
+      - media_player.*echo
       - switch.lofi*
       - switch.*_plug
 
-    exclude_entities:
-      - light.tv_lamp_2
-      - light.yeelight_bslamp2_0x0000000010dd06ea
-      - light.yeelight_lamp4_0x000000001015ab0a
-
   entity_config:
+    sensor.old_room_echo_temperature:
+      name: Old Room Temperature
     media_player.bedroom_mi_box_android:
       name: Mi Box
     switch.adaptive_lighting_sleep_mode_adaptive:
@@ -36,13 +34,5 @@
       name: Orbi Satellite
     sensor.broadlink_rm4_mini_humidity:
       name: Bedroom Humidity
-    switch.adguard_filtering:
-      name: AdGuard Home
-    switch.16a_plug:
-      type: outlet
-    switch.6a_plug:
-      type: outlet
     light.soundbar_volume:
       name: Speakers
-    switch.the_good_life_radio:
-      name: Good Life Radio
