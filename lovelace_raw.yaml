@@ -59,7 +59,7 @@ views:
                   haptic: light
                 type: custom:button-card
               - entity: person.dad
-                icon: mdi:face
+                icon: mdi:face-man
                 show_name: false
                 size: 35%
                 state:
@@ -82,7 +82,7 @@ views:
                 type: custom:button-card
               - entity: device_tracker.asus_x200m
                 show_name: false
-                icon: mdi:laptop-windows
+                icon: mdi:laptop
                 size: 35%
                 state:
                   - value: not_home
@@ -230,31 +230,6 @@ views:
                 min: 5
                 step: 5
                 type: custom:slider-entity-row
-              - entity: light.desk_light
-                justify: center
-                hide_when_off: true
-                type: custom:rgb-light-card
-                colors:
-                  - color_temp: 200
-                    icon_color: >-
-                      linear-gradient(20deg, rgba(255,239,220,1) 20%,
-                      rgba(249,215,180,1) 80%)
-                  - color_temp: 243
-                    icon_color: >-
-                      linear-gradient(20deg, rgba(249,215,180,1) 20%,
-                      rgba(244,191,140,1) 80%)
-                  - color_temp: 285
-                    icon_color: >-
-                      linear-gradient(20deg, rgba(244,191,140,1) 20%,
-                      rgba(238,167,100,1) 80%)
-                  - color_temp: 328
-                    icon_color: >-
-                      linear-gradient(20deg, rgba(238,167,100,1) 20%,
-                      rgba(233,143,61,1) 80%)
-                  - color_temp: 370
-                    icon_color: >-
-                      linear-gradient(20deg, rgba(233,143,61,1) 20%,
-                      rgba(227,119,21,1) 80%)
               - entity: light.tv_lamp
                 toggle: true
                 haptic: light
@@ -311,7 +286,7 @@ views:
                 hide_state: true
                 name: Speakers
                 step: 5
-                min: 30
+                min: 20
                 icon: mdi:speaker-multiple
                 type: custom:slider-entity-row
             show_header_toggle: false
@@ -323,7 +298,7 @@ views:
                 name: ADAPTIVE
                 show_label: true
                 layout: icon_name
-                size: 40%
+                size: 44%
                 styles:
                   card:
                     - height: 50px
@@ -488,12 +463,13 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: switch.adguard_filtering
+                color: auto
+                entity: light.new_room_bulb
+                icon: mdi:ceiling-light
                 show_name: false
-                size: 33%
+                size: 40%
                 state:
                   - value: 'on'
-                    color: var(--primary-color)
                     styles:
                       icon:
                         - color: '#ffffff'
@@ -502,9 +478,7 @@ views:
                     - height: 50px
                 tap_action:
                   action: toggle
-                  haptic: success
-                  confirmation:
-                    text: Disable AdGuard Home?
+                  haptic: light
                 double_tap_action:
                   action: more-info
                   haptic: light
@@ -570,6 +544,66 @@ views:
         type: vertical-stack
       - type: vertical-stack
         cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                decimals: 0
+                hours_to_show: 6
+                entities:
+                  - entity: sensor.adguard_average_processing_speed
+                    state_adaptive_color: true
+                    color: '#6BBB74'
+                icon: mdi:shield-check
+                name: AdGuard
+                points_per_hour: 10
+                font_size: 92
+                line_width: 5
+                font_size_header: 13
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px
+                      14px !important
+                    }
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.old_room_echo_temperature
+                    state_adaptive_color: true
+                name: Old Room
+                hours_to_show: 1
+                color_thresholds:
+                  - value: 22
+                    color: '#3bcf77'
+                  - value: 27
+                    color: '#d7da40'
+                  - value: 32
+                    color: '#df6943'
+                points_per_hour: 60
+                font_size: 92
+                line_width: 5
+                font_size_header: 13
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px
+                      14px !important
+                    }
           - type: custom:simple-thermostat
             entity: climate.bedroom_ac
             layout:
@@ -614,29 +648,65 @@ views:
               style: |
                 ha-card {
                   --st-mode-background: var(--card-background-color);
-                  --st-font-size-xl: 55px;
-                  --st-font-size-m: 23px;
+                  --st-font-size-xl: 45px;
+                  --st-font-size-m: 20px;
+                  --st-spacing: 3.6px;
                 }
-          - type: entities
-            entities:
-              - entity: >-
-                  automation.hack_turn_on_ac_entity_if_room_gets_cooler_duplicate
-                name: '[hack] Turn on AC entity'
-              - entity: >-
-                  automation.hack_turn_off_ac_entity_if_room_gets_warmer_duplicate
-                name: '[hack] Turn off AC entity'
-            show_header_toggle: false
-            state_color: true
-  - icon: mdi:chart-areaspline
+  - icon: mdi:web
     path: info
     title: Info
     layout:
       width: 280
       max_cols: 2
-    type: custom:masonry-layout
+    type: custom:horizontal-layout
     badges: []
     cards:
-      - cards:
+      - type: vertical-stack
+        cards:
+          - entity: binary_sensor.network_dns_ping
+            type: custom:uptime-card
+            name: Internet
+            icon: mdi:check-network
+            ko_icon: mdi:close-network
+            hours_to_show: 1
+            title_adaptive_color: true
+            status_adaptive_color: true
+            icon_adaptive_color: true
+            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% up'
+            color:
+              tooltip: var(--secondary-text-color)
+            color_thresholds:
+              - value: 0
+                color: '#C64545'
+              - value: 95
+                color: '#C66445'
+              - value: 98
+                color: '#C6B145'
+              - value: 100
+                color: '#45C669'
+            tap_action:
+              action: more-info
+              haptic: success
+            bar:
+              spacing: 4
+              amount: 18
+              height: 25
+              round: 7
+            alias:
+              ok: Online
+              ko: Offline
+            card_mod:
+              style: |
+                ha-card .name > span {
+                  font-size: 1.3em;
+                }
+                ha-card .status > span {
+                  font-size: 1.1em;
+                  max-height: 1.1em;
+                }
+                ha-card .timeline {
+                  padding-bottom: 2px;
+                            }
           - cards:
               - align_icon: state
                 align_state: center
@@ -703,6 +773,7 @@ views:
                     }
                 type: custom:mini-graph-card
             type: horizontal-stack
+      - cards:
           - content: |
               # 〡 Internet
             type: markdown
@@ -720,86 +791,69 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - type: custom:vertical-stack-in-card
-            cards:
-              - type: entities
-                entities:
-                  - entity: sensor.netgear_orbi
-                    type: custom:template-entity-row
-                    secondary: '{{ state_attr(''sensor.netgear_orbi'',''WAN Uptime'') }}'
-                    active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
-              - type: iframe
-                aspect_ratio: 58%
-                url: >-
-                  http://grafana.server/d-solo/o7HWS3Znk/router-dash?orgId=1&refresh=5s&panelId=16&from=now-30m&to=now
-              - cards:
-                  - entities:
-                      - color: '#3BD97A'
-                        entity: sensor.wan_daily_usage_down
-                        name: Traffic In
-                    icon: mdi:arrow-down-circle
-                    font_size: 74
-                    font_size_header: 12.5
-                    hours_to_show: 2
-                    points_per_hour: 6
-                    aggregate_func: delta
-                    show:
-                      labels: false
-                      points: false
-                      graph: bar
-                      icon_adaptive_color: true
-                      name_adaptive_color: true
-                    card_mod:
-                      style: |
-                        ha-card > div:nth-child(-n+2) {
-                          padding: 0 14px 0 14px !important
-                        }
-                        ha-card > .info {
-                          padding: 0 14px 0px 14px !important
-                        }
-                    type: custom:mini-graph-card
-                  - align_icon: left
-                    align_state: right
-                    entities:
-                      - color: '#D9CA3A'
-                        entity: sensor.wan_daily_usage_up
-                        name: Traffic Out
-                    icon: mdi:arrow-up-circle
-                    font_size: 74
-                    font_size_header: 12.5
-                    hours_to_show: 2
-                    points_per_hour: 6
-                    show:
-                      icon_adaptive_color: true
-                      name_adaptive_color: true
-                      graph: bar
-                      labels: false
-                      points: false
-                    card_mod:
-                      style: |
-                        ha-card > div:nth-child(-n+2) {
-                          padding: 0 14px 0 14px !important
-                        }
-                        ha-card > .info {
-                          padding: 0 14px 0px 14px !important
-                        }
-                    type: custom:mini-graph-card
-                type: horizontal-stack
-        type: vertical-stack
-      - type: vertical-stack
-        cards:
-          - type: statistics-graph
+          - type: entities
             entities:
-              - entity: sensor.broadlink_rm4_mini_temperature
-                name: 🌡
-              - entity: sensor.broadlink_rm4_mini_humidity
-                name: 💧
-            stat_types:
-              - mean
-              - min
-              - sum
-              - max
-            days_to_show: 5
+              - entity: sensor.netgear_orbi
+                type: custom:template-entity-row
+                secondary: '{{ state_attr(''sensor.netgear_orbi'',''WAN Uptime'') }}'
+                active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
+          - type: iframe
+            aspect_ratio: 65%
+            url: http://10.0.0.1:19999/test.html
+          - cards:
+              - entities:
+                  - color: '#3BD97A'
+                    entity: sensor.wan_daily_usage_down
+                    name: Traffic In
+                icon: mdi:arrow-down-circle
+                font_size: 74
+                font_size_header: 12.5
+                hours_to_show: 2
+                points_per_hour: 6
+                aggregate_func: delta
+                show:
+                  labels: false
+                  points: false
+                  graph: bar
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
+              - align_icon: left
+                align_state: right
+                entities:
+                  - color: '#D9CA3A'
+                    entity: sensor.wan_daily_usage_up
+                    name: Traffic Out
+                icon: mdi:arrow-up-circle
+                font_size: 74
+                font_size_header: 12.5
+                hours_to_show: 2
+                points_per_hour: 6
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  graph: bar
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
+            type: horizontal-stack
+        type: vertical-stack
   - icon: mdi:chart-tree
     path: tile
     title: Tile
@@ -813,7 +867,7 @@ views:
           - type: custom:uptime-card
             entity: binary_sensor.orbi_satellite_ping
             name: Orbi Satellite
-            hours_to_show: 24
+            hours_to_show: 6
             title_adaptive_color: true
             status_adaptive_color: true
             icon_adaptive_color: true
@@ -873,83 +927,39 @@ views:
             entities:
               - entity: sensor.drive_state
                 name: /drive mount
-          - cards:
-              - decimals: 0
-                entities:
-                  - color: '#FF7A2D'
-                    entity: sensor.eth0_in
-                  - color: '#2EB2FF'
-                    entity: sensor.eth0_out
-                hours_to_show: 0.5
-                font_size_header: 13
-                icon: mdi:ethernet
-                line_width: 2.5
-                name: Ethernet
-                points_per_hour: 100
-                lower_bound: 0
-                show:
-                  fill: false
-                  name_adaptive_color: true
-                  icon_adaptive_color: true
-                  labels: true
-                  legend: false
-                  points: false
-                  state: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
-              - cards:
-                  - entities:
-                      - color: '#FF7A2D'
-                        entity: sensor.eth0_in
-                        name: LAN In
-                        unit: Mb/s
-                    font_size: 72
-                    font_size_header: 12.5
-                    decimals: 1
-                    show:
-                      graph: false
-                      icon_adaptive_color: true
-                      name_adaptive_color: true
-                    card_mod:
-                      style: |
-                        ha-card > div:nth-child(-n+2) {
-                          padding: 0 14px 0 14px !important
-                        }
-                        ha-card > .info {
-                          padding: 0 14px 0px 14px !important
-                        }
-                    type: custom:mini-graph-card
-                  - align_icon: left
-                    align_state: right
-                    entities:
-                      - color: '#2EB2FF'
-                        entity: sensor.eth0_out
-                        name: LAN Out
-                    font_size: 72
-                    font_size_header: 12.5
-                    decimals: 1
-                    show:
-                      icon_adaptive_color: true
-                      name_adaptive_color: true
-                      graph: false
-                    card_mod:
-                      style: |
-                        ha-card > div:nth-child(-n+2) {
-                          padding: 0 14px 0 14px !important
-                        }
-                        ha-card > .info {
-                          padding: 0 14px 0px 14px !important
-                        }
-                    type: custom:mini-graph-card
-                type: horizontal-stack
-            type: custom:vertical-stack-in-card
+          - decimals: 1
+            entities:
+              - color: '#FF7A2D'
+                entity: sensor.eth0_in
+                state_adaptive_color: true
+              - color: '#2EB2FF'
+                entity: sensor.eth0_out
+                show_state: true
+                state_adaptive_color: true
+            hours_to_show: 0.5
+            font_size: 82
+            font_size_header: 13
+            icon: mdi:ethernet
+            line_width: 2.5
+            name: Ethernet
+            points_per_hour: 100
+            lower_bound: 0
+            show:
+              fill: false
+              name_adaptive_color: true
+              icon_adaptive_color: true
+              labels: true
+              legend: false
+              points: false
+            card_mod:
+              style: |
+                ha-card > div:nth-child(-n+2) {
+                  padding: 0 14px 0 14px !important
+                }
+                ha-card > .info {
+                  padding: 0 14px 0px 14px !important
+                }
+            type: custom:mini-graph-card
           - cards:
               - entities:
                   - color: '#FF7A2D'
@@ -998,6 +1008,12 @@ views:
                     }
                 type: custom:mini-graph-card
             type: horizontal-stack
+          - type: history-graph
+            entities:
+              - entity: sensor.eth0_in_total
+              - entity: sensor.eth0_out_total
+            refresh_interval: 0
+            hours_to_show: 6
         type: vertical-stack
       - cards:
           - content: |
@@ -1054,17 +1070,18 @@ views:
                 - icon: mdi:trending-up
                   id: script.spotify_trending
                   type: script
-                - icon: mdi:surround-sound
-                  id: Soundbar
+                - icon: mdi:speaker-multiple
+                  id: Bedroom Speakers
                   type: source
                 - icon: mdi:amazon-alexa
                   id: Bedroom Echo
                   type: source
+                - icon: mdi:amazon-alexa
+                  id: Dining Hall Echo
+                  type: source
+                  name: 2
                 - icon: mdi:google-home
                   id: New Room Speaker
-                  type: source
-                - icon: mdi:silverware
-                  id: Dining Hall Echo
                   type: source
               columns: 5
             type: custom:mini-media-player
@@ -1075,6 +1092,35 @@ views:
               when_standby: true
             entity: media_player.spotify
       - cards:
+          - content: |
+              # 〡 Bedroom
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
+          - hide:
+              power: true
+              source: true
+            type: custom:mini-media-player
+            volume_step: '2'
+            scale: '0.97'
+            idle_view:
+              when_idle: true
+              when_standby: true
+            artwork: material
+            entity: media_player.bedroom_echo
+            icon: mdi:amazon-alexa
           - content: |
               # 〡 Level 1
             type: markdown
@@ -1092,97 +1138,43 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - entity: media_player.bedroom_echo
+          - scale: '0.97'
             hide:
               power: true
               source: true
+              mute: true
             type: custom:mini-media-player
             volume_step: '2'
-            scale: '0.97'
             idle_view:
+              after: 10
               when_idle: true
               when_standby: true
             artwork: material
-          - cards:
-              - color_type: card
-                entity: switch.bedroom_echo_do_not_disturb_switch
-                layout: icon_name_state
-                name: DND
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.bedroom_echo_repeat_switch
-                layout: icon_name_state
-                name: REPEAT
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.bedroom_echo_shuffle_switch
-                layout: icon_name_state
-                name: SHUFFLE
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
+            entity: media_player.old_room_echo
+            icon: mdi:amazon-alexa
           - artwork: material
             icon: mdi:google-home
             scale: '0.97'
+            shortcuts:
+              attribute: source
+              columns: 3
+              buttons:
+                - icon: mdi:music-circle-outline
+                  id: script.play_lofi_2_on_new_room_speaker
+                  type: script
+                  name: Lo-Fi
+                - icon: mdi:music-circle
+                  id: script.script.play_lofi
+                  type: script
+                  name: Lo-Fi 2
+                - icon: mdi:saxophone
+                  id: script.play_jazz_radio_on_new_room_speaker
+                  type: script
+                  name: Jazz
             hide:
               power: true
               source: true
+              mute: true
             type: custom:mini-media-player
             volume_step: '2'
             idle_view:
@@ -1190,157 +1182,20 @@ views:
               when_idle: true
               when_standby: true
             entity: media_player.new_room_speaker
-          - cards:
-              - color_type: card
-                entity: switch.new_room_speaker_do_not_disturb
-                layout: icon_name_state
-                name: DND
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: sensor.new_room_speaker_alarms
-                layout: icon_name_state
-                name: ALARMS
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: sensor.new_room_speaker_timers
-                layout: icon_name_state
-                name: TIMERS
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
           - scale: '0.97'
             hide:
               power: true
               source: true
+              mute: true
             type: custom:mini-media-player
             volume_step: '2'
             idle_view:
               after: 10
               when_idle: true
               when_standby: true
-            entity: media_player.dining_hall_echo
             artwork: material
-          - cards:
-              - color_type: card
-                entity: switch.dining_hall_echo_do_not_disturb_switch
-                layout: icon_name_state
-                name: DND
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.dining_hall_echo_repeat_switch
-                layout: icon_name_state
-                name: REPEAT
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.dining_hall_echo_shuffle_switch
-                layout: icon_name_state
-                name: SHUFFLE
-                size: 44%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                      name:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - font-size: 12px
-                    - font-weight: bold
-                    - height: 42px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
+            entity: media_player.dining_hall_echo
+            icon: mdi:amazon-alexa
         type: vertical-stack
   - icon: mdi:television-play
     path: tv
@@ -1358,7 +1213,7 @@ views:
             entities:
               - color: '#F0A400'
                 entity: sensor.plex_falcon
-                name: Plex Server
+                name: Plex
                 state_adaptive_color: true
             font_size: 88
             font_size_header: 13
@@ -1397,24 +1252,6 @@ views:
               - entity: media_player.plex_plex_for_android_tv_mibox4
                 state_not: unavailable
               - entity: media_player.plex_plex_for_android_tv_mibox4
-                state_not: idle
-            type: conditional
-          - card:
-              artwork: material
-              entity: media_player.plex_mrmc_localhost
-              name: MrMC
-              icon: mdi:plex
-              volume_step: '2'
-              hide:
-                power: true
-              idle_view:
-                when_idle: true
-                when_standby: true
-              type: custom:mini-media-player
-            conditions:
-              - entity: media_player.plex_mrmc_localhost
-                state_not: unavailable
-              - entity: media_player.plex_mrmc_localhost
                 state_not: idle
             type: conditional
           - card:
@@ -1533,8 +1370,7 @@ views:
                       font-family: Helvetica;
                     }
             type: markdown
-          - entity: media_player.old_room_tv
-            hide:
+          - hide:
               progress: true
               source: true
             shortcuts:
@@ -1562,31 +1398,14 @@ views:
             idle_view:
               when_idle: true
               when_standby: true
+            entity: media_player.old_room_tv
           - entity: media_player.new_room_tv
             volume_step: '2'
             hide:
               progress: true
-              source: true
             idle_view:
               when_idle: true
               when_standby: true
-            shortcuts:
-              attribute: source
-              buttons:
-                - icon: mdi:plex
-                  id: Plex
-                  type: source
-                - icon: mdi:youtube
-                  id: YouTube
-                  type: source
-                - icon: mdi:netflix
-                  id: Netflix
-                  type: source
-                - icon: mdi:alpha-x-box
-                  id: XPlay
-                  type: source
-              columns: 5
-              hide_when_off: true
             type: custom:mini-media-player
           - content: |
               # 〡 Level 2
