@@ -6,7 +6,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ![mobile_hero](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
-- [Home Assistant setup](#home-assistant-setup)
+- [<img width="28px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup](#img-home-assistant-setup)
   - [Hardware](#hardware)
   - [Themes](#themes)
   - [Implementations](#implementations)
@@ -25,10 +25,9 @@ Layout designed mobile-first, fully optimized for all screen sizes.
   - [Info view](#info-view)
     - [Graph rows](#graph-rows)
     - [Network stats](#network-stats)
-    - [Sensor cards](#sensor-cards)
   - [Tile view](#tile-view)
     - [Graph row](#graph-row-1)
-    - [Info cards](#info-cards)
+    - [Info card](#info-card)
   - [Remote control view](#remote-control-view)
     - [Spotify player](#spotify-player)
     - [Voice assistant players](#voice-assistant-players)
@@ -142,21 +141,21 @@ sensor:
    sensors:
     wan_daily_usage_up:
     friendly_name: WAN daily usage (upload)
+    unit_of_measurement: 'MB'
+    icon_template: mdi:arrow-down
     value_template: >-
       {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
         {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
       {% else %} NaN {% endif %}
-    icon_template: mdi:arrow-down
-    unit_of_measurement: 'MB'
 
   wan_daily_usage_down:
     friendly_name: WAN daily usage (download)
+    unit_of_measurement: 'MB'
+    icon_template: mdi:arrow-up
     value_template: >-
       {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
         {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
       {% else %} NaN {% endif %}
-    icon_template: mdi:arrow-up
-    unit_of_measurement: 'MB'
 ```
 
 ```yml
@@ -176,21 +175,20 @@ sensor:
     sensors:
     wan_monthly_usage_up:
       friendly_name: WAN monthly usage (upload)
+      unit_of_measurement: GB
+      icon_template: mdi:upload
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
           {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
         {% else %} NaN {% endif %}
-      icon_template: mdi:upload
-      unit_of_measurement: GB
 
     wan_monthly_usage_down:
       friendly_name: WAN monthly usage (download)
+      unit_of_measurement: GB
+      icon_template: mdi:download
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
           {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:download
-      unit_of_measurement: GB
 ```
 
  </details>
@@ -314,10 +312,10 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 ### Switch rows
 
 - Adaptive Lighting
-- Lofi beats/2/Music radio
-- Sleep mode
+- Lofi beats/2/music radio
+- Adaptive Lighting Sleep mode
 - Bedroom AC/swing
-- AdGuard Home
+- Bulb
 
 ### Now Playing card
 
@@ -334,7 +332,6 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - Front gate camera
 - Bedroom AC HVAC
   - Controls
-  - Automations
 
 ---
 
@@ -349,7 +346,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 - Internet download speed
 - Internet upload speed
 
-Custom sensors that query data from the self-hosted [Speedtest-tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) API.
+Custom sensors that fetch data from self-hosted [Speedtest-tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) API.
 
 ### Network stats
 
@@ -357,9 +354,9 @@ Custom sensors that query data from the self-hosted [Speedtest-tracker](https://
 - Router live traffic in/out
 - Total router traffic in/out (today)
 
-Custom implementations that poll data via Netdata, and `vnstat`.
+Custom implementations that fetch data from Netdata and `vnstat`.
 
-Grafana iframe is used for the live traffic graph.
+An `iframe` from Netdata is used for the live traffic graph.
 
 ---
 
@@ -371,8 +368,9 @@ Grafana iframe is used for the live traffic graph.
 
 ### Graph row
 
+- Orbi Satellite uptime
 - Server network traffic in/out
-- Total server traffic in/out (today)
+- Total server traffic in/out (daily)
 
 A combined card that graphs server network usage within the last half hour.
 
@@ -400,13 +398,12 @@ Dynamically sorted such that the last-updated device is always on top.
   - Google Home source
   - Amazon Echo sources
 
-**Hosted Spotify Connect with [`spocon`](https://github.com/spocon/spocon)...**
+**Self hosted Spotify Connect using [`spocon`](https://github.com/spocon/spocon)**
 
 <details><summary>Expand</summary>
 
 ```sh
-sudo add-apt-repository ppa:spocon/spocon
-sudo apt update
+sudo add-apt-repository -y ppa:spocon/spocon
 sudo apt install spocon 
 
 # Customize config file:
@@ -419,7 +416,6 @@ nano /opt/spocon/config.toml
 
 - Alexa media players
 - Google Home media players
-- Alexa Everywhere media player
 
 Custom integrations used for Alexa and Google Home.
 
@@ -468,18 +464,3 @@ This figure is obtained using the Plex integration.
 - [`slider-entity-row`](https://github.com/thomasloven/lovelace-slider-entity-row) by thomasloven
 - [`template-entity-row`](https://github.com/thomasloven/lovelace-template-entity-row) by thomasloven
 - [`uptime-card`](https://github.com/dylandoamaral/uptime-card) by [dylandoamaral](https://github.com/dylandoamaral)
-- [`vertical-stack-in-card`](https://github.com/ofekashery/vertical-stack-in-card) by [ofekashery](https://github.com/ofekashery)
-
----
-
-## Notes
-
-- `int` are "internal" entities that are used inside templates.
-- The header that is used for separating cards is from [soft-ui](https://github.com/N-l1/lovelace-soft-ui).
-
----
-
-## Special thanks
-
-- to all authors above,
-- and all the very helpful folks over at the Discord.
