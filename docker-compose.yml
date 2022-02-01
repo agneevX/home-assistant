@@ -6,11 +6,6 @@ x-env: &env
   UMASK: 002
   TZ: Asia/Kolkata
 
-x-labels: &pullio
-  org.hotio.pullio.update: true
-  org.hotio.pullio.notify: true
-  org.hotio.pullio.discord.webhook: ${DISCORD_WEBHOOK}
-
 services:
 
   home-assistant:
@@ -18,15 +13,24 @@ services:
     image: homeassistant/home-assistant
     restart: unless-stopped
     network_mode: host
-    healthcheck:
-      test: ["CMD", "curl", "localhost:8123", "-fso", "/dev/null"]
+    depends_on:
+      - postgres
     environment:
       <<: *env
     volumes:
       - /opt/appdata/home-assistant:/config
-      - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
-    labels:
-      <<: *pullio
+
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    restart: unless-stopped
+    user: 1001:1001
+    shm_size: 128m
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - /opt/appdata/postgres/config.conf:/etc/postgresql/postgresql.conf
+      - /opt/appdata/postgres/data:/var/lib/postgresql/data
 
   speedtest-tracker:
     container_name: speedtest-tracker
@@ -34,8 +38,6 @@ services:
     restart: unless-stopped
     ports:
       - 8700:80
-    healthcheck:
-      test: ["CMD", "curl", "localhost", "-fso", "/dev/null"]
     environment:
       <<: *env
       OOKLA_EULA_GDPR: true
@@ -45,6 +47,3 @@ services:
     volumes:
       - /opt/appdata/speedtest-tracker/app:/config/www/app/Bin
       - /opt/appdata/speedtest-tracker:/config
-    labels:
-      traefik.http.routers.speedtest-tracker.rule: Host(`speedtest.always-on.nt`)
-      <<: *pullio
