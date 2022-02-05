@@ -49,8 +49,6 @@ logger:
 
 ### YAML linked files
 
-webostv: !include webos.yaml
-homekit: !include homekit.yaml
 alexa: !include alexa.yaml
 google_assistant: !include google_assistant.yaml
 cloud: !include cloud.yaml
