@@ -55,7 +55,6 @@ cloud: !include cloud.yaml
 sensor: !include sensor.yaml
 switch: !include switch.yaml
 binary_sensor: !include binary_sensor.yaml
-camera: !include camera.yaml
 media_player: !include media_player.yaml
 light: !include light.yaml
 group: !include groups.yaml
