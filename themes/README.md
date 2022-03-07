@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 -->
 
-# Repo themes
+# Themes
 
 <img src="https://img.shields.io/badge/HACS-Custom-blue.svg?style=for-the-badge" alt="HACS Custom badge" align="right">
 
