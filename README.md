@@ -323,7 +323,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ---
 
-<img src="https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png" alt="Controls view" align="right" width="400">
+<img src="https://user-images.githubusercontent.com/19761269/97079009-202b6480-160e-11eb-9fcd-c82dad5ff0c6.png" alt="Controls view" align="center" width="600">
 
 ## Controls view
 
@@ -337,7 +337,7 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 ## Info view
 
-<img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="right" width="250">
+<img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="center" width="300">
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L630)
 
@@ -360,7 +360,7 @@ An `iframe` from Netdata is used for the live traffic graph.
 
 ---
 
-<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="right" width="240">
+<img src="https://user-images.githubusercontent.com/19761269/125281878-62c7d500-e334-11eb-839f-28de087fe30f.PNG" alt="Tile view" align="center" width="300">
 
 ## Tile view
 
@@ -384,7 +384,7 @@ Dynamically sorted such that the last-updated device is always on top.
 
 ---
 
-<img src="https://user-images.githubusercontent.com/19761269/125283407-0796e200-e336-11eb-8202-22b896f082f1.PNG" alt="Remote control view" align="right" width="230">
+<img src="https://user-images.githubusercontent.com/19761269/125283407-0796e200-e336-11eb-8202-22b896f082f1.PNG" alt="Remote control view" align="center" width="300">
 
 ## Remote control view
 
@@ -398,13 +398,16 @@ Dynamically sorted such that the last-updated device is always on top.
   - Google Home source
   - Amazon Echo sources
 
-**Self hosted Spotify Connect using [`spocon`](https://github.com/spocon/spocon)**
+**Self-hosted Spotify Connect using [`librespot`](https://github.com/spocon/spocon)**
 
 <details><summary>Expand</summary>
 
 ```sh
-sudo add-apt-repository -y ppa:spocon/spocon
-sudo apt install spocon 
+# Pull Docker image
+docker pull agneev/librespot-alsa
+
+# 
+docker run --network host -d /dev/snd:/dev/snd agneev/librespot-alsa
 
 # Customize config file:
 nano /opt/spocon/config.toml
@@ -421,7 +424,7 @@ Custom integrations used for Alexa and Google Home.
 
 ---
 
-<img src="https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png" alt="Plex view" align="right" width="400">
+<img src="https://user-images.githubusercontent.com/19761269/97078754-e0637d80-160b-11eb-8b52-b58072150705.png" alt="Plex view" align="center" width="600">
 
 ## Plex/TV view
 
