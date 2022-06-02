@@ -10,7 +10,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
   - [Hardware](#hardware)
   - [Themes](#themes)
   - [Implementations](#implementations)
-    - [Alexa devices control](#alexa-devices-control)
+    - [Control Alexa-connected devices](#control-alexa-connected-devices)
     - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
     - [Lo-fi beats](#lo-fi-beats)
@@ -42,7 +42,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 Home Assistant Container install on Raspberry Pi 4 with PostgreSQL database.
 
-Full setup [here](https://github.com/agneevX/server-setup#nas-server).
+Full setup [here](https://github.com/agneevX/server-setup#nasmedia-server).
 
 ## Themes
 
@@ -56,13 +56,15 @@ For themes, head over to the [themes](themes/) folder.
 
 These are some of my custom implementations using Home Assistant:
 
-### Alexa devices control
+### Control Alexa-connected devices
 
 With custom component [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player), Home Assistant is able to control any thing that you're able to speak to Alexa.
 
 <details><summary>Expand</summary>
 
 This requires the use of `input_boolean` helpers to control the state of the entity.
+
+Since this uses the smart speaker, an internet connection is unfortunately required for this to work.
 
 E.g. to control a smart plug...
 
@@ -81,6 +83,7 @@ switch:
           data:
             media_content_id: 'turn on 6a plug'
             media_content_type: custom
+
       turn_off:
         - service: input_boolean.turn_off
           entity_id: input_boolean.6a_plug_state
@@ -110,7 +113,7 @@ Using `netdata`:
 opkg install netdata
 ```
 
-Add to Home Assistant with the Netdata integration.
+Add the Netdata integration to Home Assistant.
 
 **Using `vnstat` to get total daily/monthly usage**
 
@@ -249,14 +252,19 @@ fi
 
 ### Lo-fi beats
 
-Plays Lo-fi beats live stream from YouTube using Docker 
+Stream lofi-beats from YouTube.
 
 <details><summary>Expand</summary>
 
+Compile Docker image:
+
 ```sh
+# Clone repository
 git clone https://github.com/agneevX/mpv-ytdl-docker
 cd mpv-ytdl-docker
 git checkout testing
+
+# Build Docker image 
 docker build -t mpv-ytdl:latest .
 ```
 

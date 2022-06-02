@@ -3,7 +3,7 @@ read -r MESSAGE
 
 docker_run () {
   docker run -d --rm \
-  --name=$1 \
+  --name="$1" \
   -e "VIDEO_ID=$2" \
   --device=/dev/snd:/dev/snd \
   mpv-ytdl
