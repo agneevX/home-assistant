@@ -1,11 +1,3 @@
-version: "3.8"
-
-x-env: &env
-  PGID: 1001
-  PUID: 1001
-  UMASK: 002
-  TZ: Asia/Kolkata
-
 services:
 
   home-assistant:
@@ -16,7 +8,7 @@ services:
     depends_on:
       - postgres
     environment:
-      <<: *env
+      TZ: Asia/Kolkata
     volumes:
       - /opt/appdata/home-assistant:/config
 
@@ -39,7 +31,10 @@ services:
     ports:
       - 8700:80
     environment:
-      <<: *env
+      PGID: 1001
+      PUID: 1001
+      UMASK: 002
+      TZ: Asia/Kolkata
       OOKLA_EULA_GDPR: true
     tmpfs:
       - /config/www:size=500m

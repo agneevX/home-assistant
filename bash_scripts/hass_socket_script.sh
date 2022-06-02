@@ -1,15 +1,35 @@
 #!/bin/bash
 read -r MESSAGE
 
-if [[ $MESSAGE == 'lofi_on' ]]; then 
-  screen -S lofi -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 5qap5aO4i9A)"; fi
-if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
-if [[ $MESSAGE == 'lofi2_on' ]]; then 
-  screen -S lofi2 -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 DWcJFNfaw9c)"; fi
-if [[ $MESSAGE == 'lofi2_off' ]]; then screen -S lofi2 -X quit; fi
-if [[ $MESSAGE == 'jazz_radio_on' ]]; then 
-  screen -S jazz_radio -d -m /usr/bin/mpv --ao=alsa --no-video --no-config --really-quiet "$(/home/agneev/.local/bin/youtube-dlc -g -f 95 fEvM-OUbaKs)"; fi
-if [[ $MESSAGE == 'jazz_radio_off' ]]; then screen -S jazz_radio -X quit; fi
+docker_run () {
+  docker run -d --rm \
+  --name=$1 \
+  -e "VIDEO_ID=$2" \
+  --device=/dev/snd:/dev/snd \
+  mpv-ytdl
+}
+
+if [[ $MESSAGE == 'lofi_on' ]]; then
+  docker_run lofi-beats 5qap5aO4i9A
+fi
+if [[ $MESSAGE == 'lofi_off' ]]; then
+  docker stop lofi-beats
+fi
+
+if [[ $MESSAGE == 'lofi2_on' ]]; then
+  docker_run lofi-beats2 DWcJFNfaw9c
+fi
+if [[ $MESSAGE == 'lofi2_off' ]]; then
+  docker stop lofi-beats2
+fi
+
+if [[ $MESSAGE == 'the_good_life_radio_on' ]]; then
+  docker_run good-life-radio 36YnV9STBqc
+fi
+
+if [[ $MESSAGE == 'the_good_life_radio_off' ]]; then
+  docker stop good-life-radio
+fi
 
 if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
 if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
@@ -32,4 +52,3 @@ if [[ $MESSAGE == 'amixer_85' ]]; then amixer -q cset numid=1 -- -32; fi
 if [[ $MESSAGE == 'amixer_90' ]]; then amixer -q cset numid=1 -- 120; fi
 if [[ $MESSAGE == 'amixer_95' ]]; then amixer -q cset numid=1 -- 263; fi
 if [[ $MESSAGE == 'amixer_100' ]]; then amixer -q cset numid=1 -- 400; fi
-

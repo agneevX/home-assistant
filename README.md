@@ -6,7 +6,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ![mobile_hero](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
-- [<img width="28px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup](#img-home-assistant-setup)
+- [<img width="24px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup](#img-home-assistant-setup)
   - [Hardware](#hardware)
   - [Themes](#themes)
   - [Implementations](#implementations)
@@ -37,8 +37,6 @@ Layout designed mobile-first, fully optimized for all screen sizes.
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
-  - [Notes](#notes)
-  - [Special thanks](#special-thanks)
 
 ## Hardware
 
@@ -118,9 +116,13 @@ Add to Home Assistant with the Netdata integration.
 
 ```sh
 # Install on router
-opkg install vnstat
-vnstat --create -i eth0
-reboot
+opkg install vnstat2
+
+# Initialize WAN interface
+vnstat2 --create -i eth0
+
+# Restart vnstat daemon
+/opt/etc/init.d/S32vnstat restart
 ```
 
 ```yaml
@@ -160,6 +162,7 @@ sensor:
 
 ```yml
 # configuration.yaml
+
 # Monthly internet usage
 sensor:
   - platform: command_line
@@ -179,7 +182,7 @@ sensor:
       icon_template: mdi:upload
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
+          {{ (state_attr('sensor.router_monthly_wan_usage','upload') | float/976563)|round(1) }}
         {% else %} NaN {% endif %}
 
     wan_monthly_usage_down:
@@ -188,14 +191,14 @@ sensor:
       icon_template: mdi:download
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
+          {{ (state_attr('sensor.router_monthly_wan_usage','download') | float/976563)|round(1) }}
 ```
 
  </details>
 
 ### Soundbar control
 
-Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
+Controls the volume of the Alsa mixer - 3.5mm headphone port on the Raspberry Pi.
 
 <details><summary>Expand</summary>
 
@@ -222,6 +225,7 @@ automation:
 shell_command:
   pi_volume_0: echo amixer_0 | netcat localhost 7900
   pi_volume_5: echo amixer_5 | netcat localhost 7900
+
 # Truncated. Full in ./config
 ```
 
@@ -232,8 +236,12 @@ Similar to above, the script calls the command `amixer` to increase or decrease 
 ```bash
 #!/bin/bash
 
-if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
-if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
+if [[ $MESSAGE == 'amixer_0' ]]; then
+  amixer -q cset numid=1 -- -10239
+fi
+if [[ $MESSAGE == 'amixer_5' ]]; then
+  amixer -q cset numid=1 -- -7399
+fi
 # Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
@@ -241,11 +249,16 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 ### Lo-fi beats
 
-Plays Lo-fi beats live stream from YouTube.
-
-Requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+Plays Lo-fi beats live stream from YouTube using Docker 
 
 <details><summary>Expand</summary>
+
+```sh
+git clone https://github.com/agneevX/mpv-ytdl-docker
+cd mpv-ytdl-docker
+git checkout testing
+docker build -t mpv-ytdl:latest .
+```
 
 ```yaml
 # configuration.yaml
@@ -257,7 +270,7 @@ switch:
       command_off: echo "lofi_off" | nc localhost 7900
 ```
 
-[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
+[`socat`](https://linux.die.net/man/1/socat) runs as a daemon in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
 
 Once a switch is turned on, this script is called that starts the playback...
 
@@ -268,8 +281,10 @@ Once a switch is turned on, this script is called that starts the playback...
 read MESSAGE
 
 if [[ $MESSAGE == 'lofi_on' ]]; then 
-  screen -S lofi -dm /usr/bin/mpv --no-video $(/path/to/youtube-dlc -g -f 95 5qap5aO4i9A); fi
-if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
+  docker run -d --rm --name=lofi-beats -e "VIDEO_ID=abcdef" --device=/dev/snd:/dev/snd mpv-ytdl:latest
+if [[ $MESSAGE == 'lofi_off' ]]; then
+  docker stop lofi-beats
+fi
 # Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
