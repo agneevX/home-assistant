@@ -5,24 +5,10 @@ services:
     image: homeassistant/home-assistant
     restart: unless-stopped
     network_mode: host
-    depends_on:
-      - postgres
     environment:
       TZ: Asia/Kolkata
     volumes:
       - /opt/appdata/home-assistant:/config
-
-  postgres:
-    container_name: postgres
-    image: postgres:14
-    restart: unless-stopped
-    user: 1001:1001
-    shm_size: 128m
-    ports:
-      - 127.0.0.1:5432:5432
-    volumes:
-      - /opt/appdata/postgres/config.conf:/etc/postgresql/postgresql.conf
-      - /opt/appdata/postgres/data:/var/lib/postgresql/data
 
   speedtest-tracker:
     container_name: speedtest-tracker

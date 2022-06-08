@@ -40,7 +40,7 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ## Hardware
 
-Home Assistant Container install on Raspberry Pi 4 with PostgreSQL database.
+Home Assistant Container install on Raspberry Pi 4.
 
 Full setup [here](https://github.com/agneevX/server-setup#nasmedia-server).
 
