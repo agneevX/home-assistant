@@ -1,5 +1,5 @@
 - platform: systemmonitor
-  scan_interval: 7
+  scan_interval: 10
   resources:
     - type: throughput_network_in
       arg: eth0
@@ -7,6 +7,20 @@
       arg: eth0
 
 # Command line sensors
+
+- platform: command_line
+  name: Router Net In
+  command: curl -s '10.1:19999/api/v1/data?chart=net.brwan&points=1&options=jsonwrap' | jq '.latest_values[0]'
+  scan_interval: 3
+  value_template: "{{ (( value | int) / 1000) | round (1) }}"
+  unit_of_measurement: Mb/s
+
+- platform: command_line
+  name: Router Net Out
+  command: curl -s '10.1:19999/api/v1/data?chart=net.brwan&points=1&options=jsonwrap' | jq '.latest_values[1]' | sed 's/-//g'
+  scan_interval: 3
+  value_template: "{{ (( value | int) / 1000) | round (1) }}"
+  unit_of_measurement: Mb/s
 
 - platform: command_line
   name: Router daily WAN usage
@@ -20,7 +34,7 @@
 - platform: command_line
   name: Netgear Orbi
   command: "/bin/bash /config/scripts/orbi_router.sh"
-  value_template: "{{ (value_json.status) }}"
+  value_template: "{{ value_json.status }}"
   scan_interval: 40
   json_attributes:
     - Uptime
@@ -31,68 +45,99 @@
     - LAN Port 3
 
 - platform: command_line
-  name: /drive State
-  command: "/bin/bash /config/scripts/multiple_actions.sh drive_state"
+  name: Orbi Satellite
+  command: "/bin/bash /config/scripts/orbi_router.sh get_satellite_uptime"
+#  value_template: "{{ value / 60 / 60 }}s"
+  value_template: "{{ value_json.status }}"
+  json_attributes:
+    - Uptime
 
 - platform: command_line
   name: Speedtest.net download speed
-  command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
+  command: curl -s 10.10:8700/api/speedtest/latest | jq -r '.data.download'
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json.data.download|int < 0.1 %} NaN
-    {% else %} {{ value_json.data.download|float|round(2) }}
+    {% if value_json | int < 0.1 %}
+      NaN
+    {% else %}
+      {{ value_json | round(2) }}
     {% endif %}
 
 - platform: command_line
   name: Speedtest.net upload speed
-  command: "curl -s 'http://10.0.0.10:8700/api/speedtest/latest'"
+  command: curl -s 10.10:8700/api/speedtest/latest | jq -r '.data.upload'
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json.data.upload|int < 0.1 %} NaN
-    {% else %} {{ value_json.data.upload|float|round(2) }}
+    {% if value_json | int < 0.1 %}
+      NaN
+    {% else %}
+      {{ value_json | round(2) }}
     {% endif %}
 
 - platform: command_line
-  name: eth0 In (total)
-  command: "/bin/bash /config/scripts/multiple_actions.sh vnstat_daily_receive"
-  value_template: "{{ (value_json|float/(1000*1000))|round }}"
+  name: Server Network traffic (total)
   scan_interval: 180
-
-- platform: command_line
-  name: eth0 Out (total)
-  command: "/bin/bash /config/scripts/multiple_actions.sh vnstat_daily_sent"
-  value_template: "{{ (value_json|float/(1000*1000))|round }}"
-  scan_interval: 180
+  command: curl -s 10.11:7000/json.cgi | jq '.interfaces[0].traffic.day[-1]'
+  value_template: "{{ value_json.id }}"
+  json_attributes:
+    - rx
+    - tx
 
 # Template sensors
 
 - platform: template
   sensors:
 
+    server_network_traffic_up:
+      friendly_name: Server network traffic (upload)
+      value_template: >-
+        {% if state_attr('sensor.server_network_traffic_total', 'tx') != None %}
+          {{ (state_attr('sensor.server_network_traffic_total', 'tx') | float / (1000 * 1000 )) | round }}
+        {% else %}
+          NaN
+        {% endif %}
+      icon_template: mdi:arrow-down
+      unit_of_measurement: 'MB'
+
+    server_network_traffic_down:
+      friendly_name: Server network traffic (download)
+      value_template: >-
+        {% if state_attr('sensor.server_network_traffic_total', 'rx') != None %}
+          {{ (state_attr('sensor.server_network_traffic_total', 'rx') | float / (1000 * 1000 )) | round }}
+        {% else %}
+          NaN
+        {% endif %}
+      icon_template: mdi:arrow-down
+      unit_of_measurement: 'MB'
+
     wan_daily_usage_up:
       friendly_name: WAN daily usage (upload)
       value_template: >-
-        {% if state_attr('sensor.router_daily_wan_usage','tx') != None %}
-          {{ (state_attr('sensor.router_daily_wan_usage','tx')|float/1000)|round }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:arrow-down
+        {% if state_attr('sensor.router_daily_wan_usage', 'tx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage', 'tx') | float / (1000 * 1000 )) | round }}
+        {% else %}
+          NaN
+        {% endif %}
+      icon_template: mdi:arrow-up
       unit_of_measurement: 'MB'
 
     wan_daily_usage_down:
       friendly_name: WAN daily usage (download)
       value_template: >-
-        {% if state_attr('sensor.router_daily_wan_usage','rx') != None %}
-          {{ (state_attr('sensor.router_daily_wan_usage','rx')|float/1000)|round }}
-        {% else %} NaN {% endif %}
-      icon_template: mdi:arrow-up
+        {% if state_attr('sensor.router_daily_wan_usage', 'rx') != None %}
+          {{ (state_attr('sensor.router_daily_wan_usage', 'rx') | float / (1000 * 1000 )) | round }}
+        {% else %}
+          NaN
+        {% endif %}
+      icon_template: mdi:arrow-down
       unit_of_measurement: 'MB'
 
     eth0_in:
       friendly_name: eth0 In
-      value_template: "{{ (states('sensor.network_throughput_in_eth0')|float*8)|round(1) }}"
+      value_template: "{{ (states('sensor.network_throughput_in_eth0') | float * 8) | round(1) }}"
       unit_of_measurement: 'Mb/s'
 
     eth0_out:
       friendly_name: eth0 Out
-      value_template: "{{ (states('sensor.network_throughput_out_eth0')|float*8)|round(1) }}"
+      value_template: "{{ (states('sensor.network_throughput_out_eth0') | float * 8) | round(1) }}"
       unit_of_measurement: 'Mb/s'

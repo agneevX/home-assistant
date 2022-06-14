@@ -7,14 +7,12 @@ smart_home:
   filter:
     include_entities:
       - media_player.bedroom_tv
-      - media_player.siti_cable_stb
       - media_player.old_room_tv
       - media_player.new_room_tv
+      - switch.lofi_beats
+      - switch.lofi_beats2
 
     include_domains:
       - climate
       - light
-
-  entity_config:
-    media_player.siti_cable_stb:
-      name: Cable box
+      - fan
