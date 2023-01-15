@@ -1,15 +1,18 @@
+logger:
+  default: error
+
 fan:
   - platform: smartir
     name: New Room Ceiling Fan
     unique_id: new_room_ceiling_fan
-    device_code: 9000
-    controller_data: remote.new_room_broadlink_rm4_mini_remote
+    device_code: 9001
+    controller_data: remote.new_room_rm4m_remote
 
   - platform: smartir
     name: Bedroom Ceiling Fan
     unique_id: bedroom_ceiling_fan
-    device_code: 9000
-    controller_data: remote.bedroom_broadlink_rm4_mini_remote
+    device_code: 9001
+    controller_data: remote.bedroom_rm4m_remote
 
 climate:
   - platform: smartir
@@ -18,7 +21,7 @@ climate:
     device_code: 5000
     temperature_sensor: sensor.bedroom_temperature
     humidity_sensor: sensor.bedroom_humidity
-    controller_data: remote.bedroom_broadlink_rm4_mini_remote
+    controller_data: remote.bedroom_rm4m_remote
 
   - platform: smartir
     name: New Room AC
@@ -26,7 +29,7 @@ climate:
     device_code: 6120
     temperature_sensor: sensor.new_room_temperature
     humidity_sensor: sensor.new_room_humidity
-    controller_data: remote.new_room_broadlink_rm4_mini_remote
+    controller_data: remote.new_room_rm4m_remote
 
   - platform: smartir
     name: New Room AC 2
@@ -34,7 +37,7 @@ climate:
     device_code: 6250
     temperature_sensor: sensor.new_room_temperature
     humidity_sensor: sensor.new_room_humidity
-    controller_data: remote.new_room_broadlink_rm4_mini_remote
+    controller_data: remote.new_room_rm4m_remote
 
 input_number:
   pi_volume:
@@ -42,10 +45,6 @@ input_number:
     min: 0
     max: 100
     step: 1
-
-spotify:
-  client_id: !secret spotify_id
-  client_secret: !secret spotify_secret
 
 telegram_bot:
   - platform: broadcast
@@ -61,25 +60,80 @@ notify:
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.18.0.0/24
-    - 100.102.123.68
+    - 0.0.0.0/0
 
-logger:
-  default: error
+alexa:
+  smart_home:
+#    endpoint: https://api.eu.amazonalexa.com/v3/events
+#    client_id: !secret alexa_client_id
+#    client_secret: !secret alexa_client_secret
 
-### YAML linked files
+    filter:
+      include_entities:
+        - media_player.bedroom_tv
+        - media_player.old_room_tv
+        - media_player.new_room_tv
+        - switch.lofi_beats
+        - switch.lofi_beats2
 
-alexa: !include alexa.yaml
-google_assistant: !include google_assistant.yaml
-cloud: !include cloud.yaml
-sensor: !include sensor.yaml
-switch: !include switch.yaml
+      include_domains:
+        - climate
+        - light
+        - fan
+
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  service_account: !include service_account.json
+  exposed_domains:
+    - alarm_control_panel
+    - camera
+    - group
+    - switch
+    - fan
+    - light
+    - lock
+    - cover
+    - media_player
+    - climate
+    - vacuum
+  #  - sensor
+    - humidifier
+
+cloud:
+  alexa:
+    filter:
+      include_domains:
+        - light
+        - climate
+
+      include_entities:
+        - switch.lofi_beats
+        - switch.lofi_beats2
+        - switch.jazz_radio
+        - media_player.bedroom_tv
+
+      exclude_entities:
+        - light.tv_lamp_2
+
+  google_actions:
+    filter:
+      exclude_entities:
+        - light.tv_lamp_2
+
+      include_domains:
+        - light
+        - climate
+
+      include_entities:
+        - media_player.bedroom_tv
 
 binary_sensor:
-  - platform: command_line
-    command: if curl -s '10.10:9115/probe?target=8.8.8.8&module=icmp' | grep -q 'probe_success 1'; then echo ON; else echo OFF; fi
-    name: Upstream DNS ping
-    device_class: connectivity
+  - platform: ping
+    host: 162.159.36.20
+    count: 1
+#    command: if curl -s '10.10:9115/probe?target=8.8.8.8&module=icmp' | grep -q 'probe_success 1'; then echo ON; else echo OFF; fi
+    name: Cloudflare DNS ping
+#    device_class: connectivity
     scan_interval: 3
 
   - platform: ping
@@ -94,6 +148,8 @@ binary_sensor:
     count: 1
     scan_interval: 10
 
+sensor: !include sensor.yaml
+switch: !include switch.yaml
 media_player: !include media_player.yaml
 light: !include light.yaml
 group: []
@@ -117,8 +173,8 @@ recorder:
   purge_keep_days: 28
   exclude:
     entities:
-      - sensor.router_net_in
-      - sensor.router_net_out
+      - sensor.router_current_traffic_upload
+      - sensor.router_current_traffic_download
 
 tts:
   - platform: google_translate
