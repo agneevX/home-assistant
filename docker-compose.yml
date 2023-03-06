@@ -1,6 +1,6 @@
 services:
 
-  home-assistant:
+  homeassistant:
     container_name: home-assistant
     image: homeassistant/home-assistant
     restart: unless-stopped
@@ -8,9 +8,9 @@ services:
     environment:
       TZ: Asia/Kolkata
     volumes:
-      - /opt/appdata/home-assistant:/config
+      - /opt/appdata/homeassistant:/config
 
-  speedtest-tracker:
+  speedtesttracker:
     container_name: speedtest-tracker
     image: henrywhitaker3/speedtest-tracker:latest-arm
     restart: unless-stopped
@@ -26,5 +26,5 @@ services:
       - /config/www:size=500m
       - /config/log:size=32m
     volumes:
-      - /opt/appdata/speedtest-tracker/app:/config/www/app/Bin
-      - /opt/appdata/speedtest-tracker:/config
+      - /opt/appdata/speedtesttracker/app:/config/www/app/Bin
+      - /opt/appdata/speedtesttracker:/config

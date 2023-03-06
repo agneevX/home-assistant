@@ -1,25 +1,29 @@
 custom_header:
-  active_tab_color: var(--primary-color)
-  tab_indicator_color: var(--primary-color)
-  chevrons: false
+  menu_hide: true
   disabled_mode: true
+  chevrons: false
+  compact_mode: true
+  tab_indicator_color: var(--primary-text-color)
+  active_tab_color: var(--primary-text-color)
   exceptions:
+    - conditions:
+        user_agent: Edge
+        disabled_mode: true
+    - conditions:
+        user_agent: iPad OS
+        disabled_mode: true
     - conditions:
         user_agent: iPhone OS
       config:
-        menu_hide: true
-        compact_mode: true
+        tab_container_css: 'width: 100% !important; margin: auto !important;'
+        options_hide: true
         disabled_mode: false
-        tab_indicator_color: var(--primary-text-color)
-        active_tab_color: var(--primary-text-color)
     - conditions:
         user_agent: Android
       config:
-        menu_hide: true
-        compact_mode: true
+        options_hide: true
         disabled_mode: false
-        tab_indicator_color: var(--primary-text-color)
-        active_tab_color: var(--primary-text-color)
+        tab_container_css: 'width: 100% !important; margin: auto !important;'
 swipe_nav:
   animate: fade
   swipe_amount: 25
@@ -80,7 +84,7 @@ views:
                   action: more-info
                   haptic: light
                 type: custom:button-card
-              - entity: device_tracker.asus_x200m
+              - entity: device_tracker.desk_laptop
                 show_name: false
                 icon: mdi:laptop
                 size: 35%
@@ -149,7 +153,7 @@ views:
                   - value: 32
                     color: '#df6943'
                 entities:
-                  - entity: sensor.broadlink_rm4_mini_temperature
+                  - entity: sensor.bedroom_temperature
                     state_adaptive_color: true
                 hours_to_show: 1
                 points_per_hour: 14
@@ -182,7 +186,7 @@ views:
                   - value: 60
                     color: '#005bff'
                 entities:
-                  - entity: sensor.broadlink_rm4_mini_humidity
+                  - entity: sensor.bedroom_humidity
                     state_adaptive_color: true
                 align_state: center
                 font_size: 92
@@ -225,12 +229,24 @@ views:
                     }
           - entities:
               - entity: light.desk_light
+                hide_when_off: true
                 toggle: true
                 haptic: light
                 min: 5
                 step: 5
                 type: custom:slider-entity-row
+              - entity: light.desk_light
+                justify: center
+                hide_when_off: true
+                type: custom:rgb-light-card
+                colors:
+                  - color_temp: 153
+                  - color_temp: 215
+                  - color_temp: 277
+                  - color_temp: 339
+                  - color_temp: 400
               - entity: light.tv_lamp
+                hide_when_off: true
                 toggle: true
                 haptic: light
                 min: 5
@@ -285,12 +301,105 @@ views:
               - entity: input_number.pi_volume
                 hide_state: true
                 name: Speakers
-                step: 5
                 min: 20
+                step: 2
                 icon: mdi:speaker-multiple
                 type: custom:slider-entity-row
             show_header_toggle: false
             type: entities
+          - type: entities
+            entities:
+              - entity: fan.bedroom_ceiling_fan
+                name: Ceiling Fan
+                hide_when_off: true
+                toggle: true
+                haptic: light
+                grow: true
+                type: custom:slider-entity-row
+          - type: horizontal-stack
+            cards:
+              - layout: icon_name
+                size: 47%
+                icon: mdi:ceiling-fan-light
+                name: LIGHT
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#4034c9'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: led
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - layout: icon_name
+                size: 45%
+                icon: mdi:weather-night
+                name: SLEEP
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#c93492'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: sleep
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - layout: icon_name
+                size: 45%
+                icon: mdi:timer
+                name: TIMER
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#ed8815'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: timer
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+          - content: '# 〡 Switches'
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
           - cards:
               - color_type: card
                 color: auto
@@ -353,12 +462,17 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: switch.the_good_life_radio
+                entity: switch.purrple_cat
                 show_name: false
                 size: 35%
                 state:
                   - value: 'on'
                     color: var(--primary-color)
+                    styles:
+                      icon:
+                        - color: '#ffffff'
+                  - value: 'off'
+                    color: '#5d3d6a'
                     styles:
                       icon:
                         - color: '#ffffff'
@@ -407,7 +521,7 @@ views:
                   [[[
                     var ac = states['climate.bedroom_ac'];
                     if (ac.state != 'off')
-                      return ac.attributes.temperature + '° | ' + ac.attributes.fan_mode;
+                      return ac.attributes.temperature + '° – ' + ac.attributes.fan_mode;
                     else return ac.attributes.temperature + '° set';
                   ]]]
                 styles:
@@ -442,13 +556,12 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: switch.bedroom_ac_swing
-                icon: mdi:fan-chevron-down
+                color: auto
+                entity: light.mibedsidelamp2_946d
                 show_name: false
                 size: 35%
                 state:
                   - value: 'on'
-                    color: var(--primary-color)
                     styles:
                       icon:
                         - color: '#ffffff'
@@ -456,7 +569,7 @@ views:
                   card:
                     - height: 50px
                 tap_action:
-                  action: toggle
+                  action: more-info
                   haptic: light
                 double_tap_action:
                   action: more-info
@@ -464,8 +577,7 @@ views:
                 type: custom:button-card
               - color_type: card
                 color: auto
-                entity: light.new_room_bulb
-                icon: mdi:ceiling-light
+                entity: light.bedroom_wipro_bulb
                 show_name: false
                 size: 40%
                 state:
@@ -541,80 +653,27 @@ views:
               - entity: binary_sensor.front_gate_camera_ping
                 state: 'on'
             type: conditional
+          - type: history-graph
+            entities:
+              - entity: sensor.bedroom_humidity
+              - entity: sensor.new_room_humidity
+            hours_to_show: 3
         type: vertical-stack
       - type: vertical-stack
         cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:mini-graph-card
-                decimals: 0
-                hours_to_show: 6
-                entities:
-                  - entity: sensor.adguard_average_processing_speed
-                    state_adaptive_color: true
-                    color: '#6BBB74'
-                icon: mdi:shield-check
-                name: AdGuard
-                points_per_hour: 10
-                font_size: 92
-                line_width: 5
-                font_size_header: 13
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px
-                      14px !important
-                    }
-              - type: custom:mini-graph-card
-                entities:
-                  - entity: sensor.old_room_echo_temperature
-                    state_adaptive_color: true
-                name: Old Room
-                hours_to_show: 1
-                color_thresholds:
-                  - value: 22
-                    color: '#3bcf77'
-                  - value: 27
-                    color: '#d7da40'
-                  - value: 32
-                    color: '#df6943'
-                points_per_hour: 60
-                font_size: 92
-                line_width: 5
-                font_size_header: 13
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px
-                      14px !important
-                    }
           - type: custom:simple-thermostat
             entity: climate.bedroom_ac
             layout:
               step: row
+              mode:
+                headings: false
             decimals: '0'
             step_size: '1'
             sensors:
-              - entity: sensor.broadlink_rm4_mini_temperature
+              - entity: sensor.bedroom_temperature
                 name: Currently
                 decimals: 1
-              - entity: sensor.broadlink_rm4_mini_humidity
+              - entity: sensor.bedroom_humidity
                 name: Humidity
                 decimals: 1
             hide:
@@ -623,38 +682,46 @@ views:
             control:
               hvac:
                 'off':
-                  name: 'Off'
-                cool:
-                  name: Cool
-                dry:
-                  name: Dry
+                  name: 'OFF'
                 fan_only:
                   name: Fan
               fan:
                 low:
-                  name: Low
                   icon: mdi:fan-speed-1
-                mid:
-                  name: Mid
+                  name: false
+                medium:
                   icon: mdi:fan-speed-2
+                  name: false
                 high:
-                  name: High
                   icon: mdi:fan-speed-3
-                auto:
-                  icon: mdi:fan-plus
+                  name: false
+              swing:
+                'off':
+                  name: 'OFF'
+                'on':
+                  name: 'ON'
+                  icon: mdi:unfold-more-horizontal
             view_layout:
               step: row
             card_mod:
               style: |
                 ha-card {
-                  --st-mode-background: var(--card-background-color);
                   --st-font-size-xl: 45px;
-                  --st-font-size-m: 20px;
-                  --st-spacing: 3.6px;
+                  --st-spacing: 3.5px;
                 }
-  - icon: mdi:web
-    path: info
-    title: Info
+                .modes > .mode-item {
+                  border-radius: 12px;
+                }
+                .modes > .mode-title {
+                  padding: 0px 5px;
+                  font-weight: 400;
+                }
+                .modes.heading {
+                  padding: 1px 5px 1px 5px;
+                }
+  - title: new-room
+    path: new-room
+    icon: mdi:bed-king
     layout:
       width: 280
       max_cols: 2
@@ -663,9 +730,374 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - entity: binary_sensor.network_dns_ping
+          - content: |
+              # 〡 New Room
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
+          - cards:
+              - color_thresholds:
+                  - value: 22
+                    color: '#3bcf77'
+                  - value: 27
+                    color: '#d7da40'
+                  - value: 32
+                    color: '#df6943'
+                entities:
+                  - entity: sensor.new_room_temperature
+                    state_adaptive_color: true
+                hours_to_show: 1
+                points_per_hour: 14
+                decimals: 1
+                font_size: 92
+                align_icon: state
+                align_state: center
+                line_width: 7
+                show:
+                  fill: false
+                  name: false
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px
+                      14px !important
+                    }
+                type: custom:mini-graph-card
+              - color_thresholds:
+                  - value: 40
+                    color: '#3cbcc8'
+                  - value: 50
+                    color: '#29aaff'
+                  - value: 60
+                    color: '#005bff'
+                entities:
+                  - entity: sensor.new_room_humidity
+                    state_adaptive_color: true
+                align_state: center
+                font_size: 92
+                line_width: 8
+                points_per_hour: 14
+                hours_to_show: 1
+                decimals: 1
+                align_icon: state
+                show:
+                  fill: false
+                  icon_adaptive_color: true
+                  labels: false
+                  points: false
+                  name: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 16px 0 16px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 16px 0px 16px !important
+                    }
+                type: custom:mini-graph-card
+            type: horizontal-stack
+          - type: history-graph
+            entities:
+              - entity: sensor.bedroom_temperature
+                name: Bedroom
+              - entity: sensor.new_room_temperature
+                name: New Room
+            hours_to_show: 3
+          - type: entities
+            entities:
+              - entity: fan.new_room_ceiling_fan
+                name: Ceiling Fan
+                hide_when_off: true
+                toggle: true
+                haptic: light
+                grow: true
+                type: custom:slider-entity-row
+          - type: horizontal-stack
+            cards:
+              - layout: icon_name
+                size: 47%
+                icon: mdi:ceiling-fan-light
+                name: LIGHT
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#4034c9'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.new_room_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: led
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - layout: icon_name
+                size: 45%
+                icon: mdi:weather-night
+                name: SLEEP
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#c93492'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.new_room_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: sleep
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+              - layout: icon_name
+                size: 45%
+                icon: mdi:timer
+                name: TIMER
+                styles:
+                  card:
+                    - height: 48px
+                    - font-size: 13px
+                    - font-weight: bold
+                color: '#ed8815'
+                tap_action:
+                  haptic: light
+                  action: call-service
+                  service: remote.send_command
+                  service_data:
+                    entity_id: remote.new_room_broadlink_rm4_mini_remote
+                    device: ceiling_fan
+                    command: timer
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
+      - type: vertical-stack
+        cards:
+          - content: |
+              # 〡 Air Conditioners
+            type: markdown
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --ha-card-background: none !important;
+                    box-shadow: none !important;
+                  }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 20px;
+                      font-weight: bold;
+                      font-family: Helvetica;
+                    }
+          - type: custom:simple-thermostat
+            entity: climate.new_room_ac
+            header:
+              name: Panasonic AC
+            layout:
+              step: row
+              mode:
+                headings: false
+            decimals: '0'
+            step_size: '1'
+            control:
+              hvac:
+                'off':
+                  name: 'OFF'
+              fan:
+                low:
+                  icon: mdi:fan-speed-1
+                  name: false
+                medium:
+                  icon: mdi:fan-speed-2
+                  name: false
+                high:
+                  icon: mdi:fan-speed-3
+                  name: false
+              swing:
+                auto:
+                  name: Auto
+                'off':
+                  name: 'OFF'
+                'on':
+                  name: 'ON'
+                  icon: mdi:unfold-more-horizontal
+                top:
+                  icon: mdi:arrow-top-right-thick
+                high:
+                  icon: mdi:arrow-top-right
+                low:
+                  icon: mdi:arrow-bottom-right
+                bottom:
+                  icon: mdi:arrow-bottom-right-thick
+            view_layout:
+              step: row
+            card_mod:
+              style: |
+                ha-card {
+                  --st-font-size-xl: 45px;
+                  --st-spacing: 3.5px;
+                }
+                .modes > .mode-item {
+                  border-radius: 12px;
+                }
+                .modes > .mode-title {
+                  padding: 0px 5px;
+                  font-weight: 400;
+                }
+                .modes.heading {
+                  padding: 1px 5px 1px 5px;
+                }
+          - type: custom:simple-thermostat
+            entity: climate.new_room_ac_2
+            layout:
+              step: row
+              mode:
+                headings: false
+            decimals: '0'
+            step_size: '1'
+            control:
+              hvac:
+                'off':
+                  name: 'OFF'
+                heat:
+                  name: Powerchill
+                  icon: mdi:snowflake-alert
+                fan_only:
+                  name: Fan
+              fan:
+                low:
+                  name: false
+                  icon: mdi:fan-speed-1
+                LowMedium:
+                  name: LoMid
+                  icon: mdi:fan
+                medium:
+                  name: false
+                  icon: mdi:fan-speed-2
+                MediumHigh:
+                  name: MidHi
+                  icon: mdi:fan
+                high:
+                  name: false
+                  icon: mdi:fan-speed-3
+                Auto:
+                  icon: mdi:fan-plus
+                Powerful:
+                  icon: mdi:tailwind
+                  name: Max
+                Night:
+                  icon: mdi:weather-night
+              swing:
+                'off':
+                  name: 'OFF'
+                'on':
+                  name: 'ON'
+                  icon: mdi:unfold-more-horizontal
+                Coanda:
+                  icon: mdi:arrow-top-right-thin-circle-outline
+            header:
+              name: Daikin AC
+            view_layout:
+              step: row
+            card_mod:
+              style: |
+                ha-card {
+                  --st-font-size-xl: 45px;
+                  --st-spacing: 3.5px;
+                }
+                .modes > .mode-item {
+                  border-radius: 12px;
+                }
+                .modes > .mode-title {
+                  padding: 0px 5px;
+                  font-weight: 400;
+                }
+                .modes.heading {
+                  padding: 1px 5px 1px 5px;
+                }
+  - icon: mdi:web
+    path: internet
+    title: Internet
+    layout:
+      width: 280
+      max_cols: 2
+    type: custom:horizontal-layout
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:uptime-card
+            entity: binary_sensor.orbi_satellite_ping
+            hours_to_show: 6
+            title_adaptive_color: true
+            status_adaptive_color: true
+            icon_adaptive_color: true
+            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% up'
+            tap_action:
+              action: more-info
+              haptic: success
+            bar:
+              spacing: 4
+              amount: 12
+              height: 25
+              round: 7
+            alias:
+              ok: Online
+              ko: Offline
+            color_thresholds:
+              - value: 70
+                color: '#da23f0'
+              - value: 80
+                color: '#f1de20'
+              - value: 100
+                color: '#0fb6f7'
+            color:
+              ok: '#0fb6f7'
+              ko: '#da23f0'
+              tooltip: var(--secondary-text-color)
+            title_template: Orbi Satellite
+            card_mod:
+              style: |
+                ha-card .name > span {
+                  font-size: 1.3em;
+                }
+                ha-card .status > span {
+                  font-size: 1.1em;
+                  max-height: 1.1em;
+                }
+                ha-card .timeline {
+                  padding-bottom: 2px;
+                }
+          - entity: binary_sensor.cloudflare_dns_ping
             type: custom:uptime-card
-            name: Internet
             icon: mdi:check-network
             ko_icon: mdi:close-network
             hours_to_show: 1
@@ -693,8 +1125,9 @@ views:
               height: 25
               round: 7
             alias:
-              ok: Online
-              ko: Offline
+              ok: Connected
+              ko: Disconnected
+            title_template: Internet
             card_mod:
               style: |
                 ha-card .name > span {
@@ -708,38 +1141,6 @@ views:
                   padding-bottom: 2px;
                             }
           - cards:
-              - align_icon: state
-                align_state: center
-                color_thresholds:
-                  - value: 10
-                    color: '#db3535'
-                  - value: 20
-                    color: '#db8235'
-                  - value: 40
-                    color: '#37db35'
-                decimals: 0
-                entities:
-                  - entity: sensor.speedtest_net_download_speed
-                    state_adaptive_color: true
-                font_size: 88
-                hours_to_show: 6
-                line_width: 6
-                points_per_hour: 2
-                show:
-                  fill: false
-                  icon_adaptive_color: true
-                  labels: false
-                  name: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
               - align_icon: state
                 align_state: center
                 color_thresholds:
@@ -772,10 +1173,41 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                 type: custom:mini-graph-card
+              - align_icon: state
+                align_state: center
+                color_thresholds:
+                  - value: 10
+                    color: '#db3535'
+                  - value: 20
+                    color: '#db8235'
+                  - value: 40
+                    color: '#37db35'
+                decimals: 0
+                entities:
+                  - entity: sensor.speedtest_net_download_speed
+                    state_adaptive_color: true
+                font_size: 88
+                hours_to_show: 6
+                line_width: 6
+                points_per_hour: 2
+                show:
+                  fill: false
+                  icon_adaptive_color: true
+                  labels: false
+                  name: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
             type: horizontal-stack
-      - cards:
           - content: |
-              # 〡 Internet
+              # 〡 Network
             type: markdown
             card_mod:
               style:
@@ -794,16 +1226,92 @@ views:
           - type: entities
             entities:
               - entity: sensor.netgear_orbi
-                type: custom:template-entity-row
-                secondary: '{{ state_attr(''sensor.netgear_orbi'',''WAN Uptime'') }}'
+                secondary: '{{ state_attr(''sensor.netgear_orbi'',''Uptime'') }}'
                 active: '{{ is_state(''sensor.netgear_orbi'',''Link up'') }}'
+                type: custom:template-entity-row
+              - type: divider
+              - entity: sensor.orbi_satellite
+                name: Satellite
+                icon: mdi:access-point-network
+                active: '{{ is_state(''sensor.orbi_satellite'',''Connected'') }}'
+                secondary: '{{ state_attr(''sensor.orbi_satellite'',''Uptime'') }}'
+                type: custom:template-entity-row
+          - cards:
+              - entities:
+                  - color: '#D9CA3A'
+                    entity: sensor.router_current_traffic_upload
+                    name: Upload
+                font_size: 74
+                font_size_header: 12.5
+                show:
+                  graph: false
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
+              - align_icon: left
+                align_state: right
+                entities:
+                  - color: '#3BD97A'
+                    entity: sensor.router_current_traffic_download
+                    name: Download
+                font_size: 74
+                font_size_header: 12.5
+                show:
+                  graph: false
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
+            type: horizontal-stack
+      - cards:
           - type: iframe
-            aspect_ratio: 65%
+            aspect_ratio: 64%
             url: http://10.0.0.1:19999/test.html
           - cards:
               - entities:
+                  - color: '#D9CA3A'
+                    entity: sensor.router_daily_traffic_upload
+                    name: Traffic Out
+                icon: mdi:arrow-up-circle
+                font_size: 74
+                font_size_header: 12.5
+                hours_to_show: 2
+                points_per_hour: 6
+                show:
+                  icon_adaptive_color: true
+                  name_adaptive_color: true
+                  graph: bar
+                  labels: false
+                  points: false
+                card_mod:
+                  style: |
+                    ha-card > div:nth-child(-n+2) {
+                      padding: 0 14px 0 14px !important
+                    }
+                    ha-card > .info {
+                      padding: 0 14px 0px 14px !important
+                    }
+                type: custom:mini-graph-card
+              - align_icon: left
+                align_state: right
+                entities:
                   - color: '#3BD97A'
-                    entity: sensor.wan_daily_usage_down
+                    entity: sensor.router_daily_traffic_download
                     name: Traffic In
                 icon: mdi:arrow-down-circle
                 font_size: 74
@@ -826,33 +1334,15 @@ views:
                       padding: 0 14px 0px 14px !important
                     }
                 type: custom:mini-graph-card
-              - align_icon: left
-                align_state: right
-                entities:
-                  - color: '#D9CA3A'
-                    entity: sensor.wan_daily_usage_up
-                    name: Traffic Out
-                icon: mdi:arrow-up-circle
-                font_size: 74
-                font_size_header: 12.5
-                hours_to_show: 2
-                points_per_hour: 6
-                show:
-                  icon_adaptive_color: true
-                  name_adaptive_color: true
-                  graph: bar
-                  labels: false
-                  points: false
-                card_mod:
-                  style: |
-                    ha-card > div:nth-child(-n+2) {
-                      padding: 0 14px 0 14px !important
-                    }
-                    ha-card > .info {
-                      padding: 0 14px 0px 14px !important
-                    }
-                type: custom:mini-graph-card
             type: horizontal-stack
+          - type: history-graph
+            entities:
+              - entity: sensor.router_daily_traffic_upload
+                name: Traffic Out
+              - entity: sensor.router_daily_traffic_download
+                name: Traffic In
+            hours_to_show: 6
+            refresh_interval: 0
         type: vertical-stack
   - icon: mdi:chart-tree
     path: tile
@@ -864,50 +1354,8 @@ views:
     badges: []
     cards:
       - cards:
-          - type: custom:uptime-card
-            entity: binary_sensor.orbi_satellite_ping
-            name: Orbi Satellite
-            hours_to_show: 6
-            title_adaptive_color: true
-            status_adaptive_color: true
-            icon_adaptive_color: true
-            average_template: '[[[ return variables.uptime.toFixed(0); ]]]% online'
-            tap_action:
-              action: more-info
-              haptic: success
-            bar:
-              spacing: 4
-              amount: 24
-              height: 25
-              round: 7
-            alias:
-              ok: Online
-              ko: Offline
-            color_thresholds:
-              - value: 70
-                color: '#da23f0'
-              - value: 80
-                color: '#f1de20'
-              - value: 100
-                color: '#0fb6f7'
-            color:
-              ok: '#0fb6f7'
-              ko: '#da23f0'
-              tooltip: var(--secondary-text-color)
-            card_mod:
-              style: |
-                ha-card .name > span {
-                  font-size: 1.3em;
-                }
-                ha-card .status > span {
-                  font-size: 1.1em;
-                  max-height: 1.1em;
-                }
-                ha-card .timeline {
-                  padding-bottom: 2px;
-                }
           - content: |
-              # 〡 Local Network
+              # 〡 Server Net
             type: markdown
             card_mod:
               style:
@@ -923,49 +1371,16 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - type: entities
-            entities:
-              - entity: sensor.drive_state
-                name: /drive mount
-          - decimals: 1
-            entities:
-              - color: '#FF7A2D'
-                entity: sensor.eth0_in
-                state_adaptive_color: true
-              - color: '#2EB2FF'
-                entity: sensor.eth0_out
-                show_state: true
-                state_adaptive_color: true
-            hours_to_show: 0.5
-            font_size: 82
-            font_size_header: 13
-            icon: mdi:ethernet
-            line_width: 2.5
-            name: Ethernet
-            points_per_hour: 100
-            lower_bound: 0
-            show:
-              fill: false
-              name_adaptive_color: true
-              icon_adaptive_color: true
-              labels: true
-              legend: false
-              points: false
-            card_mod:
-              style: |
-                ha-card > div:nth-child(-n+2) {
-                  padding: 0 14px 0 14px !important
-                }
-                ha-card > .info {
-                  padding: 0 14px 0px 14px !important
-                }
-            type: custom:mini-graph-card
+          - type: iframe
+            url: >-
+              http://10.11:81/?showPercentage=true&innerRadius=15&theme=dark&color=5198f5&surface=212124&gap=3&singleGraphMode=true&graph=network
+            aspect_ratio: 50%
           - cards:
               - entities:
-                  - color: '#FF7A2D'
-                    entity: sensor.eth0_in_total
-                    name: Traffic In
-                icon: mdi:arrow-down-circle-outline
+                  - color: '#2EB2FF'
+                    entity: sensor.server_network_traffic_upload
+                    name: Traffic Up
+                icon: mdi:arrow-up-circle-outline
                 font_size: 76
                 font_size_header: 12.9
                 show:
@@ -986,10 +1401,10 @@ views:
               - align_icon: left
                 align_state: right
                 entities:
-                  - color: '#2EB2FF'
-                    entity: sensor.eth0_out_total
-                    name: Traffic Out
-                icon: mdi:arrow-up-circle-outline
+                  - color: '#FF7A2D'
+                    entity: sensor.server_network_traffic_download
+                    name: Traffic Down
+                icon: mdi:arrow-down-circle-outline
                 font_size: 76
                 font_size_header: 12.9
                 show:
@@ -1010,14 +1425,22 @@ views:
             type: horizontal-stack
           - type: history-graph
             entities:
-              - entity: sensor.eth0_in_total
-              - entity: sensor.eth0_out_total
+              - entity: sensor.server_network_traffic_upload
+                name: Traffic up
+              - entity: sensor.server_network_traffic_download
+                name: Traffic down
             refresh_interval: 0
             hours_to_show: 6
         type: vertical-stack
       - cards:
-          - content: |
-              # 〡 LAN Devices
+          - type: custom:auto-entities
+            card:
+              type: entities
+            filter:
+              include:
+                - domain: remote
+              exclude: []
+          - content: '# 〡 Network Clients'
             type: markdown
             card_mod:
               style:
@@ -1049,20 +1472,19 @@ views:
               reverse: true
             type: custom:auto-entities
         type: vertical-stack
-  - icon: mdi:remote
-    path: remote-control
-    title: Remote Control
+  - title: Media Players
+    path: media-players
+    icon: mdi:play-circle
     layout:
       width: 280
       max_cols: 2
-    type: custom:horizontal-layout
+    type: custom:masonry-layout
     badges: []
     cards:
       - type: vertical-stack
         cards:
           - artwork: material
             hide:
-              power: true
               source: true
             shortcuts:
               attribute: source
@@ -1073,10 +1495,10 @@ views:
                 - icon: mdi:speaker-multiple
                   id: Bedroom Speakers
                   type: source
-                - icon: mdi:amazon-alexa
+                - icon: mdi:cast-audio
                   id: Bedroom Echo
                   type: source
-                - icon: mdi:amazon-alexa
+                - icon: mdi:cast-audio
                   id: Dining Hall Echo
                   type: source
                   name: 2
@@ -1091,7 +1513,8 @@ views:
               when_idle: true
               when_standby: true
             entity: media_player.spotify
-      - cards:
+      - type: vertical-stack
+        cards:
           - content: |
               # 〡 Bedroom
             type: markdown
@@ -1110,7 +1533,6 @@ views:
                       font-family: Helvetica;
                     }
           - hide:
-              power: true
               source: true
             type: custom:mini-media-player
             volume_step: '2'
@@ -1120,7 +1542,9 @@ views:
               when_standby: true
             artwork: material
             entity: media_player.bedroom_echo
-            icon: mdi:amazon-alexa
+            icon: mdi:cast-audio
+      - type: vertical-stack
+        cards:
           - content: |
               # 〡 Level 1
             type: markdown
@@ -1138,11 +1562,11 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
+          - type: media-control
+            entity: media_player.old_room_speaker
           - scale: '0.97'
             hide:
-              power: true
               source: true
-              mute: true
             type: custom:mini-media-player
             volume_step: '2'
             idle_view:
@@ -1150,43 +1574,11 @@ views:
               when_idle: true
               when_standby: true
             artwork: material
-            entity: media_player.old_room_echo
-            icon: mdi:amazon-alexa
-          - artwork: material
-            icon: mdi:google-home
-            scale: '0.97'
-            shortcuts:
-              attribute: source
-              columns: 3
-              buttons:
-                - icon: mdi:music-circle-outline
-                  id: script.play_lofi_2_on_new_room_speaker
-                  type: script
-                  name: Lo-Fi
-                - icon: mdi:music-circle
-                  id: script.script.play_lofi
-                  type: script
-                  name: Lo-Fi 2
-                - icon: mdi:saxophone
-                  id: script.play_jazz_radio_on_new_room_speaker
-                  type: script
-                  name: Jazz
-            hide:
-              power: true
-              source: true
-              mute: true
-            type: custom:mini-media-player
-            volume_step: '2'
-            idle_view:
-              after: 10
-              when_idle: true
-              when_standby: true
-            entity: media_player.new_room_speaker
+            entity: media_player.new_room_echo
+            icon: mdi:cast-audio
           - scale: '0.97'
             hide:
-              power: true
               source: true
-              mute: true
             type: custom:mini-media-player
             volume_step: '2'
             idle_view:
@@ -1195,15 +1587,14 @@ views:
               when_standby: true
             artwork: material
             entity: media_player.dining_hall_echo
-            icon: mdi:amazon-alexa
-        type: vertical-stack
-  - icon: mdi:television-play
+            icon: mdi:cast-audio
+  - theme: ''
+    icon: mdi:television-play
     path: tv
     title: TV
     layout:
       width: 280
       max_cols: 2
-    theme: ''
     type: custom:masonry-layout
     badges: []
     cards:
@@ -1242,6 +1633,8 @@ views:
               name: Plex
               icon: mdi:plex
               volume_step: '2'
+              tap_action:
+                haptic: medium
               hide:
                 power: true
               idle_view:
@@ -1252,24 +1645,6 @@ views:
               - entity: media_player.plex_plex_for_android_tv_mibox4
                 state_not: unavailable
               - entity: media_player.plex_plex_for_android_tv_mibox4
-                state_not: idle
-            type: conditional
-          - card:
-              artwork: material
-              entity: media_player.plex_plex_for_android_tv_sony_bravia
-              name: Plex on Sony Bravia
-              icon: mdi:plex
-              volume_step: '2'
-              hide:
-                power: true
-              idle_view:
-                when_idle: true
-                when_standby: true
-              type: custom:mini-media-player
-            conditions:
-              - entity: media_player.plex_plex_for_android_tv_sony_bravia
-                state_not: unavailable
-              - entity: media_player.plex_plex_for_android_tv_sony_bravia
                 state_not: idle
             type: conditional
       - type: vertical-stack
@@ -1293,6 +1668,9 @@ views:
             type: markdown
           - name: Television
             volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
             hide:
               progress: true
               source: true
@@ -1319,9 +1697,10 @@ views:
             type: custom:mini-media-player
             entity: media_player.bedroom_tv
           - artwork: material
+            tap_action:
+              action: more-info
+              haptic: medium
             volume_step: '2'
-            hide:
-              power: true
             idle_view:
               when_idle: true
               when_standby: true
@@ -1345,6 +1724,9 @@ views:
                   type: source
             entity: media_player.bedroom_mi_box_android
           - volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
             hide:
               progress: true
               source: true
@@ -1353,8 +1735,12 @@ views:
               when_standby: true
             type: custom:mini-media-player
             entity: media_player.siti_cable_stb
+            name: Cable Box
+      - type: vertical-stack
+        cards:
           - content: |
               # 〡 Level 1
+            type: markdown
             card_mod:
               style:
                 .: |
@@ -1369,7 +1755,17 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-            type: markdown
+          - volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
+            hide:
+              progress: true
+            idle_view:
+              when_idle: true
+              when_standby: true
+            type: custom:mini-media-player
+            entity: media_player.dining_hall_tv
           - hide:
               progress: true
               source: true
@@ -1395,61 +1791,33 @@ views:
               hide_when_off: true
             type: custom:mini-media-player
             volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
             idle_view:
               when_idle: true
               when_standby: true
             entity: media_player.old_room_tv
-          - entity: media_player.new_room_tv
-            volume_step: '2'
+          - volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
             hide:
               progress: true
             idle_view:
               when_idle: true
               when_standby: true
             type: custom:mini-media-player
-          - content: |
-              # 〡 Level 2
-            card_mod:
-              style:
-                .: |
-                  ha-card {
-                    --ha-card-background: none !important;
-                    box-shadow: none !important;
-                  }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 20px;
-                      font-weight: bold;
-                      font-family: Helvetica;
-                      letter-spacing: '-0.01em';
-                    }
-            type: markdown
-          - hide:
+            entity: media_player.new_room_tv
+          - entity: media_player.new_room_mi_stick
+            volume_step: '2'
+            tap_action:
+              action: more-info
+              haptic: medium
+            hide:
               progress: true
             idle_view:
               when_idle: true
               when_standby: true
-            volume_step: '2'
-            shortcuts:
-              attribute: source
-              buttons:
-                - icon: mdi:plex
-                  id: Plex
-                  type: source
-                - icon: mdi:alpha-m-box
-                  id: MrMC Lite
-                  type: source
-                - icon: mdi:vlc
-                  id: VLC
-                  type: source
-                - icon: mdi:netflix
-                  id: Netflix
-                  type: source
-                - icon: mdi:youtube
-                  id: YouTube
-                  type: source
-              columns: 5
-              hide_when_off: true
             type: custom:mini-media-player
-            entity: media_player.sony_bravia_tv
+            name: Mi Player

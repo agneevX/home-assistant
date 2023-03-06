@@ -3,30 +3,39 @@ read -r MESSAGE
 
 docker_start () {
 	docker run \
-	--rm \
 	--detach \
 	--name="$1" \
 	--restart=unless-stopped \
 	--env="VIDEO_ID=$2" \
+	--env="MPV_ARGS=--ao=alsa --no-video --no-config --really-quiet --demuxer-readahead-secs=30 --demuxer-max-back-bytes=0" \
 	--device=/dev/snd:/dev/snd \
-	mpv-ytdl > /dev/null \
-	&& echo "Started $1"
+	agneev/mpv-ytdl:lofi > /dev/null \
+	&& echo "Started the $1 container"
 }
 
 docker_stop () {
 	docker stop "$1" > /dev/null \
-	&& echo "Stopped $1"
+	&& echo "Stopped the $1 container"
+
+	docker rm --volumes "$1" > /dev/null \
+	&& echo "Removed the $1 container"
 }
+if [[ $MESSAGE == 'purrple_cat_on' ]]; then
+  docker_start purrple-cat bJUO1WnjXQY
+fi
+if [[ $MESSAGE == 'purrple_cat_off' ]]; then
+  docker_stop purrple-cat
+fi
 
 if [[ $MESSAGE == 'lofi_on' ]]; then
-  docker_start lofi-beats 5qap5aO4i9A
+  docker_start lofi-beats jfKfPfyJRdk
 fi
 if [[ $MESSAGE == 'lofi_off' ]]; then
   docker_stop lofi-beats
 fi
 
 if [[ $MESSAGE == 'lofi2_on' ]]; then
-  docker_start lofi-beats2 DWcJFNfaw9c
+  docker_start lofi-beats2 rUxyKA_-grg
 fi
 if [[ $MESSAGE == 'lofi2_off' ]]; then
   docker_stop lofi-beats2
@@ -115,5 +124,7 @@ sound_level[99]="373"
 sound_level[100]="400"
 
 if [[ $MESSAGE == *"amixer"* ]]; then
-    amixer -q cset numid=1 -- "$(echo ${sound_level[$(echo $MESSAGE | sed 's/amixer_//')]})"
+    amixer -q cset numid=1 -- $(echo ${sound_level[$(echo $MESSAGE | sed 's/amixer_//')]})
+#    amixer -q cset numid=1 -- $(echo $MESSAGE | sed 's/amixer_//')%
+    # echo "Set output to $(echo $MESSAGE | sed 's/amixer_//')%"
 fi
