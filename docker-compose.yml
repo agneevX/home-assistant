@@ -1,14 +1,66 @@
+networks:
+  vlan:
+    name: vlan
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 10.0.0.1/24
+          gateway: 10.0.0.1
+          ip_range: 10.0.0.80/28 # 10.0.0.80 - 10.0.0.95
+
 services:
 
-  homeassistant:
+  hassio:
     container_name: home-assistant
     image: homeassistant/home-assistant
     restart: unless-stopped
-    network_mode: host
+    expose: ['8123']
+    networks:
+      proxy:
+      media: # For Plex integration only
+      vlan:
     environment:
       TZ: Asia/Kolkata
     volumes:
       - /opt/appdata/homeassistant:/config
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy
+
+      traefik.http.routers.hassio.rule: Host(`home-assistant.falcon.nt`)
+      traefik.http.routers.hassio2.rule: Host(`falcon.tailnet-d10c.ts.net`)
+
+  web:
+    container_name: traefik
+    image: traefik
+    restart: unless-stopped
+    mem_limit: 200m
+    networks:
+      - default
+      - proxy
+      - media
+    command:
+      - --log.level=INFO
+      - --api.insecure=true
+      - --global.checknewversion=false
+      - --global.sendanonymoususage=false
+      - --entrypoints.http.address=:80
+      - --providers.file.filename=/etc/traefik/file-provider.yml
+      - --providers.file.watch=true
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.defaultRule=Host(`{{ index .Labels "traefik.name" }}.falcon.nt`)
+    ports:
+      - 80:80/tcp
+    volumes:
+      - /opt/appdata/traefik:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: true
+      traefik.name: web
+      traefik.http.routers.traefik.service: api@internal
 
   speedtesttracker:
     container_name: speedtest-tracker
