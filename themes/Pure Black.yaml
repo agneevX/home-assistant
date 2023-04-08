@@ -1,100 +1,152 @@
-## Pure Black theme by @agneevX
-#
-Pure Black:
-  theme-color: var(--app-header-background-color)
-  cc-button-card: var(--app-header-text-color)
-  card-mod-theme: "Pure Black"
-  accent-color: var(--primary-color)
-  paper-item-icon-active-color: var(--primary-color)
+##### Pure Black theme by @agneevX
+##### Based off JuanMTech's theme
 
+Pure Black:
   # Header:
   app-header-background-color: "#000000"
-  app-header-text-color: "#FFFFFF"
-
+  app-header-text-color: rgb(240, 240, 240)
+  app-header-selection-bar-color: var(--app-header-text-color)
+  app-header-edit-background-color: rgb(136, 136, 136)
   # Main Interface Colors
-  primary-color: "#388BFF"
-  light-primary-color: var(--primary-color)
+  primary-color: rgb(138, 180, 248)
   primary-background-color: var(--app-header-background-color)
-  secondary-background-color: var(--card-background-color)
+  secondary-background-color: rgb(32, 33, 36)
   divider-color: var(--primary-background-color)
-
+  accent-color: var(--primary-color)
   # Text
   primary-text-color: var(--app-header-text-color)
-  secondary-text-color: "#989da6"
-  text-primary-color: var(--app-header-text-color)
-  disabled-text-color: "#717171"
-
+  secondary-text-color: rgb(166, 166, 166)
+  text-primary-color: var(--primary-text-color)
+  disabled-text-color: rgba(184, 190, 199, 0.4)
   # Sidebar Menu
   sidebar-icon-color: var(--primary-text-color)
-  sidebar-text-color: var(--primary-text-color)
-  sidebar-background-color: var(--card-background-color)
-  sidebar-selected-background-color: var(--primary-background-color)
+  sidebar-text-color: var(--app-header-text-color)
+  sidebar-background-color: "#121212"
   sidebar-selected-icon-color: var(--primary-color)
   sidebar-selected-text-color: var(--sidebar-selected-icon-color)
-
+  # Buttons
+  paper-item-icon-color: rgb(169, 177, 188)
+  paper-item-icon-active-color: var(--primary-color)
+  mdc-button-outline-color: rgb(138, 180, 248)
   # States and Badges
-  state-icon-color: "#7B808A"
-  state-icon-active-color: var(--primary-color)
+  state-icon-color: var(--paper-item-icon-color)
+  state-icon-active-color: var(--paper-item-icon-active-color)
   state-icon-unavailable-color: var(--disabled-text-color)
-
   # Sliders
   paper-slider-knob-color: var(--primary-color)
-  paper-slider-knob-start-color: var(--paper-slider-knob-color)
+  paper-slider-knob-start-color: var(--paper-slider-knob-color) 
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
-
   # Labels
-  label-badge-background-color: "#202124"
-  label-badge-text-color: "#CCCCCC"
-  label-badge-red: "#D06568"
-  label-badge-green: "#80C884"
-  label-badge-blue: "#5F9BEA"
-  label-badge-yellow: "#DFC271"
-  label-badge-gray: "#5F6267"
-
+  label-badge-background-color: var(--secondary-background-color)
+  label-badge-text-color: var(--primary-text-color)
+  label-badge-red: rgb(208, 101, 104)
+  label-badge-green: rgb(128, 200, 132)
+  label-badge-blue: rgb(138, 180, 248)
+  label-badge-yellow: rgb(223, 194, 113)
+  label-badge-gray: rgb(95, 98, 103)
   # Cards
   card-background-color: "#18191B"
   ha-card-border-radius: "18px"
   ha-card-box-shadow: 0px 0px 0px 0px rgb(0,0,0)
-  paper-card-background-color: var(--card-background-color)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
-
+  paper-card-background-color: var(--card-background-color)
   # Switches
-  switch-checked-button-color: var(--primary-color)
-  switch-checked-track-color: "#404D64"
-  switch-unchecked-button-color: "#636466"
-  switch-unchecked-track-color: var(--switch-unchecked-button-color)
-
+  switch-checked-button-color: rgb(138, 180, 248)
+  switch-checked-track-color: rgb(138, 180, 248)
+  switch-unchecked-button-color: rgb(172, 176, 185)
+  switch-unchecked-track-color: rgb(154, 160, 166)
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
   paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
-
   # Table
   table-row-background-color: var(--primary-background-color)
   table-row-alternative-background-color: var(--secondary-background-color)
   data-table-background-color: var(--primary-background-color)
-
   # Dropdowns
-  material-background-color: var(--secondary-background-color)
-  material-secondary-background-color: var(--primary-background-color)
+  material-background-color: var(--table-row-background-color)
+  material-secondary-background-color: var(--table-row-alternative-background-color)
   mdc-theme-surface: var(--secondary-background-color)
-
-  # HACS
-  hacs-chip-background-color: var(--primary-color)
-
   # Pre/Code
   markdown-code-background-color: var(--app-header-background-color)
-
+  code-editor-background-color: var(--app-header-background-color)
+  # Checkboxes
+  mdc-checkbox-unchecked-color: rgb(169, 177, 188)
+  mdc-checkbox-disable-color: var(--disabled-text-color)
+  mdc-select-fill-color: rgb(42, 43, 46)
+  mdc-select-ink-color: var(--primary-text-color)
+  mdc-select-label-ink-color: var(--secondary-text-color)
+  mdc-select-idle-line-color: var(--primary-text-color)
+  mdc-select-dropdown-icon-color: var(--secondary-text-color)
+  mdc-select-hover-line-color: var(--accent-color)
+  mdc-text-field-fill-color: var(--mdc-select-fill-color)
+  # Input
+  input-fill-color: var(--secondary-background-color)
+  input-dropdown-icon-color: var(--secondary-text-color)
+  input-ink-color: var(--primary-text-color)
+  input-label-ink-color: var(--secondary-text-color)
+  input-idle-line-color: var(--primary-text-color)
+  input-hover-line-color: var(--accent-color)
+  # RGB
+  rgb-primary-text-color: 169, 177, 188
+  rgb-primary-color: 169, 177, 188
+  rgb-accent-color: 138, 180, 248
+  rgb-state-switch-color: var(--rgb-accent-color)
+  rgb-state-light-color: var(--rgb-accent-color)
+  rgb-state-fan-color: var(--rgb-accent-color)
+  rgb-state-script-color: var(--rgb-accent-color)
+  rgb-state-vacuum-color: var(--rgb-accent-color)
+  rgb-state-remote-color: var(--rgb-accent-color)
+  rgb-state-input-boolean-color: var(--rgb-accent-color)
+  rgb-state-humidifier-color: var(--rgb-accent-color)
+  rgb-state-cover-color: var(--rgb-accent-color)
+  # HACS
+  hacs-chip-background-color: var(--primary-color)
+  # Hide left/right padding
+  card-mod-theme: "Pure Black"
   card-mod-view-yaml: |
     "*:first-child$": |
       :host {
-        padding-top: 0px;
+        --layout-margin: 4px 0px 0px 0px;
       }
-      #columns {
-        margin-left: 0px;
-        margin-right: 0px;
+  # Header
+  card-mod-root-yaml: |
+    ha-app-layout$: |
+        /* This corrects top padding for the view. */
+        #contentContainer {
+          padding-top: 48px !important;
+        }
+
+    paper-tabs$: |
+        /* This hides tab scroll arrows, remove next 3 lines if you want them. */
+        paper-icon-button {
+          display: none;
+        }
+        /* This makes it so arrows are only displayed when needed. */
+        .not-visible {
+          display: none;
+        }
+    .: |
+      ha-menu-button {
+        display: none !important;
+      }
+      action-items {
+        dispaly: none !important;
+      }
+
+      @media (orientation: portrait) {
+        a.menu-link[target="_blank"], ha-button-menu, [main-title] {
+          display: none;
+        }
+        paper-icon-button[icon="paper-tabs:chevron-right"] {
+          display: none;
+        }
+        paper-icon-button[icon="paper-tabs:chevron-left"] {
+          display: none;
+        }
+      }
       }
