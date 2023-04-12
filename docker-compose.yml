@@ -16,7 +16,7 @@ services:
     container_name: home-assistant
     image: homeassistant/home-assistant
     restart: unless-stopped
-    expose: ['8123']
+    expose: ['80']
     networks:
       proxy:
       media: # For Plex integration only
@@ -42,25 +42,15 @@ services:
       - proxy
       - media
     command:
-      - --log.level=INFO
       - --api.insecure=true
       - --global.checknewversion=false
       - --global.sendanonymoususage=false
-      - --entrypoints.http.address=:80
-      - --providers.file.filename=/etc/traefik/file-provider.yml
-      - --providers.file.watch=true
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
-      - --providers.docker.defaultRule=Host(`{{ index .Labels "traefik.name" }}.falcon.nt`)
     ports:
       - 80:80/tcp
     volumes:
-      - /opt/appdata/traefik:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      traefik.enable: true
-      traefik.name: web
-      traefik.http.routers.traefik.service: api@internal
 
   speedtesttracker:
     container_name: speedtest-tracker

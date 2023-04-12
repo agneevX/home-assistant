@@ -1,3 +1,8 @@
+#device_tracker:
+#  - platform: xiaomi
+#    host: 192.168.0.10
+#    password: !secret iot_router
+
 logger:
   default: error
 
@@ -58,6 +63,7 @@ notify:
     chat_id: !secret telegram_chat_id
 
 http:
+  server_port: 80
   use_x_forwarded_for: true
   trusted_proxies:
     - 0.0.0.0/0
@@ -179,5 +185,7 @@ recorder:
 tts:
   - platform: google_translate
     language: en-us
+
+wake_on_lan:
 
 default_config:
