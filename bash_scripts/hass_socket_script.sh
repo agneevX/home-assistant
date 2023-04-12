@@ -41,6 +41,14 @@ if [[ $MESSAGE == 'lofi2_off' ]]; then
   docker_stop lofi-beats2
 fi
 
+if [[ $MESSAGE == 'lofi_synthwave_on' ]]; then
+  docker_start lofi-synthwave MVPTGNGiI-4
+fi
+
+if [[ $MESSAGE == 'lofi_synthwave_off' ]]; then
+  docker_stop lofi-synthwave
+fi
+
 if [[ $MESSAGE == 'the_good_life_radio_on' ]]; then
   docker_start the-good-life-radio 36YnV9STBqc
 fi

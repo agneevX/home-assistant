@@ -1,34 +1,26 @@
 - platform: command_line
   switches:
+    int_purrple_cat:
+      command_on: echo purrple_cat_on | nc 100.125.93.18 7900
+      command_off: echo purrple_cat_off | nc 100.125.93.18 7900
     int_lofi_beats:
-      command_on: echo lofi_on | nc localhost 7900
-      command_off: echo lofi_off | nc localhost 7900
+      command_on: echo lofi_on | nc 100.125.93.18 7900
+      command_off: echo lofi_off | nc 100.125.93.18 7900
 
     int_lofi_beats2:
-      command_on: echo lofi2_on | nc localhost 7900
-      command_off: echo lofi2_off | nc localhost 7900
+      command_on: echo lofi2_on | nc 100.125.93.18 7900
+      command_off: echo lofi2_off | nc 100.125.93.18 7900
+
+    int_lofi_synthwave:
+      command_on: echo lofi_synthwave_on | nc 100.125.93.18 7900
+      command_off: echo lofi_synthwave_off | nc 100.125.93.18 7900
 
     int_the_good_life_radio:
-      command_on: echo the_good_life_radio_on | nc localhost 7900
-      command_off: echo the_good_life_radio_off | nc localhost 7900
+      command_on: echo the_good_life_radio_on | nc 100.125.93.18 7900
+      command_off: echo the_good_life_radio_off | nc 100.125.93.18 7900
 
 - platform: template
-  switches: 
-    bedroom_ac_swing:
-      friendly_name: Bedroom AC Swing
-      icon_template: mdi:arrow-split-horizontal
-      turn_on:
-        - service: remote.send_command
-          entity_id: remote.broadlink_rm4_mini_remote
-          data:
-            device: ac
-            command: swing
-      turn_off:
-        - service: remote.send_command
-          entity_id: remote.broadlink_rm4_mini_remote
-          data:
-            device: ac
-            command: swing
+  switches:
 
     bedroom_ac_power:
       friendly_name: Bedroom AC Power
@@ -40,6 +32,21 @@
       turn_off:
         - service: climate.turn_off
           entity_id: climate.bedroom_ac
+
+    purrple_cat:
+      friendly_name: Purrple Cat
+      icon_template: mdi:cat
+      value_template: "{{ is_state('input_boolean.purrple_cat', 'on') }}"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.purrple_cat
+        - service: switch.turn_on
+          entity_id: switch.int_purrple_cat
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.purrple_cat
+        - service: switch.turn_off
+          entity_id: switch.int_purrple_cat
 
     lofi_beats:
       friendly_name: Lo-Fi Beats
@@ -70,6 +77,21 @@
           entity_id: input_boolean.lofi2
         - service: switch.turn_off
           entity_id: switch.int_lofi_beats2
+
+    lofi_synthwave:
+      friendly_name: Lo-Fi Synthwave
+      icon_template: mdi:radio
+      value_template: "{{ is_state('input_boolean.lofi_synthwave', 'on') }}"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.lofi_synthwave
+        - service: switch.turn_on
+          entity_id: switch.int_lofi_synthwave
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.lofi_synthwave
+        - service: switch.turn_off
+          entity_id: switch.int_lofi_synthwave
 
     the_good_life_radio:
       friendly_name: The Good Life Radio
