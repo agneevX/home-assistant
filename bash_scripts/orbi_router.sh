@@ -1,10 +1,11 @@
 #!/bin/bash
 # shellcheck disable=SC2206,2046
+exit
+
 set -e
 now="$(date +'%d%m%S')"
 
-HOST=""
-WEB_AUTH=""
+HOST="10.0.0.1"
 
 # Temporary code
 get_satellite_uptime () {
@@ -14,6 +15,21 @@ get_satellite_uptime () {
   -H 'Content-Type: application/octet-stream' \
   -H "Authorization: Basic $WEB_AUTH" | grep uptime | sed 's/[^0-9]*//g')
 
+  if [[ "$o" == *"unauth"* ]]; then
+    exit
+  else
+    echo "$o"
+  fi
+
+  #sleep 2
+
+  # Log-out
+  # curl -s --http0.9 "http://10.0.0.2/logout.html" \
+  # -H 'Content-Type: application/octet-stream' \
+  # --cookie /tmp/orbi_satellite_cookie_"$now" > /dev/null
+
+  # Delete cookie
+#  rm /tmp/orbi_satellite_cookie_"$now"
 }
 
 ssh_command () {
@@ -53,6 +69,20 @@ web_scrape () {
   echo "$WEB_SCRAPE" | grep var | grep '=' | grep '"' | grep "$1" | grep -o '".*"' | sed 's/"//g'
 }
 
+orbi_web_logout () {
+  curl -s --http0.9 "http://$HOST/LGO_logout.htm" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH" \
+  --cookie /tmp/orbi_"$now"_cookie > /dev/null
+}
+
+satellite_web_logout () {
+  curl -s --http0.9 "http://$HOST/logout.html" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH" \
+  --cookie /tmp/orbi_satellite_"$now"_cookie > /dev/null
+}
+
 calculate_time () {
   num="$1"; min=0; hour=0; day=0
   if ((num>59)); then
@@ -80,7 +110,10 @@ if [[ "$1" == "get_satellite_uptime" ]]; then
 cat << EOF
 {"status": "Connected", "Uptime": "$(calculate_time $(get_satellite_uptime))"}
 EOF
-  else exit
+  else
+cat << EOF
+{"status": "Disconnected"}
+EOF
   fi
   exit
 fi
@@ -116,9 +149,13 @@ fi
 
 #####################################################
 
+#LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
+#LOAD_AVG=($LOAD_AVG)
+
 WEB_SCRAPE=$(curl -s --http0.9 "http://$HOST/RST_statistic.htm" \
   -H 'Content-Type: application/octet-stream' \
-  -H "Authorization: Basic $WEB_AUTH"
+  -H "Authorization: Basic $WEB_AUTH" )
+#\  --cookie-jar /tmp/orbi_"$now"_cookie)
 
 # Exit script if logged in on another device
 if [[ "$WEB_SCRAPE" == *multi_login.html* ]]; then
@@ -127,6 +164,9 @@ cat << EOF
 EOF
 exit
 fi
+
+#web_logout
+#rm /tmp/orbi_"$now"_cookie
 
 # Get WAN port speed/state
 WAN_PORT_SPEED="$(web_scrape wan_status)"
@@ -142,9 +182,8 @@ cat << EOF
 {
   "status": "$WAN_STATUS",
   "Uptime": "$(calculate_time $(web_scrape sys_uptime))",
-  "WAN Uptime": "$(calculate_time $(web_scrape wan_systime))",
-  "WAN Port": "$WAN_PORT_SPEED",
-  "LAN Port 1": "$(web_scrape lan_status0)",
+  "WAN Port Uptime": "$(calculate_time $(web_scrape wan_systime))",
+  "WAN Port": "$WAN_PORT_SPEED", "LAN Port 1": "$(web_scrape lan_status0)",
   "LAN Port 2": "$(web_scrape lan_status1)",
   "LAN Port 3": "$(web_scrape lan_status2)"
 }

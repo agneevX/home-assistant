@@ -3,7 +3,7 @@
 - platform: command_line
   unique_id: router_current_traffic_upload
   name: Router current traffic (upload)
-  command: curl -s 'http://10.0.0.1:19999/api/v1/data?chart=net.brwan&points=1&options=jsonwrap' | jq '.latest_values[0]'
+  command: curl -s 'http://10.0.0.1:19999/api/v1/data?chart=net.eth0&points=1&options=jsonwrap' | jq '.latest_values[1]' | sed 's/-//g'
   scan_interval: 3
   value_template: "{{ (( value | int) / 1000) | round (1) }}"
   unit_of_measurement: Mb/s
@@ -11,7 +11,7 @@
 - platform: command_line
   unique_id: router_current_traffic_download
   name: Router current traffic (download)
-  command: curl -s 'http://10.0.0.1:19999/api/v1/data?chart=net.brwan&points=1&options=jsonwrap' | jq '.latest_values[1]' | sed 's/-//g'
+  command: curl -s 'http://10.0.0.1:19999/api/v1/data?chart=net.eth0&points=1&options=jsonwrap' | jq '.latest_values[0]'
   scan_interval: 3
   value_template: "{{ (( value | int) / 1000) | round (1) }}"
   unit_of_measurement: Mb/s
@@ -19,8 +19,8 @@
 - platform: command_line
   unique_id: router_daily_traffic_upload
   name: Router daily traffic (upload)
-  scan_interval: 180
   command: curl -s http://10.0.0.10:8660/json.cgi | jq '.interfaces[3].traffic.day[-1].tx'
+  scan_interval: 180
   unit_of_measurement: 'MB'
   value_template: >-
     {% if value_json != None %}
@@ -32,8 +32,8 @@
 - platform: command_line
   unique_id: router_daily_traffic_download
   name: Router daily traffic (download)
-  scan_interval: 180
   command: curl -s http://10.0.0.10:8660/json.cgi | jq '.interfaces[3].traffic.day[-1].rx'
+  scan_interval: 180
   unit_of_measurement: 'MB'
   value_template: >-
     {% if value_json != None %}
@@ -50,7 +50,7 @@
   scan_interval: 300
   json_attributes:
     - Uptime
-    - WAN Uptime
+    - WAN Port Uptime
     - WAN Port
     - LAN Port 1
     - LAN Port 2
@@ -67,32 +67,32 @@
 - platform: command_line
   unique_id: speedtest_net_upload_speed
   name: Speedtest.net upload speed
-  command: curl -s http://10.0.0.10:8700/api/speedtest/latest | jq -r '.data.upload'
+  command: curl -s http://10.0.0.10:8700/api/speedtest/latest
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json | int < 0.1 %}
+    {% if value_json.data.upload | int < 0.1 %}
       NaN
     {% else %}
-      {{ value_json | round(2) }}
+      {{ value_json.data.upload | round(2) }}
     {% endif %}
 
 - platform: command_line
   unique_id: speedtest_net_download_speed
   name: Speedtest.net download speed
-  command: curl -s http://10.0.0.10:8700/api/speedtest/latest | jq -r '.data.download'
+  command: curl -s http://10.0.0.10:8700/api/speedtest/latest
   unit_of_measurement: 'Mb/s'
   value_template: >-
-    {% if value_json | int < 0.1 %}
+    {% if value_json.data.download | int < 0.1 %}
       NaN
     {% else %}
-      {{ value_json | round(2) }}
+      {{ value_json.data.download | round(2) }}
     {% endif %}
 
 - platform: command_line
   unique_id: server_network_traffic_upload
   name: Server network traffic (upload)
+  command: curl -s --interface eth0 http://10.0.0.11:7077/json.cgi | jq '.interfaces[0].traffic.day[-1].tx'
   scan_interval: 180
-  command: curl -s http://10.0.0.11:7077/json.cgi | jq '.interfaces[0].traffic.day[-1].tx'
   unit_of_measurement: 'MB'
   value_template: >-
     {% if value_json != None %}
@@ -104,8 +104,8 @@
 - platform: command_line
   unique_id: server_network_traffic_download
   name: Server network traffic (download)
+  command: curl -s --interface eth0 http://10.0.0.11:7077/json.cgi | jq '.interfaces[0].traffic.day[-1].rx'
   scan_interval: 180
-  command: curl -s http://10.0.0.11:7077/json.cgi | jq '.interfaces[0].traffic.day[-1].rx'
   unit_of_measurement: 'MB'
   value_template: >-
     {% if value_json != None %}

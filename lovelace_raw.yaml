@@ -1,29 +1,3 @@
-custom_header:
-  menu_hide: true
-  disabled_mode: true
-  chevrons: false
-  compact_mode: true
-  tab_indicator_color: var(--primary-text-color)
-  active_tab_color: var(--primary-text-color)
-  exceptions:
-    - conditions:
-        user_agent: Edge
-        disabled_mode: true
-    - conditions:
-        user_agent: iPad OS
-        disabled_mode: true
-    - conditions:
-        user_agent: iPhone OS
-      config:
-        tab_container_css: 'width: 100% !important; margin: auto !important;'
-        options_hide: true
-        disabled_mode: false
-    - conditions:
-        user_agent: Android
-      config:
-        options_hide: true
-        disabled_mode: false
-        tab_container_css: 'width: 100% !important; margin: auto !important;'
 swipe_nav:
   animate: fade
   swipe_amount: 25
@@ -211,7 +185,7 @@ views:
                     }
                 type: custom:mini-graph-card
             type: horizontal-stack
-          - content: '# 〡 Controls'
+          - content: '## 〡 Controls'
             type: markdown
             card_mod:
               style:
@@ -227,77 +201,92 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
-          - entities:
+          - type: horizontal-stack
+            cards:
+              - features:
+                  - type: light-brightness
+                type: tile
+                show_entity_picture: false
+                entity: light.desk_light
+              - type: tile
+                entity: light.tv_lamp
+                features:
+                  - type: light-brightness
+          - type: conditional
+            conditions:
               - entity: light.desk_light
-                hide_when_off: true
-                toggle: true
-                haptic: light
-                min: 5
-                step: 5
-                type: custom:slider-entity-row
-              - entity: light.desk_light
-                justify: center
-                hide_when_off: true
-                type: custom:rgb-light-card
-                colors:
-                  - color_temp: 153
-                  - color_temp: 215
-                  - color_temp: 277
-                  - color_temp: 339
-                  - color_temp: 400
+                state: 'on'
+            card:
+              show_header_toggle: false
+              type: entities
+              entities:
+                - entity: light.desk_light
+                  justify: center
+                  hide_when_off: true
+                  type: custom:rgb-light-card
+                  colors:
+                    - color_temp: 153
+                    - color_temp: 215
+                    - color_temp: 277
+                    - color_temp: 339
+                    - color_temp: 400
+          - type: conditional
+            conditions:
               - entity: light.tv_lamp
-                hide_when_off: true
-                toggle: true
-                haptic: light
-                min: 5
-                step: 5
-                type: custom:slider-entity-row
-              - entity: light.tv_lamp
-                justify: center
-                type: custom:rgb-light-card
-                colors:
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(185,36,36,1) 20%,
-                      rgba(247,69,69,1) 80%)
-                    rgb_color:
-                      - 255
-                      - 58
-                      - 58
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(35,180,106,1) 20%,
-                      rgba(13,244,180,1) 80%)
-                    rgb_color:
-                      - 0
-                      - 169
-                      - 155
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(68,102,255,1) 20%,
-                      rgba(0,218,255,1) 80%)
-                    rgb_color:
-                      - 68
-                      - 102
-                      - 255
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(162,30,238,1) 20%,
-                      rgba(243,28,255,1) 80%)
-                    rgb_color:
-                      - 243
-                      - 28
-                      - 255
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(255,59,39,1) 20%,
-                      rgba(255,116,64,1) 80%)
-                    rgb_color:
-                      - 255
-                      - 116
-                      - 64
-                  - icon_color: >-
-                      linear-gradient(15deg, rgba(201,38,101,1) 20%,
-                      rgba(255,0,100,1) 80%)
-                    rgb_color:
-                      - 255
-                      - 0
-                      - 100
+                state: 'on'
+            card:
+              show_header_toggle: false
+              type: entities
+              entities:
+                - entity: light.tv_lamp
+                  justify: center
+                  type: custom:rgb-light-card
+                  colors:
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(185,36,36,1) 20%,
+                        rgba(247,69,69,1) 80%)
+                      rgb_color:
+                        - 255
+                        - 58
+                        - 58
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(35,180,106,1) 20%,
+                        rgba(13,244,180,1) 80%)
+                      rgb_color:
+                        - 0
+                        - 169
+                        - 155
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(68,102,255,1) 20%,
+                        rgba(0,218,255,1) 80%)
+                      rgb_color:
+                        - 68
+                        - 102
+                        - 255
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(162,30,238,1) 20%,
+                        rgba(243,28,255,1) 80%)
+                      rgb_color:
+                        - 243
+                        - 28
+                        - 255
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(255,59,39,1) 20%,
+                        rgba(255,116,64,1) 80%)
+                      rgb_color:
+                        - 255
+                        - 116
+                        - 64
+                    - icon_color: >-
+                        linear-gradient(15deg, rgba(201,38,101,1) 20%,
+                        rgba(255,0,100,1) 80%)
+                      rgb_color:
+                        - 255
+                        - 0
+                        - 100
+          - show_header_toggle: false
+            type: entities
+            entities:
               - entity: input_number.pi_volume
                 hide_state: true
                 name: Speakers
@@ -305,86 +294,88 @@ views:
                 step: 2
                 icon: mdi:speaker-multiple
                 type: custom:slider-entity-row
-            show_header_toggle: false
-            type: entities
-          - type: entities
-            entities:
-              - entity: fan.bedroom_ceiling_fan
-                name: Ceiling Fan
-                hide_when_off: true
-                toggle: true
-                haptic: light
-                grow: true
-                type: custom:slider-entity-row
-          - type: horizontal-stack
+          - type: custom:vertical-stack-in-card
             cards:
-              - layout: icon_name
-                size: 47%
-                icon: mdi:ceiling-fan-light
-                name: LIGHT
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#4034c9'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: led
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - layout: icon_name
-                size: 45%
-                icon: mdi:weather-night
-                name: SLEEP
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#c93492'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: sleep
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - layout: icon_name
-                size: 45%
-                icon: mdi:timer
-                name: TIMER
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#ed8815'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.bedroom_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: timer
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-          - content: '# 〡 Switches'
+              - features:
+                  - type: fan-speed
+                type: tile
+                entity: fan.bedroom_ceiling_fan
+                name: Ceiling Fan
+              - type: horizontal-stack
+                cards:
+                  - layout: icon_name
+                    size: 47%
+                    icon: mdi:ceiling-fan-light
+                    name: LIGHT
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#4034c9'
+                    color_type: card
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.bedroom_rm4m_remote
+                        device: ceiling_fan
+                        command: led
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+                  - layout: icon_name
+                    size: 45%
+                    icon: mdi:weather-night
+                    name: SLEEP
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#c93492'
+                    color_type: card
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.bedroom_rm4m_remote
+                        device: ceiling_fan
+                        command: sleep
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+                  - layout: icon_name
+                    size: 45%
+                    icon: mdi:timer
+                    name: TIMER
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#ed8815'
+                    color_type: card
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.bedroom_rm4m_remote
+                        device: ceiling_fan
+                        command: timer
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+        type: vertical-stack
+      - type: vertical-stack
+        cards:
+          - content: '## 〡 Switches'
             type: markdown
             card_mod:
               style:
@@ -400,7 +391,62 @@ views:
                       font-weight: bold;
                       font-family: Helvetica;
                     }
+          - type: custom:mushroom-climate-card
+            entity: climate.bedroom_ac
+            show_temperature_control: true
+            hvac_modes:
+              - cool
+              - dry
+            collapsible_controls: true
+            layout: horizontal
+            double_tap_action:
+              action: more-info
+            icon: mdi:air-conditioner
+          - type: horizontal-stack
+            cards:
+              - type: tile
+                entity: switch.lofi_beats
+                vertical: false
+                tap_action:
+                  action: toggle
+                color: green
+              - type: tile
+                entity: switch.lofi_beats2
+                vertical: false
+                tap_action:
+                  action: toggle
+                color: pink
+          - type: horizontal-stack
+            cards:
+              - type: tile
+                entity: switch.purrple_cat
+                color: purple
+                vertical: false
+                tap_action:
+                  action: toggle
+              - type: tile
+                entity: switch.lofi_synthwave
+                icon: mdi:sine-wave
+                color: deep-purple
+                vertical: false
+                tap_action:
+                  action: toggle
           - cards:
+              - color_type: card
+                entity: switch.adaptive_lighting_sleep_mode_adaptive
+                icon: mdi:weather-night
+                show_name: false
+                size: 35%
+                styles:
+                  card:
+                    - height: 50px
+                tap_action:
+                  action: toggle
+                  haptic: light
+                double_tap_action:
+                  action: more-info
+                  haptic: light
+                type: custom:button-card
               - color_type: card
                 color: auto
                 entity: switch.adaptive_lighting
@@ -422,149 +468,10 @@ views:
                   haptic: light
                 type: custom:button-card
               - color_type: card
-                entity: switch.lofi_beats
-                show_name: false
-                size: 37%
-                state:
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - height: 50px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.lofi_beats2
-                show_name: false
-                size: 37%
-                state:
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - height: 50px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
-                entity: switch.purrple_cat
-                show_name: false
-                size: 35%
-                state:
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                  - value: 'off'
-                    color: '#5d3d6a'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - height: 50px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-            type: horizontal-stack
-          - cards:
-              - color_type: card
-                entity: switch.adaptive_lighting_sleep_mode_adaptive
-                icon: mdi:weather-night
-                show_name: false
-                size: 35%
-                state:
-                  - value: 'on'
-                    color: var(--primary-color)
-                    styles:
-                      icon:
-                        - color: '#ffffff'
-                styles:
-                  card:
-                    - height: 50px
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color: auto
-                color_type: card
-                entity: climate.bedroom_ac
-                icon: mdi:air-conditioner
-                show_label: true
-                show_name: false
-                layout: icon_label
-                size: 42%
-                label: |
-                  [[[
-                    var ac = states['climate.bedroom_ac'];
-                    if (ac.state != 'off')
-                      return ac.attributes.temperature + '° – ' + ac.attributes.fan_mode;
-                    else return ac.attributes.temperature + '° set';
-                  ]]]
-                styles:
-                  card:
-                    - height: 50px
-                    - width: 145px
-                    - font-size: 13px
-                    - font-weight: bold
-                    - text-transform: uppercase
-                state:
-                  - value: cool
-                    color: '#349CF6'
-                    styles:
-                      label:
-                        - color: '#ffffff'
-                      icon:
-                        - color: '#ffffff'
-                  - value: dry
-                    color: '#EEBC2D'
-                  - value: fan_only
-                    color: '#8A8A8A'
-                    styles:
-                      label:
-                        - color: '#ffffff'
-                      icon:
-                        - color: '#ffffff'
-                tap_action:
-                  action: toggle
-                  haptic: light
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - color_type: card
                 color: auto
                 entity: light.mibedsidelamp2_946d
                 show_name: false
                 size: 35%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
                 styles:
                   card:
                     - height: 50px
@@ -580,11 +487,6 @@ views:
                 entity: light.bedroom_wipro_bulb
                 show_name: false
                 size: 40%
-                state:
-                  - value: 'on'
-                    styles:
-                      icon:
-                        - color: '#ffffff'
                 styles:
                   card:
                     - height: 50px
@@ -596,11 +498,20 @@ views:
                   haptic: light
                 type: custom:button-card
             type: horizontal-stack
-        type: vertical-stack
+          - type: custom:mushroom-climate-card
+            entity: climate.new_room_ac
+            show_temperature_control: true
+            hvac_modes:
+              - cool
+              - dry
+            collapsible_controls: true
+            layout: horizontal
+            double_tap_action:
+              action: more-info
       - type: vertical-stack
         cards:
           - content: |
-              # 〡 Now Playing
+              ## 〡 Now Playing
             type: markdown
             card_mod:
               style:
@@ -821,83 +732,87 @@ views:
               - entity: sensor.new_room_temperature
                 name: New Room
             hours_to_show: 3
-          - type: entities
-            entities:
-              - entity: fan.new_room_ceiling_fan
-                name: Ceiling Fan
-                hide_when_off: true
-                toggle: true
-                haptic: light
-                grow: true
-                type: custom:slider-entity-row
-          - type: horizontal-stack
+          - type: custom:vertical-stack-in-card
             cards:
-              - layout: icon_name
-                size: 47%
-                icon: mdi:ceiling-fan-light
-                name: LIGHT
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#4034c9'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.new_room_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: led
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - layout: icon_name
-                size: 45%
-                icon: mdi:weather-night
-                name: SLEEP
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#c93492'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.new_room_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: sleep
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
-              - layout: icon_name
-                size: 45%
-                icon: mdi:timer
-                name: TIMER
-                styles:
-                  card:
-                    - height: 48px
-                    - font-size: 13px
-                    - font-weight: bold
-                color: '#ed8815'
-                tap_action:
-                  haptic: light
-                  action: call-service
-                  service: remote.send_command
-                  service_data:
-                    entity_id: remote.new_room_broadlink_rm4_mini_remote
-                    device: ceiling_fan
-                    command: timer
-                double_tap_action:
-                  action: more-info
-                  haptic: light
-                type: custom:button-card
+              - type: custom:mushroom-fan-card
+                entity: fan.new_room_ceiling_fan
+                icon_animation: true
+                icon: mdi:fan
+                show_percentage_control: true
+                collapsible_controls: true
+                name: Ceiling Fan
+              - type: horizontal-stack
+                cards:
+                  - layout: icon_name
+                    size: 47%
+                    icon: mdi:ceiling-fan-light
+                    name: LIGHT
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#4034c9'
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.new_room_rm4m_remote
+                        device: ceiling_fan
+                        command: led
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+                  - layout: icon_name
+                    size: 45%
+                    icon: mdi:weather-night
+                    name: SLEEP
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#c93492'
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.new_room_rm4m_remote
+                        device: ceiling_fan
+                        command: sleep
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+                  - layout: icon_name
+                    size: 45%
+                    icon: mdi:timer
+                    name: TIMER
+                    styles:
+                      card:
+                        - height: 48px
+                        - font-size: 13px
+                        - font-weight: bold
+                    color: '#ed8815'
+                    tap_action:
+                      haptic: light
+                      action: call-service
+                      service: remote.send_command
+                      service_data:
+                        entity_id: remote.new_room_rm4m_remote
+                        device: ceiling_fan
+                        command: timer
+                    double_tap_action:
+                      action: more-info
+                      haptic: light
+                    type: custom:button-card
+          - type: history-graph
+            entities:
+              - entity: sensor.new_room_temperature
+              - entity: sensor.old_room_echo_temperature
       - type: vertical-stack
         cards:
           - content: |
@@ -1098,8 +1013,8 @@ views:
                 }
           - entity: binary_sensor.cloudflare_dns_ping
             type: custom:uptime-card
-            icon: mdi:check-network
-            ko_icon: mdi:close-network
+            icon: mdi:ethernet-cable
+            ko_icon: mdi:ethernet-cable-off
             hours_to_show: 1
             title_adaptive_color: true
             status_adaptive_color: true
@@ -1603,7 +1518,7 @@ views:
           - decimals: 0
             entities:
               - color: '#F0A400'
-                entity: sensor.plex_falcon
+                entity: sensor.plex_home
                 name: Plex
                 state_adaptive_color: true
             font_size: 88

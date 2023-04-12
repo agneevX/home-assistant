@@ -256,16 +256,10 @@ Stream lofi-beats from YouTube.
 
 <details><summary>Expand</summary>
 
-Compile Docker image:
+Pull Docker image:
 
 ```sh
-# Clone repository
-git clone https://github.com/agneevX/mpv-ytdl-docker
-cd mpv-ytdl-docker
-git checkout testing
-
-# Build Docker image 
-docker build -t mpv-ytdl:latest .
+docker pull agneev/mpv-ytdl:lofi
 ```
 
 ```yaml
@@ -286,10 +280,13 @@ Once a switch is turned on, this script is called that starts the playback...
 
 ```bash
 #!/bin/bash
-read MESSAGE
+read -r MESSAGE
 
 if [[ $MESSAGE == 'lofi_on' ]]; then 
-  docker run -d --rm --name=lofi-beats -e "VIDEO_ID=abcdef" --device=/dev/snd:/dev/snd mpv-ytdl:latest
+  docker run -d --rm --name=lofi-beats \
+    -e "VIDEO_ID=abcdef" \
+    --device=/dev/snd:/dev/snd \
+    agneev/mpv-ytdl:lofi
 if [[ $MESSAGE == 'lofi_off' ]]; then
   docker stop lofi-beats
 fi
@@ -312,33 +309,26 @@ fi
 
 ### State row
 
-- People presence
+- Shows states of various entities.
+
+<!-- - People presence
 - ASUS laptop
 - Front gate camera
-- Mesh router satellite/reboot
+- Mesh router satellite/reboot -->
 
 ### Graph row
 
-- Bedroom temperature
-- Bedroom humidity
+- Bedroom temperature/humidity
 
 ### Lights card
 
-- Desk light
-  - ... Color temp card
-- TV lamp
-  - ... RGB card
+- ...
 - Soundbar volume
 
-Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
+Custom implementation that controls system alsa volume, using `input_boolean`, `shell_command` and an automation.
 
 ### Switch rows
 
-- Adaptive Lighting
-- Lofi beats/2/music radio
-- Adaptive Lighting Sleep mode
-- Bedroom AC/swing
-- Bulb
 
 ### Now Playing card
 
@@ -352,22 +342,25 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L551)
 
-- Front gate camera
-- Bedroom AC HVAC
-  - Controls
+- Camera views
+- AC HVAC Controls
+- Humidity graphs
 
 ---
 
-## Info view
+## Room view
+
+---
+
+## Internet view
 
 <img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="center" width="300">
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L630)
 
-### Graph rows
+### Speed graphs
 
-- Internet download speed
-- Internet upload speed
+- Internet download/upload speed
 
 Custom sensors that fetch data from self-hosted [Speedtest-tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) API.
 
