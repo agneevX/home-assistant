@@ -3,22 +3,21 @@ read -r MESSAGE
 
 docker_start () {
 	docker run \
+	--rm \
 	--detach \
 	--name="$1" \
-	--restart=unless-stopped \
-	--env="VIDEO_ID=$2" \
-	--env="MPV_ARGS=--ao=alsa --no-video --no-config --really-quiet --demuxer-readahead-secs=30 --demuxer-max-back-bytes=0" \
 	--device=/dev/snd:/dev/snd \
-	agneev/mpv-ytdl:lofi > /dev/null \
+	agneev/mpv-ytdl:lofi \
+		--really-quiet \
+		--no-video \
+		--ytdl-format="bestvideo[height<=720]+bestaudio/best[height<=720]" \
+		"https://www.youtube.com/watch?v=$2" \
 	&& echo "Started the $1 container"
 }
 
 docker_stop () {
 	docker stop "$1" > /dev/null \
 	&& echo "Stopped the $1 container"
-
-	docker rm --volumes "$1" > /dev/null \
-	&& echo "Removed the $1 container"
 }
 if [[ $MESSAGE == 'purrple_cat_on' ]]; then
   docker_start purrple-cat bJUO1WnjXQY
