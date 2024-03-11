@@ -1,49 +1,83 @@
-version: "3.8"
-
-x-env: &env
-  PGID: 1001
-  PUID: 1001
-  UMASK: 002
+x-timezone: &tz
   TZ: Asia/Kolkata
+
+x-environment-vars: &env
+  PUID: 1001
+  PGID: 1001
+  UMASK: 002
+  <<: *tz
+  
+networks:
+  media:
+    external: true
+  mqtt:
+    external: true
+  vlan:
+    name: vlan
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 10.0.0.1/24
+          gateway: 10.0.0.1
+          ip_range: 10.0.0.80/28 # 10.0.0.80 - 10.0.0.95
 
 services:
 
-  home-assistant:
-    container_name: home-assistant
+services:
+
+  app:
     image: homeassistant/home-assistant
     restart: unless-stopped
-    network_mode: host
-    depends_on:
-      - postgres
+    network_mode: "service:tailscale"
     environment:
+      <<: *tz
+    volumes:
+      - ./:/config
+
+  tailscale:
+    image: lsiobase/alpine:edge
+    restart: unless-stopped
+    expose: ["80"]
+    dns: 8.8.8.8
+    networks:
+      - media
+      - mqtt
+      - vlan
+    environment:
+      TAILSCALE_FUNNEL: on
+      TAILSCALE_SERVE_PORT: 80
+      TAILSCALE_SERVE_MODE: https
+      TAILSCALE_AUTHKEY: 
+      TAILSCALE_HOSTNAME: home-assistant
+      DOCKER_MODS: ghcr.io/tailscale-dev/docker-mod:main
+      TAILSCALE_STATE_DIR: /config
       <<: *env
     volumes:
-      - /opt/appdata/home-assistant:/config
+      - ./tailscale:/config
+    labels:
+      traefik.enable: true
+      traefik.docker.network: media
+      traefik.http.routers.hassio.rule: Host(`home-assistant.falcon.localcert.net`)
+      traefik.http.routers.hassio.tls: true
 
-  postgres:
-    container_name: postgres
-    image: postgres:14
-    restart: unless-stopped
-    user: 1001:1001
-    shm_size: 128m
-    ports:
-      - 127.0.0.1:5432:5432
-    volumes:
-      - /opt/appdata/postgres/config.conf:/etc/postgresql/postgresql.conf
-      - /opt/appdata/postgres/data:/var/lib/postgresql/data
 
-  speedtest-tracker:
+  speedtesttracker:
     container_name: speedtest-tracker
     image: henrywhitaker3/speedtest-tracker:latest-arm
     restart: unless-stopped
     ports:
       - 8700:80
     environment:
-      <<: *env
+      PGID: 1001
+      PUID: 1001
+      UMASK: 002
+      TZ: Asia/Kolkata
       OOKLA_EULA_GDPR: true
     tmpfs:
       - /config/www:size=500m
       - /config/log:size=32m
     volumes:
-      - /opt/appdata/speedtest-tracker/app:/config/www/app/Bin
-      - /opt/appdata/speedtest-tracker:/config
+      - /opt/appdata/speedtesttracker/app:/config/www/app/Bin
+      - /opt/appdata/speedtesttracker:/config

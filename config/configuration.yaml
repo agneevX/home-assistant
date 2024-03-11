@@ -1,28 +1,55 @@
+#device_tracker:
+#  - platform: xiaomi
+#    host: 192.168.0.10
+#    password: !secret iot_router
+
+logger:
+  default: error
+
+fan:
+  - platform: smartir
+    name: New Room Ceiling Fan
+    unique_id: new_room_ceiling_fan
+    device_code: 9001
+    controller_data: remote.new_room_rm4m_remote
+
+  - platform: smartir
+    name: Bedroom Ceiling Fan
+    unique_id: bedroom_ceiling_fan
+    device_code: 9001
+    controller_data: remote.bedroom_rm4m_remote
+
 climate:
   - platform: smartir
     name: Bedroom AC
     unique_id: bedroom_ac
     device_code: 5000
-    temperature_sensor: sensor.broadlink_rm4_mini_temperature
-    humidity_sensor: sensor.broadlink_rm4_mini_humidity
-    controller_data: remote.broadlink_rm4_mini_remote
+    temperature_sensor: sensor.bedroom_temperature
+    humidity_sensor: sensor.bedroom_humidity
+    controller_data: remote.bedroom_rm4m_remote
+
+  - platform: smartir
+    name: New Room AC
+    unique_id: new_room_ac
+    device_code: 6120
+    temperature_sensor: sensor.new_room_temperature
+    humidity_sensor: sensor.new_room_humidity
+    controller_data: remote.new_room_rm4m_remote
+
+  - platform: smartir
+    name: New Room AC 2
+    unique_id: new_room_ac_2
+    device_code: 6250
+    temperature_sensor: sensor.new_room_temperature
+    humidity_sensor: sensor.new_room_humidity
+    controller_data: remote.new_room_rm4m_remote
 
 input_number:
   pi_volume:
     name: Soundbar Volume
     min: 0
     max: 100
-    step: 5
-
-spotify:
-  client_id: !secret spotify_id
-  client_secret: !secret spotify_secret
-
-alexa_media:
-  accounts:
-    - email: !secret amazon_user
-      password: !secret amazon_pass
-      url: amazon.in
+    step: 1
 
 telegram_bot:
   - platform: broadcast
@@ -36,32 +63,105 @@ notify:
     chat_id: !secret telegram_chat_id
 
 http:
+  server_port: 80
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.18.0.0/16
-    - !secret public_proxied_ip
-    - !secret oc1_tailscale_ip
+    - 0.0.0.0/0
 
-logger:
-  default: warn
-#  logs:
-#    homeassistant.components.netgear: debug
+alexa:
+  smart_home:
+#    endpoint: https://api.eu.amazonalexa.com/v3/events
+#    client_id: !secret alexa_client_id
+#    client_secret: !secret alexa_client_secret
 
-### YAML linked files
+    filter:
+      include_entities:
+        - media_player.bedroom_tv
+        - media_player.old_room_tv
+        - media_player.new_room_tv
+        - switch.lofi_beats
+        - switch.lofi_beats2
 
-alexa: !include alexa.yaml
-google_assistant: !include google_assistant.yaml
-cloud: !include cloud.yaml
+      include_domains:
+        - climate
+        - light
+        - fan
+
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  service_account: !include service_account.json
+  exposed_domains:
+    - alarm_control_panel
+    - camera
+    - group
+    - switch
+    - fan
+    - light
+    - lock
+    - cover
+    - media_player
+    - climate
+    - vacuum
+  #  - sensor
+    - humidifier
+
+cloud:
+  alexa:
+    filter:
+      include_domains:
+        - light
+        - climate
+
+      include_entities:
+        - switch.lofi_beats
+        - switch.lofi_beats2
+        - switch.jazz_radio
+        - media_player.bedroom_tv
+
+      exclude_entities:
+        - light.tv_lamp_2
+
+  google_actions:
+    filter:
+      exclude_entities:
+        - light.tv_lamp_2
+
+      include_domains:
+        - light
+        - climate
+
+      include_entities:
+        - media_player.bedroom_tv
+
+binary_sensor:
+  - platform: ping
+    host: 162.159.36.20
+    count: 1
+#    command: if curl -s '10.10:9115/probe?target=8.8.8.8&module=icmp' | grep -q 'probe_success 1'; then echo ON; else echo OFF; fi
+    name: Cloudflare DNS ping
+#    device_class: connectivity
+    scan_interval: 3
+
+  - platform: ping
+    name: Orbi Satellite ping
+    host: 10.0.0.2
+    count: 1
+    scan_interval: 10
+
+  - platform: ping
+    name: Front gate camera ping
+    host: 10.0.0.20
+    count: 1
+    scan_interval: 10
+
 sensor: !include sensor.yaml
 switch: !include switch.yaml
-binary_sensor: !include binary_sensor.yaml
 media_player: !include media_player.yaml
 light: !include light.yaml
-group: !include groups.yaml
+group: []
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-# fan: !include fan.yaml
 shell_command: !include shell_command.yaml
 homeassistant:
   customize: !include customize.yaml
@@ -70,6 +170,22 @@ homeassistant:
 
 frontend:
   themes: !include_dir_merge_named themes
+  extra_module_url:
+    - /hacsfiles/lovelace-card-mod/card-mod.js
+
 recorder:
-  db_url: !secret mysql_db
+  db_url: sqlite:////config/database/home-assistant.db
+  commit_interval: 5
+  purge_keep_days: 28
+  exclude:
+    entities:
+      - sensor.router_current_traffic_upload
+      - sensor.router_current_traffic_download
+
+tts:
+  - platform: google_translate
+    language: en-us
+
+wake_on_lan:
+
 default_config:

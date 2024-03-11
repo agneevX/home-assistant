@@ -1,35 +1,55 @@
 #!/bin/bash
 # shellcheck disable=SC2206,2046
+exit
+
 set -e
+now="$(date +'%d%m%S')"
 
-# Enable debug mode
-if [[ "$1" == "-d" ]] || [[ "$1" == "--debug" ]]; then set -x; fi
+HOST="10.0.0.1"
 
-HOST=""
-WEB_AUTH=""
+# Temporary code
+get_satellite_uptime () {
+
+  # Log in and get data
+  o=$(curl -s --http0.9 "http://10.0.0.2/debug_detail.htm" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH" | grep uptime | sed 's/[^0-9]*//g')
+
+  if [[ "$o" == *"unauth"* ]]; then
+    exit
+  else
+    echo "$o"
+  fi
+
+  #sleep 2
+
+  # Log-out
+  # curl -s --http0.9 "http://10.0.0.2/logout.html" \
+  # -H 'Content-Type: application/octet-stream' \
+  # --cookie /tmp/orbi_satellite_cookie_"$now" > /dev/null
+
+  # Delete cookie
+#  rm /tmp/orbi_satellite_cookie_"$now"
+}
 
 ssh_command () {
-  ssh -i /config/scripts/orbi_router.key -o StrictHostKeyChecking=no root@"$HOST" "$1"
+  ssh -i /config/scripts/.orbi_router.key -o StrictHostKeyChecking=no root@"$HOST" "$1"
 }
 
 vnstat_current () {
-  ssh_command '/opt/bin/vnstat -i brwan --json -tr 2'
+  ssh_command '/opt/bin/vnstat -i eth0 --json -tr 2'
 }
 
 vnstat_daily_total () {
   o="$(ssh_command '/opt/bin/vnstat -i eth0 --json d')"
 
-  echo "$o" | jq '.interfaces[] | select(.id=="eth0")' | jq '.traffic.days[] | select(.id==0)'
+  echo "$o" | jq '.interfaces[].traffic.day[-1]'
 }
 
 vnstat_month_total () {
   o="$(ssh_command '/opt/bin/vnstat -i eth0 --json m')"
 
-  upload="$(echo "$o" | jq '.interfaces[0].traffic.months[0].tx')"
-  download="$(echo "$o" | jq '.interfaces[0].traffic.months[0].rx')"
-cat << EOF
-{"index":"0","upload":"$upload","download":"$download"}
-EOF
+  echo "$o" | jq '.interfaces[].traffic.month[-1]'
 }
 
 netdata_net () {
@@ -42,30 +62,64 @@ EOF
 }
 
 ping_router () {
-  if ! ping -c 1 -W 1 "$HOST" &> /dev/null; then exit; fi
+  if ! ping -c 1 -W 1 "$1" &> /dev/null; then exit; fi
 }
 
 web_scrape () {
   echo "$WEB_SCRAPE" | grep var | grep '=' | grep '"' | grep "$1" | grep -o '".*"' | sed 's/"//g'
 }
 
+orbi_web_logout () {
+  curl -s --http0.9 "http://$HOST/LGO_logout.htm" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH" \
+  --cookie /tmp/orbi_"$now"_cookie > /dev/null
+}
+
+satellite_web_logout () {
+  curl -s --http0.9 "http://$HOST/logout.html" \
+  -H 'Content-Type: application/octet-stream' \
+  -H "Authorization: Basic $WEB_AUTH" \
+  --cookie /tmp/orbi_satellite_"$now"_cookie > /dev/null
+}
+
 calculate_time () {
   num="$1"; min=0; hour=0; day=0
-  if ((num>59)); then ((num=num/60))
+  if ((num>59)); then
+      ((num=num/60))
     if ((num>59)); then
       ((min=num%60))
       ((num=num/60))
       if ((num>23)); then
         ((hour=num%24))
         ((day=num/24))
-      else ((hour=num)); fi
-    else ((min=num))
-    fi; fi
-  echo "$day"d "$hour"h "$min"m
+        echo "$day"d "$hour"h
+      else
+        ((hour=num))
+         echo "$hour"h "$min"m
+      fi
+    else
+      ((min=num))
+      echo "$hour"h "$min"m
+    fi
+  fi
 }
 
+if [[ "$1" == "get_satellite_uptime" ]]; then
+  if ping_router "10.0.0.2"; then
+cat << EOF
+{"status": "Connected", "Uptime": "$(calculate_time $(get_satellite_uptime))"}
+EOF
+  else
+cat << EOF
+{"status": "Disconnected"}
+EOF
+  fi
+  exit
+fi
+
 # Exit script if router cannot be reached
-ping_router
+ping_router "$HOST"
 
 # Get current WAN stats from Netdata via it's API
 if [[ "$1" == "wan_current" ]]; then
@@ -81,34 +135,38 @@ fi
 
 # Get daily WAN stats from vnstat over SSH
 if [[ "$1" == "wan_daily" ]]; then
-  ping_router
+  ping_router "$HOST"
   vnstat_daily_total
   exit
 fi
 
 # Get monthly WAN stats from vnstat over SSH
 if [[ "$1" == "wan_monthly" ]]; then
-  ping_router
+  ping_router "$HOST"
   vnstat_month_total
   exit
 fi
 
 #####################################################
 
-LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
-LOAD_AVG=($LOAD_AVG)
+#LOAD_AVG="$(ssh_command '/bin/cat /proc/loadavg')"
+#LOAD_AVG=($LOAD_AVG)
 
 WEB_SCRAPE=$(curl -s --http0.9 "http://$HOST/RST_statistic.htm" \
   -H 'Content-Type: application/octet-stream' \
-  -H "Authorization: Basic $WEB_AUTH")
+  -H "Authorization: Basic $WEB_AUTH" )
+#\  --cookie-jar /tmp/orbi_"$now"_cookie)
 
 # Exit script if logged in on another device
 if [[ "$WEB_SCRAPE" == *multi_login.html* ]]; then
 cat << EOF
-{"status": "Logged in","System load": "${LOAD_AVG[0]} ${LOAD_AVG[1]} ${LOAD_AVG[2]}"}
+{"status": "Logged in"}
 EOF
 exit
 fi
+
+#web_logout
+#rm /tmp/orbi_"$now"_cookie
 
 # Get WAN port speed/state
 WAN_PORT_SPEED="$(web_scrape wan_status)"
@@ -124,10 +182,8 @@ cat << EOF
 {
   "status": "$WAN_STATUS",
   "Uptime": "$(calculate_time $(web_scrape sys_uptime))",
-  "System load": "${LOAD_AVG[0]} ${LOAD_AVG[1]} ${LOAD_AVG[2]}",
-  "WAN Uptime": "$(calculate_time $(web_scrape wan_systime))",
-  "WAN Port": "$WAN_PORT_SPEED",
-  "LAN Port 1": "$(web_scrape lan_status0)",
+  "WAN Port Uptime": "$(calculate_time $(web_scrape wan_systime))",
+  "WAN Port": "$WAN_PORT_SPEED", "LAN Port 1": "$(web_scrape lan_status0)",
   "LAN Port 2": "$(web_scrape lan_status1)",
   "LAN Port 3": "$(web_scrape lan_status2)"
 }

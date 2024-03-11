@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD024 MD033 MD036 -->
+<!-- markdownlint-disable MD024 MD033 MD036 MD051 -->
 
 # <img width="24px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup
 
@@ -6,11 +6,11 @@ Layout designed mobile-first, fully optimized for all screen sizes.
 
 ![mobile_hero](https://user-images.githubusercontent.com/19761269/97078051-b3f93280-1606-11eb-86ba-9b1e0292af4f.png)
 
-- [<img width="28px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup](#img-home-assistant-setup)
+- [<img width="24px" src="https://github.com/NX211/homer-icons/raw/7cae0e85b9b822f884e81e657c1b2b49c8189b50/png/home-assistant.png" alt="Home Assistant"></img> Home Assistant setup](#img-home-assistant-setup)
   - [Hardware](#hardware)
   - [Themes](#themes)
   - [Implementations](#implementations)
-    - [Alexa devices control](#alexa-devices-control)
+    - [Control Alexa-connected devices](#control-alexa-connected-devices)
     - [Netgear Orbi integration](#netgear-orbi-integration)
     - [Soundbar control](#soundbar-control)
     - [Lo-fi beats](#lo-fi-beats)
@@ -37,14 +37,12 @@ Layout designed mobile-first, fully optimized for all screen sizes.
   - [Custom plugins used](#custom-plugins-used)
     - [Integrations](#integrations)
     - [Lovelace](#lovelace)
-  - [Notes](#notes)
-  - [Special thanks](#special-thanks)
 
 ## Hardware
 
-Home Assistant Container install on Raspberry Pi 4 with PostgreSQL database.
+Home Assistant Container install on Raspberry Pi 4.
 
-Full setup [here](https://github.com/agneevX/server-setup#nas-server).
+Full setup [here](https://github.com/agneevX/server-setup#nasmedia-server).
 
 ## Themes
 
@@ -58,13 +56,15 @@ For themes, head over to the [themes](themes/) folder.
 
 These are some of my custom implementations using Home Assistant:
 
-### Alexa devices control
+### Control Alexa-connected devices
 
 With custom component [`Alexa Media Player`](https://github.com/custom-components/alexa_media_player), Home Assistant is able to control any thing that you're able to speak to Alexa.
 
 <details><summary>Expand</summary>
 
 This requires the use of `input_boolean` helpers to control the state of the entity.
+
+Since this uses the smart speaker, an internet connection is unfortunately required for this to work.
 
 E.g. to control a smart plug...
 
@@ -83,6 +83,7 @@ switch:
           data:
             media_content_id: 'turn on 6a plug'
             media_content_type: custom
+
       turn_off:
         - service: input_boolean.turn_off
           entity_id: input_boolean.6a_plug_state
@@ -112,15 +113,19 @@ Using `netdata`:
 opkg install netdata
 ```
 
-Add to Home Assistant with the Netdata integration.
+Add the Netdata integration to Home Assistant.
 
 **Using `vnstat` to get total daily/monthly usage**
 
 ```sh
 # Install on router
-opkg install vnstat
-vnstat --create -i eth0
-reboot
+opkg install vnstat2
+
+# Initialize WAN interface
+vnstat2 --create -i eth0
+
+# Restart vnstat daemon
+/opt/etc/init.d/S32vnstat restart
 ```
 
 ```yaml
@@ -160,6 +165,7 @@ sensor:
 
 ```yml
 # configuration.yaml
+
 # Monthly internet usage
 sensor:
   - platform: command_line
@@ -179,7 +185,7 @@ sensor:
       icon_template: mdi:upload
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','upload') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','upload')|float/976563)|round(1) }}
+          {{ (state_attr('sensor.router_monthly_wan_usage','upload') | float/976563)|round(1) }}
         {% else %} NaN {% endif %}
 
     wan_monthly_usage_down:
@@ -188,14 +194,14 @@ sensor:
       icon_template: mdi:download
       value_template: >-
         {% if state_attr('sensor.router_monthly_wan_usage','download') != None %}
-          {{ (state_attr('sensor.router_monthly_wan_usage','download')|float/976563)|round(1) }}
+          {{ (state_attr('sensor.router_monthly_wan_usage','download') | float/976563)|round(1) }}
 ```
 
  </details>
 
 ### Soundbar control
 
-Controls the volume of ALSA - 3.5mm port on the Raspberry Pi.
+Controls the volume of the Alsa mixer - 3.5mm headphone port on the Raspberry Pi.
 
 <details><summary>Expand</summary>
 
@@ -222,6 +228,7 @@ automation:
 shell_command:
   pi_volume_0: echo amixer_0 | netcat localhost 7900
   pi_volume_5: echo amixer_5 | netcat localhost 7900
+
 # Truncated. Full in ./config
 ```
 
@@ -232,8 +239,12 @@ Similar to above, the script calls the command `amixer` to increase or decrease 
 ```bash
 #!/bin/bash
 
-if [[ $MESSAGE == 'amixer_0' ]]; then amixer -q cset numid=1 -- -10239; fi
-if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
+if [[ $MESSAGE == 'amixer_0' ]]; then
+  amixer -q cset numid=1 -- -10239
+fi
+if [[ $MESSAGE == 'amixer_5' ]]; then
+  amixer -q cset numid=1 -- -7399
+fi
 # Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
@@ -241,11 +252,15 @@ if [[ $MESSAGE == 'amixer_5' ]]; then amixer -q cset numid=1 -- -7399; fi
 
 ### Lo-fi beats
 
-Plays Lo-fi beats live stream from YouTube.
-
-Requires `screen`, `mpv` and `youtube-dl`/`youtube-dlc` to be installed.
+Stream lofi-beats from YouTube.
 
 <details><summary>Expand</summary>
+
+Pull Docker image:
+
+```sh
+docker pull agneev/mpv-ytdl:lofi
+```
 
 ```yaml
 # configuration.yaml
@@ -257,7 +272,7 @@ switch:
       command_off: echo "lofi_off" | nc localhost 7900
 ```
 
-[`socat`](https://linux.die.net/man/1/socat) runs in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
+[`socat`](https://linux.die.net/man/1/socat) runs as a daemon in the background ([systemd unit file](./hass_socket.service)) and listens for commands.
 
 Once a switch is turned on, this script is called that starts the playback...
 
@@ -265,11 +280,16 @@ Once a switch is turned on, this script is called that starts the playback...
 
 ```bash
 #!/bin/bash
-read MESSAGE
+read -r MESSAGE
 
 if [[ $MESSAGE == 'lofi_on' ]]; then 
-  screen -S lofi -dm /usr/bin/mpv --no-video $(/path/to/youtube-dlc -g -f 95 5qap5aO4i9A); fi
-if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
+  docker run -d --rm --name=lofi-beats \
+    -e "VIDEO_ID=abcdef" \
+    --device=/dev/snd:/dev/snd \
+    agneev/mpv-ytdl:lofi
+if [[ $MESSAGE == 'lofi_off' ]]; then
+  docker stop lofi-beats
+fi
 # Truncated. Full in ./bash_scripts/hass_socket_script.sh
 ```
 
@@ -289,33 +309,26 @@ if [[ $MESSAGE == 'lofi_off' ]]; then screen -S lofi -X quit; fi
 
 ### State row
 
-- People presence
+- Shows states of various entities.
+
+<!-- - People presence
 - ASUS laptop
 - Front gate camera
-- Mesh router satellite/reboot
+- Mesh router satellite/reboot -->
 
 ### Graph row
 
-- Bedroom temperature
-- Bedroom humidity
+- Bedroom temperature/humidity
 
 ### Lights card
 
-- Desk light
-  - ... Color temp card
-- TV lamp
-  - ... RGB card
+- ...
 - Soundbar volume
 
-Custom implementation that controls alsa volume, using `input_boolean`, `shell_command` and an automation.
+Custom implementation that controls system alsa volume, using `input_boolean`, `shell_command` and an automation.
 
 ### Switch rows
 
-- Adaptive Lighting
-- Lofi beats/2/music radio
-- Adaptive Lighting Sleep mode
-- Bedroom AC/swing
-- Bulb
 
 ### Now Playing card
 
@@ -329,22 +342,25 @@ Custom implementation that controls alsa volume, using `input_boolean`, `shell_c
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L551)
 
-- Front gate camera
-- Bedroom AC HVAC
-  - Controls
+- Camera views
+- AC HVAC Controls
+- Humidity graphs
 
 ---
 
-## Info view
+## Room view
+
+---
+
+## Internet view
 
 <img src="https://user-images.githubusercontent.com/19761269/125282540-2183f500-e335-11eb-9ead-44e163a05383.PNG" alt="Info view" align="center" width="300">
 
 [Jump to lovelace code](https://github.com/agneevX/my-ha-setup/blob/master/lovelace_raw.yaml#L630)
 
-### Graph rows
+### Speed graphs
 
-- Internet download speed
-- Internet upload speed
+- Internet download/upload speed
 
 Custom sensors that fetch data from self-hosted [Speedtest-tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) API.
 
