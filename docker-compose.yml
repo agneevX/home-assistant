@@ -1,4 +1,17 @@
+x-timezone: &tz
+  TZ: Asia/Kolkata
+
+x-environment-vars: &env
+  PUID: 1001
+  PGID: 1001
+  UMASK: 002
+  <<: *tz
+  
 networks:
+  media:
+    external: true
+  mqtt:
+    external: true
   vlan:
     name: vlan
     driver: macvlan
@@ -12,45 +25,43 @@ networks:
 
 services:
 
-  hassio:
-    container_name: home-assistant
+services:
+
+  app:
     image: homeassistant/home-assistant
     restart: unless-stopped
-    expose: ['80']
-    networks:
-      proxy:
-      media: # For Plex integration only
-      vlan:
+    network_mode: "service:tailscale"
     environment:
-      TZ: Asia/Kolkata
+      <<: *tz
     volumes:
-      - /opt/appdata/homeassistant:/config
+      - ./:/config
+
+  tailscale:
+    image: lsiobase/alpine:edge
+    restart: unless-stopped
+    expose: ["80"]
+    dns: 8.8.8.8
+    networks:
+      - media
+      - mqtt
+      - vlan
+    environment:
+      TAILSCALE_FUNNEL: on
+      TAILSCALE_SERVE_PORT: 80
+      TAILSCALE_SERVE_MODE: https
+      TAILSCALE_AUTHKEY: 
+      TAILSCALE_HOSTNAME: home-assistant
+      DOCKER_MODS: ghcr.io/tailscale-dev/docker-mod:main
+      TAILSCALE_STATE_DIR: /config
+      <<: *env
+    volumes:
+      - ./tailscale:/config
     labels:
       traefik.enable: true
-      traefik.docker.network: proxy
+      traefik.docker.network: media
+      traefik.http.routers.hassio.rule: Host(`home-assistant.falcon.localcert.net`)
+      traefik.http.routers.hassio.tls: true
 
-      traefik.http.routers.hassio.rule: Host(`home-assistant.falcon.nt`)
-      traefik.http.routers.hassio2.rule: Host(`falcon.tailnet-d10c.ts.net`)
-
-  web:
-    container_name: traefik
-    image: traefik
-    restart: unless-stopped
-    mem_limit: 200m
-    networks:
-      - default
-      - proxy
-      - media
-    command:
-      - --api.insecure=true
-      - --global.checknewversion=false
-      - --global.sendanonymoususage=false
-      - --providers.docker=true
-      - --providers.docker.exposedByDefault=false
-    ports:
-      - 80:80/tcp
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   speedtesttracker:
     container_name: speedtest-tracker
